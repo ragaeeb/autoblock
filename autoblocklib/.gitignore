@@ -1,0 +1,6 @@
+arm/o.le-v7/libsalat.a
+arm/o.le-v7-g/libsalat.a
+x86/stites6X
+x86/o-g/libsalat.a
+x86/Makefile
+x86/Makefile.Debug

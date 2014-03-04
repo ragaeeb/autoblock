@@ -38,7 +38,7 @@ NavigationPane
                     var blocked = helper.block(transformed);
                     navigationPane.pop();
                     
-                    persist.showToast( qsTr("The following keywords were added: %1").arg( blocked.join(", ") ) );
+                    persist.showToast( qsTr("The following keywords were added: %1").arg( blocked.join(", ") ), "", "asset:///images/ic_blocked.png" );
                 }
                 
                 function onUpdatesAvailable(addresses)
@@ -53,7 +53,7 @@ NavigationPane
                         
                         navigationPane.push(inspectPage);
                     } else {
-                        persist.showToast( qsTr("There are no new known spammers available yet.\nCheck back in a few days.") );
+                        persist.showToast( qsTr("There are no new known spammers available yet.\nCheck back in a few days."), "", "asset:///images/ic_import.png" );
                     }
                 }
                 
@@ -115,9 +115,9 @@ NavigationPane
                                 if (valid) {
                                     var toBlock = [{'senderAddress': value}];
                                     var blocked = helper.block(toBlock);
-                                    persist.showToast( qsTr("Successfully blocked: %1").arg( blocked.join(", ") ) );
+                                    persist.showToast( qsTr("Successfully blocked: %1").arg( blocked.join(", ") ), "", "asset:///images/ic_add_email.png" );
                                 } else {
-                                    persist.showToast( qsTr("Invalid address entered: %1").arg(value) );
+                                    persist.showToast( qsTr("Invalid address entered: %1").arg(value), "", "asset:///images/ic_keyword.png" );
                                 }
                             }
                         }
@@ -166,7 +166,7 @@ NavigationPane
                             if (result == SystemUiResult.ConfirmButtonSelection)
                             {
                                 helper.clearBlockedSenders();
-                                persist.showToast( qsTr("Cleared all blocked senders!") );
+                                persist.showToast( qsTr("Cleared all blocked senders!"), "", "asset:///images/ic_unblock_all.png" );
                             }
                         }
                     }
@@ -206,7 +206,7 @@ NavigationPane
                 function unblock(blocked)
                 {
                     var keywordsList = helper.unblock(blocked);
-                    persist.showToast( qsTr("The following addresses were unblocked: %1").arg( keywordsList.join(", ") ) );
+                    persist.showToast( qsTr("The following addresses were unblocked: %1").arg( keywordsList.join(", ") ), "", "asset:///images/ic_unblock.png" );
                 }
                 
                 multiSelectAction: MultiSelectActionItem {

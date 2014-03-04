@@ -110,7 +110,7 @@ void AutoBlock::messageFetched(QVariantMap const& result)
     toProcess << result;
 
     QStringList added = m_helper.block(toProcess);
-    m_persistance.showToast( tr("The following addresses were blocked: %1").arg( added.join(", ") ) );
+    m_persistance.showToast( tr("The following addresses were blocked: %1").arg( added.join(", ") ), "", "asset:///images/ic_blocked_user.png" );
 
     parseKeywords(toProcess);
 }
@@ -263,7 +263,7 @@ void AutoBlock::recheck(int &count, const char* slotName)
 		QTimer::singleShot(2000*count, this, slotName);
 	} else {
 		LOGGER("Can't connect...");
-		m_persistance.showToast( tr("Error initializing link with service. Please restart your device...") );
+		m_persistance.showToast( tr("Error initializing link with service. Please restart your device..."), "", "asset:///images/title_text.png" );
 	}
 }
 

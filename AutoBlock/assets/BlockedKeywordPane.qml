@@ -98,12 +98,12 @@ NavigationPane
                                     
                                     if (value.length > 0) {
                                         var keywordsList = helper.blockKeywords([value]);
-                                        persist.showToast( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ) );
+                                        persist.showToast( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "", "asset:///images/ic_add_spammer.png" );
                                     } else {
-                                        persist.showToast( qsTr("Invalid keyword entered (must be between 4-10 characters).") );
+                                        persist.showToast( qsTr("Invalid keyword entered (must be between 4-10 characters)."), "", "asset:///images/ic_block.png" );
                                     }
                                 } else {
-                                    persist.showToast( qsTr("The keyword cannot contain any spaces!") );
+                                    persist.showToast( qsTr("The keyword cannot contain any spaces!"), "", "asset:///images/ic_block.png" );
                                 }
                             }
                         }
@@ -132,7 +132,7 @@ NavigationPane
                             if (result == SystemUiResult.ConfirmButtonSelection)
                             {
                                 helper.clearBlockedKeywords();
-                                persist.showToast( qsTr("Cleared all blocked keywords!") );
+                                persist.showToast( qsTr("Cleared all blocked keywords!"), "", "asset:///images/ic_clear.png" );
                             }
                         }
                     }
@@ -169,7 +169,7 @@ NavigationPane
                 function unblock(blocked)
                 {
                 	var keywordsList = helper.unblockKeywords(blocked);
-                    persist.showToast( qsTr("The following keywords were unblocked: %1").arg( keywordsList.join(", ") ) );
+                    persist.showToast( qsTr("The following keywords were unblocked: %1").arg( keywordsList.join(", ") ), "", "asset:///images/ic_unblock.png" );
                 }
                 
                 multiSelectAction: MultiSelectActionItem {
@@ -284,7 +284,7 @@ NavigationPane
     onCreationCompleted: {
         if ( !persist.contains("tutorialKeywords") )
         {
-            persist.showToast( qsTr("You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam."), qsTr("OK") );
+            persist.showToast( qsTr("You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam."), qsTr("OK"), "asset:///images/ic_keywords.png" );
             persist.saveValueFor("tutorialKeywords", 1);
         }
     }

@@ -51,7 +51,7 @@ NavigationPane
 
                             onAccountsLoaded: {
                                 if (numAccounts == 0) {
-                                    persist.showToast( qsTr("Did not find any accounts. Maybe the app does not have the permissions it needs...") );
+                                    persist.showToast( qsTr("Did not find any accounts. Maybe the app does not have the permissions it needs..."), "", "asset:///images/ic_account.png" );
                                 } else if (selectedOption == null) {
                                     expanded = true;
                                 }
@@ -127,6 +127,7 @@ NavigationPane
                     var numbersList = helper.block(toBlock);
                     toast.toBlock = toBlock;
                     toast.body = qsTr("The following addresses were blocked: %1").arg( numbersList.join(", ") );
+                    toast.icon = "asset:///images/ic_blocked_user.png";
                     
                     toast.show();
                 }
@@ -266,7 +267,7 @@ NavigationPane
         var keywordsList = helper.blockKeywords(keywords);
         navigationPane.pop();
 
-        persist.showToast( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ) );
+        persist.showToast( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "", "asset:///images/ic_keywords.png" );
     }
     
     function onKeywordsExtracted(keywords)
@@ -279,7 +280,7 @@ NavigationPane
             
             navigationPane.push(inspectPage);
         } else {
-            persist.showToast( qsTr("Could not find any suspicious keywords in the message...") );
+            persist.showToast( qsTr("Could not find any suspicious keywords in the message..."), "", "asset:///images/ic_steps.png" );
         }
     }
     

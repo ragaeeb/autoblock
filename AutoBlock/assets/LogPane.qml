@@ -33,7 +33,7 @@ NavigationPane
                             if (result == SystemUiResult.ConfirmButtonSelection)
                             {
                                 helper.clearLogs();
-                                persist.showToast( qsTr("Cleared all blocked senders!") );
+                                persist.showToast( qsTr("Cleared all blocked senders!"), "", "asset:///images/ic_clear_logs.png" );
                             }
                         }
                     }
@@ -93,7 +93,7 @@ NavigationPane
                 
                 onTriggered: {
                     var data = dataModel.data(indexPath);
-                    persist.showToast( data.message.trim(), qsTr("OK") );
+                    persist.showToast( data.message.trim(), qsTr("OK"), "asset:///images/ic_blocked.png" );
                 }
                 
                 dataModel: ArrayDataModel {

@@ -14,6 +14,17 @@ Page
     ]
     
     actions: [
+        InvokeActionItem
+        {
+            title: qsTr("Our BBM Channel") + Retranslate.onLanguageChanged
+            ActionBar.placement: ActionBarPlacement.OnBar
+            
+            query {
+                invokeTargetId: "sys.bbm.channels.card.previewer"
+                uri: "bbmc:C0034D28B"
+            }
+        },
+        
         InvokeActionItem {
             query {
                 mimeType: "text/html"

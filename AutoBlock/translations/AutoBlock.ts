@@ -278,38 +278,38 @@ Check back in a few days.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="233"/>
+        <location filename="../assets/ConversationsPane.qml" line="234"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="251"/>
+        <location filename="../assets/ConversationsPane.qml" line="252"/>
         <source>Add Keywords</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="161"/>
-        <location filename="../assets/ConversationsPane.qml" line="193"/>
+        <location filename="../assets/ConversationsPane.qml" line="162"/>
+        <location filename="../assets/ConversationsPane.qml" line="194"/>
         <source>Block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="210"/>
+        <location filename="../assets/ConversationsPane.qml" line="211"/>
         <source>None selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="216"/>
+        <location filename="../assets/ConversationsPane.qml" line="217"/>
         <source>%1 conversations to mark as spam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="233"/>
+        <location filename="../assets/ConversationsPane.qml" line="234"/>
         <source>Which of the following are spam messages? Choose them and tap the Block action at the bottom and any messages from those senders will be blocked in the future!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="282"/>
+        <location filename="../assets/ConversationsPane.qml" line="283"/>
         <source>Could not find any suspicious keywords in the message...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -319,7 +319,7 @@ Check back in a few days.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="269"/>
+        <location filename="../assets/ConversationsPane.qml" line="270"/>
         <source>The following keywords were added: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -376,17 +376,22 @@ Check back in a few days.</source>
 <context>
     <name>HelpPage</name>
     <message>
-        <location filename="../assets/HelpPage.qml" line="25"/>
+        <location filename="../assets/HelpPage.qml" line="19"/>
+        <source>Our BBM Channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/HelpPage.qml" line="36"/>
         <source>Video Tutorial</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/HelpPage.qml" line="31"/>
+        <location filename="../assets/HelpPage.qml" line="42"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/HelpPage.qml" line="52"/>
+        <location filename="../assets/HelpPage.qml" line="63"/>
         <source>
 
 (c) 2013-2014 %1. All Rights Reserved.

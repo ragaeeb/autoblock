@@ -252,7 +252,9 @@ NavigationPane
                     property variant toBlock
                     
                     onFinished: {
-                        app.extractKeywords(toBlock);
+                        if (value == SystemUiResult.ButtonSelection) {
+                            app.extractKeywords(toBlock);
+                        }
                     }
                 }
             ]

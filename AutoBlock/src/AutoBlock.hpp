@@ -59,6 +59,7 @@ private slots:
     void onMessagesImported(QVariantList const& qvl);
     void onKeywordsSelected(QVariant k);
 	void settingChanged(QString const& key);
+	void terminateThreads();
 
 Q_SIGNALS:
 	void initialize();

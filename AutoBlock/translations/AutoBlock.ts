@@ -309,7 +309,7 @@ Check back in a few days.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="280"/>
+        <location filename="../assets/ConversationsPane.qml" line="282"/>
         <source>Could not find any suspicious keywords in the message...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -319,7 +319,7 @@ Check back in a few days.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="267"/>
+        <location filename="../assets/ConversationsPane.qml" line="269"/>
         <source>The following keywords were added: %1</source>
         <translation type="unfinished"></translation>
     </message>

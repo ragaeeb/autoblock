@@ -10,6 +10,7 @@ TabbedPane
     Menu.definition: CanadaIncMenu {
         projectName: "autoblock"
         bbWorldID: "25793872"
+        promoteChannel: true
     }
     
     Tab

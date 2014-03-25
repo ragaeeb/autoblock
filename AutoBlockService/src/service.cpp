@@ -8,9 +8,7 @@
 #include "PimUtil.h"
 #include "QueryId.h"
 
-namespace {
-    const int max_body_length = 160;
-}
+#define MAX_BODY_LENGTH 160
 
 namespace autoblock {
 
@@ -63,9 +61,8 @@ void Service::init()
 
 	settingChanged();
 
-	Notification n;
-	n.clearEffectsForAll();
-	n.deleteAllFromInbox();
+    Notification::clearEffectsForAll();
+    Notification::deleteAllFromInbox();
 }
 
 
@@ -85,23 +82,27 @@ void Service::dataLoaded(int id, QVariant const& data)
 
 void Service::processKeywords(QVariantList result)
 {
-    LOGGER("Process keywords result" << result.size() << m_threshold);
+    LOGGER("Process keywords result" << result.size() << m_threshold << m_keywordQueue.size());
 
-    if ( !m_keywordQueue.isEmpty() && result.size() >= m_threshold )
+    if ( !m_keywordQueue.isEmpty() )
     {
         LOGGER("Spam matched!");
         Message m = m_keywordQueue.dequeue();
-        spamDetected(m);
 
-        QStringList placeHolders;
+        if ( result.size() >= m_threshold )
+        {
+            spamDetected(m);
 
-        for (int i = result.size()-1; i >= 0; i--) {
-            result[i] = result[i].toMap().value("term");
-            placeHolders << "?";
+            QStringList placeHolders;
+
+            for (int i = result.size()-1; i >= 0; i--) {
+                result[i] = result[i].toMap().value("term");
+                placeHolders << "?";
+            }
+
+            m_sql.setQuery( QString("UPDATE inbound_keywords SET count=count+1 WHERE term IN (%1)").arg( placeHolders.join(",") ) );
+            m_sql.executePrepared(result, QueryId::BlockKeywords);
         }
-
-        m_sql.setQuery( QString("UPDATE inbound_keywords SET count=count+1 WHERE term IN (%1)").arg( placeHolders.join(",") ) );
-        m_sql.executePrepared(result, QueryId::BlockKeywords);
     }
 }
 
@@ -125,8 +126,8 @@ void Service::spamDetected(Message const& m)
 
     QVariantList params = QVariantList() << m.sender().address();
 
-    if ( body.length() > max_body_length ) {
-        params << QString("%1...").arg( body.left(160) );
+    if ( body.length() > MAX_BODY_LENGTH ) {
+        params << QString("%1...").arg( body.left(MAX_BODY_LENGTH) );
     } else {
         params << body;
     }
@@ -157,8 +158,9 @@ void Service::processSenders(QVariantList result)
             m_sql.setQuery( QString("UPDATE inbound_blacklist SET count=count+1 WHERE address IN (%1)").arg( placeHolders.join(",") ) );
             m_sql.executePrepared(result, QueryId::BlockSenders);
 
-        } else if ( m.accountId() != MessageManager::account_key_sms ) {
-            QStringList subjectTokens = m.subject().trimmed().toLower().split(" ");
+        } else {
+            QString subjectBody = m.accountId() == MessageManager::account_key_sms ? PimUtil::extractText(m) : m.subject();
+            QStringList subjectTokens = subjectBody.trimmed().toLower().split(" ");
             LOGGER("SubjectTokens" << subjectTokens);
             QVariantList keywords;
             QStringList placeHolders;

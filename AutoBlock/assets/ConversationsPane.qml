@@ -151,24 +151,6 @@ NavigationPane
                                 }
                             ]
 
-                            contextActions: [
-                                ActionSet {
-                                    title: ListItemData.senderAddress
-                                    subtitle: ListItemData.replyTo
-
-                                    ActionItem
-                                    {
-                                        ActionBar.placement: ActionBarPlacement.OnBar
-                                        title: qsTr("Block") + Retranslate.onLanguageChanged
-                                        imageSource: "images/ic_block.png"
-
-                                        onTriggered: {
-                                            rootItem.ListItem.view.doBlock([ListItemData]);
-                                        }
-                                    }
-                                }
-                            ]
-
                             onCreationCompleted: {
                                 slider.play()
                             }
@@ -204,6 +186,10 @@ NavigationPane
                                 }
 
                                 listView.doBlock(toBlock);
+                                
+                                for (var i = selected.length-1; i >= 0; i--) {
+                                    dm.removeAt(selected[i][0]);
+                                }
                             }
                         }
                     ]

@@ -9,9 +9,18 @@ namespace canadainc {
 	class CustomSqlDataSource;
 }
 
+namespace bb {
+    namespace pim {
+        namespace message {
+            class MessageService;
+        }
+    }
+}
+
 namespace autoblock {
 
 using namespace canadainc;
+using namespace bb::pim::message;
 
 class QueryHelper : public QObject
 {
@@ -19,6 +28,7 @@ class QueryHelper : public QObject
 
 	CustomSqlDataSource* m_sql;
     qint64 m_lastUpdate;
+    MessageService* m_ms;
 
 private slots:
     void dataLoaded(int id, QVariant const& data);

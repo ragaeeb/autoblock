@@ -477,6 +477,21 @@ And to make it even easier for our users to discover more and more spammers, Aut
         <source>No sound will be played every time a spam message is blocked.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="38"/>
+        <source>Whitelist All Contacts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="42"/>
+        <source>Messages from your contacts will never be marked as spam.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="44"/>
+        <source>Messages from your contacts should still be tested for spam keywords/senders.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>autoblock::AutoBlock</name>
@@ -496,12 +511,12 @@ And to make it even easier for our users to discover more and more spammers, Aut
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="181"/>
+        <location filename="../src/AutoBlock.cpp" line="182"/>
         <source>Warning: It seems like the app does not have access to your Email/SMS messages Folder. This permission is needed for the app to access the SMS and email services it needs to do the filtering of the spam messages. If you leave this permission off, some features may not work properly. Select OK to launch the Application Permissions screen where you can turn these settings on.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="266"/>
+        <location filename="../src/AutoBlock.cpp" line="267"/>
         <source>Error initializing link with service. Please restart your device...</source>
         <translation type="unfinished"></translation>
     </message>

@@ -169,6 +169,7 @@ void AutoBlock::init()
 {
 	INIT_SETTING("days", 7);
 	INIT_SETTING("keywordThreshold", 3);
+	INIT_SETTING("whitelistContacts", 1);
 
 	connect( &m_update, SIGNAL( updatesAvailable(QStringList const&) ), this, SIGNAL( updatesAvailable(QStringList const&) ) );
 	connect( Application::instance(), SIGNAL( aboutToQuit() ), this, SLOT( terminateThreads() ) );

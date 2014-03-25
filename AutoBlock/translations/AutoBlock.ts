@@ -278,38 +278,37 @@ Check back in a few days.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="234"/>
+        <location filename="../assets/ConversationsPane.qml" line="220"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="252"/>
+        <location filename="../assets/ConversationsPane.qml" line="238"/>
         <source>Add Keywords</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="162"/>
-        <location filename="../assets/ConversationsPane.qml" line="194"/>
+        <location filename="../assets/ConversationsPane.qml" line="176"/>
         <source>Block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="211"/>
+        <location filename="../assets/ConversationsPane.qml" line="197"/>
         <source>None selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="217"/>
+        <location filename="../assets/ConversationsPane.qml" line="203"/>
         <source>%1 conversations to mark as spam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="234"/>
+        <location filename="../assets/ConversationsPane.qml" line="220"/>
         <source>Which of the following are spam messages? Choose them and tap the Block action at the bottom and any messages from those senders will be blocked in the future!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="283"/>
+        <location filename="../assets/ConversationsPane.qml" line="269"/>
         <source>Could not find any suspicious keywords in the message...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -319,7 +318,7 @@ Check back in a few days.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="270"/>
+        <location filename="../assets/ConversationsPane.qml" line="256"/>
         <source>The following keywords were added: %1</source>
         <translation type="unfinished"></translation>
     </message>

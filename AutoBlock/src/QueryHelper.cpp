@@ -14,7 +14,7 @@ namespace autoblock {
 
 using namespace canadainc;
 
-QueryHelper::QueryHelper(CustomSqlDataSource* sql) : m_sql(sql)
+QueryHelper::QueryHelper(CustomSqlDataSource* sql) : m_sql(sql), m_ms(NULL)
 {
     connect( sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ), Qt::QueuedConnection );
 }
@@ -102,6 +102,10 @@ QStringList QueryHelper::block(QVariantList const& addresses)
     QStringList numbersList;
     QStringList placeHolders;
 
+    if (!m_ms) {
+        m_ms = new MessageService(this);
+    }
+
     for (int i = addresses.size()-1; i >= 0; i--)
     {
         QVariantMap current = addresses[i].toMap();
@@ -121,6 +125,10 @@ QStringList QueryHelper::block(QVariantList const& addresses)
             numbersList << replyTo;
             placeHolders << placeHolder;
         }
+
+        qint64 aid = current.value("aid").toLongLong();
+        m_ms->remove( aid, current.value("id").toLongLong() );
+        m_ms->remove( aid, current.value("cid").toString() );
     }
 
     LOGGER(">>> NUMBERs" << numbers << placeHolders );

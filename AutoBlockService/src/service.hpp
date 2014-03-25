@@ -30,6 +30,7 @@ class Service: public QObject
 
     QQueue<qint64> m_pending;
 	bool m_sound;
+	bool m_whitelistContacts;
 	int m_threshold;
     MessageService m_manager;
 	QFileSystemWatcher m_settingsWatcher;

@@ -31,6 +31,21 @@ Page
                 }
             }
             
+            PersistCheckbox
+            {
+                topMargin: 10
+                key: "whitelistContacts"
+                text: qsTr("Whitelist All Contacts") + Retranslate.onLanguageChanged
+                
+                onCheckedChanged: {
+                    if (checked) {
+                        infoText.text = qsTr("Messages from your contacts will never be marked as spam.");
+                    } else {
+                        infoText.text = qsTr("Messages from your contacts should still be tested for spam keywords/senders.");
+                    }
+                }
+            }
+            
             Label {
                 topMargin: 40
                 id: infoText

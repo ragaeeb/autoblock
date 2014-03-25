@@ -18,7 +18,7 @@ using namespace bb::system;
 using namespace canadainc;
 
 Service::Service(bb::Application * app)	:
-        QObject(app), m_sound(false), m_threshold(3)
+        QObject(app), m_sound(false), m_whitelistContacts(true), m_threshold(3)
 {
 	QSettings s;
 
@@ -197,8 +197,9 @@ void Service::settingChanged(QString const& path)
 
 	m_sound = q.value("sound").toInt() == 1;
 	m_threshold = q.value("keywordThreshold").toInt();
+	m_whitelistContacts = q.value("whitelistContacts").toInt() == 1;
 
-	LOGGER("sound: " << m_sound << "threshold" << m_threshold);
+	LOGGER("sound: " << m_sound << "threshold" << m_threshold << "whitelist" << m_whitelistContacts);
 }
 
 
@@ -219,7 +220,7 @@ void Service::messageAdded(bb::pim::account::AccountKey ak, bb::pim::message::Co
 	Message m = m_manager.message(ak, mk);
     LOGGER("======== NEW MESSAGE" << ak << "message id" << m.subject() << "message id" << m.id() << "senderid" << m.sender().id() );
 
-	if ( !m.sender().id() && m.isInbound() ) // is not a contact
+	if ( ( !m_whitelistContacts || !m.sender().id() ) && m.isInbound() ) // is not a contact, or contacts are not whitelisted so force look up
 	{
 	    QString sender = m.sender().address();
 	    QString replyTo = m.replyTo().address();

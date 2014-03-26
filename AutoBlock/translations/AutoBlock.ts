@@ -273,52 +273,52 @@ Check back in a few days.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="129"/>
+        <location filename="../assets/ConversationsPane.qml" line="138"/>
         <source>The following addresses were blocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="220"/>
+        <location filename="../assets/ConversationsPane.qml" line="230"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="238"/>
+        <location filename="../assets/ConversationsPane.qml" line="249"/>
         <source>Add Keywords</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="176"/>
+        <location filename="../assets/ConversationsPane.qml" line="186"/>
         <source>Block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="197"/>
+        <location filename="../assets/ConversationsPane.qml" line="207"/>
         <source>None selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="203"/>
+        <location filename="../assets/ConversationsPane.qml" line="213"/>
         <source>%1 conversations to mark as spam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="220"/>
+        <location filename="../assets/ConversationsPane.qml" line="230"/>
         <source>Which of the following are spam messages? Choose them and tap the Block action at the bottom and any messages from those senders will be blocked in the future!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="269"/>
+        <location filename="../assets/ConversationsPane.qml" line="282"/>
         <source>Could not find any suspicious keywords in the message...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="106"/>
+        <location filename="../assets/ConversationsPane.qml" line="102"/>
         <source>There are no incoming messages detected for this account. As soon as the first spam message comes in, open this app, come to this screen and add that message as spam and all future messages from that sender will be blocked and deleted! Or increase the &apos;Days&apos; slider at the top to fetch more messages.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="256"/>
+        <location filename="../assets/ConversationsPane.qml" line="269"/>
         <source>The following keywords were added: %1</source>
         <translation type="unfinished"></translation>
     </message>

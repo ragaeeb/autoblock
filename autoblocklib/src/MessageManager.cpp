@@ -17,8 +17,6 @@ using namespace bb::pim::message;
 #define LOGGER(a)
 #endif
 
-const int MessageManager::account_key_sms = 23;
-
 MessageManager::MessageManager(qint64 accountKey, QObject* parent) :
 		QObject(parent), m_ms(NULL), m_accountKey(accountKey), m_connected(false)
 {
@@ -80,7 +78,7 @@ qint64 MessageManager::sendMessage(Message const& m, QString text, QList<Attachm
 	MessageBuilder* mb = MessageBuilder::create(m_accountKey);
 	mb->conversationId(ck);
 
-	if (m_accountKey != account_key_sms) {
+	if (m_accountKey != ACCOUNT_KEY_SMS) {
 		LOGGER("ADDING BODY TEXT" << text);
 	    const MessageContact mc = MessageContact( from.id(), MessageContact::To, from.name(), from.address() );
 		mb->addRecipient(mc);

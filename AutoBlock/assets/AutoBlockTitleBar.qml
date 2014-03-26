@@ -23,7 +23,7 @@ TitleBar
                 verticalAlignment: VerticalAlignment.Top
                 
                 ImageView {
-                    imageSource: "images/title_bg.png"
+                    imageSource: "images/titlebar/title_bg.png"
                     topMargin: 0
                     leftMargin: 0
                     rightMargin: 0
@@ -40,7 +40,7 @@ TitleBar
                     leftPadding: 120; topPadding: 93
                     
                     ImageView {
-                        imageSource: "images/arrows1.png"
+                        imageSource: "images/titlebar/arrows1.png"
                         horizontalAlignment: HorizontalAlignment.Left
                     }
                     
@@ -69,7 +69,7 @@ TitleBar
                     topPadding: 102
                     
                     ImageView {
-                        imageSource: "images/arrows2.png"
+                        imageSource: "images/titlebar/arrows2.png"
                         horizontalAlignment: HorizontalAlignment.Left
                     }
                     
@@ -146,7 +146,7 @@ TitleBar
                     }
                     
                     ImageView {
-                        imageSource: "images/title_text.png"
+                        imageSource: "images/titlebar/title_text.png"
                         topMargin: 0
                         leftMargin: 10
                         rightMargin: 0

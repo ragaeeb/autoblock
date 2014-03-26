@@ -20,6 +20,8 @@ namespace canadainc {
 
 using namespace bb::pim::message;
 
+#define ACCOUNT_KEY_SMS 23
+
 class MessageManager : public QObject
 {
 	Q_OBJECT
@@ -51,8 +53,6 @@ public:
 	qint64 sendMessage(Message const& m, QString text, QList<Attachment> const& attachments=QList<Attachment>(), bool replyPrefix=false);
 	void remove(QString const& ck, qint64 mk);
 	void setAccountKey(qint64 accountKey);
-
-	static const int account_key_sms;
 };
 
 } /* namespace canadainc */

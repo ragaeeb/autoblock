@@ -159,7 +159,7 @@ void Service::processSenders(QVariantList result)
             m_sql.executePrepared(result, QueryId::BlockSenders);
 
         } else {
-            QString subjectBody = m.accountId() == MessageManager::account_key_sms ? PimUtil::extractText(m) : m.subject();
+            QString subjectBody = m.accountId() == ACCOUNT_KEY_SMS ? PimUtil::extractText(m) : m.subject();
             QStringList subjectTokens = subjectBody.trimmed().toLower().split(" ");
             LOGGER("SubjectTokens" << subjectTokens);
             QVariantList keywords;

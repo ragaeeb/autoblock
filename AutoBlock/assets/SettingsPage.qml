@@ -17,7 +17,7 @@ Page
             horizontalAlignment: HorizontalAlignment.Fill
             verticalAlignment: VerticalAlignment.Fill
             
-            PersistCheckbox
+            PersistCheckBox
             {
                 key: "sound"
                 text: qsTr("Sound") + Retranslate.onLanguageChanged
@@ -31,7 +31,7 @@ Page
                 }
             }
             
-            PersistCheckbox
+            PersistCheckBox
             {
                 topMargin: 10
                 key: "whitelistContacts"

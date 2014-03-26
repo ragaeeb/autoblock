@@ -283,7 +283,27 @@ Check back in a few days.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="249"/>
+        <location filename="../assets/ConversationsPane.qml" line="233"/>
+        <source>Tutorial</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/ConversationsPane.qml" line="233"/>
+        <source>Would you like to see a video tutorial on how to use the app?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/ConversationsPane.qml" line="233"/>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/ConversationsPane.qml" line="233"/>
+        <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/ConversationsPane.qml" line="257"/>
         <source>Add Keywords</source>
         <translation type="unfinished"></translation>
     </message>
@@ -308,7 +328,7 @@ Check back in a few days.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="282"/>
+        <location filename="../assets/ConversationsPane.qml" line="290"/>
         <source>Could not find any suspicious keywords in the message...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -318,7 +338,7 @@ Check back in a few days.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="269"/>
+        <location filename="../assets/ConversationsPane.qml" line="277"/>
         <source>The following keywords were added: %1</source>
         <translation type="unfinished"></translation>
     </message>

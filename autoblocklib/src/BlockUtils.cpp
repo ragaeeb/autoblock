@@ -2,12 +2,8 @@
 
 #include <QDir>
 
-namespace {
-
-const int min_keyword_length = 4;
-const int max_keyword_length = 10;
-
-}
+#define min_keyword_length 4
+#define max_keyword_length 10
 
 namespace autoblock {
 
@@ -22,7 +18,7 @@ QString BlockUtils::isValidKeyword(QString const& keyword)
     QString current = keyword.trimmed().remove(regex);
     int length = current.length();
 
-    return length > min_keyword_length && length <= max_keyword_length ? current : QString();
+    return length >= min_keyword_length && length <= max_keyword_length ? current : QString();
 }
 
 } /* namespace golden */

@@ -52,7 +52,7 @@ NavigationPane
             
             EmptyDelegate {
                 id: emptyDelegate
-                graphic: "images/ic_empty_logs.png"
+                graphic: "images/empty/ic_empty_logs.png"
                 labelText: qsTr("No spam messages detected yet.") + Retranslate.onLanguageChanged
             }
             

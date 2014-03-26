@@ -53,7 +53,7 @@ NavigationPane
                         
                         navigationPane.push(inspectPage);
                     } else {
-                        persist.showToast( qsTr("There are no new known spammers available yet.\nCheck back in a few days."), "", "asset:///images/ic_import.png" );
+                        persist.showToast( qsTr("There are no new known spammers available yet.\nCheck back in a few days."), "", "asset:///images/toast/ic_import.png" );
                     }
                 }
                 
@@ -184,7 +184,7 @@ NavigationPane
             
             EmptyDelegate {
                 id: emptyDelegate
-                graphic: "images/ic_empty_blocked.png"
+                graphic: "images/empty/ic_empty_blocked.png"
                 labelText: qsTr("You have no blocked senders. Either manually add phone numbers and email addresses to block from the overflow menu, or tap here to choose spam messages from your existing conversations.")
                 
                 onImageTapped: {

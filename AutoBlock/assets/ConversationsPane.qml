@@ -89,20 +89,16 @@ NavigationPane
         
         Container
         {
+            id: rootContainer
+            background: ipd.imagePaint
+            layout: DockLayout {}
             horizontalAlignment: HorizontalAlignment.Fill
             verticalAlignment: VerticalAlignment.Fill
-            background: ipd.imagePaint
             
-            ProgressDelegate
+            EmptyDelegate
             {
-                onCreationCompleted: {
-                    app.loadProgress.connect(onProgressChanged);
-                }
-            }
-            
-            EmptyDelegate {
                 id: emptyDelegate
-                graphic: "images/ic_empty_messages.png"
+                graphic: "images/empty/ic_empty_messages.png"
                 labelText: qsTr("There are no incoming messages detected for this account. As soon as the first spam message comes in, open this app, come to this screen and add that message as spam and all future messages from that sender will be blocked and deleted! Or increase the 'Days' slider at the top to fetch more messages.") + Retranslate.onLanguageChanged
                 
                 onImageTapped: {
@@ -110,123 +106,138 @@ NavigationPane
                 }
             }
             
-            ListView
+            Container
             {
-                id: listView
+                id: mainContainer
+                horizontalAlignment: HorizontalAlignment.Fill
+                verticalAlignment: VerticalAlignment.Fill
                 
-                layoutProperties: StackLayoutProperties {
-                    spaceQuota: 1
-                }
-                
-                multiSelectAction: MultiSelectActionItem {
-                    imageSource: "images/ic_select_more.png"
-                }
-                
-                function doBlock(toBlock)
+                ProgressDelegate
                 {
-                    var numbersList = helper.block(toBlock);
-                    toast.toBlock = toBlock;
-                    toast.body = qsTr("The following addresses were blocked: %1").arg( numbersList.join(", ") );
-                    toast.icon = "asset:///images/ic_blocked_user.png";
-                    
-                    toast.show();
-                }
-                
-                listItemComponents: [
-                    ListItemComponent
-                    {
-                        StandardListItem {
-                            id: rootItem
-                            imageSource: ListItemData.imageSource ? ListItemData.imageSource : "images/ic_user.png"
-                            title: ListItemData.sender
-                            description: ListItemData.subject ? ListItemData.subject : ListItemData.text.replace(/\n/g, " ").substr(0, 60) + "..."
-
-                            animations: [
-                                FadeTransition {
-                                    id: slider
-                                    fromOpacity: 0
-                                    toOpacity: 1
-                                    easingCurve: StockCurve.SineInOut
-                                    duration: 400
-                                }
-                            ]
-
-                            onCreationCompleted: {
-                                slider.play()
-                            }
-                        }
+                    onCreationCompleted: {
+                        app.loadProgress.connect(onProgressChanged);
                     }
-                ]
+                }
                 
-                onTriggered: {
-                    multiSelectHandler.active = true;
-                    toggleSelection(indexPath);
-                }
-
-                dataModel: ArrayDataModel {
-                    id: dm
-                }
-
-                multiSelectHandler
+                ListView
                 {
-                    actions: [
-                        ActionItem
+                    id: listView
+                    
+                    layoutProperties: StackLayoutProperties {
+                        spaceQuota: 1
+                    }
+                    
+                    multiSelectAction: MultiSelectActionItem {
+                        imageSource: "images/ic_select_more.png"
+                    }
+                    
+                    function doBlock(toBlock)
+                    {
+                        var numbersList = helper.block(toBlock);
+                        toast.toBlock = toBlock;
+                        toast.body = qsTr("The following addresses were blocked: %1").arg( numbersList.join(", ") );
+                        toast.icon = "asset:///images/ic_blocked_user.png";
+                        rootContainer.touch.connect(toast.cancel);
+                        
+                        toast.show();
+                    }
+                    
+                    listItemComponents: [
+                        ListItemComponent
                         {
-                            id: blockAction
-                            title: qsTr("Block") + Retranslate.onLanguageChanged
-                            imageSource: "images/ic_block.png"
-                            enabled: false
-                            
-                            onTriggered: {
-                                var selected = listView.selectionList();
-                                var toBlock = [];
-
-                                for (var i = selected.length-1; i >= 0; i--) {
-                                    toBlock.push( dm.data(selected[i]) );
-                                }
-
-                                listView.doBlock(toBlock);
+                            StandardListItem {
+                                id: rootItem
+                                imageSource: ListItemData.imageSource ? ListItemData.imageSource : "images/ic_user.png"
+                                title: ListItemData.sender
+                                description: ListItemData.subject ? ListItemData.subject : ListItemData.text.replace(/\n/g, " ").substr(0, 60) + "..."
                                 
-                                for (var i = selected.length-1; i >= 0; i--) {
-                                    dm.removeAt(selected[i][0]);
+                                animations: [
+                                    FadeTransition {
+                                        id: slider
+                                        fromOpacity: 0
+                                        toOpacity: 1
+                                        easingCurve: StockCurve.SineInOut
+                                        duration: 400
+                                    }
+                                ]
+                                
+                                onCreationCompleted: {
+                                    slider.play()
                                 }
                             }
                         }
                     ]
-
-                    status: qsTr("None selected") + Retranslate.onLanguageChanged
-                }
-                
-                onSelectionChanged: {
-                    var n = selectionList().length;
-                    blockAction.enabled = n > 0;
-                    multiSelectHandler.status = qsTr("%1 conversations to mark as spam").arg(n);
-                }
-
-                onCreationCompleted: {
-                    app.messagesImported.connect(onMessagesImported);
-                }
-
-                function onMessagesImported(results)
-                {
-                    dm.clear();
-
-                    if (results.length > 0)
-                    {
-                        dm.append(results);
-
-                        if ( !persist.contains("tutorialMarkSpam") )
-                        {
-                            persist.showBlockingToast( qsTr("Which of the following are spam messages? Choose them and tap the Block action at the bottom and any messages from those senders will be blocked in the future!"), qsTr("OK") );
-                            persist.saveValueFor("tutorialMarkSpam", 1);
-                        }
+                    
+                    onTriggered: {
+                        multiSelectHandler.active = true;
+                        toggleSelection(indexPath);
                     }
                     
-                    listView.visible = listView.multiSelectHandler.active = results.length > 0;
-                    emptyDelegate.delegateActive = results.length == 0;
+                    dataModel: ArrayDataModel {
+                        id: dm
+                    }
+                    
+                    multiSelectHandler
+                    {
+                        actions: [
+                            ActionItem
+                            {
+                                id: blockAction
+                                title: qsTr("Block") + Retranslate.onLanguageChanged
+                                imageSource: "images/ic_block.png"
+                                enabled: false
+                                
+                                onTriggered: {
+                                    var selected = listView.selectionList();
+                                    var toBlock = [];
+                                    
+                                    for (var i = selected.length-1; i >= 0; i--) {
+                                        toBlock.push( dm.data(selected[i]) );
+                                    }
+                                    
+                                    listView.doBlock(toBlock);
+                                    
+                                    for (var i = selected.length-1; i >= 0; i--) {
+                                        dm.removeAt(selected[i][0]);
+                                    }
+                                }
+                            }
+                        ]
+                        
+                        status: qsTr("None selected") + Retranslate.onLanguageChanged
+                    }
+                    
+                    onSelectionChanged: {
+                        var n = selectionList().length;
+                        blockAction.enabled = n > 0;
+                        multiSelectHandler.status = qsTr("%1 conversations to mark as spam").arg(n);
+                    }
+                    
+                    onCreationCompleted: {
+                        app.messagesImported.connect(onMessagesImported);
+                    }
+                    
+                    function onMessagesImported(results)
+                    {
+                        dm.clear();
+                        
+                        if (results.length > 0)
+                        {
+                            dm.append(results);
+                            
+                            if ( !persist.contains("tutorialMarkSpam") )
+                            {
+                                persist.showBlockingToast( qsTr("Which of the following are spam messages? Choose them and tap the Block action at the bottom and any messages from those senders will be blocked in the future!"), qsTr("OK") );
+                                persist.saveValueFor("tutorialMarkSpam", 1);
+                            }
+                        }
+                        
+                        mainContainer.visible = listView.multiSelectHandler.active = results.length > 0;
+                        emptyDelegate.delegateActive = results.length == 0;
+                    }
                 }
             }
-
+            
             attachedObjects: [
                 ImagePaintDefinition {
                     id: ipd
@@ -242,6 +253,8 @@ NavigationPane
                         if (value == SystemUiResult.ButtonSelection) {
                             app.extractKeywords(toBlock);
                         }
+                        
+                        rootContainer.touch.disconnect(toast.cancel);
                     }
                 }
             ]

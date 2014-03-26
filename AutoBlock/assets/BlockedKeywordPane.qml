@@ -150,7 +150,7 @@ NavigationPane
             
             EmptyDelegate {
                 id: emptyDelegate
-                graphic: "images/ic_empty_keywords.png"
+                graphic: "images/empty/ic_empty_keywords.png"
                 labelText: qsTr("You have no blocked keywords. Either input them after blocking existing messages, or tap here to add one.")
                 
                 onImageTapped: {

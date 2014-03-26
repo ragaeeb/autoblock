@@ -229,6 +229,14 @@ NavigationPane
                             {
                                 persist.showBlockingToast( qsTr("Which of the following are spam messages? Choose them and tap the Block action at the bottom and any messages from those senders will be blocked in the future!"), qsTr("OK") );
                                 persist.saveValueFor("tutorialMarkSpam", 1);
+                            } else if ( !persist.contains("tutorialVideo") ) {
+                                var yesClicked = persist.showBlockingDialog( qsTr("Tutorial"), qsTr("Would you like to see a video tutorial on how to use the app?"), qsTr("Yes"), qsTr("No") );
+                                
+                                if (yesClicked) {
+                                    vidTutorial.trigger("bb.action.OPEN");
+                                }
+                                
+                                persist.saveValueFor("tutorialVideo", 1);
                             }
                         }
                         
@@ -291,6 +299,15 @@ NavigationPane
         ComponentDefinition {
             id: definition
             source: "ElementPickerPage.qml"
+        },
+        
+        Invocation {
+            id: vidTutorial
+
+            query: InvokeQuery {
+                mimeType: "text/html"
+                uri: "http://www.youtube.com/watch?v=rFoFPHxUF34"
+            }
         }
     ]
 }

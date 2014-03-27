@@ -44,6 +44,7 @@ TabbedPane
         title: qsTr("Blocked") + Retranslate.onLanguageChanged
         description: qsTr("Blocked List") + Retranslate.onLanguageChanged
         imageSource: "images/tabs/ic_blocked.png"
+        delegateActivationPolicy: TabDelegateActivationPolicy.ActivateWhenSelected
         
         delegate: Delegate
         {

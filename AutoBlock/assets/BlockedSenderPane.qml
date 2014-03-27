@@ -15,64 +15,15 @@ NavigationPane
     {
         id: root
         
-        titleBar: TitleBar {
+        titleBar: TitleBar
+        {
             title: qsTr("Blocked Senders") + Retranslate.onLanguageChanged
             
-            acceptAction: ActionItem
+            acceptAction: UpdateActionItem
             {
-                title: qsTr("Update") + Retranslate.onLanguageChanged
-                
-                onTriggered: {
-                    enabled = false;
+                onConfirmed: {
                     app.submit(gdm);
                 }
-                
-                function onSpammersSelected(addresses)
-                {
-                    var transformed = [];
-                    
-                    for (var i = addresses.length-1; i >= 0; i--) {
-                        transformed.push({'senderAddress': addresses[i]});
-                    }
-                    
-                    var blocked = helper.block(transformed);
-                    navigationPane.pop();
-                    
-                    persist.showToast( qsTr("The following keywords were added: %1").arg( blocked.join(", ") ), "", "asset:///images/ic_blocked.png" );
-                }
-                
-                function onUpdatesAvailable(addresses)
-                {
-                    enabled = true;
-                    
-                    if (addresses.length > 0)
-                    {
-                        var inspectPage = updatePicker.createObject();
-                        inspectPage.elementsSelected.connect(onSpammersSelected);
-                        inspectPage.elements = addresses;
-                        
-                        navigationPane.push(inspectPage);
-                    } else {
-                        persist.showToast( qsTr("There are no new known spammers available yet.\nCheck back in a few days."), "", "asset:///images/toast/ic_import.png" );
-                    }
-                }
-                
-                onCreationCompleted: {
-                    app.updatesAvailable.connect(onUpdatesAvailable);
-                }
-                
-                attachedObjects: [
-                    ComponentDefinition
-                    {
-                        id: updatePicker
-                        
-                        ElementPickerPage {
-                            titleText: qsTr("Reported Spammers") + Retranslate.onLanguageChanged
-                            instructionText: qsTr("Which of the following reported spammers do you want to add to your blocked list?") + Retranslate.onLanguageChanged
-                            listImage: "images/ic_blocked_user.png"
-                        }
-                    }
-                ]
             }
         }
         
@@ -241,7 +192,7 @@ NavigationPane
                                     toOpacity: 1
                                     easingCurve: StockCurve.SineOut
                                     duration: 1000
-                                    delay: sli.ListItem.indexInSection * 100
+                                    delay: Math.min(sli.ListItem.indexInSection * 100, 1000)
                                 }
                             ]
                             

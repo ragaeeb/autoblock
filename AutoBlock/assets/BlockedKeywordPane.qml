@@ -193,7 +193,7 @@ NavigationPane
                                     toOpacity: 1
                                     easingCurve: StockCurve.SineOut
                                     duration: 1000
-                                    delay: sli.ListItem.indexInSection * 100
+                                    delay: Math.min(sli.ListItem.indexInSection * 100, 1000)
                                 }
                             ]
                             

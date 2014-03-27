@@ -15,7 +15,7 @@ NavigationPane
         actions: [
             DeleteActionItem {
                 title: qsTr("Clear Logs") + Retranslate.onLanguageChanged
-                imageSource: "images/ic_clear_logs.png"
+                imageSource: "images/menu/ic_clear_logs.png"
                 
                 onTriggered: {
                     prompt.show();
@@ -33,7 +33,7 @@ NavigationPane
                             if (result == SystemUiResult.ConfirmButtonSelection)
                             {
                                 helper.clearLogs();
-                                persist.showToast( qsTr("Cleared all blocked senders!"), "", "asset:///images/ic_clear_logs.png" );
+                                persist.showToast( qsTr("Cleared all blocked senders!"), "", "asset:///images/menu/ic_clear_logs.png" );
                             }
                         }
                     }
@@ -68,7 +68,7 @@ NavigationPane
                         {
                             id: sli
                             title: ListItemData.address
-                            imageSource: "images/ic_log.png"
+                            imageSource: "images/menu/ic_log.png"
                             description: ListItemData.message
                             status: ListItem.view.localizer.renderStandardTime( new Date(ListItemData.timestamp) )
                             opacity: 0

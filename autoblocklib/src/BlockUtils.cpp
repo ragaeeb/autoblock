@@ -3,7 +3,7 @@
 #include <QDir>
 
 #define min_keyword_length 4
-#define max_keyword_length 10
+#define max_keyword_length 20
 
 namespace autoblock {
 

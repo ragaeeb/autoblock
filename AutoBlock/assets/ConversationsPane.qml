@@ -128,7 +128,7 @@ NavigationPane
                     }
                     
                     multiSelectAction: MultiSelectActionItem {
-                        imageSource: "images/ic_select_more.png"
+                        imageSource: "images/menu/ic_select_more.png"
                     }
                     
                     function doBlock(toBlock)
@@ -136,7 +136,7 @@ NavigationPane
                         var numbersList = helper.block(toBlock);
                         toast.toBlock = toBlock;
                         toast.body = qsTr("The following addresses were blocked: %1").arg( numbersList.join(", ") );
-                        toast.icon = "asset:///images/ic_blocked_user.png";
+                        toast.icon = "asset:///images/menu/ic_blocked_user.png";
                         rootContainer.touch.connect(toast.cancel);
                         
                         toast.show();

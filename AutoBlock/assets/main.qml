@@ -18,7 +18,7 @@ TabbedPane
         id: logTab
         title: qsTr("Logs") + Retranslate.onLanguageChanged
         description: qsTr("Blocked Messages") + Retranslate.onLanguageChanged
-        imageSource: "images/ic_logs.png"
+        imageSource: "images/tabs/ic_logs.png"
         delegateActivationPolicy: TabDelegateActivationPolicy.ActivateWhenSelected
         
         delegate: Delegate {
@@ -43,7 +43,7 @@ TabbedPane
         id: blockedTab
         title: qsTr("Blocked") + Retranslate.onLanguageChanged
         description: qsTr("Blocked List") + Retranslate.onLanguageChanged
-        imageSource: "images/ic_blocked.png"
+        imageSource: "images/tabs/ic_blocked.png"
         
         delegate: Delegate
         {
@@ -66,7 +66,7 @@ TabbedPane
         id: conversationsTab
         title: qsTr("Conversations") + Retranslate.onLanguageChanged
         description: qsTr("Potential Spam Messages") + Retranslate.onLanguageChanged
-        imageSource: "images/ic_conversations.png"
+        imageSource: "images/tabs/ic_conversations.png"
         delegateActivationPolicy: TabDelegateActivationPolicy.ActivateWhenSelected
         
         delegate: Delegate {
@@ -78,7 +78,7 @@ TabbedPane
         id: keywordsTab
         title: qsTr("Keywords") + Retranslate.onLanguageChanged
         description: qsTr("Blacklisted Keywords") + Retranslate.onLanguageChanged
-        imageSource: "images/ic_keywords.png"
+        imageSource: "images/tabs/ic_keywords.png"
         delegateActivationPolicy: TabDelegateActivationPolicy.ActivateWhenSelected
         
         delegate: Delegate {

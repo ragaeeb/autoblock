@@ -67,7 +67,7 @@ NavigationPane
             ActionItem {
                 id: addAction
                 title: qsTr("Add") + Retranslate.onLanguageChanged
-                imageSource: "images/ic_add_spammer.png"
+                imageSource: "images/menu/ic_add_spammer.png"
                 ActionBar.placement: ActionBarPlacement.OnBar
                 
                 shortcuts: [
@@ -98,7 +98,7 @@ NavigationPane
                                     
                                     if (value.length > 0) {
                                         var keywordsList = helper.blockKeywords([value]);
-                                        persist.showToast( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "", "asset:///images/ic_add_spammer.png" );
+                                        persist.showToast( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "", "asset:///images/menu/ic_add_spammer.png" );
                                     } else {
                                         persist.showToast( qsTr("Invalid keyword entered (must be between 4-10 characters)."), "", "asset:///images/ic_block.png" );
                                     }
@@ -114,7 +114,7 @@ NavigationPane
             DeleteActionItem {
                 id: unblockAllAction
                 title: qsTr("Clear All") + Retranslate.onLanguageChanged
-                imageSource: "images/ic_unblock_all.png"
+                imageSource: "images/menu/ic_unblock_all.png"
                 
                 onTriggered: {
                     prompt.show();
@@ -132,7 +132,7 @@ NavigationPane
                             if (result == SystemUiResult.ConfirmButtonSelection)
                             {
                                 helper.clearBlockedKeywords();
-                                persist.showToast( qsTr("Cleared all blocked keywords!"), "", "asset:///images/ic_clear.png" );
+                                persist.showToast( qsTr("Cleared all blocked keywords!"), "", "asset:///images/menu/ic_clear.png" );
                             }
                         }
                     }
@@ -169,11 +169,11 @@ NavigationPane
                 function unblock(blocked)
                 {
                 	var keywordsList = helper.unblockKeywords(blocked);
-                    persist.showToast( qsTr("The following keywords were unblocked: %1").arg( keywordsList.join(", ") ), "", "asset:///images/ic_unblock.png" );
+                    persist.showToast( qsTr("The following keywords were unblocked: %1").arg( keywordsList.join(", ") ), "", "asset:///images/menu/ic_unblock.png" );
                 }
                 
                 multiSelectAction: MultiSelectActionItem {
-                    imageSource: "images/ic_select_more.png"
+                    imageSource: "images/menu/ic_select_more.png"
                 }
                 
                 listItemComponents: [
@@ -183,7 +183,7 @@ NavigationPane
                             id: sli
                             title: ListItemData.term
                             status: ListItemData.count
-                            imageSource: "images/ic_blocked.png"
+                            imageSource: "images/tabs/ic_blocked.png"
                             opacity: 0
                             
                             animations: [
@@ -209,7 +209,7 @@ NavigationPane
                                     
                                     DeleteActionItem
                                     {
-                                        imageSource: "images/ic_unblock.png"
+                                        imageSource: "images/menu/ic_unblock.png"
                                         title: qsTr("Unblock") + Retranslate.onLanguageChanged
                                         
                                         onTriggered: {
@@ -229,7 +229,7 @@ NavigationPane
                         {
                             id: unBlockAction
                             title: qsTr("Unblock") + Retranslate.onLanguageChanged
-                            imageSource: "images/ic_unblock.png"
+                            imageSource: "images/menu/ic_unblock.png"
                             enabled: false
                             
                             onTriggered: {

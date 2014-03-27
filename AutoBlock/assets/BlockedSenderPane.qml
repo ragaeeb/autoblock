@@ -33,7 +33,7 @@ NavigationPane
             ActionItem
             {
                 title: qsTr("Block Email Sender") + Retranslate.onLanguageChanged
-                imageSource: "images/ic_add_email.png"
+                imageSource: "images/menu/ic_add_email.png"
                 ActionBar.placement: ActionBarPlacement.OnBar
                 
                 onTriggered: {
@@ -66,9 +66,9 @@ NavigationPane
                                 if (valid) {
                                     var toBlock = [{'senderAddress': value}];
                                     var blocked = helper.block(toBlock);
-                                    persist.showToast( qsTr("Successfully blocked: %1").arg( blocked.join(", ") ), "", "asset:///images/ic_add_email.png" );
+                                    persist.showToast( qsTr("Successfully blocked: %1").arg( blocked.join(", ") ), "", "asset:///images/menu/ic_add_email.png" );
                                 } else {
-                                    persist.showToast( qsTr("Invalid address entered: %1").arg(value), "", "asset:///images/ic_keyword.png" );
+                                    persist.showToast( qsTr("Invalid address entered: %1").arg(value), "", "asset:///images/menu/ic_keyword.png" );
                                 }
                             }
                         }
@@ -79,7 +79,7 @@ NavigationPane
             ActionItem
             {
                 title: qsTr("Block SMS Sender") + Retranslate.onLanguageChanged
-                imageSource: "images/ic_add_sms.png"
+                imageSource: "images/menu/ic_add_sms.png"
                 
                 shortcuts: [
                     SystemShortcut {
@@ -99,7 +99,7 @@ NavigationPane
             DeleteActionItem {
                 id: unblockAllAction
                 title: qsTr("Unblock All") + Retranslate.onLanguageChanged
-                imageSource: "images/ic_unblock_all.png"
+                imageSource: "images/menu/ic_unblock_all.png"
                 
                 onTriggered: {
                     prompt.show();
@@ -117,7 +117,7 @@ NavigationPane
                             if (result == SystemUiResult.ConfirmButtonSelection)
                             {
                                 helper.clearBlockedSenders();
-                                persist.showToast( qsTr("Cleared all blocked senders!"), "", "asset:///images/ic_unblock_all.png" );
+                                persist.showToast( qsTr("Cleared all blocked senders!"), "", "asset:///images/menu/ic_unblock_all.png" );
                             }
                         }
                     }
@@ -157,11 +157,11 @@ NavigationPane
                 function unblock(blocked)
                 {
                     var keywordsList = helper.unblock(blocked);
-                    persist.showToast( qsTr("The following addresses were unblocked: %1").arg( keywordsList.join(", ") ), "", "asset:///images/ic_unblock.png" );
+                    persist.showToast( qsTr("The following addresses were unblocked: %1").arg( keywordsList.join(", ") ), "", "asset:///images/menu/ic_unblock.png" );
                 }
                 
                 multiSelectAction: MultiSelectActionItem {
-                    imageSource: "images/ic_select_more.png"
+                    imageSource: "images/menu/ic_select_more.png"
                 }
                 
                 listItemComponents: [
@@ -182,7 +182,7 @@ NavigationPane
                             title: ListItemData.address
                             status: ListItemData.count
                             description: qsTr("Blocked!") + Retranslate.onLanguageChanged
-                            imageSource: "images/ic_blocked_user.png"
+                            imageSource: "images/menu/ic_blocked_user.png"
                             opacity: 0
                             
                             animations: [
@@ -208,7 +208,7 @@ NavigationPane
                                     
                                     DeleteActionItem
                                     {
-                                        imageSource: "images/ic_unblock.png"
+                                        imageSource: "images/menu/ic_unblock.png"
                                         title: qsTr("Unblock") + Retranslate.onLanguageChanged
                                         
                                         onTriggered: {
@@ -228,7 +228,7 @@ NavigationPane
                         {
                             id: unBlockAction
                             title: qsTr("Unblock") + Retranslate.onLanguageChanged
-                            imageSource: "images/ic_unblock.png"
+                            imageSource: "images/menu/ic_unblock.png"
                             enabled: false
                             
                             onTriggered: {

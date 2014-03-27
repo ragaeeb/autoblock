@@ -8,7 +8,7 @@ Page
     signal elementsSelected(variant elements)
     actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
     property string instructionText: qsTr("Do you want to automatically filter future messages that contain the following elements?") + Retranslate.onLanguageChanged
-    property variant listImage: "images/ic_keyword.png"
+    property variant listImage: "images/menu/ic_keyword.png"
     
     onElementsChanged: {
         adm.clear();
@@ -42,7 +42,7 @@ Page
         ActionItem {
             id: clearAction
             title: qsTr("Clear All") + Retranslate.onLanguageChanged
-            imageSource: "images/ic_clear.png"
+            imageSource: "images/menu/ic_clear.png"
             ActionBar.placement: ActionBarPlacement.OnBar
             
             onTriggered: {
@@ -53,7 +53,7 @@ Page
         ActionItem {
             id: addAction
             title: qsTr("Select All") + Retranslate.onLanguageChanged
-            imageSource: "images/ic_select_all.png"
+            imageSource: "images/menu/ic_select_all.png"
             ActionBar.placement: ActionBarPlacement.OnBar
             
             onTriggered: {

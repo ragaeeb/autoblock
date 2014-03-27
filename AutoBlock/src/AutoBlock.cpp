@@ -141,6 +141,7 @@ QObject* AutoBlock::initRoot(QString const& qmlSource, bool invoked)
     qml->setContextProperty("app", this);
     qml->setContextProperty("helper", &m_helper);
     qml->setContextProperty("persist", &m_persistance);
+    qml->setContextProperty("updater", &m_update);
 
     AbstractPane* root = qml->createRootObject<AbstractPane>();
     Application::instance()->setScene(root);
@@ -171,7 +172,8 @@ void AutoBlock::init()
 	INIT_SETTING("keywordThreshold", 3);
 	INIT_SETTING("whitelistContacts", 1);
 
-	connect( &m_update, SIGNAL( updatesAvailable(QStringList const&) ), this, SIGNAL( updatesAvailable(QStringList const&) ) );
+	qmlRegisterType<bb::device::DisplayInfo>("bb.device", 1, 0, "DisplayInfo");
+
 	connect( Application::instance(), SIGNAL( aboutToQuit() ), this, SLOT( terminateThreads() ) );
 
     InvokeRequest request;

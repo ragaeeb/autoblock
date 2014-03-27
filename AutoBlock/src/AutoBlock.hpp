@@ -68,7 +68,6 @@ Q_SIGNALS:
 	void messagesImported(QVariantList const& qvl);
 	void loadProgress(int current, int total);
 	void keywordsExtracted(QStringList const& keywords);
-	void updatesAvailable(QStringList const& addresses);
 
 public:
 	static void create(Application *app);

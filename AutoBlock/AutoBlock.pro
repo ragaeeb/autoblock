@@ -2,7 +2,7 @@ APP_NAME = AutoBlock
 
 CONFIG += qt warn_on cascades10
 INCLUDEPATH += ../src ../../../canadainc/src/ ../../autoblocklib/src/
-LIBS += -lbb -lbbutilityi18n -lbbdata -lbbsystem -lbbpim -lbbcascadespickers
+LIBS += -lbb -lbbutilityi18n -lbbdata -lbbdevice -lbbsystem -lbbpim -lbbcascadespickers
 
 CONFIG(release, debug|release) {
     DESTDIR = o.le-v7

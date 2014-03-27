@@ -1,11 +1,17 @@
-import bb.cascades 1.0
+import bb.cascades 1.2
 import bb.system 1.0
 
 ActionItem
 {
     id: updateAction
     title: qsTr("Update") + Retranslate.onLanguageChanged
+    property variant progress
     signal confirmed()
+    
+    onConfirmed: {
+        progress = progressDialog.createObject();
+        progress.open();
+    }
     
     onTriggered: {
         if ( !persist.contains("updateTutorial") ) {
@@ -31,7 +37,13 @@ ActionItem
     
     function onUpdatesAvailable(addresses)
     {
+        console.log("ON UPDATES AVAILALBE");
         enabled = true;
+        
+        if (progress) {
+            progress.close();
+            progress = undefined;
+        }
         
         if (addresses.length > 0)
         {
@@ -46,7 +58,7 @@ ActionItem
     }
     
     onCreationCompleted: {
-        app.updatesAvailable.connect(onUpdatesAvailable);
+        updater.updatesAvailable.connect(onUpdatesAvailable);
     }
     
     attachedObjects: [
@@ -76,6 +88,11 @@ ActionItem
                     confirmed();
                 }
             }
+        },
+        
+        ComponentDefinition {
+            id: progressDialog
+            source: "ProgressDialog.qml"
         }
     ]
 }

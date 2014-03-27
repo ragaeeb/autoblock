@@ -4,3 +4,5 @@
 #include <bb/cascades/QmlDocument>
 
 #include <bb/pim/message/MessageService>
+
+#include <bb/device/DisplayInfo>

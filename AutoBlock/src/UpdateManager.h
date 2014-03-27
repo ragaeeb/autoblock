@@ -18,6 +18,7 @@ private slots:
     void onRequestComplete(QVariant const& cookie, QByteArray const& data);
 
 Q_SIGNALS:
+    void downloadProgress(QVariant const&, qint64 bytesReceived, qint64 bytesTotal);
     void updatesAvailable(QStringList const& addresses);
 
 public:

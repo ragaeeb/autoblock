@@ -181,7 +181,7 @@ void Service::processSenders(QVariantList result)
             {
                 m_keywordQueue << m;
 
-                m_sql.setQuery( QString("SELECT term FROM inbound_keywords WHERE term IN (%1) COLLATE NOCASE").arg( placeHolders.join(",") ) );
+                m_sql.setQuery( QString("SELECT term FROM inbound_keywords WHERE term IN (%1)").arg( placeHolders.join(",") ) );
                 m_sql.executePrepared(keywords, QueryId::LookupKeyword);
             }
         }
@@ -222,8 +222,8 @@ void Service::messageAdded(bb::pim::account::AccountKey ak, bb::pim::message::Co
 
 	if ( ( !m_whitelistContacts || !m.sender().id() ) && m.isInbound() ) // is not a contact, or contacts are not whitelisted so force look up
 	{
-	    QString sender = m.sender().address();
-	    QString replyTo = m.replyTo().address();
+	    QString sender = m.sender().address().toLower();
+	    QString replyTo = m.replyTo().address().toLower();
 
 	    QStringList placeHolders("?");
 
@@ -237,7 +237,7 @@ void Service::messageAdded(bb::pim::account::AccountKey ak, bb::pim::message::Co
 
 	    m_senderQueue << m;
 
-	    m_sql.setQuery( QString("SELECT address FROM inbound_blacklist WHERE address IN (%1) COLLATE NOCASE").arg( placeHolders.join(",") ) );
+	    m_sql.setQuery( QString("SELECT address FROM inbound_blacklist WHERE address IN (%1)").arg( placeHolders.join(",") ) );
 	    m_sql.executePrepared(addresses, QueryId::LookupSender);
 	}
 }

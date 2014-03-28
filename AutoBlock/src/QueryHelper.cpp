@@ -1,6 +1,7 @@
 #include "precompiled.h"
 
 #include "QueryHelper.h"
+#include "AppLogFetcher.h"
 #include "customsqldatasource.h"
 #include "Logger.h"
 #include "MessageManager.h"
@@ -14,15 +15,23 @@ namespace autoblock {
 
 using namespace canadainc;
 
-QueryHelper::QueryHelper(CustomSqlDataSource* sql) : m_sql(sql), m_ms(NULL)
+QueryHelper::QueryHelper(CustomSqlDataSource* sql, AppLogFetcher* reporter) :
+        m_reporter(reporter), m_sql(sql), m_ms(NULL), m_lastUpdate( QDateTime::currentMSecsSinceEpoch() )
 {
     connect( sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ), Qt::QueuedConnection );
 }
 
 
+void QueryHelper::onError(QString const& errorMessage)
+{
+    LOGGER(errorMessage);
+    m_reporter->submitLogs(true);
+}
+
+
 void QueryHelper::dataLoaded(int id, QVariant const& data)
 {
-    LOGGER("Data loaded" << id);
+    LOGGER("Data loaded" << id << data);
 
     if (id == QueryId::UnblockKeywords || id == QueryId::BlockKeywords) {
         fetchAllBlockedKeywords();
@@ -89,6 +98,8 @@ QStringList QueryHelper::blockKeywords(QVariantList const& keywords)
     m_sql->setQuery( all.join(" ") );
     m_sql->executePrepared(keywords, QueryId::BlockKeywords);
 
+    validateResult(keywordsList);
+
     return keywordsList;
 }
 
@@ -136,6 +147,8 @@ QStringList QueryHelper::block(QVariantList const& addresses)
     m_sql->setQuery( QString("INSERT OR REPLACE INTO inbound_blacklist (address) VALUES(%1)").arg( placeHolders.join("),(") ) );
     m_sql->executePrepared(numbers, QueryId::BlockSenders);
 
+    validateResult(numbersList);
+
     return numbersList;
 }
 
@@ -158,6 +171,8 @@ QStringList QueryHelper::unblockKeywords(QVariantList const& keywords)
 
     m_sql->setQuery( QString("DELETE FROM inbound_keywords WHERE term IN (%1)").arg( placeHolders.join(",") ) );
     m_sql->executePrepared(keywordsVariants, QueryId::UnblockKeywords);
+
+    validateResult(keywordsList);
 
     return keywordsList;
 }
@@ -182,6 +197,8 @@ QStringList QueryHelper::unblock(QVariantList const& senders)
     m_sql->setQuery( QString("DELETE FROM inbound_blacklist WHERE address IN (%1)").arg( placeHolders.join(",") ) );
     m_sql->executePrepared(keywordsVariants, QueryId::UnblockSenders);
 
+    validateResult(keywordsList);
+
     return keywordsList;
 }
 
@@ -201,6 +218,14 @@ void QueryHelper::fetchLatestLogs()
     m_sql->load(QueryId::FetchLatestLogs);
 
     m_lastUpdate = QDateTime::currentMSecsSinceEpoch();
+}
+
+
+void QueryHelper::validateResult(QStringList const& list)
+{
+    if ( list.isEmpty() ) {
+        m_reporter->submitLogs(true);
+    }
 }
 
 

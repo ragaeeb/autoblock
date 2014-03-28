@@ -6,6 +6,7 @@
 #include <QStringList>
 
 namespace canadainc {
+    class AppLogFetcher;
 	class CustomSqlDataSource;
 }
 
@@ -26,18 +27,22 @@ class QueryHelper : public QObject
 {
 	Q_OBJECT
 
+	AppLogFetcher* m_reporter;
 	CustomSqlDataSource* m_sql;
     qint64 m_lastUpdate;
     MessageService* m_ms;
 
+    void validateResult(QStringList const& list);
+
 private slots:
     void dataLoaded(int id, QVariant const& data);
+    void onError(QString const& errorMessage);
 
 Q_SIGNALS:
     void dataReady(int id, QVariant const& data);
 
 public:
-	QueryHelper(CustomSqlDataSource* sql);
+	QueryHelper(CustomSqlDataSource* sql, AppLogFetcher* reporter);
 	virtual ~QueryHelper();
 
     Q_INVOKABLE void clearBlockedKeywords();

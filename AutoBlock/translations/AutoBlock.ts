@@ -561,13 +561,46 @@ Check back in a few days.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="184"/>
+        <location filename="../src/AutoBlock.cpp" line="185"/>
         <source>Warning: It seems like the app does not have access to your Email/SMS messages Folder. This permission is needed for the app to access the SMS and email services it needs to do the filtering of the spam messages. If you leave this permission off, some features may not work properly. Select OK to launch the Application Permissions screen where you can turn these settings on.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="269"/>
+        <location filename="../src/AutoBlock.cpp" line="270"/>
         <source>Error initializing link with service. Please restart your device...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>canadainc::AppLogFetcher</name>
+    <message>
+        <location filename="../src/AppLogFetcher.cpp" line="51"/>
+        <source>Collecting logs...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/AppLogFetcher.cpp" line="56"/>
+        <source>Generating...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/AppLogFetcher.cpp" line="105"/>
+        <source>Submitting...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/AppLogFetcher.cpp" line="112"/>
+        <source>Could not submit logs! Please try again...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/AppLogFetcher.cpp" line="115"/>
+        <source>Logs have been submitted. Please provide the support team the following ID: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/AppLogFetcher.cpp" line="123"/>
+        <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

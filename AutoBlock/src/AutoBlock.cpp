@@ -18,7 +18,7 @@ using namespace bb::cascades;
 using namespace canadainc;
 
 AutoBlock::AutoBlock(Application* app) :
-        QObject(app), m_cover("Cover.qml"), m_helper(&m_sql), m_importer(NULL)
+        QObject(app), m_cover("Cover.qml"), m_helper(&m_sql, &m_reporter), m_importer(NULL)
 {
     switch ( m_invokeManager.startupMode() )
     {
@@ -142,6 +142,7 @@ QObject* AutoBlock::initRoot(QString const& qmlSource, bool invoked)
     qml->setContextProperty("helper", &m_helper);
     qml->setContextProperty("persist", &m_persistance);
     qml->setContextProperty("updater", &m_update);
+    qml->setContextProperty("reporter", &m_reporter);
 
     AbstractPane* root = qml->createRootObject<AbstractPane>();
     Application::instance()->setScene(root);

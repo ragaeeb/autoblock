@@ -1,7 +1,6 @@
 #include "precompiled.h"
 
 #include "service.hpp"
-#include "Logger.h"
 
 using namespace bb;
 using namespace autoblock;
@@ -22,17 +21,13 @@ void redirectedMessageOutput(QtMsgType type, const char *msg)
 
 Q_DECL_EXPORT int main(int argc, char **argv)
 {
+	Application app(argc, argv);
+
 #if !defined(QT_NO_DEBUG)
-	f = fopen("/var/tmp/autoblock.txt", "w");
-	qInstallMsgHandler(redirectedMessageOutput);
+    f = fopen( QString( QDir::currentPath()+"/logs/service.log").toUtf8().constData(), "w");
+    qInstallMsgHandler(redirectedMessageOutput);
 #endif
 
-	LOGGER("Started");
-
-	Application app(argc, argv);
 	new Service(&app);
-
-	LOGGER("Executing event loop");
-
 	return Application::exec();
 }

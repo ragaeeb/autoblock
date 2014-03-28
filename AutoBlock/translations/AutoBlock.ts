@@ -40,11 +40,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="103"/>
-        <source>Invalid keyword entered (must be between 4-10 characters).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../assets/BlockedKeywordPane.qml" line="106"/>
         <source>The keyword cannot contain any spaces!</source>
         <translation type="unfinished"></translation>
@@ -92,6 +87,11 @@
     <message>
         <location filename="../assets/BlockedKeywordPane.qml" line="172"/>
         <source>The following keywords were unblocked: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/BlockedKeywordPane.qml" line="103"/>
+        <source>Invalid keyword entered (must be between 4-20 characters).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -574,32 +574,32 @@ Check back in a few days.</source>
 <context>
     <name>canadainc::AppLogFetcher</name>
     <message>
-        <location filename="../src/AppLogFetcher.cpp" line="51"/>
+        <location filename="../src/AppLogFetcher.cpp" line="50"/>
         <source>Collecting logs...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AppLogFetcher.cpp" line="56"/>
+        <location filename="../src/AppLogFetcher.cpp" line="55"/>
         <source>Generating...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AppLogFetcher.cpp" line="105"/>
+        <location filename="../src/AppLogFetcher.cpp" line="104"/>
         <source>Submitting...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AppLogFetcher.cpp" line="112"/>
+        <location filename="../src/AppLogFetcher.cpp" line="111"/>
         <source>Could not submit logs! Please try again...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AppLogFetcher.cpp" line="115"/>
+        <location filename="../src/AppLogFetcher.cpp" line="114"/>
         <source>Logs have been submitted. Please provide the support team the following ID: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AppLogFetcher.cpp" line="123"/>
+        <location filename="../src/AppLogFetcher.cpp" line="122"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>

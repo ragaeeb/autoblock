@@ -137,9 +137,12 @@ QStringList QueryHelper::block(QVariantList const& addresses)
             placeHolders << placeHolder;
         }
 
-        qint64 aid = current.value("aid").toLongLong();
-        m_ms->remove( aid, current.value("id").toLongLong() );
-        m_ms->remove( aid, current.value("cid").toString() );
+        if ( current.contains("aid") )
+        {
+            qint64 aid = current.value("aid").toLongLong();
+            m_ms->remove( aid, current.value("id").toLongLong() );
+            m_ms->remove( aid, current.value("cid").toString() );
+        }
     }
 
     LOGGER(">>> NUMBERs" << numbers << placeHolders );

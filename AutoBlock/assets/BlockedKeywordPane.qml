@@ -100,7 +100,7 @@ NavigationPane
                                         var keywordsList = helper.blockKeywords([value]);
                                         persist.showToast( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "", "asset:///images/menu/ic_add_spammer.png" );
                                     } else {
-                                        persist.showToast( qsTr("Invalid keyword entered (must be between 4-10 characters)."), "", "asset:///images/ic_block.png" );
+                                        persist.showToast( qsTr("Invalid keyword entered (must be between 4-20 characters)."), "", "asset:///images/ic_block.png" );
                                     }
                                 } else {
                                     persist.showToast( qsTr("The keyword cannot contain any spaces!"), "", "asset:///images/ic_block.png" );

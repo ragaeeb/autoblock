@@ -37,7 +37,6 @@ ActionItem
     
     function onUpdatesAvailable(addresses)
     {
-        console.log("ON UPDATES AVAILALBE");
         enabled = true;
         
         if (progress) {

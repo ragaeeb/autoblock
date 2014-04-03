@@ -73,7 +73,7 @@ void Service::dataLoaded(int id, QVariant const& data)
     if (id == QueryId::LookupSender) {
         LOGGER("LookupSender");
         processSenders( data.toList() );
-    } else if (QueryId::LookupKeyword) {
+    } else if (id == QueryId::LookupKeyword) {
         LOGGER("LookupKeyword");
         processKeywords( data.toList() );
     }
@@ -199,17 +199,21 @@ void Service::settingChanged(QString const& path)
 	m_threshold = q.value("keywordThreshold").toInt();
 	m_whitelistContacts = q.value("whitelistContacts").toInt() == 1;
 
+	if ( q.contains("stopLogging") ) {
+	    q.remove("stopLogging");
+	    deregisterLogging();
+	} else if ( q.contains("startLogging") ) {
+	    q.remove("startLogging");
+	    registerLogging("service.log");
+	}
+
 	LOGGER("sound: " << m_sound << "threshold" << m_threshold << "whitelist" << m_whitelistContacts);
 }
 
 
 void Service::handleInvoke(const bb::system::InvokeRequest & request)
 {
-	LOGGER("Invoekd" << request.action() );
-
-	if ( request.action().compare("com.canadainc.AutoBlockService.KILL") == 0 ) {
-	    bb::Application::instance()->quit();
-	}
+	LOGGER("Invoked" << request.action() );
 }
 
 

@@ -574,32 +574,32 @@ Check back in a few days.</source>
 <context>
     <name>canadainc::AppLogFetcher</name>
     <message>
-        <location filename="../src/AppLogFetcher.cpp" line="50"/>
+        <location filename="../src/AppLogFetcher.cpp" line="51"/>
         <source>Collecting logs...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AppLogFetcher.cpp" line="55"/>
+        <location filename="../src/AppLogFetcher.cpp" line="56"/>
         <source>Generating...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AppLogFetcher.cpp" line="104"/>
+        <location filename="../src/AppLogFetcher.cpp" line="128"/>
         <source>Submitting...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AppLogFetcher.cpp" line="111"/>
+        <location filename="../src/AppLogFetcher.cpp" line="135"/>
         <source>Could not submit logs! Please try again...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AppLogFetcher.cpp" line="114"/>
+        <location filename="../src/AppLogFetcher.cpp" line="138"/>
         <source>Logs have been submitted. Please provide the support team the following ID: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AppLogFetcher.cpp" line="122"/>
+        <location filename="../src/AppLogFetcher.cpp" line="146"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
@@ -607,42 +607,42 @@ Check back in a few days.</source>
 <context>
     <name>main</name>
     <message>
-        <location filename="../assets/main.qml" line="44"/>
+        <location filename="../assets/main.qml" line="45"/>
         <source>Blocked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="45"/>
+        <location filename="../assets/main.qml" line="46"/>
         <source>Blocked List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="68"/>
+        <location filename="../assets/main.qml" line="69"/>
         <source>Conversations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="69"/>
+        <location filename="../assets/main.qml" line="70"/>
         <source>Potential Spam Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="80"/>
+        <location filename="../assets/main.qml" line="81"/>
         <source>Keywords</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="81"/>
+        <location filename="../assets/main.qml" line="82"/>
         <source>Blacklisted Keywords</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="19"/>
+        <location filename="../assets/main.qml" line="20"/>
         <source>Logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="20"/>
+        <location filename="../assets/main.qml" line="21"/>
         <source>Blocked Messages</source>
         <translation type="unfinished"></translation>
     </message>

@@ -10,7 +10,7 @@ Q_DECL_EXPORT int main(int argc, char **argv)
 {
     Application app(argc, argv);
 
-    registerLogging();
+    registerLogging("ui.log");
 
     AutoBlock::create(&app);
     return Application::exec();

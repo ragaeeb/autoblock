@@ -7,7 +7,8 @@ TabbedPane
     activeTab: logTab
     showTabsOnActionBar: true
     
-    Menu.definition: CanadaIncMenu {
+    Menu.definition: CanadaIncMenu
+    {
         projectName: "autoblock"
         bbWorldID: "25793872"
         promoteChannel: true

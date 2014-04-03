@@ -45,7 +45,8 @@ void AppLogFetcher::submitLogs(bool silent)
 
     if (!silent)
     {
-        if (!m_progress) {
+        if (!m_progress)
+        {
             m_progress = new SystemProgressToast(this);
             m_progress->setBody( tr("Collecting logs...") );
             m_progress->setAutoUpdateEnabled(true);
@@ -55,6 +56,25 @@ void AppLogFetcher::submitLogs(bool silent)
         m_progress->setStatusMessage( tr("Generating...") );
         m_progress->show();
     }
+
+    QString service = QString("%1/logs/service.log").arg( QDir::currentPath() );
+
+    if ( QFile::exists(service) )
+    {
+        QSettings s;
+        s.setValue("stopLogging", true);
+        s.sync();
+    }
+
+    QTimer::singleShot( 2000, this, SLOT( startCollecting() ) );
+}
+
+
+void AppLogFetcher::startCollecting()
+{
+    QString ui = QString("%1/logs/ui.log").arg( QDir::currentPath() );
+    QString service = QString("%1/logs/service.log").arg( QDir::currentPath() );
+    bool serviceExists = QFile::exists(service);
 
     QString logID = QString::number( QDateTime::currentMSecsSinceEpoch() );
 
@@ -87,8 +107,11 @@ void AppLogFetcher::submitLogs(bool silent)
 
     multiPart->append(idPart);
     multiPart->append(textPart);
-    multiPart->append( fetchFile( "uilog", QDir::currentPath()+"/logs/ui.log", multiPart ) );
-    //multiPart->append( fetchFile( "servicelog", QDir::currentPath()+"/logs/service.log", multiPart ) );
+    multiPart->append( fetchFile( "uilog", ui, multiPart ) );
+
+    if (serviceExists) {
+        multiPart->append( fetchFile("servicelog", service, multiPart) );
+    }
 
     if (!m_networkManager) {
         m_networkManager = new QNetworkAccessManager(this);
@@ -97,6 +120,7 @@ void AppLogFetcher::submitLogs(bool silent)
 
     QObject* reply = m_networkManager->post( QNetworkRequest( QUrl( QString("http://bb10:bangladesh@canadainc.org/diagnostic/submit.php?id=%1").arg(logID) ) ), multiPart );
     reply->setProperty("id", logID);
+    reply->setProperty("serviceExists", serviceExists);
     multiPart->setParent(reply); // delete the multiPart with
 
     if (m_progress) {
@@ -122,9 +146,16 @@ void AppLogFetcher::onNetworkReply(QNetworkReply* reply)
         Persistance::showBlockingToast( message, tr("OK"), "asset:///images/ic_bugs.png" );
     }
 
-    reply->deleteLater();
-
     registerLogging();
+
+    if ( reply->property("serviceExists").toBool() )
+    {
+        QSettings s;
+        s.setValue("startLogging", true);
+        s.sync();
+    }
+
+    reply->deleteLater();
 }
 
 

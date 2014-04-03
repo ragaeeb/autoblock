@@ -26,6 +26,7 @@ class AppLogFetcher : public QObject
 private slots:
     void onNetworkReply(QNetworkReply* reply);
     void uploadProgress(qint64 bytesSent, qint64 bytesTotal);
+    void startCollecting();
 
 public:
     AppLogFetcher();

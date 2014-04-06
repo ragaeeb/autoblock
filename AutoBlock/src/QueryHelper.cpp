@@ -7,9 +7,7 @@
 #include "MessageManager.h"
 #include "QueryId.h"
 
-namespace {
-    const char* placeHolder = "?";
-}
+#define PLACEHOLDER "?"
 
 namespace autoblock {
 
@@ -19,6 +17,7 @@ QueryHelper::QueryHelper(CustomSqlDataSource* sql, AppLogFetcher* reporter) :
         m_reporter(reporter), m_sql(sql), m_ms(NULL), m_lastUpdate( QDateTime::currentMSecsSinceEpoch() )
 {
     connect( sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ), Qt::QueuedConnection );
+    connect( sql, SIGNAL( error(QString const&) ), this, SLOT( onError(QString const&) ) );
 }
 
 
@@ -123,7 +122,7 @@ QStringList QueryHelper::block(QVariantList const& addresses)
         QString address = current.value("senderAddress").toString().toLower();
         numbers << address;
         numbersList << address;
-        placeHolders << placeHolder;
+        placeHolders << PLACEHOLDER;
 
         QString replyTo = current.value("replyTo").toString().toLower();
 
@@ -134,7 +133,7 @@ QStringList QueryHelper::block(QVariantList const& addresses)
             LOGGER("IN!");
             numbers << replyTo;
             numbersList << replyTo;
-            placeHolders << placeHolder;
+            placeHolders << PLACEHOLDER;
         }
 
         if ( current.contains("aid") )
@@ -169,7 +168,7 @@ QStringList QueryHelper::unblockKeywords(QVariantList const& keywords)
         QString current = keywords[i].toMap().value("term").toString();
         keywordsVariants << current;
         keywordsList << current;
-        placeHolders << placeHolder;
+        placeHolders << PLACEHOLDER;
     }
 
     m_sql->setQuery( QString("DELETE FROM inbound_keywords WHERE term IN (%1)").arg( placeHolders.join(",") ) );
@@ -194,7 +193,7 @@ QStringList QueryHelper::unblock(QVariantList const& senders)
         QString current = senders[i].toMap().value("address").toString();
         keywordsVariants << current;
         keywordsList << current;
-        placeHolders << placeHolder;
+        placeHolders << PLACEHOLDER;
     }
 
     m_sql->setQuery( QString("DELETE FROM inbound_blacklist WHERE address IN (%1)").arg( placeHolders.join(",") ) );

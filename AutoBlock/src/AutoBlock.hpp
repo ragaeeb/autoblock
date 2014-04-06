@@ -36,12 +36,12 @@ class AutoBlock : public QObject
     LazySceneCover m_cover;
     CustomSqlDataSource m_sql;
     Persistance m_persistance;
+    AppLogFetcher m_reporter;
     QueryHelper m_helper;
     bb::system::InvokeManager m_invokeManager;
     QFileSystemWatcher m_updateWatcher;
     MessageImporter* m_importer;
     UpdateManager m_update;
-    AppLogFetcher m_reporter;
 
     AutoBlock(Application *app);
     void finishWithToast(QString const& message);

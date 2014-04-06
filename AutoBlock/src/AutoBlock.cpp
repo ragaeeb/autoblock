@@ -18,7 +18,7 @@ using namespace bb::cascades;
 using namespace canadainc;
 
 AutoBlock::AutoBlock(Application* app) :
-        QObject(app), m_cover("Cover.qml"), m_helper(&m_sql, &m_reporter), m_importer(NULL)
+        QObject(app), m_cover("Cover.qml"), m_reporter("autoblock"), m_helper(&m_sql, &m_reporter), m_importer(NULL)
 {
     switch ( m_invokeManager.startupMode() )
     {

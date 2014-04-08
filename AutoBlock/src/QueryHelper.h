@@ -1,9 +1,8 @@
 #ifndef QUERYHELPER_H_
 #define QUERYHELPER_H_
 
-#include <QDateTime>
-#include <QObject>
 #include <QStringList>
+#include <QFileSystemWatcher>
 
 namespace canadainc {
     class AppLogFetcher;
@@ -29,12 +28,15 @@ class QueryHelper : public QObject
 
 	AppLogFetcher* m_reporter;
 	CustomSqlDataSource* m_sql;
-    qint64 m_lastUpdate;
     MessageService* m_ms;
+    qint64 m_lastUpdate;
+    QFileSystemWatcher m_updateWatcher;
 
+    void recheck(int &count, const char* slotName);
     void validateResult(QStringList const& list);
 
 private slots:
+    void databaseUpdated(QString const& path);
     void dataLoaded(int id, QVariant const& data);
     void onError(QString const& errorMessage);
 
@@ -56,6 +58,7 @@ public:
     Q_INVOKABLE QStringList blockKeywords(QVariantList const& keywords);
     Q_INVOKABLE QStringList unblock(QVariantList const& senders);
     Q_INVOKABLE QStringList unblockKeywords(QVariantList const& keywords);
+    Q_SLOT void checkDatabase();
 };
 
 } /* namespace oct10 */

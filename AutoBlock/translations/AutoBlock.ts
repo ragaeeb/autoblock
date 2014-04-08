@@ -507,38 +507,38 @@ And to make it even easier for our users to discover more and more spammers, Aut
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="56"/>
+        <location filename="../assets/UpdateActionItem.qml" line="55"/>
         <source>There are no new known spammers available yet.
 Check back in a few days.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="70"/>
+        <location filename="../assets/UpdateActionItem.qml" line="69"/>
         <source>Reported Spammers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="71"/>
+        <location filename="../assets/UpdateActionItem.qml" line="70"/>
         <source>Which of the following reported spammers do you want to add to your blocked list?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="78"/>
+        <location filename="../assets/UpdateActionItem.qml" line="77"/>
         <source>Confirmation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="79"/>
+        <location filename="../assets/UpdateActionItem.qml" line="78"/>
         <source>The update may consume data. Make sure you are on an appropriate Wi-Fi connection or a good data plan. Would you like to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="80"/>
+        <location filename="../assets/UpdateActionItem.qml" line="79"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="81"/>
+        <location filename="../assets/UpdateActionItem.qml" line="80"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
@@ -546,103 +546,68 @@ Check back in a few days.</source>
 <context>
     <name>autoblock::AutoBlock</name>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="86"/>
+        <location filename="../src/AutoBlock.cpp" line="136"/>
         <source>The following keywords were added: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="113"/>
+        <location filename="../src/AutoBlock.cpp" line="165"/>
         <source>The following addresses were blocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="126"/>
+        <location filename="../src/AutoBlock.cpp" line="182"/>
         <source>Could not find any suspicious keywords in the message...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/AutoBlock.cpp" line="185"/>
-        <source>Warning: It seems like the app does not have access to your Email/SMS messages Folder. This permission is needed for the app to access the SMS and email services it needs to do the filtering of the spam messages. If you leave this permission off, some features may not work properly. Select OK to launch the Application Permissions screen where you can turn these settings on.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/AutoBlock.cpp" line="270"/>
-        <source>Error initializing link with service. Please restart your device...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>canadainc::AppLogFetcher</name>
+    <name>autoblock::QueryHelper</name>
     <message>
-        <location filename="../src/AppLogFetcher.cpp" line="51"/>
-        <source>Collecting logs...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/AppLogFetcher.cpp" line="56"/>
-        <source>Generating...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/AppLogFetcher.cpp" line="128"/>
-        <source>Submitting...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/AppLogFetcher.cpp" line="135"/>
-        <source>Could not submit logs! Please try again...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/AppLogFetcher.cpp" line="138"/>
-        <source>Logs have been submitted. Please provide the support team the following ID: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/AppLogFetcher.cpp" line="146"/>
-        <source>OK</source>
+        <location filename="../src/QueryHelper.cpp" line="267"/>
+        <source>Error initializing link with service. Please restart your device...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>main</name>
     <message>
-        <location filename="../assets/main.qml" line="45"/>
+        <location filename="../assets/main.qml" line="47"/>
         <source>Blocked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="46"/>
+        <location filename="../assets/main.qml" line="48"/>
         <source>Blocked List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="69"/>
+        <location filename="../assets/main.qml" line="71"/>
         <source>Conversations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="70"/>
+        <location filename="../assets/main.qml" line="72"/>
         <source>Potential Spam Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="81"/>
+        <location filename="../assets/main.qml" line="83"/>
         <source>Keywords</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="82"/>
+        <location filename="../assets/main.qml" line="84"/>
         <source>Blacklisted Keywords</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="20"/>
+        <location filename="../assets/main.qml" line="22"/>
         <source>Logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="21"/>
+        <location filename="../assets/main.qml" line="23"/>
         <source>Blocked Messages</source>
         <translation type="unfinished"></translation>
     </message>

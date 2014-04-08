@@ -1,8 +1,6 @@
 #ifndef AutoBlock_HPP_
 #define AutoBlock_HPP_
 
-#include <QFileSystemWatcher>
-
 #include <bb/system/CardDoneMessage>
 #include <bb/system/InvokeManager>
 
@@ -39,7 +37,6 @@ class AutoBlock : public QObject
     AppLogFetcher m_reporter;
     QueryHelper m_helper;
     bb::system::InvokeManager m_invokeManager;
-    QFileSystemWatcher m_updateWatcher;
     MessageImporter* m_importer;
     UpdateManager m_update;
 
@@ -47,13 +44,9 @@ class AutoBlock : public QObject
     void finishWithToast(QString const& message);
     QObject* initRoot(QString const& qml="main.qml", bool invoked=false);
     void parseKeywords(QVariantList const& toProcess);
-    void portClassic();
-    void recheck(int &count, const char* slotName);
 
 private slots:
-    void checkDatabase();
     void childCardDone(bb::system::CardDoneMessage const& message=bb::system::CardDoneMessage());
-	void databaseUpdated(QString const& path);
 	void init();
 	void invoked(bb::system::InvokeRequest const& request);
     void messageFetched(QVariantMap const& result);

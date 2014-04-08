@@ -5,6 +5,7 @@
 #include "BlockUtils.h"
 #include "InvocationUtils.h"
 #include "IOUtils.h"
+#include "JlCompress.h"
 #include "KeywordParserThread.h"
 #include "LocaleUtil.h"
 #include "Logger.h"
@@ -12,13 +13,62 @@
 #include "MessageImporter.h"
 #include "QueryId.h"
 
+namespace {
+
+using namespace canadainc;
+
+class AutoBlockCollector : public LogCollector
+{
+public:
+    AutoBlockCollector() : LogCollector()
+    {
+    }
+
+    QString appName() const {
+        return "autoblock";
+    }
+
+    QByteArray compressFiles()
+    {
+        LOGGER("Compress files");
+        AppLogFetcher::dumpDeviceInfo();
+
+        QStringList files;
+        files << DEVICE_INFO_LOG;
+        files << autoblock::BlockUtils::databasePath();
+        files << SERVICE_LOG_FILE;
+        files << UI_LOG_FILE;
+
+        for (int i = files.size()-1; i >= 0; i--)
+        {
+            if ( !QFile::exists(files[i]) ) {
+                files.removeAt(i);
+            }
+        }
+
+        JlCompress::compressFiles(ZIP_FILE_PATH, files);
+
+        QFile f(ZIP_FILE_PATH);
+        f.open(QIODevice::ReadOnly);
+
+        QByteArray qba = f.readAll();
+        f.close();
+
+        return qba;
+    }
+
+    ~AutoBlockCollector() {}
+};
+
+}
+
 namespace autoblock {
 
 using namespace bb::cascades;
 using namespace canadainc;
 
 AutoBlock::AutoBlock(Application* app) :
-        QObject(app), m_cover("Cover.qml"), m_reporter("autoblock"), m_helper(&m_sql, &m_reporter), m_importer(NULL)
+        QObject(app), m_cover("Cover.qml"), m_reporter( new AutoBlockCollector() ), m_helper(&m_sql, &m_reporter), m_importer(NULL)
 {
     switch ( m_invokeManager.startupMode() )
     {
@@ -42,7 +92,7 @@ void AutoBlock::invoked(bb::system::InvokeRequest const& request)
     if ( request.target().compare("com.canadainc.AutoBlock.reply", Qt::CaseInsensitive) == 0 )
     {
         QStringList tokens = request.uri().toString().split(":");
-        LOGGER("========= INVOKED DATA" << tokens);
+        LOGGER("INVOKED DATA" << tokens);
 
         if ( tokens.size() > 3 )
         {
@@ -96,6 +146,8 @@ void AutoBlock::finishWithToast(QString const& message)
 
 void AutoBlock::parseKeywords(QVariantList const& toProcess)
 {
+    LOGGER(toProcess);
+
     KeywordParserThread* ai = new KeywordParserThread(toProcess);
     connect( ai, SIGNAL( keywordsExtracted(QStringList const&) ), this, SLOT( onKeywordsExtracted(QStringList const&) ) );
     IOUtils::startThread(ai);
@@ -104,7 +156,7 @@ void AutoBlock::parseKeywords(QVariantList const& toProcess)
 
 void AutoBlock::messageFetched(QVariantMap const& result)
 {
-    LOGGER("Message fetched" << result);
+    LOGGER(result);
 
     QVariantList toProcess;
     toProcess << result;
@@ -112,12 +164,16 @@ void AutoBlock::messageFetched(QVariantMap const& result)
     QStringList added = m_helper.block(toProcess);
     m_persistance.showToast( tr("The following addresses were blocked: %1").arg( added.join(", ") ), "", "asset:///images/ic_blocked_user.png" );
 
+    m_reporter.submitLogs(true);
+
     parseKeywords(toProcess);
 }
 
 
 void AutoBlock::onKeywordsExtracted(QStringList const& keywords)
 {
+    LOGGER(keywords);
+
     if ( !keywords.isEmpty() )
     {
         NavigationPane* root = static_cast<NavigationPane*>( Application::instance()->scene() );
@@ -135,7 +191,7 @@ QObject* AutoBlock::initRoot(QString const& qmlSource, bool invoked)
     qmlRegisterType<canadainc::LocaleUtil>("com.canadainc.data", 1, 0, "LocaleUtil");
     qmlRegisterUncreatableType<QueryId>("com.canadainc.data", 1, 0, "QueryId", "Can't instantiate");
 
-    checkDatabase();
+    m_helper.checkDatabase();
 
     QmlDocument* qml = QmlDocument::create("asset:///"+qmlSource).parent(this);
     qml->setContextProperty("app", this);
@@ -207,77 +263,6 @@ void AutoBlock::settingChanged(QString const& key)
 		LOGGER("Accounts elected changed");
 		emit accountSelectedChanged();
 	}
-}
-
-
-void AutoBlock::checkDatabase()
-{
-	QString database = BlockUtils::databasePath();
-
-	if ( QFile::exists(database) )
-	{
-	    m_sql.setSource(database);
-
-		connect( &m_updateWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( databaseUpdated(QString const&) ) );
-		m_updateWatcher.addPath(database);
-
-		portClassic();
-	} else {
-		LOGGER("Database does not exist");
-		static int count = 0;
-		recheck( count, SLOT( checkDatabase() ) );
-	}
-}
-
-
-void AutoBlock::portClassic()
-{
-    if ( m_persistance.contains("blockedList") )
-    {
-        QVariantMap map = m_persistance.getValueFor("blockedList").toMap();
-        QStringList accounts = map.keys();
-        QVariantList toBlock;
-
-        for (int i = accounts.size()-1; i >= 0; i--)
-        {
-            QVariantList addresses = map.value(accounts[i]).toList();
-
-            for (int j = addresses.size()-1; j >= 0; j--)
-            {
-                QVariantMap q;
-                q["senderAddress"] = addresses[j];
-
-                toBlock << q;
-            }
-        }
-
-        m_helper.block(toBlock);
-        m_persistance.remove("blockedList");
-    }
-}
-
-
-void AutoBlock::recheck(int &count, const char* slotName)
-{
-	LOGGER("Database does not exist");
-	++count;
-
-	if (count < 5) {
-		LOGGER("Retrying" << count);
-		QTimer::singleShot(2000*count, this, slotName);
-	} else {
-		LOGGER("Can't connect...");
-		m_persistance.showToast( tr("Error initializing link with service. Please restart your device..."), "", "asset:///images/title_text.png" );
-	}
-}
-
-
-void AutoBlock::databaseUpdated(QString const& path)
-{
-	Q_UNUSED(path);
-
-	LOGGER("Database updated!");
-	m_helper.fetchLatestLogs();
 }
 
 

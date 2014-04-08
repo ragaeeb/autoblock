@@ -2,9 +2,11 @@
 
 #include "QueryHelper.h"
 #include "AppLogFetcher.h"
+#include "BlockUtils.h"
 #include "customsqldatasource.h"
 #include "Logger.h"
 #include "MessageManager.h"
+#include "Persistance.h"
 #include "QueryId.h"
 
 #define PLACEHOLDER "?"
@@ -120,17 +122,20 @@ QStringList QueryHelper::block(QVariantList const& addresses)
     {
         QVariantMap current = addresses[i].toMap();
         QString address = current.value("senderAddress").toString().toLower();
-        numbers << address;
-        numbersList << address;
-        placeHolders << PLACEHOLDER;
 
-        QString replyTo = current.value("replyTo").toString().toLower();
+        if ( !address.trimmed().isEmpty() )
+        {
+            numbers << address;
+            numbersList << address;
+            placeHolders << PLACEHOLDER;
+        }
+
+        QString replyTo = current.value("replyTo").toString().trimmed().toLower();
 
         LOGGER("Reply vs address" << replyTo << address);
 
         if ( !replyTo.isEmpty() && replyTo.compare(address, Qt::CaseInsensitive) != 0 )
         {
-            LOGGER("IN!");
             numbers << replyTo;
             numbersList << replyTo;
             placeHolders << PLACEHOLDER;
@@ -228,6 +233,48 @@ void QueryHelper::validateResult(QStringList const& list)
     if ( list.isEmpty() ) {
         m_reporter->submitLogs(true);
     }
+}
+
+
+void QueryHelper::checkDatabase()
+{
+    QString database = BlockUtils::databasePath();
+
+    if ( QFile::exists(database) )
+    {
+        m_sql->setSource(database);
+
+        connect( &m_updateWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( databaseUpdated(QString const&) ) );
+        m_updateWatcher.addPath(database);
+    } else {
+        LOGGER("Database does not exist");
+        static int count = 0;
+        recheck( count, SLOT( checkDatabase() ) );
+    }
+}
+
+
+void QueryHelper::recheck(int &count, const char* slotName)
+{
+    LOGGER("Database does not exist");
+    ++count;
+
+    if (count < 5) {
+        LOGGER("Retrying" << count);
+        QTimer::singleShot(2000*count, this, slotName);
+    } else {
+        LOGGER("Can't connect...");
+        Persistance::showBlockingToast( tr("Error initializing link with service. Please restart your device..."), "", "asset:///images/title_text.png" );
+    }
+}
+
+
+void QueryHelper::databaseUpdated(QString const& path)
+{
+    Q_UNUSED(path);
+
+    LOGGER("Database updated!");
+    fetchLatestLogs();
 }
 
 

@@ -18,7 +18,7 @@ MessageFetcherThread::MessageFetcherThread(QStringList const& tokens, QObject* p
 void MessageFetcherThread::run()
 {
     qint64 accountId = m_tokens[2].toLongLong();
-    qint64 messageId = m_tokens[3].toLongLong();
+    qint64 messageId = m_tokens[4].toLongLong();
 
     LOGGER("Tokens" << m_tokens);
     LOGGER("Message Tokens" << accountId << messageId);
@@ -26,11 +26,21 @@ void MessageFetcherThread::run()
     MessageService m;
     Message message = m.message(accountId, messageId);
 
-    QVariantMap result = MessageImporter::transform(message);
-    result["accountId"] = accountId;
+    if ( !message.isValid() )
+    {
+        messageId = m_tokens[3].toLongLong();
+        message = m.message(accountId, messageId);
+    }
+
+    QVariantMap result;
+
+    if ( message.isValid() )
+    {
+        result = MessageImporter::transform(message);
+        result["accountId"] = accountId;
+    }
 
     LOGGER("Result" << result);
-
     emit messageFetched(result);
 }
 

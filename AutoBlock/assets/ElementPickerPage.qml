@@ -59,18 +59,6 @@ Page
             onTriggered: {
                 listView.selectAll();
             }
-        },
-        
-        ActionItem
-        {
-            id: submitLogs
-            title: qsTr("Collect Logs") + Retranslate.onLanguageChanged
-            imageSource: "images/ic_bugs.png"
-            
-            onTriggered: {
-                console.log("UserEvent: UiSubmitLogs");
-                reporter.submitLogs();
-            }
         }
     ]
     

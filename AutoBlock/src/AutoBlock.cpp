@@ -2,65 +2,16 @@
 
 #include "AutoBlock.hpp"
 #include "AccountImporter.h"
+#include "AutoBlockCollector.h"
 #include "BlockUtils.h"
 #include "InvocationUtils.h"
 #include "IOUtils.h"
-#include "JlCompress.h"
 #include "KeywordParserThread.h"
 #include "LocaleUtil.h"
 #include "Logger.h"
 #include "MessageFetcherThread.h"
 #include "MessageImporter.h"
 #include "QueryId.h"
-
-namespace {
-
-using namespace canadainc;
-
-class AutoBlockCollector : public LogCollector
-{
-public:
-    AutoBlockCollector() : LogCollector()
-    {
-    }
-
-    QString appName() const {
-        return "autoblock";
-    }
-
-    QByteArray compressFiles()
-    {
-        LOGGER("Compress files");
-        AppLogFetcher::dumpDeviceInfo();
-
-        QStringList files;
-        files << DEVICE_INFO_LOG;
-        files << autoblock::BlockUtils::databasePath();
-        files << SERVICE_LOG_FILE;
-        files << UI_LOG_FILE;
-
-        for (int i = files.size()-1; i >= 0; i--)
-        {
-            if ( !QFile::exists(files[i]) ) {
-                files.removeAt(i);
-            }
-        }
-
-        JlCompress::compressFiles(ZIP_FILE_PATH, files);
-
-        QFile f(ZIP_FILE_PATH);
-        f.open(QIODevice::ReadOnly);
-
-        QByteArray qba = f.readAll();
-        f.close();
-
-        return qba;
-    }
-
-    ~AutoBlockCollector() {}
-};
-
-}
 
 namespace autoblock {
 
@@ -73,11 +24,13 @@ AutoBlock::AutoBlock(Application* app) :
     switch ( m_invokeManager.startupMode() )
     {
     case ApplicationStartupMode::InvokeCard:
+        registerLogging(/*CARD_LOG_FILE*/);
         connect( &m_invokeManager, SIGNAL( invoked(bb::system::InvokeRequest const&) ), this, SLOT( invoked(bb::system::InvokeRequest const&) ) );
         connect( &m_invokeManager, SIGNAL( childCardDone(bb::system::CardDoneMessage const&) ), this, SLOT( childCardDone(bb::system::CardDoneMessage const&) ) );
         break;
 
     default:
+        registerLogging(/*UI_LOG_FILE*/);
         initRoot();
         break;
     }
@@ -158,15 +111,20 @@ void AutoBlock::messageFetched(QVariantMap const& result)
 {
     LOGGER(result);
 
-    QVariantList toProcess;
-    toProcess << result;
+    if ( !result.isEmpty() )
+    {
+        QVariantList toProcess;
+        toProcess << result;
 
-    QStringList added = m_helper.block(toProcess);
-    m_persistance.showToast( tr("The following addresses were blocked: %1").arg( added.join(", ") ), "", "asset:///images/ic_blocked_user.png" );
+        QStringList added = m_helper.block(toProcess);
+        m_persistance.showToast( tr("The following addresses were blocked: %1").arg( added.join(", ") ), "", "asset:///images/ic_blocked_user.png" );
 
-    m_reporter.submitLogs(true);
-
-    parseKeywords(toProcess);
+        parseKeywords(toProcess);
+    } else {
+        LOGGER("***** FAILED HUB BLOCK!");
+        m_persistance.showToast( tr("Could not block the sender, please try to do it from the app instead of the Hub."), "", "asset:///images/ic_pim_warning.png" );
+        m_reporter.submitLogs(true);
+    }
 }
 
 

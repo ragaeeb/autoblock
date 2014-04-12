@@ -135,7 +135,13 @@ NavigationPane
                     {
                         var numbersList = helper.block(toBlock);
                         toast.toBlock = toBlock;
-                        toast.body = qsTr("The following addresses were blocked: %1").arg( numbersList.join(", ") );
+                        
+                        if (numbersList.length > 0) {
+                            toast.body = qsTr("The following addresses were blocked: %1").arg( numbersList.join(", ") );
+                        } else {
+                            toast.body = qsTr("The senders could not be blocked. We suggest filing a bug-report.")
+                        }
+
                         toast.icon = "asset:///images/menu/ic_blocked_user.png";
                         rootContainer.touch.connect(toast.cancel);
                         
@@ -273,8 +279,12 @@ NavigationPane
     {
         var keywordsList = helper.blockKeywords(keywords);
         navigationPane.pop();
-
-        persist.showToast( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "", "asset:///images/ic_keywords.png" );
+        
+        if (keywordsList.length > 0) {
+            persist.showToast( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "", "asset:///images/ic_keywords.png" );
+        } else {
+            persist.showToast( qsTr("The keyword could not be blocked: %1").arg(value), "", "asset:///images/ic_block.png" );
+        }
     }
     
     function onKeywordsExtracted(keywords)

@@ -92,9 +92,13 @@ void AutoBlock::invoked(bb::system::InvokeRequest const& request)
 void AutoBlock::onKeywordsSelected(QVariant k)
 {
     QVariantList keywords = k.toList();
-
     QStringList keywordsList = m_helper.blockKeywords(keywords);
-    finishWithToast( tr("The following keywords were added: %1").arg( keywordsList.join(", ") ) );
+
+    if ( !keywordsList.isEmpty() ) {
+        finishWithToast( tr("The following keywords were added: %1").arg( keywordsList.join(", ") ) );
+    } else {
+        finishWithToast( tr("The keyword(s) could not be added.") );
+    }
 }
 
 
@@ -125,7 +129,12 @@ void AutoBlock::messageFetched(QVariantMap const& result)
         toProcess << result;
 
         QStringList added = m_helper.block(toProcess);
-        m_persistance.showToast( tr("The following addresses were blocked: %1").arg( added.join(", ") ), "", "asset:///images/ic_blocked_user.png" );
+
+        if ( !added.isEmpty() ) {
+            m_persistance.showToast( tr("The following addresses were blocked: %1").arg( added.join(", ") ), "", "asset:///images/ic_blocked_user.png" );
+        } else {
+            m_persistance.showToast( tr("The addresses could not be blocked."), "", "asset:///images/tabs/ic_blocked.png" );
+        }
 
         parseKeywords(toProcess);
     } else {
@@ -283,13 +292,6 @@ void AutoBlock::extractKeywords(QVariantList const& messages)
 
 void AutoBlock::childCardDone(bb::system::CardDoneMessage const& message) {
     m_invokeManager.sendCardDone(message);
-}
-
-
-QString AutoBlock::validateKeyword(QString const& keyword)
-{
-    LOGGER(keyword);
-    return BlockUtils::isValidKeyword(keyword);
 }
 
 

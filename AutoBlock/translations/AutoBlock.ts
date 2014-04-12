@@ -25,7 +25,7 @@
     </message>
     <message>
         <location filename="../assets/BlockedKeywordPane.qml" line="88"/>
-        <location filename="../assets/BlockedKeywordPane.qml" line="287"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="295"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
@@ -35,78 +35,88 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="101"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="107"/>
         <source>The following keywords were added: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="106"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="97"/>
         <source>The keyword cannot contain any spaces!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="116"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="100"/>
+        <source>The keyword must be between 4 to 20 characters in length (inclusive)!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/BlockedKeywordPane.qml" line="109"/>
+        <source>The keyword could not be blocked: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/BlockedKeywordPane.qml" line="119"/>
         <source>Clear All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="126"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="129"/>
         <source>Confirmation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="127"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="130"/>
         <source>Are you sure you want to clear all blocked keywords?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="128"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="131"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="129"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="132"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="135"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="138"/>
         <source>Cleared all blocked keywords!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="154"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="157"/>
         <source>You have no blocked keywords. Either input them after blocking existing messages, or tap here to add one.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="287"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="179"/>
+        <source>The following keywords could not be unblocked: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/BlockedKeywordPane.qml" line="295"/>
         <source>You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="172"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="177"/>
         <source>The following keywords were unblocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="103"/>
-        <source>Invalid keyword entered (must be between 4-20 characters).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="213"/>
-        <location filename="../assets/BlockedKeywordPane.qml" line="231"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="221"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="239"/>
         <source>Unblock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="248"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="256"/>
         <source>None selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../assets/BlockedKeywordPane.qml" line="254"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="262"/>
         <source>%n keywords to unblock</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -116,7 +126,7 @@
 <context>
     <name>BlockedSenderPane</name>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="101"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="107"/>
         <source>Unblock All</source>
         <translation type="unfinished"></translation>
     </message>
@@ -151,83 +161,93 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="69"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="72"/>
         <source>Successfully blocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="71"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="74"/>
+        <source>Could not block: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/BlockedSenderPane.qml" line="77"/>
         <source>Invalid address entered: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="81"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="87"/>
         <source>Block SMS Sender</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="92"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="98"/>
         <source>Enter the phone number to block:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="93"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="99"/>
         <source>Phone Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="111"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="117"/>
         <source>Confirmation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="112"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="118"/>
         <source>Are you sure you want to clear all blocked members?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="113"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="119"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="114"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="120"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="120"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="126"/>
         <source>Cleared all blocked senders!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="139"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="145"/>
         <source>You have no blocked senders. Either manually add phone numbers and email addresses to block from the overflow menu, or tap here to choose spam messages from your existing conversations.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="160"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="168"/>
         <source>The following addresses were unblocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="184"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="170"/>
+        <source>The following addresses could not be unblocked: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/BlockedSenderPane.qml" line="195"/>
         <source>Blocked!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="212"/>
-        <location filename="../assets/BlockedSenderPane.qml" line="230"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="223"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="241"/>
         <source>Unblock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="247"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="258"/>
         <source>None selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../assets/BlockedSenderPane.qml" line="253"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="264"/>
         <source>%n senders to unblock</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -247,62 +267,72 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="138"/>
+        <location filename="../assets/ConversationsPane.qml" line="140"/>
         <source>The following addresses were blocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="230"/>
+        <location filename="../assets/ConversationsPane.qml" line="142"/>
+        <source>The senders could not be blocked. We suggest filing a bug-report.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/ConversationsPane.qml" line="236"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="233"/>
+        <location filename="../assets/ConversationsPane.qml" line="239"/>
         <source>Tutorial</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="233"/>
+        <location filename="../assets/ConversationsPane.qml" line="239"/>
         <source>Would you like to see a video tutorial on how to use the app?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="233"/>
+        <location filename="../assets/ConversationsPane.qml" line="239"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="233"/>
+        <location filename="../assets/ConversationsPane.qml" line="239"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="257"/>
+        <location filename="../assets/ConversationsPane.qml" line="263"/>
         <source>Add Keywords</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="186"/>
+        <location filename="../assets/ConversationsPane.qml" line="192"/>
         <source>Block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="207"/>
+        <location filename="../assets/ConversationsPane.qml" line="213"/>
         <source>None selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="213"/>
+        <location filename="../assets/ConversationsPane.qml" line="219"/>
         <source>%1 conversations to mark as spam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="230"/>
+        <location filename="../assets/ConversationsPane.qml" line="236"/>
         <source>Which of the following are spam messages? Choose them and tap the Block action at the bottom and any messages from those senders will be blocked in the future!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="290"/>
+        <location filename="../assets/ConversationsPane.qml" line="286"/>
+        <source>The keyword could not be blocked: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/ConversationsPane.qml" line="300"/>
         <source>Could not find any suspicious keywords in the message...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -312,7 +342,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="277"/>
+        <location filename="../assets/ConversationsPane.qml" line="284"/>
         <source>The following keywords were added: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -438,12 +468,12 @@ And to make it even easier for our users to discover more and more spammers, Aut
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/LogPane.qml" line="56"/>
+        <location filename="../assets/LogPane.qml" line="57"/>
         <source>No spam messages detected yet.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/LogPane.qml" line="96"/>
+        <location filename="../assets/LogPane.qml" line="97"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
@@ -502,43 +532,48 @@ And to make it even easier for our users to discover more and more spammers, Aut
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="35"/>
+        <location filename="../assets/UpdateActionItem.qml" line="36"/>
         <source>The following keywords were added: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="55"/>
+        <location filename="../assets/UpdateActionItem.qml" line="38"/>
+        <source>The keywords could not be added: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/UpdateActionItem.qml" line="59"/>
         <source>There are no new known spammers available yet.
 Check back in a few days.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="69"/>
+        <location filename="../assets/UpdateActionItem.qml" line="73"/>
         <source>Reported Spammers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="70"/>
+        <location filename="../assets/UpdateActionItem.qml" line="74"/>
         <source>Which of the following reported spammers do you want to add to your blocked list?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="77"/>
+        <location filename="../assets/UpdateActionItem.qml" line="81"/>
         <source>Confirmation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="78"/>
+        <location filename="../assets/UpdateActionItem.qml" line="82"/>
         <source>The update may consume data. Make sure you are on an appropriate Wi-Fi connection or a good data plan. Would you like to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="79"/>
+        <location filename="../assets/UpdateActionItem.qml" line="83"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="80"/>
+        <location filename="../assets/UpdateActionItem.qml" line="84"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
@@ -546,27 +581,37 @@ Check back in a few days.</source>
 <context>
     <name>autoblock::AutoBlock</name>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="97"/>
+        <location filename="../src/AutoBlock.cpp" line="98"/>
         <source>The following keywords were added: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="128"/>
+        <location filename="../src/AutoBlock.cpp" line="100"/>
+        <source>The keyword(s) could not be added.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/AutoBlock.cpp" line="134"/>
         <source>The following addresses were blocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="133"/>
+        <location filename="../src/AutoBlock.cpp" line="136"/>
+        <source>The addresses could not be blocked.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/AutoBlock.cpp" line="142"/>
         <source>Could not block the sender, please try to do it from the app instead of the Hub.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="148"/>
+        <location filename="../src/AutoBlock.cpp" line="157"/>
         <source>Could not find any suspicious keywords in the message...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="207"/>
+        <location filename="../src/AutoBlock.cpp" line="216"/>
         <source>Warning: It seems like the app does not have access to your Email/SMS messages Folder. This permission is needed for the app to access the SMS and email services it needs to do the filtering of the spam messages. If you leave this permission off, some features may not work properly. Select OK to launch the Application Permissions screen where you can turn these settings on.</source>
         <translation type="unfinished"></translation>
     </message>

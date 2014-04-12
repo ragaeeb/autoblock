@@ -93,17 +93,20 @@ NavigationPane
                             {
                                 var value = addPrompt.inputFieldTextEntry().trim().toLowerCase();
                                 
-                                if ( value.indexOf(" ") == -1 ) {
-                                    value = app.validateKeyword(value);
-                                    
-                                    if (value.length > 0) {
-                                        var keywordsList = helper.blockKeywords([value]);
-                                        persist.showToast( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "", "asset:///images/menu/ic_add_spammer.png" );
-                                    } else {
-                                        persist.showToast( qsTr("Invalid keyword entered (must be between 4-20 characters)."), "", "asset:///images/ic_block.png" );
-                                    }
-                                } else {
+                                if ( value.indexOf(" ") >= 0 ) {
                                     persist.showToast( qsTr("The keyword cannot contain any spaces!"), "", "asset:///images/ic_block.png" );
+                                    return;
+                                } else if (value.length < 4 || value.length > 20) {
+                                    persist.showToast( qsTr("The keyword must be between 4 to 20 characters in length (inclusive)!"), "", "asset:///images/ic_block.png" );
+                                    return;
+                                }
+                                
+                                var keywordsList = helper.blockKeywords([value]);
+                                
+                                if (keywordsList.length > 0) {
+                                    persist.showToast( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "", "asset:///images/ic_keywords.png" );
+                                } else {
+                                    persist.showToast( qsTr("The keyword could not be blocked: %1").arg(value), "", "asset:///images/ic_block.png" );
                                 }
                             }
                         }
@@ -169,7 +172,12 @@ NavigationPane
                 function unblock(blocked)
                 {
                 	var keywordsList = helper.unblockKeywords(blocked);
-                    persist.showToast( qsTr("The following keywords were unblocked: %1").arg( keywordsList.join(", ") ), "", "asset:///images/menu/ic_unblock.png" );
+                	
+                	if (keywordsList.length > 0) {
+                        persist.showToast( qsTr("The following keywords were unblocked: %1").arg( keywordsList.join(", ") ), "", "asset:///images/menu/ic_unblock.png" );
+                	} else {
+                        persist.showToast( qsTr("The following keywords could not be unblocked: %1").arg( blocked.join(", ") ), "", "asset:///images/tabs/ic_blocked.png" );
+                	}
                 }
                 
                 multiSelectAction: MultiSelectActionItem {

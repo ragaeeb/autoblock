@@ -49,6 +49,7 @@ public:
 
     Q_INVOKABLE void clearBlockedKeywords();
     Q_INVOKABLE void clearBlockedSenders();
+    Q_INVOKABLE void cleanInvalidEntries();
     Q_INVOKABLE void clearLogs();
     Q_INVOKABLE void fetchAllBlockedKeywords();
     Q_INVOKABLE void fetchAllBlockedSenders();

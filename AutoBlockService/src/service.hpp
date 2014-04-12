@@ -10,12 +10,18 @@
 
 #include "customsqldatasource.h"
 
+#define SERVICE_LOG_PATH QString("%1/logs/service.log").arg( QDir::currentPath() )
+
 namespace bb {
 	class Application;
 
 	namespace multimedia {
 	    class SystemSound;
 	}
+}
+
+namespace canadainc {
+    class LogMonitor;
 }
 
 namespace autoblock {
@@ -38,6 +44,7 @@ class Service: public QObject
 	CustomSqlDataSource m_sql;
 	QQueue<Message> m_senderQueue;
 	QQueue<Message> m_keywordQueue;
+	LogMonitor* m_logMonitor;
 
 	void processSenders(QVariantList result);
 	void processKeywords(QVariantList result);

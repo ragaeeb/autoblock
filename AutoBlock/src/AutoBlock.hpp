@@ -18,6 +18,7 @@ namespace bb {
 }
 
 namespace canadainc {
+    class LogMonitor;
     class MessageImporter;
 }
 
@@ -39,6 +40,7 @@ class AutoBlock : public QObject
     bb::system::InvokeManager m_invokeManager;
     MessageImporter* m_importer;
     UpdateManager m_update;
+    LogMonitor* m_logMonitor;
 
     AutoBlock(Application *app);
     void finishWithToast(QString const& message);

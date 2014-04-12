@@ -1,9 +1,11 @@
 #include "precompiled.h"
 
 #include "service.hpp"
+#include "AppLogFetcher.h"
 #include "BlockUtils.h"
 #include "IOUtils.h"
 #include "Logger.h"
+#include "LogMonitor.h"
 #include "MessageManager.h"
 #include "PimUtil.h"
 #include "QueryId.h"
@@ -17,7 +19,7 @@ using namespace bb::platform;
 using namespace bb::system;
 using namespace canadainc;
 
-Service::Service(bb::Application * app)	:
+Service::Service(bb::Application* app)	:
         QObject(app), m_sound(false), m_whitelistContacts(true), m_threshold(3)
 {
 	QSettings s;
@@ -27,6 +29,8 @@ Service::Service(bb::Application * app)	:
 		s.setValue( "init", QDateTime::currentMSecsSinceEpoch() );
 		s.sync();
 	}
+
+    m_settingsWatcher.addPath( s.fileName() );
 
 	LOGGER("Constructed");
 
@@ -38,11 +42,10 @@ Service::Service(bb::Application * app)	:
 
 void Service::init()
 {
-    QSettings s;
-	m_settingsWatcher.addPath( s.fileName() );
+    m_logMonitor = new LogMonitor(SERVICE_KEY, SERVICE_LOG_FILE, this);
 
 	connect( &m_invokeManager, SIGNAL( invoked(const bb::system::InvokeRequest&) ), this, SLOT( handleInvoke(const bb::system::InvokeRequest&) ) );
-	connect( &m_settingsWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( settingChanged(QString const&) ) );
+	connect( &m_settingsWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( settingChanged(QString const&) ), Qt::QueuedConnection );
 	connect( &m_sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ) );
     connect( &m_manager, SIGNAL( messageAdded(bb::pim::account::AccountKey, bb::pim::message::ConversationKey, bb::pim::message::MessageKey) ), this, SLOT( messageAdded(bb::pim::account::AccountKey, bb::pim::message::ConversationKey, bb::pim::message::MessageKey) ) );
 
@@ -198,14 +201,6 @@ void Service::settingChanged(QString const& path)
 	m_sound = q.value("sound").toInt() == 1;
 	m_threshold = q.value("keywordThreshold").toInt();
 	m_whitelistContacts = q.value("whitelistContacts").toInt() == 1;
-
-	if ( q.contains("stopLogging") ) {
-	    q.remove("stopLogging");
-	    deregisterLogging();
-	} else if ( q.contains("startLogging") ) {
-	    q.remove("startLogging");
-	    registerLogging("service.log");
-	}
 
 	LOGGER("sound: " << m_sound << "threshold" << m_threshold << "whitelist" << m_whitelistContacts);
 }

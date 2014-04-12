@@ -26,6 +26,7 @@ QByteArray AutoBlockCollector::compressFiles()
     files << BlockUtils::databasePath();
     files << SERVICE_LOG_FILE;
     files << UI_LOG_FILE;
+    files << QSettings().fileName();
 
     for (int i = files.size()-1; i >= 0; i--)
     {

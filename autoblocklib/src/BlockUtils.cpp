@@ -11,11 +11,11 @@ QString BlockUtils::databasePath() {
 	return QString("%1/database.db").arg( QDir::homePath() );
 }
 
-QString BlockUtils::isValidKeyword(QString const& keyword)
+QString BlockUtils::isValidKeyword(QString const& current)
 {
-    static QRegExp regex = QRegExp( QString::fromUtf8("[\\d+-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\\\[\\\]\\\\]") );
+    /*static QRegExp regex = QRegExp( QString::fromUtf8("[\\d+-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\\\[\\\]\\\\]") );
 
-    QString current = keyword.trimmed().remove(regex);
+    QString current = keyword.trimmed().remove(regex); */
     int length = current.length();
 
     return length >= min_keyword_length && length <= max_keyword_length ? current : QString();

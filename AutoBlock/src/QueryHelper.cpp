@@ -5,7 +5,6 @@
 #include "BlockUtils.h"
 #include "customsqldatasource.h"
 #include "Logger.h"
-#include "MessageManager.h"
 #include "Persistance.h"
 #include "QueryId.h"
 

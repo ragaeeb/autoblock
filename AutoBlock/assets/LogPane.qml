@@ -50,7 +50,8 @@ NavigationPane
             background: ipd.imagePaint
             layout: DockLayout {}
             
-            EmptyDelegate {
+            EmptyDelegate
+            {
                 id: emptyDelegate
                 graphic: "images/empty/ic_empty_logs.png"
                 labelText: qsTr("No spam messages detected yet.") + Retranslate.onLanguageChanged
@@ -93,7 +94,7 @@ NavigationPane
                 
                 onTriggered: {
                     var data = dataModel.data(indexPath);
-                    persist.showToast( data.message.trim(), qsTr("OK"), "asset:///images/ic_blocked.png" );
+                    persist.showToast( data.message.trim(), qsTr("OK"), "asset:///images/tabs/ic_blocked.png" );
                 }
                 
                 dataModel: ArrayDataModel {

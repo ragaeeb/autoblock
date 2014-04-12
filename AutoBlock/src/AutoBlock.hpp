@@ -74,7 +74,6 @@ public:
     Q_INVOKABLE void loadAccounts();
     Q_INVOKABLE void loadMessages(qint64 accountId);
     Q_INVOKABLE void submit(QObject* gdm);
-    Q_INVOKABLE QString validateKeyword(QString const& keyword);
 };
 
 }

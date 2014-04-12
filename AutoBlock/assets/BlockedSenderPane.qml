@@ -63,10 +63,16 @@ NavigationPane
                                 var value = addPrompt.inputFieldTextEntry().trim();
                                 var valid = regex.test(value);
                                 
-                                if (valid) {
+                                if (valid)
+                                {
                                     var toBlock = [{'senderAddress': value}];
                                     var blocked = helper.block(toBlock);
-                                    persist.showToast( qsTr("Successfully blocked: %1").arg( blocked.join(", ") ), "", "asset:///images/menu/ic_add_email.png" );
+                                    
+                                    if (blocked.length > 0) {
+                                        persist.showToast( qsTr("Successfully blocked: %1").arg( blocked.join(", ") ), "", "asset:///images/menu/ic_add_email.png" );
+                                    } else {
+                                        persist.showToast( qsTr("Could not block: %1").arg(value), "", "asset:///images/tabs/ic_blocked.png" );
+                                    }
                                 } else {
                                     persist.showToast( qsTr("Invalid address entered: %1").arg(value), "", "asset:///images/menu/ic_keyword.png" );
                                 }
@@ -157,7 +163,12 @@ NavigationPane
                 function unblock(blocked)
                 {
                     var keywordsList = helper.unblock(blocked);
-                    persist.showToast( qsTr("The following addresses were unblocked: %1").arg( keywordsList.join(", ") ), "", "asset:///images/menu/ic_unblock.png" );
+                    
+                    if (keywordsList.length > 0) {
+                        persist.showToast( qsTr("The following addresses were unblocked: %1").arg( keywordsList.join(", ") ), "", "asset:///images/menu/ic_unblock.png" );
+                    } else {
+                        persist.showToast( qsTr("The following addresses could not be unblocked: %1").arg( blocked.join(", ") ), "", "asset:///images/tabs/ic_blocked.png" );
+                    }
                 }
                 
                 multiSelectAction: MultiSelectActionItem {

@@ -546,25 +546,35 @@ Check back in a few days.</source>
 <context>
     <name>autoblock::AutoBlock</name>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="136"/>
+        <location filename="../src/AutoBlock.cpp" line="97"/>
         <source>The following keywords were added: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="165"/>
+        <location filename="../src/AutoBlock.cpp" line="128"/>
         <source>The following addresses were blocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="182"/>
+        <location filename="../src/AutoBlock.cpp" line="133"/>
+        <source>Could not block the sender, please try to do it from the app instead of the Hub.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/AutoBlock.cpp" line="148"/>
         <source>Could not find any suspicious keywords in the message...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/AutoBlock.cpp" line="207"/>
+        <source>Warning: It seems like the app does not have access to your Email/SMS messages Folder. This permission is needed for the app to access the SMS and email services it needs to do the filtering of the spam messages. If you leave this permission off, some features may not work properly. Select OK to launch the Application Permissions screen where you can turn these settings on.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>autoblock::QueryHelper</name>
     <message>
-        <location filename="../src/QueryHelper.cpp" line="267"/>
+        <location filename="../src/QueryHelper.cpp" line="268"/>
         <source>Error initializing link with service. Please restart your device...</source>
         <translation type="unfinished"></translation>
     </message>

@@ -12,7 +12,7 @@ TabbedPane
         projectName: "autoblock"
         bbWorldID: "25793872"
         promoteChannel: true
-        showLogCollector: true
+        showServiceLogging: true
         showSubmitLogs: true
     }
     

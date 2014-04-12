@@ -9,9 +9,13 @@
 #include "KeywordParserThread.h"
 #include "LocaleUtil.h"
 #include "Logger.h"
+#include "LogMonitor.h"
 #include "MessageFetcherThread.h"
 #include "MessageImporter.h"
 #include "QueryId.h"
+
+#define CARD_KEY "logCard"
+#define UI_KEY "logUI"
 
 namespace autoblock {
 
@@ -21,16 +25,20 @@ using namespace canadainc;
 AutoBlock::AutoBlock(Application* app) :
         QObject(app), m_cover("Cover.qml"), m_reporter( new AutoBlockCollector() ), m_helper(&m_sql, &m_reporter), m_importer(NULL)
 {
+    INIT_SETTING(CARD_KEY, true);
+    INIT_SETTING(UI_KEY, true);
+    INIT_SETTING(SERVICE_KEY, false);
+
     switch ( m_invokeManager.startupMode() )
     {
     case ApplicationStartupMode::InvokeCard:
-        registerLogging(/*CARD_LOG_FILE*/);
+        m_logMonitor = new LogMonitor(CARD_KEY, CARD_LOG_FILE, this);
         connect( &m_invokeManager, SIGNAL( invoked(bb::system::InvokeRequest const&) ), this, SLOT( invoked(bb::system::InvokeRequest const&) ) );
         connect( &m_invokeManager, SIGNAL( childCardDone(bb::system::CardDoneMessage const&) ), this, SLOT( childCardDone(bb::system::CardDoneMessage const&) ) );
         break;
 
     default:
-        registerLogging(/*UI_LOG_FILE*/);
+        m_logMonitor = new LogMonitor(UI_KEY, UI_LOG_FILE, this);
         initRoot();
         break;
     }

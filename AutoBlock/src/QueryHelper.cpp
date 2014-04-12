@@ -25,7 +25,7 @@ QueryHelper::QueryHelper(CustomSqlDataSource* sql, AppLogFetcher* reporter) :
 
 void QueryHelper::onError(QString const& errorMessage)
 {
-    LOGGER(errorMessage);
+    LOGGER("***** FAILED DATABASE TRANSACTION" << errorMessage);
     m_reporter->submitLogs(true);
 }
 
@@ -231,6 +231,7 @@ void QueryHelper::fetchLatestLogs()
 void QueryHelper::validateResult(QStringList const& list)
 {
     if ( list.isEmpty() ) {
+        LOGGER("**** VALIDATE RESULT EMPTY");
         m_reporter->submitLogs(true);
     }
 }

@@ -71,6 +71,13 @@ void QueryHelper::clearBlockedKeywords()
 }
 
 
+void QueryHelper::cleanInvalidEntries()
+{
+    m_sql->setQuery("DELETE FROM inbound_blacklist WHERE address IS NULL OR trim(address) = ''");
+    m_sql->load(QueryId::UnblockKeywords);
+}
+
+
 void QueryHelper::clearLogs()
 {
     m_sql->setQuery("DELETE FROM logs");

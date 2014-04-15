@@ -10,8 +10,6 @@
 
 #include "customsqldatasource.h"
 
-#define SERVICE_LOG_PATH QString("%1/logs/service.log").arg( QDir::currentPath() )
-
 namespace bb {
 	class Application;
 

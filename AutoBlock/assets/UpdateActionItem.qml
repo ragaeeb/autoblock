@@ -14,6 +14,8 @@ ActionItem
     }
     
     onTriggered: {
+        console.log("UserEvent: SyncUpdate");
+        
         if ( !persist.contains("updateTutorial") ) {
             prompt.show();
         } else {
@@ -84,6 +86,8 @@ ActionItem
             cancelButton.label: qsTr("No") + Retranslate.onLanguageChanged
             
             onFinished: {
+                console.log("UserEvent: SyncUpdatePrompt", result);
+                
                 if (result == SystemUiResult.ConfirmButtonSelection)
                 {
                     persist.saveValueFor("updateTutorial", 1);

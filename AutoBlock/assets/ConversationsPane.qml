@@ -175,6 +175,7 @@ NavigationPane
                     ]
                     
                     onTriggered: {
+                        console.log("UserEvent: ConversationPane ListItem Tapped", indexPath);
                         multiSelectHandler.active = true;
                         toggleSelection(indexPath);
                     }
@@ -194,6 +195,7 @@ NavigationPane
                                 enabled: false
                                 
                                 onTriggered: {
+                                    console.log("UserEvent: MultiBlock");
                                     var selected = listView.selectionList();
                                     var toBlock = [];
                                     
@@ -264,6 +266,8 @@ NavigationPane
                     property variant toBlock
                     
                     onFinished: {
+                        console.log("UserEvent: AddKeywordsToast", result);
+                        
                         if (value == SystemUiResult.ButtonSelection) {
                             app.extractKeywords(toBlock);
                         }

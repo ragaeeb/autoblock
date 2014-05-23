@@ -11,7 +11,6 @@ TabbedPane
     {
         projectName: "autoblock"
         bbWorldID: "25793872"
-        promoteChannel: true
         showServiceLogging: true
         showSubmitLogs: true
     }

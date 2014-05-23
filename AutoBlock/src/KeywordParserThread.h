@@ -23,5 +23,5 @@ public:
 	void run();
 };
 
-} /* namespace canadainc */
+} /* namespace autoblock */
 #endif /* KEYWORDPARSERTHREAD_H_ */

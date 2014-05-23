@@ -18,6 +18,7 @@ NavigationPane
                 imageSource: "images/menu/ic_clear_logs.png"
                 
                 onTriggered: {
+                    console.log("UserEvent: ClearLogs");
                     prompt.show();
                 }
                 
@@ -30,6 +31,8 @@ NavigationPane
                         cancelButton.label: qsTr("No") + Retranslate.onLanguageChanged
                         
                         onFinished: {
+                            console.log("UserEvent: ClearLogsPrompt", result);
+                            
                             if (result == SystemUiResult.ConfirmButtonSelection)
                             {
                                 helper.clearLogs();
@@ -93,6 +96,7 @@ NavigationPane
                 ]
                 
                 onTriggered: {
+                    console.log("UserEvent: Log Tapped", indexPath);
                     var data = dataModel.data(indexPath);
                     persist.showToast( data.message.trim(), qsTr("OK"), "asset:///images/tabs/ic_blocked.png" );
                 }

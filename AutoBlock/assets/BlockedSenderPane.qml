@@ -37,6 +37,7 @@ NavigationPane
                 ActionBar.placement: ActionBarPlacement.OnBar
                 
                 onTriggered: {
+                    console.log("UserEvent: BlockEmailSender");
                     addPrompt.inputField.inputMode = SystemUiInputMode.Email;
                 	addPrompt.body = qsTr("Enter the email address to block:");
                     addPrompt.title = qsTr("Email Address");
@@ -58,6 +59,8 @@ NavigationPane
                         cancelButton.label: qsTr("Cancel") + Retranslate.onLanguageChanged
                         
                         onFinished: {
+                            console.log("UserEvent: BlockEmailSenderPrompt", result);
+                            
                             if (result == SystemUiResult.ConfirmButtonSelection)
                             {
                                 var value = addPrompt.inputFieldTextEntry().trim();
@@ -94,6 +97,7 @@ NavigationPane
                 ]
                 
                 onTriggered: {
+                    console.log("UserEvent: BlockSmsSender");
                     addPrompt.inputField.inputMode = SystemUiInputMode.Phone;
                     addPrompt.body = qsTr("Enter the phone number to block:");
                     addPrompt.title = qsTr("Phone Number");
@@ -108,6 +112,7 @@ NavigationPane
                 imageSource: "images/menu/ic_unblock_all.png"
                 
                 onTriggered: {
+                    console.log("UserEvent: UnblockAllSenders");
                     prompt.show();
                 }
                 
@@ -120,6 +125,8 @@ NavigationPane
                         cancelButton.label: qsTr("No") + Retranslate.onLanguageChanged
                         
                         onFinished: {
+                            console.log("UserEvent: UnblockAllPrompt", result);
+                            
                             if (result == SystemUiResult.ConfirmButtonSelection)
                             {
                                 helper.clearBlockedSenders();
@@ -223,6 +230,7 @@ NavigationPane
                                         title: qsTr("Unblock") + Retranslate.onLanguageChanged
                                         
                                         onTriggered: {
+                                            console.log("UserEvent: UnblockSender");
                                             sli.ListItem.view.unblock([ListItemData]);
                                         }
                                     }
@@ -243,6 +251,7 @@ NavigationPane
                             enabled: false
                             
                             onTriggered: {
+                                console.log("UserEvent: UnblockMultiSenders");
                                 var selected = listView.selectionList();
                                 var blocked = [];
                                 

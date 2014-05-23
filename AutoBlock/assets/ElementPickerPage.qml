@@ -26,6 +26,7 @@ Page
             title: qsTr("Save") + Retranslate.onLanguageChanged
             
             onTriggered: {
+                console.log("UserEvent: SaveTriggered");
                 var selected = listView.selectionList();
                 var toBlock = [];
                 
@@ -46,6 +47,7 @@ Page
             ActionBar.placement: ActionBarPlacement.OnBar
             
             onTriggered: {
+                console.log("UserEvent: ClearAllSelection");
                 listView.clearSelection();
             }
         },
@@ -57,6 +59,7 @@ Page
             ActionBar.placement: ActionBarPlacement.OnBar
             
             onTriggered: {
+                console.log("UserEvent: SelectAllElements");
                 listView.selectAll();
             }
         }
@@ -93,6 +96,7 @@ Page
             }
             
             onTriggered: {
+                console.log("UserEvent: Element Toggle", indexPath);
                 toggleSelection(indexPath);
             }
             

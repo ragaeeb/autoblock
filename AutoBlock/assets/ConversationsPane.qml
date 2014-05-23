@@ -58,7 +58,12 @@ NavigationPane
                             }
 
                             onSelectedValueChanged: {
-                                persist.saveValueFor("accountId", selectedValue);
+                                var changed = persist.saveValueFor("accountId", selectedValue);
+                                
+                                if (changed) {
+                                    console.log("UserEvent: AccountDropDownChanged", selectedValue);
+                                }
+                                
                                 app.loadMessages(selectedValue);
                             }
                         }

@@ -77,6 +77,7 @@ NavigationPane
                 ]
                 
                 onTriggered: {
+                    console.log("UserEvent: AddBlockedKeyword");
                     addPrompt.show();
                 }
                 
@@ -89,6 +90,8 @@ NavigationPane
                         cancelButton.label: qsTr("Cancel") + Retranslate.onLanguageChanged
                         
                         onFinished: {
+                            console.log("UserEvent: AddKeywordPrompt", result);
+                            
                             if (result == SystemUiResult.ConfirmButtonSelection)
                             {
                                 var value = addPrompt.inputFieldTextEntry().trim().toLowerCase();
@@ -120,6 +123,7 @@ NavigationPane
                 imageSource: "images/menu/ic_unblock_all.png"
                 
                 onTriggered: {
+                    console.log("UserEvent: ClearAllBlockedKeywords");
                     prompt.show();
                 }
                 
@@ -132,6 +136,8 @@ NavigationPane
                         cancelButton.label: qsTr("No") + Retranslate.onLanguageChanged
                         
                         onFinished: {
+                            console.log("UserEvent: ClearAllBlockedPrompt", result);
+                            
                             if (result == SystemUiResult.ConfirmButtonSelection)
                             {
                                 helper.clearBlockedKeywords();
@@ -221,6 +227,7 @@ NavigationPane
                                         title: qsTr("Unblock") + Retranslate.onLanguageChanged
                                         
                                         onTriggered: {
+                                            console.log("UserEvent: UnblockKeyword");
                                             sli.ListItem.view.unblock([ListItemData]);
                                         }
                                     }
@@ -241,6 +248,7 @@ NavigationPane
                             enabled: false
                             
                             onTriggered: {
+                                console.log("UserEvent: MultiUnblock");
                                 var selected = listView.selectionList();
                                 var blocked = [];
                                 

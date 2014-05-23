@@ -1,3 +1,7 @@
 arm/Makefile
 arm/Makefile.Debug
 arm/Makefile.Release
+res/data_mining/*/*
+res/bug_reports/*
+res/triaged/*
+test/*

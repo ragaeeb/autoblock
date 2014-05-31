@@ -4,7 +4,6 @@
 #include "AccountImporter.h"
 #include "AutoBlockCollector.h"
 #include "BlockUtils.h"
-#include "InvocationUtils.h"
 #include "IOUtils.h"
 #include "KeywordParserThread.h"
 #include "LocaleUtil.h"
@@ -12,6 +11,7 @@
 #include "LogMonitor.h"
 #include "MessageFetcherThread.h"
 #include "MessageImporter.h"
+#include "PimUtil.h"
 #include "QueryId.h"
 
 #define CARD_KEY "logCard"
@@ -213,7 +213,7 @@ void AutoBlock::init()
     request.setAction("com.canadainc.AutoBlockService.RESET");
     m_invokeManager.invoke(request);
 
-    InvocationUtils::validateEmailSMSAccess( tr("Warning: It seems like the app does not have access to your Email/SMS messages Folder. This permission is needed for the app to access the SMS and email services it needs to do the filtering of the spam messages. If you leave this permission off, some features may not work properly. Select OK to launch the Application Permissions screen where you can turn these settings on.") );
+    PimUtil::validateEmailSMSAccess( tr("Warning: It seems like the app does not have access to your Email/SMS messages Folder. This permission is needed for the app to access the SMS and email services it needs to do the filtering of the spam messages. If you leave this permission off, some features may not work properly. Select OK to launch the Application Permissions screen where you can turn these settings on.") );
 
     if ( !m_persistance.contains("clearedNulls") ) {
         m_helper.cleanInvalidEntries();

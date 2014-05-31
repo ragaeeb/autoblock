@@ -140,7 +140,6 @@ void AutoBlock::messageFetched(QVariantMap const& result)
     } else {
         LOGGER("***** FAILED HUB BLOCK!");
         m_persistance.showToast( tr("Could not block the sender, please try to do it from the app instead of the Hub."), "", "asset:///images/ic_pim_warning.png" );
-        m_reporter.submitLogs(true);
     }
 }
 

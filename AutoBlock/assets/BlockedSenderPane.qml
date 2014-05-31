@@ -152,6 +152,7 @@ NavigationPane
                 labelText: qsTr("You have no blocked senders. Either manually add phone numbers and email addresses to block from the overflow menu, or tap here to choose spam messages from your existing conversations.")
                 
                 onImageTapped: {
+                    console.log("UserEvent: BlockedSenderEmptyTapped");
                     addClicked();
                 }
             }

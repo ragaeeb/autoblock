@@ -1,4 +1,5 @@
 #include "MessageManager.h"
+#include "Logger.h"
 
 #include <bb/pim/message/MessageBuilder>
 #include <bb/pim/message/MessageFilter>
@@ -8,14 +9,6 @@ namespace canadainc {
 
 using namespace bb::pim::account;
 using namespace bb::pim::message;
-
-#if !defined(QT_NO_DEBUG)
-#include <QDebug>
-
-#define LOGGER(a) qDebug() << "==============" << __TIME__ << __FILE__ << __LINE__ << __FUNCTION__ << a
-#else
-#define LOGGER(a)
-#endif
 
 MessageManager::MessageManager(qint64 accountKey, QObject* parent) :
 		QObject(parent), m_ms(NULL), m_accountKey(accountKey), m_connected(false)
@@ -98,7 +91,7 @@ qint64 MessageManager::sendMessage(Message const& m, QString text, QList<Attachm
 	LOGGER("Replying with" << m.sender().displayableName() << ck << text);
 
 	Message reply = *mb;
-	LOGGER("======== USING ACCOUNT KEY" << m_accountKey );
+	LOGGER("USING ACCOUNT KEY" << m_accountKey );
 	MessageKey mk = m_ms->send(m_accountKey, reply);
 
 	LOGGER("Sent, now deleting messagebuilder" << mk );
@@ -113,12 +106,10 @@ void MessageManager::messageAdded(bb::pim::account::AccountKey ak, bb::pim::mess
 {
 	Q_UNUSED(ck);
 
-	LOGGER("messageAdded()" << ak << m_accountKey);
+	LOGGER(ak << m_accountKey);
 
 	if (!m_accountKey || m_accountKey == ak)
 	{
-		LOGGER("New messageAdded()");
-
 		Message m = m_ms->message(ak, mk);
 
 		if ( m.isInbound() ) {
@@ -147,14 +138,14 @@ void MessageManager::messageUpdated(bb::pim::account::AccountKey ak, bb::pim::me
 
 Message MessageManager::getMessage(qint64 mk)
 {
-	LOGGER("fetch" << m_accountKey << mk);
+	LOGGER(m_accountKey << mk);
 	initService();
 	return m_ms->message(m_accountKey, mk);
 }
 
 
 void MessageManager::setAccountKey(qint64 accountKey) {
-	LOGGER("Setting account" << accountKey);
+	LOGGER(accountKey);
 	m_accountKey = accountKey;
 }
 

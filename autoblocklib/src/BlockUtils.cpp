@@ -10,9 +10,7 @@ QString BlockUtils::databasePath() {
 
 QString BlockUtils::isValidKeyword(QString const& keyword)
 {
-    static QRegExp regex = QRegExp( QString::fromUtf8("[\\d+-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"\\\[\\\]\\\\]") );
-
-    QString current = keyword.trimmed().remove(regex);
+    QString current = keyword.trimmed();
     int length = current.length();
 
     return length >= min_keyword_length && length <= max_keyword_length ? current : QString();

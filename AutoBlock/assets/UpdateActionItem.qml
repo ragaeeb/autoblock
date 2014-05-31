@@ -90,7 +90,7 @@ ActionItem
                 
                 if (result == SystemUiResult.ConfirmButtonSelection)
                 {
-                    persist.saveValueFor("updateTutorial", 1);
+                    persist.saveValueFor("updateTutorial", 1, false);
                     updateAction.enabled = false;
                     confirmed();
                 }

@@ -20,7 +20,7 @@ using namespace bb::system;
 using namespace canadainc;
 
 Service::Service(bb::Application* app)	:
-        QObject(app), m_sound(false), m_whitelistContacts(true), m_threshold(3)
+        QObject(app), m_sound(false), m_whitelistContacts(true), m_threshold(3), m_logMonitor(NULL)
 {
 	QSettings s;
 
@@ -31,8 +31,6 @@ Service::Service(bb::Application* app)	:
 	}
 
     m_settingsWatcher.addPath( s.fileName() );
-
-	LOGGER("Constructed");
 
 	connect( this, SIGNAL( initialize() ), this, SLOT( init() ), Qt::QueuedConnection ); // async startup
 

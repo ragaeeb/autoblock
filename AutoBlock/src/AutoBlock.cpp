@@ -15,7 +15,6 @@
 #include "QueryId.h"
 
 #define CARD_KEY "logCard"
-#define UI_KEY "logUI"
 
 namespace autoblock {
 

@@ -238,19 +238,8 @@ NavigationPane
                         {
                             dm.append(results);
                             
-                            if ( !persist.contains("tutorialMarkSpam") )
-                            {
-                                persist.showBlockingToast( qsTr("Which of the following are spam messages? Choose them and tap the Block action at the bottom and any messages from those senders will be blocked in the future!"), qsTr("OK") );
-                                persist.saveValueFor("tutorialMarkSpam", 1);
-                            } else if ( !persist.contains("tutorialVideo") ) {
-                                var yesClicked = persist.showBlockingDialog( qsTr("Tutorial"), qsTr("Would you like to see a video tutorial on how to use the app?"), qsTr("Yes"), qsTr("No") );
-                                
-                                if (yesClicked) {
-                                    vidTutorial.trigger("bb.action.OPEN");
-                                }
-                                
-                                persist.saveValueFor("tutorialVideo", 1);
-                            }
+                            if ( persist.tutorial("tutorialMarkSpam", qsTr("You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam."), "asset:///images/ic_keywords.png" ) ) {}
+                            else if ( persist.tutorialVideo("http://www.youtube.com/watch?v=rFoFPHxUF34") ) {}
                         }
                         
                         mainContainer.visible = listView.multiSelectHandler.active = results.length > 0;
@@ -318,15 +307,6 @@ NavigationPane
         ComponentDefinition {
             id: definition
             source: "ElementPickerPage.qml"
-        },
-        
-        Invocation {
-            id: vidTutorial
-
-            query: InvokeQuery {
-                mimeType: "text/html"
-                uri: "http://www.youtube.com/watch?v=rFoFPHxUF34"
-            }
         }
     ]
 }

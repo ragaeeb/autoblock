@@ -107,6 +107,7 @@ NavigationPane
                 labelText: qsTr("There are no incoming messages detected for this account. As soon as the first spam message comes in, open this app, come to this screen and add that message as spam and all future messages from that sender will be blocked and deleted! Or increase the 'Days' slider at the top to fetch more messages.") + Retranslate.onLanguageChanged
                 
                 onImageTapped: {
+                    console.log("UserEvent: ConversationsEmptyTapped");
                     accountChoice.expanded = true;
                 }
             }
@@ -242,6 +243,8 @@ NavigationPane
                             else if ( persist.tutorialVideo("http://www.youtube.com/watch?v=rFoFPHxUF34") ) {}
                         }
                         
+                        multiSelectHandler.status = qsTr("None selected");
+                        blockAction.enabled = false;
                         mainContainer.visible = listView.multiSelectHandler.active = results.length > 0;
                         emptyDelegate.delegateActive = results.length == 0;
                     }

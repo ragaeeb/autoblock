@@ -163,6 +163,7 @@ NavigationPane
                 labelText: qsTr("You have no blocked keywords. Either input them after blocking existing messages, or tap here to add one.")
                 
                 onImageTapped: {
+                    console.log("UserEvent: BlockedKeywordEmptyTapped");
                     addPrompt.show();
                 }
             }

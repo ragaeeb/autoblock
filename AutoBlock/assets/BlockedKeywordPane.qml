@@ -54,7 +54,7 @@ NavigationPane
                             
                             onValueChanged: {
                                 var actualValue = Math.floor(value);
-                                var changed = persist.saveValueFor("keywordThreshold", actualValue);
+                                var changed = persist.saveValueFor("keywordThreshold", actualValue, false);
                                 thresholdLabel.text = qsTr("Threshold: %1").arg(actualValue);
                             }
                         }

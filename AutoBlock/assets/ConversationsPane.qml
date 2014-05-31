@@ -58,7 +58,7 @@ NavigationPane
                             }
 
                             onSelectedValueChanged: {
-                                var changed = persist.saveValueFor("accountId", selectedValue);
+                                var changed = persist.saveValueFor("accountId", selectedValue, false);
                                 
                                 if (changed) {
                                     console.log("UserEvent: AccountDropDownChanged", selectedValue);
@@ -76,7 +76,7 @@ NavigationPane
                             
                             onValueChanged: {
                                 var actualValue = Math.floor(value);
-                                var changed = persist.saveValueFor("days", actualValue);
+                                var changed = persist.saveValueFor("days", actualValue, false);
                                 daysLabel.text = qsTr("Days to Fetch: %1").arg(actualValue);
                                 
                                 if (accountChoice.selectedOption != null)

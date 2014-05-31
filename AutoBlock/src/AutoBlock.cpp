@@ -217,7 +217,7 @@ void AutoBlock::init()
 
     if ( !m_persistance.contains("clearedNulls") ) {
         m_helper.cleanInvalidEntries();
-        m_persistance.saveValueFor("clearedNulls", 1);
+        m_persistance.saveValueFor("clearedNulls", 1, false);
     }
 }
 

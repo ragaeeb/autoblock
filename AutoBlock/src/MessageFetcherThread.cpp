@@ -18,17 +18,16 @@ MessageFetcherThread::MessageFetcherThread(QStringList const& tokens, QObject* p
 void MessageFetcherThread::run()
 {
     qint64 accountId = m_tokens[2].toLongLong();
-    qint64 messageId = m_tokens[4].toLongLong();
+    qint64 messageId = m_tokens[3].toLongLong();
 
-    LOGGER("Tokens" << m_tokens);
-    LOGGER("Message Tokens" << accountId << messageId);
+    LOGGER("Tokens" << m_tokens << accountId << messageId);
 
     MessageService m;
     Message message = m.message(accountId, messageId);
 
     if ( !message.isValid() )
     {
-        messageId = m_tokens[3].toLongLong();
+        messageId = m_tokens[4].toLongLong();
         message = m.message(accountId, messageId);
     }
 

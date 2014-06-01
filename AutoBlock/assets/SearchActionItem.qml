@@ -38,7 +38,7 @@ ActionItem
                 horizontalAlignment: HorizontalAlignment.Center
                 verticalAlignment: VerticalAlignment.Center
                 hintText: qsTr("Enter Query") + Retranslate.onLanguageChanged
-                translationY: 1000
+                translationY: 750
                 opacity: 0.9
                 
                 onTextChanging: {

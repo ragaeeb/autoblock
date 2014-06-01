@@ -94,7 +94,6 @@ NavigationPane
         
         Container
         {
-            id: rootContainer
             background: ipd.imagePaint
             layout: DockLayout {}
             horizontalAlignment: HorizontalAlignment.Fill
@@ -140,18 +139,18 @@ NavigationPane
                     function doBlock(toBlock)
                     {
                         var numbersList = helper.block(toBlock);
-                        toast.toBlock = toBlock;
+                        keywordsDelegate.toBlock = toBlock;
+                        
+                        var body;
                         
                         if (numbersList.length > 0) {
-                            toast.body = qsTr("The following addresses were blocked: %1").arg( numbersList.join(", ") );
+                            body = qsTr("The following addresses were blocked: %1").arg( numbersList.join(", ") );
                         } else {
-                            toast.body = qsTr("The senders could not be blocked. We suggest filing a bug-report.")
+                            body = qsTr("The senders could not be blocked. We suggest filing a bug-report.")
                         }
 
-                        toast.icon = "asset:///images/menu/ic_blocked_user.png";
-                        rootContainer.touch.connect(toast.cancel);
-                        
-                        toast.show();
+                        persist.showToast(body, "", "asset:///images/menu/ic_blocked_user.png");
+                        keywordsDelegate.delegateActive = true;
                     }
                     
                     listItemComponents: [
@@ -251,26 +250,110 @@ NavigationPane
                 }
             }
             
+            ControlDelegate
+            {
+                id: keywordsDelegate
+                horizontalAlignment: HorizontalAlignment.Right
+                verticalAlignment: VerticalAlignment.Center
+                property variant toBlock
+                
+                sourceComponent: ComponentDefinition
+                {
+                    Container
+                    {
+                        horizontalAlignment: HorizontalAlignment.Right
+                        verticalAlignment: VerticalAlignment.Center
+                        layout: DockLayout {}
+                        translationX: 300
+                        
+                        onCreationCompleted: {
+                            tt.play();
+                        }
+                        
+                        animations: [
+                            TranslateTransition {
+                                id: tt
+                                fromX: 300
+                                toX: 0
+                                duration: 800
+                                easingCurve: StockCurve.BounceOut
+                                
+                                onEnded: {
+                                    ttOut.play();
+                                }
+                            },
+                            
+                            TranslateTransition
+                            {
+                                id: ttOut
+                                fromX: 0
+                                toX: 300
+                                easingCurve: StockCurve.QuadraticIn
+                                duration: 800
+                                delay: 2500
+                                
+                                onEnded: {
+                                    keywordsDelegate.delegateActive = false;
+                                }
+                            }
+                        ]
+                        
+                        ImageView
+                        {
+                            horizontalAlignment: HorizontalAlignment.Fill
+                            verticalAlignment: VerticalAlignment.Fill
+                            imageSource: "images/add_keyword_strip.amd"
+                        }
+                        
+                        Container
+                        {
+                            leftPadding: 35
+                            verticalAlignment: VerticalAlignment.Center
+                            
+                            ImageView {
+                                imageSource: "images/menu/ic_add_spammer.png"
+                                verticalAlignment: VerticalAlignment.Center
+                            }
+                        }
+                        
+                        Container
+                        {
+                            leftPadding: 140; topPadding: 36
+                            opacity: 0.9
+                            
+                            Label {
+                                text: qsTr("Add") + Retranslate.onLanguageChanged
+                                textStyle.fontWeight: FontWeight.Bold
+                                textStyle.color: Color.White
+                                textStyle.fontSize: FontSize.PointValue
+                                textStyle.fontSizeValue: 4
+                            }
+                            
+                            Label {
+                                text: qsTr("Keywords") + Retranslate.onLanguageChanged
+                                textStyle.fontWeight: FontWeight.Bold
+                                textStyle.color: Color.White
+                                textStyle.fontSize: FontSize.PointValue
+                                textStyle.fontSizeValue: 4
+                            }
+                        }
+                        
+                        gestureHandlers: [
+                            TapHandler {
+                                onTapped: {
+                                    console.log("UserEvent: AddKeywordsToast");
+                                    app.extractKeywords(keywordsDelegate.toBlock);
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+            
             attachedObjects: [
                 ImagePaintDefinition {
                     id: ipd
                     imageSource: "images/background.png"
-                },
-                
-                SystemToast {
-                    id: toast
-                    button.label: qsTr("Add Keywords") + Retranslate.onLanguageChanged
-                    property variant toBlock
-                    
-                    onFinished: {
-                        console.log("UserEvent: AddKeywordsToast", result);
-                        
-                        if (value == SystemUiResult.ButtonSelection) {
-                            app.extractKeywords(toBlock);
-                        }
-                        
-                        rootContainer.touch.disconnect(toast.cancel);
-                    }
                 }
             ]
         }

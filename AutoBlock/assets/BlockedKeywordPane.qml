@@ -117,6 +117,14 @@ NavigationPane
                 ]
             },
             
+            SearchActionItem {
+                imageSource: "images/menu/ic_search_keyword.png"
+                
+                onQueryChanged: {
+                    helper.fetchAllBlockedKeywords(query);
+                }
+            },
+            
             DeleteActionItem {
                 id: unblockAllAction
                 title: qsTr("Clear All") + Retranslate.onLanguageChanged
@@ -288,7 +296,7 @@ NavigationPane
                     helper.fetchAllBlockedKeywords();
                 }
             }
-            
+
             attachedObjects: [
                 ImagePaintDefinition {
                     id: ipd

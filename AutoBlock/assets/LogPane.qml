@@ -13,6 +13,14 @@ NavigationPane
     Page
     {
         actions: [
+            SearchActionItem {
+                imageSource: "images/menu/ic_search_logs.png"
+                
+                onQueryChanged: {
+                    helper.fetchAllLogs(query);
+                }
+            },
+            
             DeleteActionItem {
                 title: qsTr("Clear Logs") + Retranslate.onLanguageChanged
                 imageSource: "images/menu/ic_clear_logs.png"

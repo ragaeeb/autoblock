@@ -15,7 +15,8 @@ namespace autoblock {
 using namespace canadainc;
 
 QueryHelper::QueryHelper(CustomSqlDataSource* sql, AppLogFetcher* reporter) :
-        m_reporter(reporter), m_sql(sql), m_ms(NULL), m_lastUpdate( QDateTime::currentMSecsSinceEpoch() )
+        m_reporter(reporter), m_sql(sql), m_ms(NULL),
+        m_lastUpdate( QDateTime::currentMSecsSinceEpoch() ), m_logSearchMode(false)
 {
     connect( sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ), Qt::QueuedConnection );
     connect( sql, SIGNAL( error(QString const&) ), this, SLOT( onError(QString const&) ) );
@@ -30,7 +31,7 @@ void QueryHelper::onError(QString const& errorMessage)
 
 void QueryHelper::dataLoaded(int id, QVariant const& data)
 {
-    LOGGER("Data loaded" << id << data);
+    LOGGER(id/* << data*/);
 
     if (id == QueryId::UnblockKeywords || id == QueryId::BlockKeywords) {
         fetchAllBlockedKeywords();
@@ -42,17 +43,27 @@ void QueryHelper::dataLoaded(int id, QVariant const& data)
 }
 
 
-void QueryHelper::fetchAllBlockedKeywords()
+void QueryHelper::fetchAllBlockedKeywords(QString const& filter)
 {
-    m_sql->setQuery("SELECT term,count FROM inbound_keywords ORDER BY term");
-    m_sql->load(QueryId::FetchBlockedKeywords);
+    if ( filter.isNull() ) {
+        m_sql->setQuery("SELECT term,count FROM inbound_keywords ORDER BY term");
+        m_sql->load(QueryId::FetchBlockedKeywords);
+    } else {
+        m_sql->setQuery("SELECT term,count FROM inbound_keywords WHERE term LIKE '%' || ? || '%' ORDER BY term");
+        m_sql->executePrepared( QVariantList() << filter, QueryId::FetchBlockedKeywords );
+    }
 }
 
 
-void QueryHelper::fetchAllBlockedSenders()
+void QueryHelper::fetchAllBlockedSenders(QString const& filter)
 {
-    m_sql->setQuery("SELECT address,count FROM inbound_blacklist ORDER BY address");
-    m_sql->load(QueryId::FetchBlockedSenders);
+    if ( filter.isNull() ) {
+        m_sql->setQuery("SELECT address,count FROM inbound_blacklist ORDER BY address");
+        m_sql->load(QueryId::FetchBlockedSenders);
+    } else {
+        m_sql->setQuery("SELECT address,count FROM inbound_blacklist WHERE address LIKE '%' || ? || '%' ORDER BY address");
+        m_sql->executePrepared( QVariantList() << filter, QueryId::FetchBlockedSenders );
+    }
 }
 
 
@@ -215,21 +226,32 @@ QStringList QueryHelper::unblock(QVariantList const& senders)
 }
 
 
-void QueryHelper::fetchAllLogs()
+void QueryHelper::fetchAllLogs(QString const& filter)
 {
-    m_lastUpdate = QDateTime::currentMSecsSinceEpoch();
+    m_logSearchMode = !filter.isNull();
 
-    m_sql->setQuery("SELECT address,message,timestamp FROM logs ORDER BY timestamp DESC");
-    m_sql->load(QueryId::FetchAllLogs);
+    if (!m_logSearchMode)
+    {
+        m_lastUpdate = QDateTime::currentMSecsSinceEpoch();
+
+        m_sql->setQuery("SELECT address,message,timestamp FROM logs ORDER BY timestamp DESC");
+        m_sql->load(QueryId::FetchAllLogs);
+    } else {
+        m_sql->setQuery("SELECT address,message,timestamp FROM logs WHERE address LIKE '%' || ? || '%' ORDER BY timestamp DESC");
+        m_sql->executePrepared( QVariantList() << filter, QueryId::FetchAllLogs );
+    }
 }
 
 
 void QueryHelper::fetchLatestLogs()
 {
-    m_sql->setQuery( QString("SELECT address,message,timestamp FROM logs WHERE timestamp > %1 ORDER BY timestamp").arg(m_lastUpdate) );
-    m_sql->load(QueryId::FetchLatestLogs);
+    if (!m_logSearchMode)
+    {
+        m_sql->setQuery( QString("SELECT address,message,timestamp FROM logs WHERE timestamp > %1 ORDER BY timestamp").arg(m_lastUpdate) );
+        m_sql->load(QueryId::FetchLatestLogs);
 
-    m_lastUpdate = QDateTime::currentMSecsSinceEpoch();
+        m_lastUpdate = QDateTime::currentMSecsSinceEpoch();
+    }
 }
 
 

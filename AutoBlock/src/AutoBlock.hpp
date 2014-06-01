@@ -30,7 +30,6 @@ using namespace canadainc;
 class AutoBlock : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool accountSelected READ accountSelected NOTIFY accountSelectedChanged)
 
     LazySceneCover m_cover;
     CustomSqlDataSource m_sql;
@@ -55,7 +54,6 @@ private slots:
     void onKeywordsExtracted(QStringList const& keywords);
     void onKeywordsSelected(QVariant k);
     void onMessagesImported(QVariantList const& qvl);
-	void settingChanged(QString const& key);
 	void terminateThreads();
 
 Q_SIGNALS:

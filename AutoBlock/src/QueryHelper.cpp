@@ -26,6 +26,10 @@ QueryHelper::QueryHelper(CustomSqlDataSource* sql, AppLogFetcher* reporter) :
 void QueryHelper::onError(QString const& errorMessage)
 {
     LOGGER("***** FAILED DATABASE TRANSACTION" << errorMessage);
+
+#if defined(QT_NO_DEBUG)
+    m_reporter->submitLogs(true);
+#endif
 }
 
 
@@ -115,8 +119,6 @@ QStringList QueryHelper::blockKeywords(QVariantList const& keywords)
     m_sql->setQuery( all.join(" ") );
     m_sql->executePrepared(keywords, QueryId::BlockKeywords);
 
-    validateResult(keywordsList);
-
     return keywordsList;
 }
 
@@ -170,8 +172,6 @@ QStringList QueryHelper::block(QVariantList const& addresses)
     m_sql->setQuery( QString("INSERT OR REPLACE INTO inbound_blacklist (address) VALUES(%1)").arg( placeHolders.join("),(") ) );
     m_sql->executePrepared(numbers, QueryId::BlockSenders);
 
-    validateResult(numbersList);
-
     return numbersList;
 }
 
@@ -195,8 +195,6 @@ QStringList QueryHelper::unblockKeywords(QVariantList const& keywords)
     m_sql->setQuery( QString("DELETE FROM inbound_keywords WHERE term IN (%1)").arg( placeHolders.join(",") ) );
     m_sql->executePrepared(keywordsVariants, QueryId::UnblockKeywords);
 
-    validateResult(keywordsList);
-
     return keywordsList;
 }
 
@@ -219,8 +217,6 @@ QStringList QueryHelper::unblock(QVariantList const& senders)
 
     m_sql->setQuery( QString("DELETE FROM inbound_blacklist WHERE address IN (%1)").arg( placeHolders.join(",") ) );
     m_sql->executePrepared(keywordsVariants, QueryId::UnblockSenders);
-
-    validateResult(keywordsList);
 
     return keywordsList;
 }
@@ -251,14 +247,6 @@ void QueryHelper::fetchLatestLogs()
         m_sql->load(QueryId::FetchLatestLogs);
 
         m_lastUpdate = QDateTime::currentMSecsSinceEpoch();
-    }
-}
-
-
-void QueryHelper::validateResult(QStringList const& list)
-{
-    if ( list.isEmpty() ) {
-        LOGGER("**** VALIDATE RESULT EMPTY");
     }
 }
 

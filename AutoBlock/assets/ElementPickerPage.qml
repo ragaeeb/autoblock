@@ -50,18 +50,6 @@ Page
                 console.log("UserEvent: ClearAllSelection");
                 listView.clearSelection();
             }
-        },
-        
-        ActionItem {
-            id: addAction
-            title: qsTr("Select All") + Retranslate.onLanguageChanged
-            imageSource: "images/menu/ic_select_all.png"
-            ActionBar.placement: ActionBarPlacement.OnBar
-            
-            onTriggered: {
-                console.log("UserEvent: SelectAllElements");
-                listView.selectAll();
-            }
         }
     ]
     

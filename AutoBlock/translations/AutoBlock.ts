@@ -276,7 +276,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="262"/>
+        <location filename="../assets/ConversationsPane.qml" line="276"/>
+        <location filename="../assets/ConversationsPane.qml" line="290"/>
         <source>Add Keywords</source>
         <translation type="unfinished"></translation>
     </message>
@@ -297,12 +298,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="287"/>
+        <location filename="../assets/ConversationsPane.qml" line="315"/>
         <source>The keyword could not be blocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="301"/>
+        <location filename="../assets/ConversationsPane.qml" line="329"/>
         <source>Could not find any suspicious keywords in the message...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -317,7 +318,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="285"/>
+        <location filename="../assets/ConversationsPane.qml" line="313"/>
         <source>The following keywords were added: %1</source>
         <translation type="unfinished"></translation>
     </message>

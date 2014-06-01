@@ -34,7 +34,6 @@ class QueryHelper : public QObject
     bool m_logSearchMode;
 
     void recheck(int &count, const char* slotName);
-    void validateResult(QStringList const& list);
 
 private slots:
     void databaseUpdated(QString const& path);

@@ -137,8 +137,8 @@ void AutoBlock::messageFetched(QVariantMap const& result)
 
         parseKeywords(toProcess);
     } else {
-        LOGGER("***** FAILED HUB BLOCK!");
-        m_persistance.showToast( tr("Could not block the sender, please try to do it from the app instead of the Hub."), "", "asset:///images/ic_pim_warning.png" );
+        LOGGER("*** FAILED HUB BLOCK!");
+        m_persistance.showToast( tr("Could not block the sender, this is due to a bug in BlackBerry OS 10.2.1. There are two ways around this problem:\n\n1) From the BlackBerry Hub, tap on the email to open it, tap on the menu icon (...) on the bottom-right, choose Share, and then choose Auto Block.\n\n2) Open the app and block the message from the Conversations tab."), "", "asset:///images/ic_pim_warning.png" );
     }
 }
 
@@ -233,17 +233,6 @@ void AutoBlock::create(Application* app) {
 }
 
 
-void AutoBlock::settingChanged(QString const& key)
-{
-	LOGGER(key);
-
-	if (key == "account") {
-		LOGGER("Accounts elected changed");
-		emit accountSelectedChanged();
-	}
-}
-
-
 void AutoBlock::loadAccounts()
 {
 	AccountImporter* ai = new AccountImporter();
@@ -254,6 +243,7 @@ void AutoBlock::loadAccounts()
 
 void AutoBlock::loadMessages(qint64 accountId)
 {
+    LOGGER(accountId);
     terminateThreads();
 
     m_importer = new MessageImporter(accountId);
@@ -273,15 +263,9 @@ void AutoBlock::onMessagesImported(QVariantList const& qvl)
 }
 
 
-bool AutoBlock::accountSelected() {
-	LOGGER( m_persistance.contains("account") );
-	return m_persistance.contains("account");
-}
-
-
 void AutoBlock::extractKeywords(QVariantList const& messages)
 {
-    LOGGER("Extract keywords: " << messages);
+    LOGGER(messages);
     KeywordParserThread* kpt = new KeywordParserThread(messages);
     connect( kpt, SIGNAL( keywordsExtracted(QStringList const&) ), this, SIGNAL( keywordsExtracted(QStringList const&) ) );
     IOUtils::startThread(kpt);

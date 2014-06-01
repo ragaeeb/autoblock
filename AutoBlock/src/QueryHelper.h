@@ -31,6 +31,7 @@ class QueryHelper : public QObject
     MessageService* m_ms;
     qint64 m_lastUpdate;
     QFileSystemWatcher m_updateWatcher;
+    bool m_logSearchMode;
 
     void recheck(int &count, const char* slotName);
     void validateResult(QStringList const& list);
@@ -51,9 +52,9 @@ public:
     Q_INVOKABLE void clearBlockedSenders();
     Q_INVOKABLE void cleanInvalidEntries();
     Q_INVOKABLE void clearLogs();
-    Q_INVOKABLE void fetchAllBlockedKeywords();
-    Q_INVOKABLE void fetchAllBlockedSenders();
-    Q_INVOKABLE void fetchAllLogs();
+    Q_INVOKABLE void fetchAllBlockedKeywords(QString const& filter=QString());
+    Q_INVOKABLE void fetchAllBlockedSenders(QString const& filter=QString());
+    Q_INVOKABLE void fetchAllLogs(QString const& filter=QString());
     Q_INVOKABLE void fetchLatestLogs();
     Q_INVOKABLE QStringList block(QVariantList const& numbers);
     Q_INVOKABLE QStringList blockKeywords(QVariantList const& keywords);

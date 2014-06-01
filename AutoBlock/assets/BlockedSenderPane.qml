@@ -92,7 +92,7 @@ NavigationPane
                 
                 shortcuts: [
                     SystemShortcut {
-                        type: SystemShortcuts.Search
+                        type: SystemShortcuts.CreateNew
                     }
                 ]
                 
@@ -103,6 +103,14 @@ NavigationPane
                     addPrompt.title = qsTr("Phone Number");
                     addPrompt.regex = /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i;
                     addPrompt.show();
+                }
+            },
+            
+            SearchActionItem {
+                imageSource: "images/menu/ic_search_user.png"
+                
+                onQueryChanged: {
+                    helper.fetchAllBlockedSenders(query);
                 }
             },
             

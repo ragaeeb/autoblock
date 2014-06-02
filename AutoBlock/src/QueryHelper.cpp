@@ -6,9 +6,24 @@
 #include "customsqldatasource.h"
 #include "Logger.h"
 #include "Persistance.h"
-#include "QueryId.h"
 
 #define PLACEHOLDER "?"
+#define MAX_TRANSACTION_SIZE 50
+
+namespace {
+
+QString getPlaceHolders(int n)
+{
+    QStringList placeHolders;
+
+    for (int i = 0; i < n; i++) {
+        placeHolders << PLACEHOLDER;
+    }
+
+    return placeHolders.join("),(");
+}
+
+}
 
 namespace autoblock {
 
@@ -25,7 +40,7 @@ QueryHelper::QueryHelper(CustomSqlDataSource* sql, AppLogFetcher* reporter) :
 
 void QueryHelper::onError(QString const& errorMessage)
 {
-    LOGGER("***** FAILED DATABASE TRANSACTION" << errorMessage);
+    LOGGER(errorMessage);
 
 #if defined(QT_NO_DEBUG)
     m_reporter->submitLogs(true);
@@ -150,8 +165,6 @@ QStringList QueryHelper::block(QVariantList const& addresses)
 
         QString replyTo = current.value("replyTo").toString().trimmed().toLower();
 
-        LOGGER("Reply vs address" << replyTo << address);
-
         if ( !replyTo.isEmpty() && replyTo.compare(address, Qt::CaseInsensitive) != 0 )
         {
             numbers << replyTo;
@@ -159,7 +172,7 @@ QStringList QueryHelper::block(QVariantList const& addresses)
             placeHolders << PLACEHOLDER;
         }
 
-        if ( current.contains("aid") )
+        if ( current.contains("aid") && false )
         {
             qint64 aid = current.value("aid").toLongLong();
             m_ms->remove( aid, current.value("id").toLongLong() );
@@ -167,12 +180,41 @@ QStringList QueryHelper::block(QVariantList const& addresses)
         }
     }
 
-    LOGGER(">>> NUMBERs" << numbers << placeHolders );
-
-    m_sql->setQuery( QString("INSERT OR REPLACE INTO inbound_blacklist (address) VALUES(%1)").arg( placeHolders.join("),(") ) );
-    m_sql->executePrepared(numbers, QueryId::BlockSenders);
+    prepareTransaction("INSERT OR REPLACE INTO inbound_blacklist (address) VALUES(%1)", numbers, QueryId::BlockSenders);
 
     return numbersList;
+}
+
+
+void QueryHelper::prepareTransaction(QString const& query, QVariantList const& elements, QueryId::Type qid)
+{
+    static QString maxPlaceHolders = getPlaceHolders(MAX_TRANSACTION_SIZE);
+
+    m_sql->startTransaction(qid);
+
+    QVariantList chunk;
+
+    for (int i = elements.size()-1; i >= 0; i--)
+    {
+        chunk << elements[i];
+
+        if ( chunk.size() >= MAX_TRANSACTION_SIZE )
+        {
+            m_sql->setQuery( query.arg(maxPlaceHolders) );
+            m_sql->executePrepared(chunk, 20);
+            chunk.clear();
+        }
+    }
+
+    int remaining = chunk.size();
+
+    if (remaining < MAX_TRANSACTION_SIZE)
+    {
+        m_sql->setQuery( query.arg( getPlaceHolders(remaining) ) );
+        m_sql->executePrepared(chunk, 20);
+    }
+
+    m_sql->endTransaction(qid);
 }
 
 

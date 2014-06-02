@@ -9,6 +9,15 @@ Page
     actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
     property string instructionText: qsTr("Do you want to automatically filter future messages that contain the following elements?") + Retranslate.onLanguageChanged
     property variant listImage: "images/menu/ic_keyword.png"
+    property bool showSelectAll: true
+    
+    onShowSelectAllChanged: {
+        if (showSelectAll) {
+            root.addAction(selectAllAction);
+        } else {
+            root.removeAction(selectAllAction);
+        }
+    }
     
     onElementsChanged: {
         adm.clear();
@@ -50,6 +59,24 @@ Page
                 console.log("UserEvent: ClearAllSelection");
                 listView.clearSelection();
             }
+        },
+        
+        ActionItem {
+            id: selectAllAction
+            title: qsTr("Select All") + Retranslate.onLanguageChanged
+            imageSource: "images/menu/ic_select_all.png"
+            ActionBar.placement: ActionBarPlacement.OnBar
+            
+            onTriggered: {
+                console.log("UserEvent: SelectAllElements");
+                
+                var confirmed = persist.showBlockingDialog( qsTr("Confirmation"), qsTr("You should review the elements in this list. You may be selecting false positives! Are you sure you want to select all?") );
+                console.log("UserEvent: SelectAllConfirmed", confirmed);
+                
+                if (confirmed) {
+                    listView.selectAll();
+                }
+            }
         }
     ]
     
@@ -84,7 +111,7 @@ Page
             }
             
             onTriggered: {
-                console.log("UserEvent: Element Toggle", indexPath);
+                console.log("UserEvent: ElementTriggered", indexPath);
                 toggleSelection(indexPath);
             }
             
@@ -108,8 +135,8 @@ Page
                                 fromOpacity: 0
                                 toOpacity: 1
                                 easingCurve: StockCurve.SineOut
-                                duration: 1000
-                                delay: Math.min(sli.ListItem.indexInSection * 100, 1000)
+                                duration: 750
+                                delay: Math.min(sli.ListItem.indexInSection * 100, 750)
                             }
                         ]
                         

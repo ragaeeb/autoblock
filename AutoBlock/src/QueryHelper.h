@@ -4,6 +4,8 @@
 #include <QStringList>
 #include <QFileSystemWatcher>
 
+#include "QueryId.h"
+
 namespace canadainc {
     class AppLogFetcher;
 	class CustomSqlDataSource;
@@ -34,6 +36,7 @@ class QueryHelper : public QObject
     bool m_logSearchMode;
 
     void recheck(int &count, const char* slotName);
+    void prepareTransaction(QString const& query, QVariantList const& elements, QueryId::Type qid);
 
 private slots:
     void databaseUpdated(QString const& path);

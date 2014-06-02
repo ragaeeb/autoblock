@@ -377,6 +377,7 @@ NavigationPane
         {
             var inspectPage = definition.createObject();
             inspectPage.elementsSelected.connect(onKeywordsSelected);
+            inspectPage.showSelectAll = false;
             inspectPage.elements = keywords;
             
             navigationPane.push(inspectPage);

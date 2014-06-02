@@ -12,7 +12,6 @@
 #include "MessageFetcherThread.h"
 #include "MessageImporter.h"
 #include "PimUtil.h"
-#include "QueryId.h"
 
 #define CARD_KEY "logCard"
 

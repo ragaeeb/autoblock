@@ -4,7 +4,7 @@ import com.canadainc.data 1.0
 TabbedPane
 {
     id: root
-    activeTab: logTab
+    activeTab: persist.getValueFor("startAtConversations") == 1 ? conversationsTab : logTab
     showTabsOnActionBar: true
     
     Menu.definition: CanadaIncMenu

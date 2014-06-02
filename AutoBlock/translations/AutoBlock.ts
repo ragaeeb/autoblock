@@ -307,7 +307,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="384"/>
+        <location filename="../assets/ConversationsPane.qml" line="385"/>
         <source>Could not find any suspicious keywords in the message...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -361,18 +361,28 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ElementPickerPage.qml" line="26"/>
+        <location filename="../assets/ElementPickerPage.qml" line="35"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ElementPickerPage.qml" line="45"/>
+        <location filename="../assets/ElementPickerPage.qml" line="54"/>
         <source>Clear All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ElementPickerPage.qml" line="57"/>
+        <location filename="../assets/ElementPickerPage.qml" line="66"/>
         <source>Select All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/ElementPickerPage.qml" line="73"/>
+        <source>Confirmation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/ElementPickerPage.qml" line="73"/>
+        <source>You should review the elements in this list. You may be selecting false positives! Are you sure you want to select all?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -616,7 +626,7 @@ Check back in a few days.</source>
 <context>
     <name>autoblock::QueryHelper</name>
     <message>
-        <location filename="../src/QueryHelper.cpp" line="326"/>
+        <location filename="../src/QueryHelper.cpp" line="324"/>
         <source>Error initializing link with service. Please restart your device...</source>
         <translation type="unfinished"></translation>
     </message>

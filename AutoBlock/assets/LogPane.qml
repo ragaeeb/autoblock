@@ -81,7 +81,7 @@ NavigationPane
                             id: sli
                             title: ListItemData.address
                             imageSource: "images/menu/ic_log.png"
-                            description: ListItemData.message
+                            description: ListItemData.message.replace(/\n/g, " ").substr(0, 120) + "..."
                             status: ListItem.view.localizer.renderStandardTime( new Date(ListItemData.timestamp) )
                             opacity: 0
                             

@@ -46,6 +46,21 @@ Page
                 }
             }
             
+            PersistCheckBox
+            {
+                topMargin: 10
+                key: "startAtConversations"
+                text: qsTr("Start At Conversations Tab") + Retranslate.onLanguageChanged
+                
+                onCheckedChanged: {
+                    if (checked) {
+                        infoText.text = qsTr("The app will start at the Conversations tab when it is loaded.");
+                    } else {
+                        infoText.text = qsTr("The app will start at the Logs tab when it is loaded.");
+                    }
+                }
+            }
+            
             Label {
                 topMargin: 40
                 id: infoText

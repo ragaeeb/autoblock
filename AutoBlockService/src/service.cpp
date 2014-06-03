@@ -1,7 +1,6 @@
 #include "precompiled.h"
 
 #include "service.hpp"
-#include "AppLogFetcher.h"
 #include "BlockUtils.h"
 #include "IOUtils.h"
 #include "Logger.h"

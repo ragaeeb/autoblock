@@ -22,7 +22,7 @@ NavigationPane
             acceptAction: UpdateActionItem
             {
                 onConfirmed: {
-                    app.submit(gdm);
+                    updater.submit();
                 }
             }
         }

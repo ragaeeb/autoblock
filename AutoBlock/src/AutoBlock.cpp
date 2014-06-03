@@ -276,13 +276,6 @@ void AutoBlock::childCardDone(bb::system::CardDoneMessage const& message) {
 }
 
 
-void AutoBlock::submit(QObject* gdm)
-{
-    GroupDataModel* g = qobject_cast<GroupDataModel*>(gdm);
-    m_update.submit( g->toListOfMaps() );
-}
-
-
 AutoBlock::~AutoBlock()
 {
 }

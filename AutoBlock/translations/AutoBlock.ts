@@ -526,6 +526,21 @@ And to make it even easier for our users to discover more and more spammers, Aut
         <source>Messages from your contacts should still be tested for spam keywords/senders.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="53"/>
+        <source>Start At Conversations Tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="57"/>
+        <source>The app will start at the Conversations tab when it is loaded.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="59"/>
+        <source>The app will start at the Logs tab when it is loaded.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>UpdateActionItem</name>

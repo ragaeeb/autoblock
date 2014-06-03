@@ -43,7 +43,7 @@ void QueryHelper::onError(QString const& errorMessage)
     LOGGER(errorMessage);
 
 #if defined(QT_NO_DEBUG)
-    m_reporter->submitLogs(true);
+    m_reporter->submitLogs();
 #endif
 }
 

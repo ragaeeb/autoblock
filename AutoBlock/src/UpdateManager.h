@@ -12,9 +12,10 @@ class UpdateManager : public QObject
     Q_OBJECT
 
     NetworkProcessor m_network;
-    QHash<QString, bool> m_local;
 
 private slots:
+    void onCompressed();
+    void onUncompressed();
     void onRequestComplete(QVariant const& cookie, QByteArray const& data);
 
 Q_SIGNALS:
@@ -25,7 +26,7 @@ public:
     UpdateManager();
     virtual ~UpdateManager();
 
-    void submit(QList<QVariantMap> const& all);
+    Q_SLOT void submit();
 };
 
 } /* namespace autoblock */

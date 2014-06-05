@@ -4,6 +4,7 @@ import bb.system 1.0
 ActionItem
 {
     id: updateAction
+    imageSource: "images/dropdown/ic_sync.png"
     title: qsTr("Update") + Retranslate.onLanguageChanged
     property variant progress
     signal confirmed()

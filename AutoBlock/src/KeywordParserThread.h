@@ -15,7 +15,7 @@ class KeywordParserThread : public QObject, public QRunnable
 	QVariantList m_excluded;
 
 signals:
-	void keywordsExtracted(QStringList const& keywords);
+	void keywordsExtracted(QVariantList const& keywords);
 
 public:
 	KeywordParserThread(QVariantList const& messages, QObject* parent=NULL);

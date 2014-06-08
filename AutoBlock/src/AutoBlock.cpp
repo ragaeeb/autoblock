@@ -112,14 +112,14 @@ void AutoBlock::parseKeywords(QVariantList const& toProcess)
 {
     LOGGER(toProcess);
 
-    prepareKeywordExtraction( toProcess, SLOT( onKeywordsExtracted(QStringList const&) ) );
+    prepareKeywordExtraction( toProcess, SLOT( onKeywordsExtracted(QVariantList const&) ) );
 }
 
 
 void AutoBlock::prepareKeywordExtraction(QVariantList const& toProcess, const char* slot)
 {
     KeywordParserThread* ai = new KeywordParserThread(toProcess);
-    connect( ai, SIGNAL( keywordsExtracted(QStringList const&) ), this, slot );
+    connect( ai, SIGNAL( keywordsExtracted(QVariantList const&) ), this, slot );
     connect( &m_helper, SIGNAL( dataReady(int, QVariant const&) ), ai, SLOT( dataReady(int, QVariant const&) ) );
 
     m_helper.fetchExcludedWords();
@@ -151,7 +151,7 @@ void AutoBlock::messageFetched(QVariantMap const& result)
 }
 
 
-void AutoBlock::onKeywordsExtracted(QStringList const& keywords)
+void AutoBlock::onKeywordsExtracted(QVariantList const& keywords)
 {
     LOGGER(keywords);
 
@@ -275,7 +275,7 @@ void AutoBlock::onMessagesImported(QVariantList const& qvl)
 void AutoBlock::extractKeywords(QVariantList const& messages)
 {
     LOGGER(messages);
-    prepareKeywordExtraction( messages, SIGNAL( keywordsExtracted(QStringList const&) ) );
+    prepareKeywordExtraction( messages, SIGNAL( keywordsExtracted(QVariantList const&) ) );
 }
 
 

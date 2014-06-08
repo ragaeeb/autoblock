@@ -54,7 +54,7 @@ private slots:
 	void init();
 	void invoked(bb::system::InvokeRequest const& request);
     void messageFetched(QVariantMap const& result);
-    void onKeywordsExtracted(QStringList const& keywords);
+    void onKeywordsExtracted(QVariantList const& keywords);
     void onKeywordsSelected(QVariant k);
     void onMessagesImported(QVariantList const& qvl);
 	void terminateThreads();
@@ -63,7 +63,7 @@ Q_SIGNALS:
     void accountsImported(QVariantList const& qvl);;
 	void accountSelectedChanged();
     void initialize();
-    void keywordsExtracted(QStringList const& keywords);
+    void keywordsExtracted(QVariantList const& keywords);
 	void loadProgress(int current, int total);
     void messagesImported(QVariantList const& qvl);
 

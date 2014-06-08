@@ -7,6 +7,7 @@
 #include "AppLogFetcher.h"
 #include "customsqldatasource.h"
 #include "LazySceneCover.h"
+#include "PaymentHelper.h"
 #include "Persistance.h"
 #include "QueryHelper.h"
 #include "UpdateManager.h"
@@ -40,6 +41,7 @@ class AutoBlock : public QObject
     MessageImporter* m_importer;
     UpdateManager m_update;
     LogMonitor* m_logMonitor;
+    PaymentHelper m_payment;
 
     AutoBlock(Application *app);
     void finishWithToast(QString const& message);

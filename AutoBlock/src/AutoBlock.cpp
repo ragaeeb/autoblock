@@ -21,7 +21,8 @@ using namespace bb::cascades;
 using namespace canadainc;
 
 AutoBlock::AutoBlock(Application* app) :
-        QObject(app), m_cover("Cover.qml"), m_reporter( new AutoBlockCollector() ), m_helper(&m_sql, &m_reporter), m_importer(NULL)
+        QObject(app), m_cover("Cover.qml"), m_reporter( new AutoBlockCollector() ),
+        m_helper(&m_sql, &m_reporter), m_importer(NULL), m_payment(&m_persistance)
 {
     INIT_SETTING(CARD_KEY, true);
     INIT_SETTING(UI_KEY, true);
@@ -171,6 +172,7 @@ QObject* AutoBlock::initRoot(QString const& qmlSource, bool invoked)
     qml->setContextProperty("persist", &m_persistance);
     qml->setContextProperty("updater", &m_update);
     qml->setContextProperty("reporter", &m_reporter);
+    qml->setContextProperty("payment", &m_payment);
 
     AbstractPane* root = qml->createRootObject<AbstractPane>();
     Application::instance()->setScene(root);

@@ -12,6 +12,7 @@ class KeywordParserThread : public QObject, public QRunnable
 	Q_OBJECT
 
 	QVariantList m_messages;
+	QVariantList m_excluded;
 
 signals:
 	void keywordsExtracted(QStringList const& keywords);
@@ -19,6 +20,7 @@ signals:
 public:
 	KeywordParserThread(QVariantList const& messages, QObject* parent=NULL);
 	virtual ~KeywordParserThread();
+    Q_SLOT void dataReady(int id, QVariant const& data);
 
 	void run();
 };

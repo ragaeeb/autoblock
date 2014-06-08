@@ -11,6 +11,18 @@
 
 #define MAX_BODY_LENGTH 160
 
+namespace {
+
+QStringList createSkipKeywords()
+{
+    QStringList qsl;
+    qsl << "CREATE TABLE skip_keywords (word TEXT PRIMARY KEY)";
+    qsl << "INSERT INTO skip_keywords (word) VALUES ('able'),('after'),('from'),('have'),('into'),('over'),('same'),('that'),('their'),('there'),('these'),('they'),('thing'),('this'),('will'),('with'),('would')";
+    return qsl;
+}
+
+}
+
 namespace autoblock {
 
 using namespace bb::multimedia;
@@ -30,8 +42,29 @@ Service::Service(bb::Application* app) : QObject(app), m_logMonitor(NULL)
 
     m_settingsWatcher.addPath( s.fileName() );
 
-	connect( this, SIGNAL( initialize() ), this, SLOT( init() ), Qt::QueuedConnection ); // async startup
+    m_logMonitor = new LogMonitor(SERVICE_KEY, SERVICE_LOG_FILE, this);
 
+    connect( &m_invokeManager, SIGNAL( invoked(const bb::system::InvokeRequest&) ), this, SLOT( handleInvoke(const bb::system::InvokeRequest&) ) );
+    connect( &m_sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ) );
+
+    QString database = BlockUtils::databasePath();
+    m_sql.setSource(database);
+
+    if ( !QFile(database).exists() )
+    {
+        QStringList qsl;
+        qsl << "CREATE TABLE logs (id INTEGER PRIMARY KEY AUTOINCREMENT, address TEXT NOT NULL, message TEXT, timestamp INTEGER NOT NULL)";
+        qsl << "CREATE TABLE inbound_blacklist (address TEXT PRIMARY KEY, count INTEGER DEFAULT 0)";
+        qsl << "CREATE TABLE inbound_keywords (term TEXT PRIMARY KEY, count INTEGER DEFAULT 0)";
+        qsl << "CREATE TABLE outbound_blacklist (address TEXT PRIMARY KEY, count INTEGER DEFAULT 0)";
+        qsl << createSkipKeywords();
+        m_sql.initSetup(qsl, QueryId::Setup);
+    } else if ( !s.contains("v3.0") ) {
+        m_sql.initSetup( createSkipKeywords(), QueryId::Setup );
+        s.setValue("v3.0", 1);
+    }
+
+	connect( this, SIGNAL( initialize() ), this, SLOT( init() ), Qt::QueuedConnection ); // async startup
 	emit initialize();
 }
 
@@ -40,23 +73,8 @@ void Service::init()
 {
     m_logMonitor = new LogMonitor(SERVICE_KEY, SERVICE_LOG_FILE, this);
 
-	connect( &m_invokeManager, SIGNAL( invoked(const bb::system::InvokeRequest&) ), this, SLOT( handleInvoke(const bb::system::InvokeRequest&) ) );
-	connect( &m_settingsWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( settingChanged(QString const&) ), Qt::QueuedConnection );
-	connect( &m_sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ) );
+    connect( &m_settingsWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( settingChanged(QString const&) ), Qt::QueuedConnection );
     connect( &m_manager, SIGNAL( messageAdded(bb::pim::account::AccountKey, bb::pim::message::ConversationKey, bb::pim::message::MessageKey) ), this, SLOT( messageAdded(bb::pim::account::AccountKey, bb::pim::message::ConversationKey, bb::pim::message::MessageKey) ) );
-
-	QString database = BlockUtils::databasePath();
-	m_sql.setSource(database);
-
-	if ( !QFile(database).exists() )
-	{
-		QStringList qsl;
-		qsl << "CREATE TABLE logs (id INTEGER PRIMARY KEY AUTOINCREMENT, address TEXT NOT NULL, message TEXT, timestamp INTEGER NOT NULL)";
-		qsl << "CREATE TABLE inbound_blacklist (address TEXT PRIMARY KEY, count INTEGER DEFAULT 0)";
-		qsl << "CREATE TABLE inbound_keywords (term TEXT PRIMARY KEY, count INTEGER DEFAULT 0)";
-		qsl << "CREATE TABLE outbound_blacklist (address TEXT PRIMARY KEY, count INTEGER DEFAULT 0)";
-		m_sql.initSetup(qsl, QueryId::Setup);
-	}
 
 	settingChanged();
 

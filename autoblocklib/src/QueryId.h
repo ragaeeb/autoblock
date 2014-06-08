@@ -18,6 +18,7 @@ public:
     	FetchBlockedKeywords,
     	FetchBlockedSenders,
         FetchAllLogs,
+        FetchExcludedWords,
         FetchLatestLogs,
     	LogTransaction,
         LookupKeyword,

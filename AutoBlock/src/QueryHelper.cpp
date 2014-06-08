@@ -74,6 +74,18 @@ void QueryHelper::fetchAllBlockedKeywords(QString const& filter)
 }
 
 
+void QueryHelper::fetchExcludedWords(QString const& filter)
+{
+    if ( filter.isNull() ) {
+        m_sql->setQuery("SELECT word FROM skip_keywords ORDER BY word");
+        m_sql->load(QueryId::FetchExcludedWords);
+    } else {
+        m_sql->setQuery("SELECT word FROM skip_keywords WHERE word LIKE '%' || ? || '%' ORDER BY word");
+        m_sql->executePrepared( QVariantList() << filter, QueryId::FetchExcludedWords );
+    }
+}
+
+
 void QueryHelper::fetchAllBlockedSenders(QString const& filter)
 {
     if ( filter.isNull() ) {
@@ -175,17 +187,8 @@ QStringList QueryHelper::block(QVariantList const& addresses)
         if ( current.contains("aid") )
         {
             qint64 aid = current.value("aid").toLongLong();
-            LOGGER("Add message folder");
-
-            QList<MessageFolder> folders = m_ms->folders(aid);
-
-            for (int i = 0; i < folders.size(); i++) {
-                LOGGER( folders[i].id() << folders[i].name() << folders[i].type() );
-            }
-
-            LOGGER("** added");
-            //m_ms->remove( aid, current.value("id").toLongLong() );
-            //m_ms->remove( aid, current.value("cid").toString() );
+            m_ms->remove( aid, current.value("id").toLongLong() );
+            m_ms->remove( aid, current.value("cid").toString() );
         }
     }
 

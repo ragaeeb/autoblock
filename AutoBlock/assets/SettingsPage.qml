@@ -61,6 +61,28 @@ Page
                 }
             }
             
+            PersistCheckBox
+            {
+                id: moveTrash
+                topMargin: 10
+                key: "moveToTrash"
+                text: qsTr("Move Spam to Trash") + Retranslate.onLanguageChanged
+                
+                onCheckedChanged: {
+                    if ( checked && !persist.contains("autoblock_junk") ) {
+                        persist.showBlockingToast( qsTr("This is a purchasable feature that will allow spam messages to be moved to the trash folder instead of directly deleting them. Press OK to launch the payment screen."), qsTr("OK"), "file:///usr/share/icons/bb_action_delete.png" );
+                        moveTrash.checked = false;
+                        payment.requestPurchase("autoblock_junk", "Junk Folder (Move to Trash)");
+                    } else {
+                        if (checked) {
+                            infoText.text = qsTr("The app will move the spam messages to the trash folder instead of directly deleting them. This way if a message is accidentally blocked, you can still go recover it.");
+                        } else {
+                            infoText.text = qsTr("The app will permanently delete all spam messages. Warning: There is no way to recover these deleted messages with this setting.");
+                        }
+                    }
+                }
+            }
+            
             Label {
                 topMargin: 40
                 id: infoText

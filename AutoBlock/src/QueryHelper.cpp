@@ -172,11 +172,20 @@ QStringList QueryHelper::block(QVariantList const& addresses)
             placeHolders << PLACEHOLDER;
         }
 
-        if ( current.contains("aid") && false )
+        if ( current.contains("aid") )
         {
             qint64 aid = current.value("aid").toLongLong();
-            m_ms->remove( aid, current.value("id").toLongLong() );
-            m_ms->remove( aid, current.value("cid").toString() );
+            LOGGER("Add message folder");
+
+            QList<MessageFolder> folders = m_ms->folders(aid);
+
+            for (int i = 0; i < folders.size(); i++) {
+                LOGGER( folders[i].id() << folders[i].name() << folders[i].type() );
+            }
+
+            LOGGER("** added");
+            //m_ms->remove( aid, current.value("id").toLongLong() );
+            //m_ms->remove( aid, current.value("cid").toString() );
         }
     }
 

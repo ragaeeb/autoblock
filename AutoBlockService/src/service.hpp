@@ -9,6 +9,7 @@
 #include <bb/pim/message/MessageService>
 
 #include "customsqldatasource.h"
+#include "OptionSettings.h"
 
 namespace bb {
 	class Application;
@@ -33,9 +34,7 @@ class Service: public QObject
 	Q_OBJECT
 
     QQueue<qint64> m_pending;
-	bool m_sound;
-	bool m_whitelistContacts;
-	int m_threshold;
+	OptionSettings m_options;
     MessageService m_manager;
 	QFileSystemWatcher m_settingsWatcher;
 	InvokeManager m_invokeManager;
@@ -43,10 +42,13 @@ class Service: public QObject
 	QQueue<Message> m_senderQueue;
 	QQueue<Message> m_keywordQueue;
 	LogMonitor* m_logMonitor;
+	QMap<qint64, quint64> m_accountToTrash;
 
 	void processSenders(QVariantList result);
 	void processKeywords(QVariantList result);
 	void spamDetected(Message const& m);
+	void forceDelete(Message const& m);
+	bool moveToTrash(Message const& m);
 
 private slots:
     void dataLoaded(int id, QVariant const& data);

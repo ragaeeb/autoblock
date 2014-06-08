@@ -18,8 +18,7 @@ using namespace bb::platform;
 using namespace bb::system;
 using namespace canadainc;
 
-Service::Service(bb::Application* app)	:
-        QObject(app), m_sound(false), m_whitelistContacts(true), m_threshold(3), m_logMonitor(NULL)
+Service::Service(bb::Application* app) : QObject(app), m_logMonitor(NULL)
 {
 	QSettings s;
 
@@ -82,14 +81,14 @@ void Service::dataLoaded(int id, QVariant const& data)
 
 void Service::processKeywords(QVariantList result)
 {
-    LOGGER("Process keywords result" << result.size() << m_threshold << m_keywordQueue.size());
+    LOGGER("Process keywords result" << result.size() << m_options.threshold << m_keywordQueue.size());
 
     if ( !m_keywordQueue.isEmpty() )
     {
         LOGGER("Spam matched!");
         Message m = m_keywordQueue.dequeue();
 
-        if ( result.size() >= m_threshold )
+        if ( result.size() >= m_options.threshold )
         {
             spamDetected(m);
 
@@ -115,12 +114,16 @@ void Service::spamDetected(Message const& m)
         body = m.subject().trimmed();
     }
 
-    LOGGER("Matches found, deleting messages");
-    m_manager.remove( m.accountId(), m.id() );
-    m_manager.remove( m.accountId(), m.conversationId() );
-    LOGGER("Matches found, deleted");
+    if (m_options.moveToTrash)
+    {
+        if ( !moveToTrash(m) ) {
+            forceDelete(m);
+        }
+    } else {
+        forceDelete(m);
+    }
 
-    if (m_sound) {
+    if (m_options.sound) {
         SystemSound::play(SystemSound::RecordingStartEvent);
     }
 
@@ -134,6 +137,47 @@ void Service::spamDetected(Message const& m)
 
     m_sql.setQuery( QString("INSERT INTO logs (address,message,timestamp) VALUES (?,?,%1)").arg( QDateTime::currentMSecsSinceEpoch() ) );
     m_sql.executePrepared(params, QueryId::LogTransaction);
+}
+
+
+
+bool Service::moveToTrash(Message const& m)
+{
+    qint64 accountId = m.accountId();
+    quint64 trashFolderId = 0;
+
+    if ( !m_accountToTrash.contains(accountId) )
+    {
+        QList<MessageFolder> folders = m_manager.folders(accountId);
+
+        for (int i = folders.size()-1; i >= 0; i--)
+        {
+            MessageFolder mf = folders[i];
+
+            if ( mf.type() == MessageFolder::Trash ) {
+                m_accountToTrash[accountId] = trashFolderId = mf.id();
+            }
+        }
+    } else {
+        trashFolderId = m_accountToTrash[accountId];
+    }
+
+    if (trashFolderId) {
+        m_manager.file( accountId, m.id(), trashFolderId );
+        LOGGER("Trashed" << trashFolderId);
+    }
+
+
+    LOGGER(trashFolderId);
+    return trashFolderId > 0;
+}
+
+
+void Service::forceDelete(Message const& m)
+{
+    m_manager.remove( m.accountId(), m.id() );
+    m_manager.remove( m.accountId(), m.conversationId() );
+    LOGGER("deleted");
 }
 
 
@@ -191,15 +235,11 @@ void Service::processSenders(QVariantList result)
 
 void Service::settingChanged(QString const& path)
 {
-	LOGGER("Recalculate!" << path);
-
 	QSettings q;
-
-	m_sound = q.value("sound").toInt() == 1;
-	m_threshold = q.value("keywordThreshold").toInt();
-	m_whitelistContacts = q.value("whitelistContacts").toInt() == 1;
-
-	LOGGER("sound: " << m_sound << "threshold" << m_threshold << "whitelist" << m_whitelistContacts);
+	m_options.sound = q.value("sound").toInt() == 1;
+	m_options.threshold = q.value("keywordThreshold").toInt();
+	m_options.whitelistContacts = q.value("whitelistContacts").toInt() == 1;
+	m_options.moveToTrash = q.value("moveToTrash").toInt() == 1;
 }
 
 
@@ -214,9 +254,9 @@ void Service::messageAdded(bb::pim::account::AccountKey ak, bb::pim::message::Co
 	Q_UNUSED(ck);
 
 	Message m = m_manager.message(ak, mk);
-    LOGGER("======== NEW MESSAGE" << ak << "message id" << m.subject() << "message id" << m.id() << "senderid" << m.sender().id() );
+    LOGGER( m.subject() << "[message_id]" << m.id() << "[sender_id]" << m.sender().id() );
 
-	if ( ( !m_whitelistContacts || !m.sender().id() ) && m.isInbound() ) // is not a contact, or contacts are not whitelisted so force look up
+	if ( ( !m_options.whitelistContacts || !m.sender().id() ) && m.isInbound() ) // is not a contact, or contacts are not whitelisted so force look up
 	{
 	    QString sender = m.sender().address().toLower();
 	    QString replyTo = m.replyTo().address().toLower();

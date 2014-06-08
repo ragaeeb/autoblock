@@ -21,7 +21,7 @@ Page
     
     onElementsChanged: {
         adm.clear();
-        adm.append(elements);
+        adm.insertList(elements);
     }
     
     titleBar: TitleBar
@@ -40,7 +40,7 @@ Page
                 var toBlock = [];
                 
                 for (var i = selected.length-1; i >= 0; i--) {
-                    toBlock.push( adm.data(selected[i]) );
+                    toBlock.push( adm.data(selected[i]).value );
                 }
                 
                 elementsSelected(toBlock);
@@ -106,13 +106,18 @@ Page
             id: listView
             property variant imageSource: listImage
             
-            dataModel: ArrayDataModel {
+            dataModel: GroupDataModel {
                 id: adm
+                grouping: ItemGrouping.ByFirstChar
+                sortingKeys: ["value"]
             }
             
             onTriggered: {
                 console.log("UserEvent: ElementTriggered", indexPath);
-                toggleSelection(indexPath);
+                
+                if (indexPath.length > 1) {
+                    toggleSelection(indexPath);
+                }
             }
             
             onSelectionChanged: {
@@ -120,12 +125,22 @@ Page
             }
             
             listItemComponents: [
+                ListItemComponent {
+                    type: "header"
+                    
+                    Header {
+                        title: ListItemData
+                    }
+                },
+                
                 ListItemComponent
                 {
+                    type: "item"
+                    
                     StandardListItem
                     {
                         id: sli
-                        title: ListItemData
+                        description: ListItemData.value
                         imageSource: ListItem.view.imageSource
                         opacity: 0
                         

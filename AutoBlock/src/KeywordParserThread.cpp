@@ -62,9 +62,17 @@ void KeywordParserThread::run()
     }
 
     QStringList all = map.keys();
-    qSort( all.begin(), all.end() );
 
-    emit keywordsExtracted(all);
+    QVariantList result;
+
+    for (int i = 0; i < all.size(); i++)
+    {
+        QVariantMap qvm;
+        qvm["value"] = all[i];
+        result << qvm;
+    }
+
+    emit keywordsExtracted(result);
     running = false;
 }
 

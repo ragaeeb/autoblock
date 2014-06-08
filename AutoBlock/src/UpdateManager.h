@@ -20,7 +20,7 @@ private slots:
 
 Q_SIGNALS:
     void downloadProgress(QVariant const&, qint64 bytesReceived, qint64 bytesTotal);
-    void updatesAvailable(QStringList const& addresses);
+    void updatesAvailable(QVariantList const& addresses);
 
 public:
     UpdateManager();

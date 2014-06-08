@@ -5,10 +5,11 @@ namespace autoblock {
 
 struct OptionSettings
 {
-    bool sound;
-    bool whitelistContacts;
+    bool blockStrangers;
     bool moveToTrash;
+    bool sound;
     int threshold;
+    bool whitelistContacts;
 };
 
 } /* namespace autoblock */

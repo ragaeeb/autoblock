@@ -57,6 +57,7 @@ public:
     Q_INVOKABLE void fetchAllBlockedKeywords(QString const& filter=QString());
     Q_INVOKABLE void fetchAllBlockedSenders(QString const& filter=QString());
     Q_INVOKABLE void fetchAllLogs(QString const& filter=QString());
+    Q_INVOKABLE void fetchExcludedWords(QString const& filter=QString());
     Q_INVOKABLE void fetchLatestLogs();
     Q_INVOKABLE QStringList block(QVariantList const& numbers);
     Q_INVOKABLE QStringList blockKeywords(QVariantList const& keywords);

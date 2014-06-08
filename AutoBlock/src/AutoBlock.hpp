@@ -47,6 +47,7 @@ class AutoBlock : public QObject
     void finishWithToast(QString const& message);
     QObject* initRoot(QString const& qml="main.qml", bool invoked=false);
     void parseKeywords(QVariantList const& toProcess);
+    void prepareKeywordExtraction(QVariantList const& toProcess, const char* slot);
 
 private slots:
     void childCardDone(bb::system::CardDoneMessage const& message=bb::system::CardDoneMessage());

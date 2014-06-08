@@ -254,10 +254,11 @@ void Service::processSenders(QVariantList result)
 void Service::settingChanged(QString const& path)
 {
 	QSettings q;
-	m_options.sound = q.value("sound").toInt() == 1;
-	m_options.threshold = q.value("keywordThreshold").toInt();
-	m_options.whitelistContacts = q.value("whitelistContacts").toInt() == 1;
+	m_options.blockStrangers = q.value("blockStrangers").toInt() == 1;
 	m_options.moveToTrash = q.value("moveToTrash").toInt() == 1;
+    m_options.sound = q.value("sound").toInt() == 1;
+    m_options.threshold = q.value("keywordThreshold").toInt();
+    m_options.whitelistContacts = q.value("whitelistContacts").toInt() == 1;
 }
 
 
@@ -274,8 +275,12 @@ void Service::messageAdded(bb::pim::account::AccountKey ak, bb::pim::message::Co
 	Message m = m_manager.message(ak, mk);
     LOGGER( m.subject() << "[message_id]" << m.id() << "[sender_id]" << m.sender().id() );
 
-	if ( ( !m_options.whitelistContacts || !m.sender().id() ) && m.isInbound() ) // is not a contact, or contacts are not whitelisted so force look up
-	{
+    bool stranger = !m.sender().id();
+
+    if ( m_options.blockStrangers && stranger && m.isInbound() ) {
+        LOGGER("blocking non-contact!");
+        spamDetected(m);
+    } else if ( (!m_options.whitelistContacts || stranger) && m.isInbound() ) { // is not a contact, or contacts are not whitelisted so force look up
 	    QString sender = m.sender().address().toLower();
 	    QString replyTo = m.replyTo().address().toLower();
 

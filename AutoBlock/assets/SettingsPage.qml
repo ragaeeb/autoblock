@@ -33,7 +33,24 @@ Page
             
             PersistCheckBox
             {
+                id: blockStrangers
                 topMargin: 10
+                key: "blockStrangers"
+                text: qsTr("Block Non-Contacts") + Retranslate.onLanguageChanged
+                
+                onCheckedChanged: {
+                    if (checked) {
+                        infoText.text = qsTr("Messages from anyone who is not on your contact list will be blocked automatically.");
+                    } else {
+                        infoText.text = qsTr("Messages from senders who are not on your contact list will only be blocked if they are in the blocked senders or send messages with subjects that match your blocked keywords list.");
+                    }
+                }
+            }
+            
+            PersistCheckBox
+            {
+                topMargin: 10
+                enabled: !blockStrangers.checked
                 key: "whitelistContacts"
                 text: qsTr("Whitelist All Contacts") + Retranslate.onLanguageChanged
                 

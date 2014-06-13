@@ -13,12 +13,15 @@
 #include "MessageImporter.h"
 #include "PimUtil.h"
 
+#include <bb/system/phone/Phone>
+
 #define CARD_KEY "logCard"
 
 namespace autoblock {
 
 using namespace bb::cascades;
 using namespace canadainc;
+using namespace bb::system::phone;
 
 AutoBlock::AutoBlock(Application* app) :
         QObject(app), m_cover("Cover.qml"), m_reporter( new AutoBlockCollector() ),
@@ -40,6 +43,14 @@ AutoBlock::AutoBlock(Application* app) :
         m_logMonitor = new LogMonitor(UI_KEY, UI_LOG_FILE, this);
         initRoot();
         break;
+    }
+
+    Phone p;
+    QMap<QString, Line> lines = p.lines();
+    QStringList qsl = lines.keys();
+
+    for (int i = 0; i < lines.size(); i++) {
+        LOGGER( lines[i] <<  );
     }
 }
 

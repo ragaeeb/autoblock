@@ -44,18 +44,33 @@ NavigationPane
                     {
                         horizontalAlignment: HorizontalAlignment.Fill
                         verticalAlignment: VerticalAlignment.Fill
-                        leftPadding: 10; rightPadding: 10; topPadding: 5
+                        leftPadding: 10; rightPadding: 10; topPadding: 5; bottomPadding: 10
                         
                         Slider {
                             value: persist.getValueFor("keywordThreshold")
                             horizontalAlignment: HorizontalAlignment.Fill
                             fromValue: 1
-                            toValue: 10
+                            toValue: 5
                             
                             onValueChanged: {
                                 var actualValue = Math.floor(value);
                                 var changed = persist.saveValueFor("keywordThreshold", actualValue, false);
                                 thresholdLabel.text = qsTr("Threshold: %1").arg(actualValue);
+                            }
+                        }
+                        
+                        PersistCheckBox
+                        {
+                            id: scanName
+                            key: "scanName"
+                            text: qsTr("Scan Sender Name/Address") + Retranslate.onLanguageChanged
+                            
+                            onCheckedChanged: {
+                                if ( checked && !persist.contains("autoblock_constraints") ) {
+                                    persist.showBlockingToast( qsTr("This is a purchasable feature that will also scan the sender's name as well as email address to try to match if any of the keywords here are found."), qsTr("OK"), "asset:///images/tabs/ic_keywords.png" );
+                                    scanName.checked = false;
+                                    payment.requestPurchase("autoblock_constraints", "Additional Constraints");
+                                }
                             }
                         }
                     }

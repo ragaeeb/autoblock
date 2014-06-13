@@ -93,6 +93,8 @@ void Service::dataLoaded(int id, QVariant const& data)
     } else if (id == QueryId::LookupKeyword) {
         LOGGER("LookupKeyword");
         processKeywords( data.toList() );
+    } else if (id == QueryId::Setup) {
+        IOUtils::writeFile( BlockUtils::setupFilePath() );
     }
 }
 
@@ -227,6 +229,10 @@ void Service::processSenders(QVariantList result)
             QVariantList keywords;
             QStringList placeHolders;
 
+            if (m_options.scanName) {
+                subjectTokens << m.sender().name().trimmed().toLower().split(" ");
+            }
+
             for (int i = subjectTokens.size()-1; i >= 0; i--)
             {
                 QString current = BlockUtils::isValidKeyword(subjectTokens[i]);
@@ -256,6 +262,7 @@ void Service::settingChanged(QString const& path)
 	QSettings q;
 	m_options.blockStrangers = q.value("blockStrangers").toInt() == 1;
 	m_options.moveToTrash = q.value("moveToTrash").toInt() == 1;
+	m_options.scanName = q.value("scanName").toInt() == 1;
     m_options.sound = q.value("sound").toInt() == 1;
     m_options.threshold = q.value("keywordThreshold").toInt();
     m_options.whitelistContacts = q.value("whitelistContacts").toInt() == 1;

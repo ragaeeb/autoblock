@@ -233,6 +233,10 @@ void Service::processSenders(QVariantList result)
                 subjectTokens << m.sender().name().trimmed().toLower().split(" ");
             }
 
+            if (m_options.scanAddress) {
+                subjectTokens << m.sender().address().trimmed().toLower();
+            }
+
             for (int i = subjectTokens.size()-1; i >= 0; i--)
             {
                 QString current = BlockUtils::isValidKeyword(subjectTokens[i]);

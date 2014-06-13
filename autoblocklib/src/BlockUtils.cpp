@@ -8,6 +8,10 @@ QString BlockUtils::databasePath() {
 	return QString("%1/database.db").arg( QDir::homePath() );
 }
 
+QString BlockUtils::setupFilePath() {
+    return QString("%1/setup.log").arg( QDir::homePath() );
+}
+
 QString BlockUtils::isValidKeyword(QString const& keyword)
 {
     QString current = keyword.trimmed();

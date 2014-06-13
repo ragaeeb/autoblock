@@ -10,6 +10,15 @@ NavigationPane
         page.destroy();
     }
     
+    function validatePurchase(control)
+    {
+        if ( control.checked && !persist.contains("autoblock_constraints") ) {
+            persist.showBlockingToast( qsTr("This is a purchasable feature that will also scan the sender's name and email address to try to match if any of the keywords here are found."), qsTr("OK"), "asset:///images/tabs/ic_keywords.png" );
+            control.checked = false;
+            payment.requestPurchase("autoblock_constraints", "Additional Constraints");
+        }
+    }
+    
     Page
     {
         id: root
@@ -63,14 +72,21 @@ NavigationPane
                         {
                             id: scanName
                             key: "scanName"
-                            text: qsTr("Scan Sender Name/Address") + Retranslate.onLanguageChanged
+                            text: qsTr("Scan Sender Name") + Retranslate.onLanguageChanged
                             
                             onCheckedChanged: {
-                                if ( checked && !persist.contains("autoblock_constraints") ) {
-                                    persist.showBlockingToast( qsTr("This is a purchasable feature that will also scan the sender's name as well as email address to try to match if any of the keywords here are found."), qsTr("OK"), "asset:///images/tabs/ic_keywords.png" );
-                                    scanName.checked = false;
-                                    payment.requestPurchase("autoblock_constraints", "Additional Constraints");
-                                }
+                                validatePurchase(scanName);
+                            }
+                        }
+                        
+                        PersistCheckBox
+                        {
+                            id: scanAddress
+                            key: "scanAddress"
+                            text: qsTr("Scan Sender Address") + Retranslate.onLanguageChanged
+                            
+                            onCheckedChanged: {
+                                validatePurchase(scanAddress);
                             }
                         }
                     }

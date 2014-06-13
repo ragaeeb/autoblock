@@ -97,7 +97,7 @@ NavigationPane
                             ]
                             
                             onCreationCompleted: {
-                                slider.play()
+                                slider.play();
                             }
                         }
                     }
@@ -126,9 +126,14 @@ NavigationPane
                     emptyDelegate.delegateActive = adm.isEmpty();
                 }
                 
-                onCreationCompleted: {
+                function onReady()
+                {
                     helper.dataReady.connect(onDataLoaded);
                     helper.fetchAllLogs();
+                }
+                
+                onCreationCompleted: {
+                    app.initialize.connect(onReady);
                 }
             }
             

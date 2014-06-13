@@ -305,35 +305,24 @@ void QueryHelper::fetchLatestLogs()
 }
 
 
-void QueryHelper::checkDatabase()
+void QueryHelper::checkDatabase(QString const& path)
 {
+    Q_UNUSED(path);
+
     QString database = BlockUtils::databasePath();
 
     if ( QFile::exists(database) )
     {
         m_sql->setSource(database);
 
+        disconnect( &m_updateWatcher, SIGNAL( directoryChanged(QString const&) ), this, SLOT( checkDatabase(QString const&) ) );
         connect( &m_updateWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( databaseUpdated(QString const&) ) );
         m_updateWatcher.addPath(database);
     } else {
+        m_updateWatcher.addPath( QDir::homePath() );
+
+        connect( &m_updateWatcher, SIGNAL( directoryChanged(QString const&) ), this, SLOT( checkDatabase(QString const&) ) );
         LOGGER("Database does not exist");
-        static int count = 0;
-        recheck( count, SLOT( checkDatabase() ) );
-    }
-}
-
-
-void QueryHelper::recheck(int &count, const char* slotName)
-{
-    LOGGER("Database does not exist");
-    ++count;
-
-    if (count < 5) {
-        LOGGER("Retrying" << count);
-        QTimer::singleShot(2000*count, this, slotName);
-    } else {
-        LOGGER("Can't connect...");
-        Persistance::showBlockingToast( tr("Error initializing link with service. Please restart your device..."), "", "asset:///images/title_text.png" );
     }
 }
 

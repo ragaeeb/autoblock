@@ -1,7 +1,6 @@
 #include "precompiled.h"
 
 #include "service.hpp"
-#include "Logger.h"
 
 using namespace bb;
 using namespace autoblock;

@@ -15,6 +15,7 @@ class BlockUtils
 public:
 	static QString databasePath();
 	static QString isValidKeyword(QString const& keyword);
+	static QString setupFilePath();
 };
 
 } /* namespace autoblock */

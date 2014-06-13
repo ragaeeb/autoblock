@@ -7,6 +7,7 @@ struct OptionSettings
 {
     bool blockStrangers;
     bool moveToTrash;
+    bool scanName;
     bool sound;
     int threshold;
     bool whitelistContacts;

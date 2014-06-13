@@ -9,7 +9,7 @@ Page
     actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
     property string instructionText: qsTr("Do you want to automatically filter future messages that contain the following elements?") + Retranslate.onLanguageChanged
     property variant listImage: "images/menu/ic_keyword.png"
-    property bool showSelectAll: true
+    property bool showSelectAll: false
     
     onShowSelectAllChanged: {
         if (showSelectAll) {

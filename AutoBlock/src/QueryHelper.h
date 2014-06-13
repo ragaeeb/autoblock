@@ -35,7 +35,6 @@ class QueryHelper : public QObject
     QFileSystemWatcher m_updateWatcher;
     bool m_logSearchMode;
 
-    void recheck(int &count, const char* slotName);
     void prepareTransaction(QString const& query, QVariantList const& elements, QueryId::Type qid);
 
 private slots:
@@ -63,7 +62,7 @@ public:
     Q_INVOKABLE QStringList blockKeywords(QVariantList const& keywords);
     Q_INVOKABLE QStringList unblock(QVariantList const& senders);
     Q_INVOKABLE QStringList unblockKeywords(QVariantList const& keywords);
-    Q_SLOT void checkDatabase();
+    Q_SLOT void checkDatabase(QString const& path=QString());
 };
 
 } /* namespace oct10 */

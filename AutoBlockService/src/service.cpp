@@ -16,8 +16,8 @@ namespace {
 QStringList createSkipKeywords()
 {
     QStringList qsl;
-    qsl << "CREATE TABLE skip_keywords (word TEXT PRIMARY KEY)";
-    qsl << "INSERT INTO skip_keywords (word) VALUES ('able'),('after'),('from'),('have'),('into'),('over'),('same'),('that'),('their'),('there'),('these'),('they'),('thing'),('this'),('will'),('with'),('would')";
+    qsl << "CREATE TABLE IF NOT EXISTS skip_keywords (word TEXT PRIMARY KEY)";
+    qsl << "INSERT OR REPLACE INTO skip_keywords (word) VALUES ('able'),('after'),('from'),('have'),('into'),('over'),('same'),('that'),('their'),('there'),('these'),('they'),('thing'),('this'),('will'),('with'),('would')";
     return qsl;
 }
 
@@ -53,10 +53,10 @@ Service::Service(bb::Application* app) : QObject(app), m_logMonitor(NULL)
     if ( !QFile(database).exists() )
     {
         QStringList qsl;
-        qsl << "CREATE TABLE logs (id INTEGER PRIMARY KEY AUTOINCREMENT, address TEXT NOT NULL, message TEXT, timestamp INTEGER NOT NULL)";
-        qsl << "CREATE TABLE inbound_blacklist (address TEXT PRIMARY KEY, count INTEGER DEFAULT 0)";
-        qsl << "CREATE TABLE inbound_keywords (term TEXT PRIMARY KEY, count INTEGER DEFAULT 0)";
-        qsl << "CREATE TABLE outbound_blacklist (address TEXT PRIMARY KEY, count INTEGER DEFAULT 0)";
+        qsl << "CREATE TABLE IF NOT EXISTS logs (id INTEGER PRIMARY KEY AUTOINCREMENT, address TEXT NOT NULL, message TEXT, timestamp INTEGER NOT NULL)";
+        qsl << "CREATE TABLE IF NOT EXISTS inbound_blacklist (address TEXT PRIMARY KEY, count INTEGER DEFAULT 0)";
+        qsl << "CREATE TABLE IF NOT EXISTS inbound_keywords (term TEXT PRIMARY KEY, count INTEGER DEFAULT 0)";
+        qsl << "CREATE TABLE IF NOT EXISTS outbound_blacklist (address TEXT PRIMARY KEY, count INTEGER DEFAULT 0)";
         qsl << createSkipKeywords();
         m_sql.initSetup(qsl, QueryId::Setup);
     } else if ( !s.contains("v3.0") ) {

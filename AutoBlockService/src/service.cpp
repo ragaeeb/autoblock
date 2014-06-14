@@ -209,7 +209,8 @@ void Service::processSenders(QVariantList result)
     {
         Message m = m_senderQueue.dequeue();
 
-        if ( !result.isEmpty() ) {
+        if ( !result.isEmpty() )
+        {
             spamDetected(m);
 
             QStringList placeHolders;
@@ -221,7 +222,6 @@ void Service::processSenders(QVariantList result)
 
             m_sql.setQuery( QString("UPDATE inbound_blacklist SET count=count+1 WHERE address IN (%1)").arg( placeHolders.join(",") ) );
             m_sql.executePrepared(result, QueryId::BlockSenders);
-
         } else {
             QString subjectBody = m.accountId() == ACCOUNT_KEY_SMS ? PimUtil::extractText(m) : m.subject();
             QStringList subjectTokens = subjectBody.trimmed().toLower().split(" ");
@@ -231,10 +231,6 @@ void Service::processSenders(QVariantList result)
 
             if (m_options.scanName) {
                 subjectTokens << m.sender().name().trimmed().toLower().split(" ");
-            }
-
-            if (m_options.scanAddress) {
-                subjectTokens << m.sender().address().trimmed().toLower();
             }
 
             for (int i = subjectTokens.size()-1; i >= 0; i--)
@@ -253,7 +249,18 @@ void Service::processSenders(QVariantList result)
             {
                 m_keywordQueue << m;
 
-                m_sql.setQuery( QString("SELECT term FROM inbound_keywords WHERE term IN (%1)").arg( placeHolders.join(",") ) );
+                QString keywordQuery = QString("SELECT term FROM inbound_keywords WHERE term IN (%1)").arg( placeHolders.join(",") );
+
+                if (m_options.scanAddress)
+                {
+                    QString senderAddress = m.sender().address().trimmed().toLower();
+
+                    if ( !senderAddress.isEmpty() ) {
+                        keywordQuery = QString("%1 OR '%2' LIKE '%' || term || '%'").arg(keywordQuery).arg(senderAddress);
+                    }
+                }
+
+                m_sql.setQuery(keywordQuery);
                 m_sql.executePrepared(keywords, QueryId::LookupKeyword);
             }
         }

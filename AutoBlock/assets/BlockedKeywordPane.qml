@@ -87,6 +87,8 @@ NavigationPane
                             
                             onCheckedChanged: {
                                 validatePurchase(scanAddress);
+                                
+                                if ( control.checked && persist.tutorial( "tutorialScanAddress", qsTr("Warning: Be very careful when turning on this feature as it can result in harmless messages being classified as spam. For example if you enter a keyword as 'gmail', then any email address that contains 'gmail' will be blocked! This is useful for blocking entire domain names but it can also be too aggressive if not used properly."), "asset:///images/ic_pim_warning.png" ) ) {}
                             }
                         }
                     }

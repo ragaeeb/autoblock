@@ -2,7 +2,6 @@
 #define SERVICE_H_
 
 #include <QFileSystemWatcher>
-#include <QQueue>
 
 #include <bb/system/InvokeManager>
 
@@ -33,7 +32,6 @@ class Service: public QObject
 {
 	Q_OBJECT
 
-    QQueue<qint64> m_pending;
 	OptionSettings m_options;
     MessageService m_manager;
 	QFileSystemWatcher m_settingsWatcher;

@@ -192,6 +192,7 @@
     <permission>access_sms_mms</permission>
     <permission>access_pimdomain_messages</permission>
 	<permission>post_notification</permission>
+ <permission>access_shared</permission>
  <env var="LD_LIBRARY_PATH" value="app/native/lib:/usr/lib/qt4/lib" />
  <env var="CASCADES_THEME" value="bright"/>
 

@@ -1,10 +1,89 @@
 import bb.cascades 1.0
+import bb.cascades.pickers 1.0
 
 Page
 {
     titleBar: TitleBar {
         title: qsTr("Settings") + Retranslate.onLanguageChanged
     }
+    
+    actions: [
+        ActionItem
+        {
+            title: qsTr("Backup") + Retranslate.onLanguageChanged
+            ActionBar.placement: ActionBarPlacement.OnBar
+            imageSource: "images/menu/ic_backup.png"
+            
+            onTriggered: {
+                console.log("UserEvent: Backup");
+                filePicker.title = qsTr("Select Destination");
+                filePicker.mode = FilePickerMode.Saver
+                filePicker.defaultSaveFileNames = ["autoblock_backup.zip"]
+                filePicker.allowOverwrite = true;
+                
+                filePicker.open();
+            }
+            
+            function onSaved(result) {
+                persist.showBlockingToast( qsTr("Successfully backed up to %1").arg( result.substring(15) ), qsTr("OK"), "asset:///images/menu/ic_backup.png" );
+            }
+            
+            onCreationCompleted: {
+                updater.backupComplete.connect(onSaved);
+            }
+        },
+        
+        ActionItem
+        {
+            title: qsTr("Restore") + Retranslate.onLanguageChanged
+            ActionBar.placement: ActionBarPlacement.OnBar
+            imageSource: "images/menu/ic_restore.png"
+            
+            onTriggered: {
+                console.log("UserEvent: Restore");
+                filePicker.title = qsTr("Select File");
+                filePicker.mode = FilePickerMode.Picker
+                
+                filePicker.open();
+            }
+            
+            function onRestored(result)
+            {
+                if (result) {
+                    persist.showBlockingToast( qsTr("Successfully restored! The app will now close itself so when you re-open it the restored database can take effect!"), qsTr("OK"), "asset:///images/menu/ic_restore.png" );
+                    app.exit();
+                } else {
+                    persist.showBlockingToast( qsTr("The database could not be restored. Please re-check the backup file to ensure it is valid, and if the problem persists please file a bug report. Make sure to attach the backup file with your report!"), qsTr("OK"), "asset:///images/menu/ic_restore_error.png" );
+                }
+            }
+            
+            onCreationCompleted: {
+                updater.restoreComplete.connect(onRestored);
+            }
+        }
+    ]
+    
+    attachedObjects: [
+        FilePicker {
+            id: filePicker
+            defaultType: FileType.Other
+            filter: ["*.zip"]
+            
+            directories :  {
+                return ["/accounts/1000/removable/sdcard/misc", "/accounts/1000/shared/misc"]
+            }
+            
+            onFileSelected : {
+                console.log("UserEvent: File Selected", selectedFiles[0]);
+                
+                if (mode == FilePickerMode.Picker) {
+                    updater.restore(selectedFiles[0]);
+                } else {
+                    updater.backup(selectedFiles[0]);
+                }
+            }
+        }
+    ]
     
     ScrollView
     {
@@ -13,7 +92,7 @@ Page
         
         Container
         {
-            leftPadding: 20; topPadding: 20; rightPadding: 20; bottomPadding: 20
+            leftPadding: 10; topPadding: 10; rightPadding: 10; bottomPadding: 10
             horizontalAlignment: HorizontalAlignment.Fill
             verticalAlignment: VerticalAlignment.Fill
             

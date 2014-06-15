@@ -32,47 +32,50 @@ NavigationPane
         actions: [
             ActionItem
             {
-                title: qsTr("Block Email Sender") + Retranslate.onLanguageChanged
+                title: qsTr("Add") + Retranslate.onLanguageChanged
                 imageSource: "images/menu/ic_add_email.png"
                 ActionBar.placement: ActionBarPlacement.OnBar
                 
                 onTriggered: {
                     console.log("UserEvent: BlockEmailSender");
-                    addPrompt.inputField.inputMode = SystemUiInputMode.Email;
-                	addPrompt.body = qsTr("Enter the email address to block:");
-                    addPrompt.title = qsTr("Email Address");
-                    addPrompt.regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                     addPrompt.show();
                 }
                 
                 shortcuts: [
                     SystemShortcut {
-                        type: SystemShortcuts.Edit
+                        type: SystemShortcuts.CreateNew
                     }
                 ]
                 
                 attachedObjects: [
                     SystemPrompt {
                         id: addPrompt
-                        property variant regex
+                        body: qsTr("Enter the email/phone number to block:") + Retranslate.onLanguageChanged
                         confirmButton.label: qsTr("OK") + Retranslate.onLanguageChanged
                         cancelButton.label: qsTr("Cancel") + Retranslate.onLanguageChanged
+                        inputField.inputMode: SystemUiInputMode.Email
+                        inputField.emptyText: qsTr("(ie: +14162150012 OR abc@spam.com") + Retranslate.onLanguageChanged
+                        title: qsTr("Address") + Retranslate.onLanguageChanged
                         
                         onFinished: {
-                            console.log("UserEvent: BlockEmailSenderPrompt", result);
+                            console.log("UserEvent: BlockSenderPrompt", result);
                             
                             if (result == SystemUiResult.ConfirmButtonSelection)
                             {
-                                var value = addPrompt.inputFieldTextEntry().trim();
-                                var valid = regex.test(value);
+                                var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                                var phoneRegex = /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i;
                                 
-                                if (valid)
+                                var value = addPrompt.inputFieldTextEntry().trim();
+                                var validEmail = emailRegex.test(value);
+                                var validNumber = phoneRegex.test(value);
+                                
+                                if (validEmail || validNumber)
                                 {
                                     var toBlock = [{'senderAddress': value}];
                                     var blocked = helper.block(toBlock);
                                     
                                     if (blocked.length > 0) {
-                                        persist.showToast( qsTr("Successfully blocked: %1").arg( blocked.join(", ") ), "", "asset:///images/menu/ic_add_email.png" );
+                                        persist.showToast( qsTr("Successfully blocked: %1").arg( blocked.join(", ") ), "", validEmail ? "asset:///images/menu/ic_add_email.png" : "asset:///images/menu/ic_add_sms.png" );
                                     } else {
                                         persist.showToast( qsTr("Could not block: %1").arg(value), "", "asset:///images/tabs/ic_blocked.png" );
                                     }
@@ -83,27 +86,6 @@ NavigationPane
                         }
                     }
                 ]
-            },
-            
-            ActionItem
-            {
-                title: qsTr("Block SMS Sender") + Retranslate.onLanguageChanged
-                imageSource: "images/menu/ic_add_sms.png"
-                
-                shortcuts: [
-                    SystemShortcut {
-                        type: SystemShortcuts.CreateNew
-                    }
-                ]
-                
-                onTriggered: {
-                    console.log("UserEvent: BlockSmsSender");
-                    addPrompt.inputField.inputMode = SystemUiInputMode.Phone;
-                    addPrompt.body = qsTr("Enter the phone number to block:");
-                    addPrompt.title = qsTr("Phone Number");
-                    addPrompt.regex = /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i;
-                    addPrompt.show();
-                }
             },
             
             SearchActionItem {

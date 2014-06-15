@@ -31,7 +31,8 @@ using namespace canadainc;
 
 QueryHelper::QueryHelper(CustomSqlDataSource* sql, Persistance* persist, AppLogFetcher* reporter) :
         m_reporter(reporter), m_sql(sql), m_persist(persist), m_ms(NULL),
-        m_lastUpdate( QDateTime::currentMSecsSinceEpoch() ), m_logSearchMode(false)
+        m_lastUpdate( QDateTime::currentMSecsSinceEpoch() ), m_logSearchMode(false),
+        m_refreshNeeded(false)
 {
     connect( sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ), Qt::QueuedConnection );
     connect( sql, SIGNAL( error(QString const&) ), this, SLOT( onError(QString const&) ) );
@@ -325,11 +326,22 @@ void QueryHelper::checkDatabase(QString const& path)
         disconnect( &m_updateWatcher, SIGNAL( directoryChanged(QString const&) ), this, SLOT( checkDatabase(QString const&) ) );
         connect( &m_updateWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( databaseUpdated(QString const&) ) );
         m_updateWatcher.addPath(database);
+
+        if (m_refreshNeeded)
+        {
+            fetchAllLogs();
+            fetchAllBlockedSenders();
+            fetchAllBlockedKeywords();
+
+            m_refreshNeeded = false;
+        }
     } else {
         m_updateWatcher.addPath( QDir::homePath() );
 
         connect( &m_updateWatcher, SIGNAL( directoryChanged(QString const&) ), this, SLOT( checkDatabase(QString const&) ) );
         LOGGER("Database does not exist");
+
+        m_refreshNeeded = true;
     }
 }
 

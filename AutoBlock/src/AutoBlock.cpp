@@ -5,6 +5,7 @@
 #include "AutoBlockCollector.h"
 #include "BlockUtils.h"
 #include "IOUtils.h"
+#include "InvocationUtils.h"
 #include "KeywordParserThread.h"
 #include "LocaleUtil.h"
 #include "Logger.h"
@@ -221,7 +222,11 @@ void AutoBlock::init()
     request.setAction("com.canadainc.AutoBlockService.RESET");
     m_invokeManager.invoke(request);
 
-    PimUtil::validateEmailSMSAccess( tr("Warning: It seems like the app does not have access to your Email/SMS messages Folder. This permission is needed for the app to access the SMS and email services it needs to do the filtering of the spam messages. If you leave this permission off, some features may not work properly. Select OK to launch the Application Permissions screen where you can turn these settings on.") );
+    bool ok = PimUtil::validateEmailSMSAccess( tr("Warning: It seems like the app does not have access to your Email/SMS messages Folder. This permission is needed for the app to access the SMS and email services it needs to do the filtering of the spam messages. If you leave this permission off, some features may not work properly. Select OK to launch the Application Permissions screen where you can turn these settings on.") );
+
+    if (ok) {
+        InvocationUtils::validateSharedFolderAccess( tr("Warning: It seems like the app does not have access to your Shared Folder. This permission is needed for the app to properly allow you to backup & restore the database. If you leave this permission off, some features may not work properly. Select OK to launch the Application Permissions screen where you can turn these settings on.") );
+    }
 
     if ( !m_persistance.contains("clearedNulls") ) {
         m_helper.cleanInvalidEntries();

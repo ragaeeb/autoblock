@@ -14,6 +14,8 @@ ActionItem
     ]
     
     onTriggered: {
+        console.log("UserEvent: SearchAction");
+        
         if (!search) {
             search = searchDelegate.createObject();
             parent.content.add(search);

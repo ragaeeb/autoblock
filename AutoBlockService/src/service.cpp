@@ -85,7 +85,7 @@ void Service::init()
 
 void Service::dataLoaded(int id, QVariant const& data)
 {
-    LOGGER("Data loaded" << id << data);
+    LOGGER(id << data);
 
     if (id == QueryId::LookupSender) {
         LOGGER("LookupSender");
@@ -101,15 +101,16 @@ void Service::dataLoaded(int id, QVariant const& data)
 
 void Service::processKeywords(QVariantList result)
 {
-    LOGGER("Process keywords result" << result.size() << m_options.threshold << m_keywordQueue.size());
+    LOGGER("ProcessKeywordsResult" << result.size() << m_options.threshold << m_keywordQueue.size());
 
     if ( !m_keywordQueue.isEmpty() )
     {
-        LOGGER("Spam matched!");
         Message m = m_keywordQueue.dequeue();
 
         if ( result.size() >= m_options.threshold )
         {
+            LOGGER("SpamMatched!");
+
             spamDetected(m);
 
             QStringList placeHolders;
@@ -172,7 +173,7 @@ void Service::forceDelete(Message const& m)
 
 void Service::processSenders(QVariantList result)
 {
-    LOGGER("Process senders" << result << m_senderQueue.size());
+    LOGGER( result << m_senderQueue.size() );
 
     if ( !m_senderQueue.isEmpty() )
     {
@@ -251,7 +252,7 @@ void Service::settingChanged(QString const& path)
 
 void Service::handleInvoke(const bb::system::InvokeRequest & request)
 {
-	LOGGER("Invoked" << request.action() );
+	LOGGER( request.action() );
 
     if ( !request.data().isNull() )
     {

@@ -136,8 +136,10 @@ void Service::spamDetected(Message const& m)
 
     if (m_options.moveToTrash)
     {
-        if ( !moveToTrash(m) ) {
+        if ( !BlockUtils::moveToTrash( m.accountId(), m.id(), &m_manager, m_accountToTrash) ) {
             forceDelete(m);
+        } else {
+            LOGGER("MovedToTrash!");
         }
     } else {
         forceDelete(m);
@@ -157,39 +159,6 @@ void Service::spamDetected(Message const& m)
 
     m_sql.setQuery( QString("INSERT INTO logs (address,message,timestamp) VALUES (?,?,%1)").arg( QDateTime::currentMSecsSinceEpoch() ) );
     m_sql.executePrepared(params, QueryId::LogTransaction);
-}
-
-
-
-bool Service::moveToTrash(Message const& m)
-{
-    qint64 accountId = m.accountId();
-    quint64 trashFolderId = 0;
-
-    if ( !m_accountToTrash.contains(accountId) )
-    {
-        QList<MessageFolder> folders = m_manager.folders(accountId);
-
-        for (int i = folders.size()-1; i >= 0; i--)
-        {
-            MessageFolder mf = folders[i];
-
-            if ( mf.type() == MessageFolder::Trash ) {
-                m_accountToTrash[accountId] = trashFolderId = mf.id();
-            }
-        }
-    } else {
-        trashFolderId = m_accountToTrash[accountId];
-    }
-
-    if (trashFolderId) {
-        m_manager.file( accountId, m.id(), trashFolderId );
-        LOGGER("Trashed" << trashFolderId);
-    }
-
-
-    LOGGER(trashFolderId);
-    return trashFolderId > 0;
 }
 
 

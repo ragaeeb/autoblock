@@ -23,6 +23,7 @@ public:
     	LogTransaction,
         LookupKeyword,
     	LookupSender,
+    	Optimize,
     	UnblockKeywords,
     	UnblockSenders,
     	Setup

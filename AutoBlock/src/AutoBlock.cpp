@@ -22,7 +22,7 @@ using namespace canadainc;
 
 AutoBlock::AutoBlock(Application* app) :
         QObject(app), m_cover("Cover.qml"), m_reporter( new AutoBlockCollector() ),
-        m_helper(&m_sql, &m_reporter), m_importer(NULL), m_payment(&m_persistance)
+        m_helper(&m_sql, &m_persistance, &m_reporter), m_importer(NULL), m_payment(&m_persistance)
 {
     INIT_SETTING(CARD_KEY, true);
     INIT_SETTING(UI_KEY, true);

@@ -9,6 +9,7 @@
 namespace canadainc {
     class AppLogFetcher;
 	class CustomSqlDataSource;
+	class Persistance;
 }
 
 namespace bb {
@@ -30,10 +31,12 @@ class QueryHelper : public QObject
 
 	AppLogFetcher* m_reporter;
 	CustomSqlDataSource* m_sql;
+	Persistance* m_persist;
     MessageService* m_ms;
     qint64 m_lastUpdate;
     QFileSystemWatcher m_updateWatcher;
     bool m_logSearchMode;
+    QMap<qint64, quint64> m_accountToTrash;
 
     void prepareTransaction(QString const& query, QVariantList const& elements, QueryId::Type qid);
 
@@ -46,7 +49,7 @@ Q_SIGNALS:
     void dataReady(int id, QVariant const& data);
 
 public:
-	QueryHelper(CustomSqlDataSource* sql, AppLogFetcher* reporter);
+	QueryHelper(CustomSqlDataSource* sql, Persistance* persist, AppLogFetcher* reporter);
 	virtual ~QueryHelper();
 
     Q_INVOKABLE void clearBlockedKeywords();
@@ -62,6 +65,7 @@ public:
     Q_INVOKABLE QStringList blockKeywords(QVariantList const& keywords);
     Q_INVOKABLE QStringList unblock(QVariantList const& senders);
     Q_INVOKABLE QStringList unblockKeywords(QVariantList const& keywords);
+    Q_INVOKABLE void optimize();
     Q_SLOT void checkDatabase(QString const& path=QString());
 };
 

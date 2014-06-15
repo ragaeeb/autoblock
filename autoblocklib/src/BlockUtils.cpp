@@ -2,6 +2,8 @@
 
 #include <QDir>
 
+#include <bb/pim/message/MessageService>
+
 namespace autoblock {
 
 QString BlockUtils::databasePath() {
@@ -11,6 +13,35 @@ QString BlockUtils::databasePath() {
 QString BlockUtils::setupFilePath() {
     return QString("%1/setup.log").arg( QDir::homePath() );
 }
+
+
+bool BlockUtils::moveToTrash(qint64 accountId, qint64 messageId, MessageService* ms, QMap<qint64, quint64>& accountToTrash)
+{
+    quint64 trashFolderId = 0;
+
+    if ( !accountToTrash.contains(accountId) )
+    {
+        QList<MessageFolder> folders = ms->folders(accountId);
+
+        for (int i = folders.size()-1; i >= 0; i--)
+        {
+            MessageFolder mf = folders[i];
+
+            if ( mf.type() == MessageFolder::Trash ) {
+                accountToTrash[accountId] = trashFolderId = mf.id();
+            }
+        }
+    } else {
+        trashFolderId = accountToTrash[accountId];
+    }
+
+    if (trashFolderId) {
+        ms->file(accountId, messageId, trashFolderId);
+    }
+
+    return trashFolderId > 0;
+}
+
 
 QString BlockUtils::isValidKeyword(QString const& keyword)
 {

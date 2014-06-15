@@ -3,6 +3,10 @@
 #include <bb/cascades/NavigationPane>
 #include <bb/cascades/QmlDocument>
 
-#include <bb/pim/message/MessageService>
+#include <bb/cascades/pickers/FilePicker>
 
 #include <bb/device/DisplayInfo>
+
+#include <bb/pim/message/MessageService>
+
+#include <bb/system/InvokeManager>

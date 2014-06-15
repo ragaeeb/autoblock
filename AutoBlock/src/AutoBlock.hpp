@@ -74,6 +74,7 @@ public:
     Q_INVOKABLE void extractKeywords(QVariantList const& messages);
     Q_INVOKABLE void loadAccounts();
     Q_INVOKABLE void loadMessages(qint64 accountId);
+    Q_SLOT void exit();
 };
 
 }

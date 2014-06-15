@@ -210,6 +210,9 @@ void AutoBlock::init()
 	INIT_SETTING("whitelistContacts", 1);
 
 	qmlRegisterType<bb::device::DisplayInfo>("bb.device", 1, 0, "DisplayInfo");
+    qmlRegisterType<bb::cascades::pickers::FilePicker>("bb.cascades.pickers", 1, 0, "FilePicker");
+    qmlRegisterUncreatableType<bb::cascades::pickers::FileType>("bb.cascades.pickers", 1, 0, "FileType", "Can't instantiate");
+    qmlRegisterUncreatableType<bb::cascades::pickers::FilePickerMode>("bb.cascades.pickers", 1, 0, "FilePickerMode", "Can't instantiate");
 
 	connect( Application::instance(), SIGNAL( aboutToQuit() ), this, SLOT( terminateThreads() ) );
 
@@ -279,6 +282,13 @@ void AutoBlock::extractKeywords(QVariantList const& messages)
 
 void AutoBlock::childCardDone(bb::system::CardDoneMessage const& message) {
     m_invokeManager.sendCardDone(message);
+}
+
+
+void AutoBlock::exit()
+{
+    LOGGER("Terminating...");
+    bb::cascades::Application::instance()->quit();
 }
 
 

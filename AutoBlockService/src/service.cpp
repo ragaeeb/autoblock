@@ -283,6 +283,16 @@ void Service::settingChanged(QString const& path)
 void Service::handleInvoke(const bb::system::InvokeRequest & request)
 {
 	LOGGER("Invoked" << request.action() );
+
+    if ( !request.data().isNull() )
+    {
+        QString command = QString( request.data() );
+
+        if ( command.compare("terminate", Qt::CaseInsensitive) == 0 ) {
+            LOGGER("Kill switch! Terminating service...");
+            bb::Application::instance()->quit();
+        }
+    }
 }
 
 

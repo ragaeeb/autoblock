@@ -14,11 +14,15 @@ class UpdateManager : public QObject
     NetworkProcessor m_network;
 
 private slots:
+    void onSaved();
+    void onRestored();
     void onCompressed();
     void onUncompressed();
     void onRequestComplete(QVariant const& cookie, QByteArray const& data);
 
 Q_SIGNALS:
+    void backupComplete(QString const& file);
+    void restoreComplete(bool success);
     void downloadProgress(QVariant const&, qint64 bytesReceived, qint64 bytesTotal);
     void updatesAvailable(QVariantList const& addresses);
 
@@ -27,6 +31,8 @@ public:
     virtual ~UpdateManager();
 
     Q_SLOT void submit();
+    Q_INVOKABLE void backup(QString const& destination);
+    Q_INVOKABLE void restore(QString const& source);
 };
 
 } /* namespace autoblock */

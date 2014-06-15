@@ -46,13 +46,13 @@ AutoBlock::AutoBlock(Application* app) :
 
 void AutoBlock::invoked(bb::system::InvokeRequest const& request)
 {
-    LOGGER("Invoked" << request.uri() << request.mimeType() << request.action() << request.target());
+    LOGGER( request.uri() << request.mimeType() << request.action() << request.target() );
     bool ok = false;
 
     if ( request.target().compare("com.canadainc.AutoBlock.reply", Qt::CaseInsensitive) == 0 )
     {
         QStringList tokens = request.uri().toString().split(":");
-        LOGGER("INVOKED DATA" << tokens);
+        LOGGER("InvokedData" << tokens);
 
         if ( tokens.size() > 3 )
         {
@@ -145,7 +145,7 @@ void AutoBlock::messageFetched(QVariantMap const& result)
 
         parseKeywords(toProcess);
     } else {
-        LOGGER("*** FAILED HUB BLOCK!");
+        LOGGER("[FAILEDHUBBLOCK]");
         m_persistance.showToast( tr("Could not block the sender, this is due to a bug in BlackBerry OS 10.2.1. There are two ways around this problem:\n\n1) From the BlackBerry Hub, tap on the email to open it, tap on the menu icon (...) on the bottom-right, choose Share, and then choose Auto Block.\n\n2) Open the app and block the message from the Conversations tab."), "", "asset:///images/ic_pim_warning.png" );
     }
 }

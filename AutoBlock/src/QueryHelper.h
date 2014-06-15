@@ -37,6 +37,7 @@ class QueryHelper : public QObject
     QFileSystemWatcher m_updateWatcher;
     bool m_logSearchMode;
     QMap<qint64, quint64> m_accountToTrash;
+    bool m_refreshNeeded;
 
     void prepareTransaction(QString const& query, QVariantList const& elements, QueryId::Type qid);
 

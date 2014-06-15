@@ -543,72 +543,77 @@ And to make it even easier for our users to discover more and more spammers, Aut
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="133"/>
+        <location filename="../assets/SettingsPage.qml" line="80"/>
+        <source>Optimization Complete!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="134"/>
         <source>Sound</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="137"/>
+        <location filename="../assets/SettingsPage.qml" line="138"/>
         <source>A sound will be played every time a spam message is blocked.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="139"/>
+        <location filename="../assets/SettingsPage.qml" line="140"/>
         <source>No sound will be played every time a spam message is blocked.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="149"/>
+        <location filename="../assets/SettingsPage.qml" line="150"/>
         <source>Block Non-Contacts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="153"/>
+        <location filename="../assets/SettingsPage.qml" line="154"/>
         <source>Messages from anyone who is not on your contact list will be blocked automatically.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="155"/>
+        <location filename="../assets/SettingsPage.qml" line="156"/>
         <source>Messages from senders who are not on your contact list will only be blocked if they are in the blocked senders or send messages with subjects that match your blocked keywords list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="165"/>
+        <location filename="../assets/SettingsPage.qml" line="166"/>
         <source>Whitelist All Contacts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="169"/>
+        <location filename="../assets/SettingsPage.qml" line="170"/>
         <source>Messages from your contacts will never be marked as spam.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="171"/>
+        <location filename="../assets/SettingsPage.qml" line="172"/>
         <source>Messages from your contacts should still be tested for spam keywords/senders.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="180"/>
+        <location filename="../assets/SettingsPage.qml" line="181"/>
         <source>Start At Conversations Tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="184"/>
+        <location filename="../assets/SettingsPage.qml" line="185"/>
         <source>The app will start at the Conversations tab when it is loaded.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="186"/>
+        <location filename="../assets/SettingsPage.qml" line="187"/>
         <source>The app will start at the Logs tab when it is loaded.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="196"/>
+        <location filename="../assets/SettingsPage.qml" line="197"/>
         <source>Move Spam to Trash</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="200"/>
+        <location filename="../assets/SettingsPage.qml" line="201"/>
         <source>This is a purchasable feature that will allow spam messages to be moved to the trash folder instead of directly deleting them. Press OK to launch the payment screen.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -616,7 +621,7 @@ And to make it even easier for our users to discover more and more spammers, Aut
         <location filename="../assets/SettingsPage.qml" line="29"/>
         <location filename="../assets/SettingsPage.qml" line="54"/>
         <location filename="../assets/SettingsPage.qml" line="57"/>
-        <location filename="../assets/SettingsPage.qml" line="200"/>
+        <location filename="../assets/SettingsPage.qml" line="201"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
@@ -626,12 +631,12 @@ And to make it even easier for our users to discover more and more spammers, Aut
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="205"/>
+        <location filename="../assets/SettingsPage.qml" line="206"/>
         <source>The app will move the spam messages to the trash folder instead of directly deleting them. This way if a message is accidentally blocked, you can still go recover it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="207"/>
+        <location filename="../assets/SettingsPage.qml" line="208"/>
         <source>The app will permanently delete all spam messages. Warning: There is no way to recover these deleted messages with this setting.</source>
         <translation type="unfinished"></translation>
     </message>

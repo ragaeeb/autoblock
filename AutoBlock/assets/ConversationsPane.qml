@@ -253,6 +253,7 @@ NavigationPane
             ControlDelegate
             {
                 id: keywordsDelegate
+                delegateActive: false
                 horizontalAlignment: HorizontalAlignment.Right
                 verticalAlignment: VerticalAlignment.Center
                 property variant toBlock

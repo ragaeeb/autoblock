@@ -146,13 +146,8 @@
 <context>
     <name>BlockedSenderPane</name>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="119"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="101"/>
         <source>Unblock All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="35"/>
-        <source>Block Email Sender</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -161,113 +156,108 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="43"/>
-        <source>Email Address</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="42"/>
-        <source>Enter the email address to block:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="58"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="54"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="59"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="55"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="75"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="78"/>
         <source>Successfully blocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="77"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="80"/>
         <source>Could not block: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="80"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="83"/>
         <source>Invalid address entered: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="90"/>
-        <source>Block SMS Sender</source>
+        <location filename="../assets/BlockedSenderPane.qml" line="35"/>
+        <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="102"/>
-        <source>Enter the phone number to block:</source>
+        <location filename="../assets/BlockedSenderPane.qml" line="53"/>
+        <source>Enter the email/phone number to block:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="103"/>
-        <source>Phone Number</source>
+        <location filename="../assets/BlockedSenderPane.qml" line="57"/>
+        <source>(ie: +14162150012 OR abc@spam.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="130"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="58"/>
+        <source>Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/BlockedSenderPane.qml" line="112"/>
         <source>Confirmation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="131"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="113"/>
         <source>Are you sure you want to clear all blocked members?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="132"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="114"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="133"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="115"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="141"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="123"/>
         <source>Cleared all blocked senders!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="160"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="142"/>
         <source>You have no blocked senders. Either manually add phone numbers and email addresses to block from the overflow menu, or tap here to choose spam messages from your existing conversations.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="184"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="166"/>
         <source>The following addresses were unblocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="186"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="168"/>
         <source>The following addresses could not be unblocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="211"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="193"/>
         <source>Blocked!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="239"/>
-        <location filename="../assets/BlockedSenderPane.qml" line="258"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="221"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="240"/>
         <source>Unblock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="276"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="258"/>
         <source>None selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../assets/BlockedSenderPane.qml" line="282"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="264"/>
         <source>%n senders to unblock</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -513,130 +503,135 @@ And to make it even easier for our users to discover more and more spammers, Aut
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="7"/>
+        <location filename="../assets/SettingsPage.qml" line="8"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="13"/>
+        <location filename="../assets/SettingsPage.qml" line="14"/>
         <source>Backup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="19"/>
+        <location filename="../assets/SettingsPage.qml" line="20"/>
         <source>Select Destination</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="38"/>
+        <location filename="../assets/SettingsPage.qml" line="39"/>
         <source>Restore</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="44"/>
+        <location filename="../assets/SettingsPage.qml" line="45"/>
         <source>Select File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="53"/>
+        <location filename="../assets/SettingsPage.qml" line="54"/>
         <source>Successfully restored! The app will now close itself so when you re-open it the restored database can take effect!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="56"/>
+        <location filename="../assets/SettingsPage.qml" line="57"/>
         <source>The database could not be restored. Please re-check the backup file to ensure it is valid, and if the problem persists please file a bug report. Make sure to attach the backup file with your report!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="102"/>
+        <location filename="../assets/SettingsPage.qml" line="68"/>
+        <source>Optimize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="133"/>
         <source>Sound</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="106"/>
+        <location filename="../assets/SettingsPage.qml" line="137"/>
         <source>A sound will be played every time a spam message is blocked.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="108"/>
+        <location filename="../assets/SettingsPage.qml" line="139"/>
         <source>No sound will be played every time a spam message is blocked.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="118"/>
+        <location filename="../assets/SettingsPage.qml" line="149"/>
         <source>Block Non-Contacts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="122"/>
+        <location filename="../assets/SettingsPage.qml" line="153"/>
         <source>Messages from anyone who is not on your contact list will be blocked automatically.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="124"/>
+        <location filename="../assets/SettingsPage.qml" line="155"/>
         <source>Messages from senders who are not on your contact list will only be blocked if they are in the blocked senders or send messages with subjects that match your blocked keywords list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="134"/>
+        <location filename="../assets/SettingsPage.qml" line="165"/>
         <source>Whitelist All Contacts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="138"/>
+        <location filename="../assets/SettingsPage.qml" line="169"/>
         <source>Messages from your contacts will never be marked as spam.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="140"/>
+        <location filename="../assets/SettingsPage.qml" line="171"/>
         <source>Messages from your contacts should still be tested for spam keywords/senders.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="149"/>
+        <location filename="../assets/SettingsPage.qml" line="180"/>
         <source>Start At Conversations Tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="153"/>
+        <location filename="../assets/SettingsPage.qml" line="184"/>
         <source>The app will start at the Conversations tab when it is loaded.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="155"/>
+        <location filename="../assets/SettingsPage.qml" line="186"/>
         <source>The app will start at the Logs tab when it is loaded.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="165"/>
+        <location filename="../assets/SettingsPage.qml" line="196"/>
         <source>Move Spam to Trash</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="169"/>
+        <location filename="../assets/SettingsPage.qml" line="200"/>
         <source>This is a purchasable feature that will allow spam messages to be moved to the trash folder instead of directly deleting them. Press OK to launch the payment screen.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="28"/>
-        <location filename="../assets/SettingsPage.qml" line="53"/>
-        <location filename="../assets/SettingsPage.qml" line="56"/>
-        <location filename="../assets/SettingsPage.qml" line="169"/>
+        <location filename="../assets/SettingsPage.qml" line="29"/>
+        <location filename="../assets/SettingsPage.qml" line="54"/>
+        <location filename="../assets/SettingsPage.qml" line="57"/>
+        <location filename="../assets/SettingsPage.qml" line="200"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="28"/>
+        <location filename="../assets/SettingsPage.qml" line="29"/>
         <source>Successfully backed up to %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="174"/>
+        <location filename="../assets/SettingsPage.qml" line="205"/>
         <source>The app will move the spam messages to the trash folder instead of directly deleting them. This way if a message is accidentally blocked, you can still go recover it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="176"/>
+        <location filename="../assets/SettingsPage.qml" line="207"/>
         <source>The app will permanently delete all spam messages. Warning: There is no way to recover these deleted messages with this setting.</source>
         <translation type="unfinished"></translation>
     </message>

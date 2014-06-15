@@ -46,7 +46,6 @@ class Service: public QObject
 	void processKeywords(QVariantList result);
 	void spamDetected(Message const& m);
 	void forceDelete(Message const& m);
-	bool moveToTrash(Message const& m);
 
 private slots:
     void dataLoaded(int id, QVariant const& data);

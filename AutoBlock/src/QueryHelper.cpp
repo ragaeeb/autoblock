@@ -29,8 +29,8 @@ namespace autoblock {
 
 using namespace canadainc;
 
-QueryHelper::QueryHelper(CustomSqlDataSource* sql, AppLogFetcher* reporter) :
-        m_reporter(reporter), m_sql(sql), m_ms(NULL),
+QueryHelper::QueryHelper(CustomSqlDataSource* sql, Persistance* persist, AppLogFetcher* reporter) :
+        m_reporter(reporter), m_sql(sql), m_persist(persist), m_ms(NULL),
         m_lastUpdate( QDateTime::currentMSecsSinceEpoch() ), m_logSearchMode(false)
 {
     connect( sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ), Qt::QueuedConnection );
@@ -163,6 +163,8 @@ QStringList QueryHelper::block(QVariantList const& addresses)
         m_ms = new MessageService(this);
     }
 
+    bool moveToTrash = m_persist->getValueFor("moveToTrash") == 1;
+
     for (int i = addresses.size()-1; i >= 0; i--)
     {
         QVariantMap current = addresses[i].toMap();
@@ -187,8 +189,13 @@ QStringList QueryHelper::block(QVariantList const& addresses)
         if ( current.contains("aid") )
         {
             qint64 aid = current.value("aid").toLongLong();
-            m_ms->remove( aid, current.value("id").toLongLong() );
-            m_ms->remove( aid, current.value("cid").toString() );
+            qint64 mid = current.value("id").toLongLong();
+
+            if ( !moveToTrash || !BlockUtils::moveToTrash(aid, mid, m_ms, m_accountToTrash) )
+            {
+                m_ms->remove(aid, mid);
+                m_ms->remove( aid, current.value("cid").toString() );
+            }
         }
     }
 
@@ -324,6 +331,13 @@ void QueryHelper::checkDatabase(QString const& path)
         connect( &m_updateWatcher, SIGNAL( directoryChanged(QString const&) ), this, SLOT( checkDatabase(QString const&) ) );
         LOGGER("Database does not exist");
     }
+}
+
+
+void QueryHelper::optimize()
+{
+    m_sql->setQuery("VACUUM");
+    m_sql->load(QueryId::Optimize);
 }
 
 

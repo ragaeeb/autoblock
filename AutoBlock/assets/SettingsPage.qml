@@ -1,5 +1,6 @@
 import bb.cascades 1.0
 import bb.cascades.pickers 1.0
+import com.canadainc.data 1.0
 
 Page
 {
@@ -60,6 +61,29 @@ Page
             onCreationCompleted: {
                 updater.restoreComplete.connect(onRestored);
             }
+        },
+        
+        ActionItem {
+            imageSource: "images/menu/ic_optimize.png"
+            title: qsTr("Optimize") + Retranslate.onLanguageChanged
+            
+            onTriggered: {
+                console.log("UserEvent: Optimize");
+                busy.running = true;
+                helper.optimize();
+            }
+            
+            function onDataReady(id, data)
+            {
+                if (id == QueryId.Optimize) {
+                    busy.running = false;
+                    persist.showToast( qsTr("Optimization Complete!"), "", "asset:///images/menu/ic_optimize.png" );
+                }
+            }
+            
+            onCreationCompleted: {
+                helper.dataReady.connect(onDataReady);
+            }
         }
     ]
     
@@ -95,6 +119,14 @@ Page
             leftPadding: 10; topPadding: 10; rightPadding: 10; bottomPadding: 10
             horizontalAlignment: HorizontalAlignment.Fill
             verticalAlignment: VerticalAlignment.Fill
+            
+            ActivityIndicator
+            {
+                id: busy
+                horizontalAlignment: HorizontalAlignment.Center
+                preferredHeight: 150
+                running: false
+            }
             
             PersistCheckBox
             {

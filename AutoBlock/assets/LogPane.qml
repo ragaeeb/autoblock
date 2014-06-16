@@ -118,6 +118,11 @@ NavigationPane
                     if (id == QueryId.FetchAllLogs || id == QueryId.ClearLogs) {
                         adm.clear();
                         adm.append(data);
+                        
+                        if ( adm.size() > 10 ) {
+                            if ( persist.tutorial("tutorialSearchLogs", qsTr("You can use the 'Search' action from the menu to search the logs if a specific message that was blocked."), "asset:///images/menu/ic_search_logs.png" ) ) {}
+                            else if ( persist.tutorial("tutorialClearLogs", qsTr("If this list is getting too cluttered, you can always clear the logs by using the 'Clear Logs' action from the menu."), "asset:///images/menu/ic_clear_logs.png" ) ) {}
+                        }
                     } else if (id == QueryId.FetchLatestLogs) {
                         adm.insert(0, data);
                     }

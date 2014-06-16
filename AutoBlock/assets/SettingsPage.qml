@@ -222,4 +222,14 @@ Page
             }
         }
     }
+    
+    onCreationCompleted: {
+        if ( persist.tutorial("tutorialSound", qsTr("Enable the Sound checkbox if you want to hear a sound everytime a message is blocked (this will only sound if you have the device is an appropriate profile that allows notifications)."), "file:///usr/share/icons/cs_audio_caution.png" ) ) {}
+        else if ( persist.tutorial("tutorialBlockStrangers", qsTr("Enable the Block Non-Contacts checkbox if you want to block messages from anyone who is not in your contact list."), "file:///usr/share/icons/ic_open_contacts.png" ) ) {}
+        else if ( persist.tutorial("tutorialWhitelist", qsTr("Enable the Whitelist All Contacts checkbox if you want to prevent scanning of messages sent by anyone in your contact list."), "file:///usr/share/icons/add_to_contacts.png" ) ) {}
+        else if ( persist.tutorial("tutorialStartConversations", qsTr("Enable the Start At Conversations Tab checkbox if you want the app to start at the Conversations tab instead of the default Logs tab."), "file:///usr/share/icons/ic_tentative.png" ) ) {}
+        else if ( persist.tutorial("tutorialMoveTrash", qsTr("Enable the Move Spam to Trash checkbox if you want to move the spam messages to your web server's Trash folder instead of immediately permanently deleting it."), "file:///usr/share/icons/bb_action_delete.png" ) ) {}
+        else if ( persist.tutorial("tutorialOptimize", qsTr("Use the Optimize option from the menu every once in a while if you want to speed up the performance of the app."), "asset:///images/menu/ic_optimize.png" ) ) {}
+        else if ( persist.tutorial("tutorialBackupRestore", qsTr("You can use the 'Backup' action at the bottom if you want to save your blocked senders, logs, and keywords. At a later date you can use the Restore action to reimport the backup file to restore your database!"), "asset:///images/menu/ic_backup.png" ) ) {}
+    }
 }

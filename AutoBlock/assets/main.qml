@@ -7,6 +7,7 @@ TabbedPane
     activeTab: {
         persist.getValueFor("startAtConversations") == 1 ? conversationsTab : logTab
     }
+
     showTabsOnActionBar: true
     
     Menu.definition: CanadaIncMenu

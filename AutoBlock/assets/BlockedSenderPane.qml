@@ -169,16 +169,13 @@ NavigationPane
                     }
                 }
                 
-                multiSelectAction: MultiSelectActionItem {
-                    imageSource: "images/menu/ic_select_more.png"
-                }
-                
                 listItemComponents: [
                     ListItemComponent {
                         type: "header"
                         
                         Header {
                             title: ListItemData
+                            subtitle: ListItem.view.dataModel.childCount(ListItem.indexPath)
                         }
                     },
                     
@@ -200,36 +197,25 @@ NavigationPane
                                     fromOpacity: 0
                                     toOpacity: 1
                                     easingCurve: StockCurve.SineOut
-                                    duration: 1000
-                                    delay: Math.min(sli.ListItem.indexInSection * 100, 1000)
+                                    duration: 700
+                                    delay: Math.min(sli.ListItem.indexInSection * 100, 750)
                                 }
                             ]
                             
-                            onCreationCompleted: {
-                                slider.play()
+                            ListItem.onInitializedChanged: {
+                                if (initialized) {
+                                    slider.play();
+                                }
                             }
-                            
-                            contextActions: [
-                                ActionSet
-                                {
-                                    title: sli.title
-                                    subtitle: sli.description
-                                    
-                                    DeleteActionItem
-                                    {
-                                        imageSource: "images/menu/ic_unblock.png"
-                                        title: qsTr("Unblock") + Retranslate.onLanguageChanged
-                                        
-                                        onTriggered: {
-                                            console.log("UserEvent: UnblockSender");
-                                            sli.ListItem.view.unblock([ListItemData]);
-                                        }
-                                    }
-                                }
-                            ]
                         }
                     }
                 ]
+                
+                onTriggered: {
+                    console.log("UserEvent: BlockedListItem Tapped", indexPath);
+                    multiSelectHandler.active = true;
+                    toggleSelection(indexPath);
+                }
                 
                 multiSelectHandler
                 {
@@ -283,6 +269,14 @@ NavigationPane
             
             listView.visible = data.length > 0;
             emptyDelegate.delegateActive = data.length == 0;
+            
+            if ( persist.tutorialVideo("http://www.youtube.com/watch?v=rFoFPHxUF34") ) {}
+            else if ( persist.tutorial("tutorialSync", qsTr("You can use the 'Update' button at the top-right to sync your block list with our servers to discover new spammers reported by the Auto Block community that you have not discovered yet!"), "asset:///images/toast/ic_import.png" ) ) {}
+            else if ( persist.tutorial("tutorialSettings", qsTr("Swipe-down from the top-bezel and choose 'Settings' to customize the app!"), "file:///usr/share/icons/success_checkmark.png" ) ) {}
+            else if ( gdm.size() > 15 && persist.tutorial("tutorialSearchSender", qsTr("You can use the 'Search' action from the menu to search if a specific sender's address is in your blocked list."), "asset:///images/menu/ic_search_user.png" ) ) {}
+            else if ( persist.tutorial("tutorialAddSender", qsTr("Use the 'Add' action from the menu to add a specific phone number or email address you want to block."), "asset:///images/menu/ic_search_user.png" ) ) {}
+            else if ( persist.tutorial("tutorialClearBlocked", qsTr("You can clear this blocked list by selecting 'Unblock All' from the menu."), "asset:///images/menu/ic_unblock_all.png" ) ) {}
+            else if ( persist.tutorial("tutorialUnblock", qsTr("You can unblock a user you blocked by mistake by simply tapping on the blocked address and choosing 'Unblock' from the menu."), "asset:///images/menu/ic_unblock.png" ) ) {}
         }
     }
     

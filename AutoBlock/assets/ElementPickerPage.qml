@@ -134,6 +134,7 @@ Page
                     
                     Header {
                         title: ListItemData
+                        subtitle: ListItem.view.dataModel.childCount(ListItem.indexPath)
                     }
                 },
                 

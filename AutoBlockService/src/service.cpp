@@ -5,7 +5,6 @@
 #include "IOUtils.h"
 #include "Logger.h"
 #include "LogMonitor.h"
-#include "MessageManager.h"
 #include "PimUtil.h"
 #include "QueryId.h"
 
@@ -240,6 +239,8 @@ void Service::processSenders(QVariantList result)
 
 void Service::settingChanged(QString const& path)
 {
+    Q_UNUSED(path);
+
 	QSettings q;
 	m_options.blockStrangers = q.value("blockStrangers").toInt() == 1;
 	m_options.moveToTrash = q.value("moveToTrash").toInt() == 1;

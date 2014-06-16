@@ -213,8 +213,11 @@ NavigationPane
             {
                 id: listView
                 
-                dataModel: ArrayDataModel {
+                dataModel: GroupDataModel
+                {
                     id: adm
+                    grouping: ItemGrouping.ByFirstChar
+                    sortingKeys: ["term"]
                 }
                 
                 function unblock(blocked)
@@ -233,8 +236,19 @@ NavigationPane
                 }
                 
                 listItemComponents: [
+                    ListItemComponent {
+                        type: "header"
+                        
+                        Header {
+                            title: ListItemData
+                            subtitle: ListItem.view.dataModel.childCount(ListItem.indexPath)
+                        }
+                    },
+                    
                     ListItemComponent
                     {
+                        type: "item"
+                        
                         StandardListItem {
                             id: sli
                             title: ListItemData.term
@@ -248,13 +262,15 @@ NavigationPane
                                     fromOpacity: 0
                                     toOpacity: 1
                                     easingCurve: StockCurve.SineOut
-                                    duration: 1000
-                                    delay: Math.min(sli.ListItem.indexInSection * 100, 1000)
+                                    duration: 750
+                                    delay: Math.min(sli.ListItem.indexInSection * 100, 750)
                                 }
                             ]
                             
-                            onCreationCompleted: {
-                                slider.play()
+                            ListItem.onInitializedChanged: {
+                                if (initialized) {
+                                    slider.play();
+                                }
                             }
                             
                             contextActions: [
@@ -317,10 +333,18 @@ NavigationPane
                     if (id == QueryId.FetchBlockedKeywords)
                     {
                         adm.clear();
-                        adm.append(data);
+                        adm.insertList(data);
                         
                         listView.visible = data.length > 0;
                         emptyDelegate.delegateActive = data.length == 0;
+                        
+                        if ( persist.tutorial("tutorialKeywords", qsTr("You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam."), "asset:///images/tabs/ic_keywords.png" ) ) {}
+                        else if ( persist.tutorial("tutorialScanSenderName", qsTr("Enable the 'Scan Sender Name' checkbox to match keywords on the sender's name as well as the subject line."), "file:///usr/share/icons/bb_action_markspam.png" ) ) {}
+                        else if ( persist.tutorial("tutorialScanSenderAddress", qsTr("Enable the 'Scan Sender Address' checkbox to match keywords on the sender's address as well as the subject line. This is especially useful if you want to block domain names for example."), "file:///usr/share/icons/ca_set_as_contact_ringtone.png" ) ) {}
+                        else if ( adm.size() > 15 && persist.tutorial("tutorialSearchKeyword", qsTr("You can use the 'Search' action from the menu to search if a specific keyword is in your blocked list."), "asset:///images/menu/ic_search_keyword.png" ) ) {}
+                        else if ( persist.tutorial("tutorialAddKeyword", qsTr("Use the 'Add' action from the menu to add a specific keyword you want to block."), "asset:///images/menu/ic_add_spammer.png" ) ) {}
+                        else if ( persist.tutorial("tutorialClearBlockedKeywords", qsTr("You can clear this blocked list by selecting 'Clear All' from the menu."), "asset:///images/menu/ic_unblock_all.png" ) ) {}
+                        else if ( persist.tutorial("tutorialUnblockKeyword", qsTr("You can unblock a keyword you blocked by mistake by simply pressing-and-holding on the keyword and choosing 'Unblock' from the menu."), "asset:///images/menu/ic_unblock.png" ) ) {}
                     }
                 }
                 
@@ -337,9 +361,5 @@ NavigationPane
                 }
             ]
         }
-    }
-    
-    onCreationCompleted: {
-        persist.tutorial("tutorialKeywords", qsTr("You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam."), "asset:///images/tabs/ic_keywords.png" )
     }
 }

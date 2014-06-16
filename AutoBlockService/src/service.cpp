@@ -245,6 +245,7 @@ void Service::settingChanged(QString const& path)
 	m_options.blockStrangers = q.value("blockStrangers").toInt() == 1;
 	m_options.moveToTrash = q.value("moveToTrash").toInt() == 1;
 	m_options.scanName = q.value("scanName").toInt() == 1;
+	m_options.scanAddress = q.value("scanAddress").toInt() == 1;
     m_options.sound = q.value("sound").toInt() == 1;
     m_options.threshold = q.value("keywordThreshold").toInt();
     m_options.whitelistContacts = q.value("whitelistContacts").toInt() == 1;

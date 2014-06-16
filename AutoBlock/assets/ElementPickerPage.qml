@@ -19,6 +19,10 @@ Page
         }
     }
     
+    onCreationCompleted: {
+        showSelectAllChanged();
+    }
+    
     onElementsChanged: {
         adm.clear();
         adm.insertList(elements);

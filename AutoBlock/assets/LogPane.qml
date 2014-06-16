@@ -125,6 +125,7 @@ NavigationPane
                         }
                     } else if (id == QueryId.FetchLatestLogs) {
                         adm.insert(0, data);
+                        listView.scrollToPosition(ScrollPosition.Beginning, ScrollAnimation.Smooth);
                     }
                     
                     listView.visible = !adm.isEmpty();

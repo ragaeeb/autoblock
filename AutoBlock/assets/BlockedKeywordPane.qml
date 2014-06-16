@@ -140,7 +140,7 @@ NavigationPane
                                 var keywordsList = helper.blockKeywords([value]);
                                 
                                 if (keywordsList.length > 0) {
-                                    persist.showToast( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "", "asset:///images/ic_keywords.png" );
+                                    persist.showToast( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "", "asset:///images/tabs/ic_keywords.png" );
                                 } else {
                                     persist.showToast( qsTr("The keyword could not be blocked: %1").arg(value), "", "asset:///images/ic_block.png" );
                                 }
@@ -340,6 +340,6 @@ NavigationPane
     }
     
     onCreationCompleted: {
-        persist.tutorial("tutorialKeywords", qsTr("You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam."), "asset:///images/ic_keywords.png" )
+        persist.tutorial("tutorialKeywords", qsTr("You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam."), "asset:///images/tabs/ic_keywords.png" )
     }
 }

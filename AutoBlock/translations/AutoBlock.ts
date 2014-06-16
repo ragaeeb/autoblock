@@ -110,33 +110,63 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="227"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="230"/>
         <source>The following keywords could not be unblocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="343"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="341"/>
         <source>You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="225"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="342"/>
+        <source>Enable the &apos;Scan Sender Name&apos; checkbox to match keywords on the sender&apos;s name as well as the subject line.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/BlockedKeywordPane.qml" line="343"/>
+        <source>Enable the &apos;Scan Sender Address&apos; checkbox to match keywords on the sender&apos;s address as well as the subject line. This is especially useful if you want to block domain names for example.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/BlockedKeywordPane.qml" line="344"/>
+        <source>You can use the &apos;Search&apos; action from the menu to search if a specific keyword is in your blocked list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/BlockedKeywordPane.qml" line="345"/>
+        <source>Use the &apos;Add&apos; action from the menu to add a specific keyword you want to block.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/BlockedKeywordPane.qml" line="346"/>
+        <source>You can clear this blocked list by selecting &apos;Clear All&apos; from the menu.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/BlockedKeywordPane.qml" line="347"/>
+        <source>You can unblock a keyword you blocked by mistake by simply pressing-and-holding on the keyword and choosing &apos;Unblock&apos; from the menu.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/BlockedKeywordPane.qml" line="228"/>
         <source>The following keywords were unblocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="269"/>
-        <location filename="../assets/BlockedKeywordPane.qml" line="288"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="285"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="304"/>
         <source>Unblock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="306"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="322"/>
         <source>None selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../assets/BlockedKeywordPane.qml" line="312"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="328"/>
         <source>%n keywords to unblock</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -241,27 +271,56 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="193"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="190"/>
         <source>Blocked!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="221"/>
-        <location filename="../assets/BlockedSenderPane.qml" line="240"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="226"/>
         <source>Unblock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="258"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="244"/>
         <source>None selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../assets/BlockedSenderPane.qml" line="264"/>
+        <location filename="../assets/BlockedSenderPane.qml" line="250"/>
         <source>%n senders to unblock</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
+    </message>
+    <message>
+        <location filename="../assets/BlockedSenderPane.qml" line="274"/>
+        <source>You can use the &apos;Update&apos; button at the top-right to sync your block list with our servers to discover new spammers reported by the Auto Block community that you have not discovered yet!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/BlockedSenderPane.qml" line="275"/>
+        <source>Swipe-down from the top-bezel and choose &apos;Settings&apos; to customize the app!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/BlockedSenderPane.qml" line="276"/>
+        <source>You can use the &apos;Search&apos; action from the menu to search if a specific sender&apos;s address is in your blocked list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/BlockedSenderPane.qml" line="277"/>
+        <source>Use the &apos;Add&apos; action from the menu to add a specific phone number or email address you want to block.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/BlockedSenderPane.qml" line="278"/>
+        <source>You can clear this blocked list by selecting &apos;Unblock All&apos; from the menu.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/BlockedSenderPane.qml" line="279"/>
+        <source>You can unblock a user you blocked by mistake by simply tapping on the blocked address and choosing &apos;Unblock&apos; from the menu.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -292,33 +351,33 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="220"/>
-        <location filename="../assets/ConversationsPane.qml" line="245"/>
+        <location filename="../assets/ConversationsPane.qml" line="223"/>
+        <location filename="../assets/ConversationsPane.qml" line="247"/>
         <source>None selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="226"/>
+        <location filename="../assets/ConversationsPane.qml" line="229"/>
         <source>%1 conversations to mark as spam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="326"/>
+        <location filename="../assets/ConversationsPane.qml" line="328"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="334"/>
+        <location filename="../assets/ConversationsPane.qml" line="336"/>
         <source>Keywords</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="371"/>
+        <location filename="../assets/ConversationsPane.qml" line="373"/>
         <source>The keyword could not be blocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="385"/>
+        <location filename="../assets/ConversationsPane.qml" line="387"/>
         <source>Could not find any suspicious keywords in the message...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -328,12 +387,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="241"/>
+        <location filename="../assets/ConversationsPane.qml" line="244"/>
         <source>You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="369"/>
+        <location filename="../assets/ConversationsPane.qml" line="371"/>
         <source>The following keywords were added: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -372,27 +431,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ElementPickerPage.qml" line="35"/>
+        <location filename="../assets/ElementPickerPage.qml" line="39"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ElementPickerPage.qml" line="54"/>
+        <location filename="../assets/ElementPickerPage.qml" line="58"/>
         <source>Clear All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ElementPickerPage.qml" line="66"/>
+        <location filename="../assets/ElementPickerPage.qml" line="70"/>
         <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ElementPickerPage.qml" line="73"/>
+        <location filename="../assets/ElementPickerPage.qml" line="77"/>
         <source>Confirmation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ElementPickerPage.qml" line="73"/>
+        <location filename="../assets/ElementPickerPage.qml" line="77"/>
         <source>You should review the elements in this list. You may be selecting false positives! Are you sure you want to select all?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -476,6 +535,16 @@ And to make it even easier for our users to discover more and more spammers, Aut
     <message>
         <location filename="../assets/LogPane.qml" line="109"/>
         <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/LogPane.qml" line="123"/>
+        <source>You can use the &apos;Search&apos; action from the menu to search the logs if a specific message that was blocked.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/LogPane.qml" line="124"/>
+        <source>If this list is getting too cluttered, you can always clear the logs by using the &apos;Clear Logs&apos; action from the menu.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -618,6 +687,41 @@ And to make it even easier for our users to discover more and more spammers, Aut
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../assets/SettingsPage.qml" line="227"/>
+        <source>Enable the Sound checkbox if you want to hear a sound everytime a message is blocked (this will only sound if you have the device is an appropriate profile that allows notifications).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="228"/>
+        <source>Enable the Block Non-Contacts checkbox if you want to block messages from anyone who is not in your contact list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="229"/>
+        <source>Enable the Whitelist All Contacts checkbox if you want to prevent scanning of messages sent by anyone in your contact list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="230"/>
+        <source>Enable the Start At Conversations Tab checkbox if you want the app to start at the Conversations tab instead of the default Logs tab.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="231"/>
+        <source>Enable the Move Spam to Trash checkbox if you want to move the spam messages to your web server&apos;s Trash folder instead of immediately permanently deleting it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="232"/>
+        <source>Use the Optimize option from the menu every once in a while if you want to speed up the performance of the app.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="233"/>
+        <source>You can use the &apos;Backup&apos; action at the bottom if you want to save your blocked senders, logs, and keywords. At a later date you can use the Restore action to reimport the backup file to restore your database!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../assets/SettingsPage.qml" line="29"/>
         <location filename="../assets/SettingsPage.qml" line="54"/>
         <location filename="../assets/SettingsPage.qml" line="57"/>
@@ -745,42 +849,42 @@ Check back in a few days.</source>
 <context>
     <name>main</name>
     <message>
-        <location filename="../assets/main.qml" line="48"/>
+        <location filename="../assets/main.qml" line="49"/>
         <source>Blocked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="49"/>
+        <location filename="../assets/main.qml" line="50"/>
         <source>Blocked List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="72"/>
+        <location filename="../assets/main.qml" line="73"/>
         <source>Conversations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="73"/>
+        <location filename="../assets/main.qml" line="74"/>
         <source>Potential Spam Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="84"/>
+        <location filename="../assets/main.qml" line="85"/>
         <source>Keywords</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="85"/>
+        <location filename="../assets/main.qml" line="86"/>
         <source>Blacklisted Keywords</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="23"/>
+        <location filename="../assets/main.qml" line="24"/>
         <source>Logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="24"/>
+        <location filename="../assets/main.qml" line="25"/>
         <source>Blocked Messages</source>
         <translation type="unfinished"></translation>
     </message>

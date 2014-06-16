@@ -1,5 +1,5 @@
 import bb.cascades 1.0
-import bb.system 1.0
+import bb.system 1.2
 import com.canadainc.data 1.0
 
 NavigationPane
@@ -121,6 +121,7 @@ NavigationPane
                         body: qsTr("Enter the keyword you wish to add (no spaces):") + Retranslate.onLanguageChanged
                         confirmButton.label: qsTr("OK") + Retranslate.onLanguageChanged
                         cancelButton.label: qsTr("Cancel") + Retranslate.onLanguageChanged
+                        inputOptions: SystemUiInputOption.None
                         
                         onFinished: {
                             console.log("UserEvent: AddKeywordPrompt", result);

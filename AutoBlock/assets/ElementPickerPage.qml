@@ -5,11 +5,12 @@ Page
     id: root
     property variant elements
     property string titleText: qsTr("Keywords") + Retranslate.onLanguageChanged
-    signal elementsSelected(variant elements)
-    actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
     property string instructionText: qsTr("Do you want to automatically filter future messages that contain the following elements?") + Retranslate.onLanguageChanged
     property variant listImage: "images/menu/ic_keyword.png"
     property bool showSelectAll: false
+    signal elementsSelected(variant elements)
+    
+    actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
     
     onShowSelectAllChanged: {
         if (showSelectAll) {

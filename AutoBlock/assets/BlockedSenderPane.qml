@@ -270,7 +270,7 @@ NavigationPane
             listView.visible = data.length > 0;
             emptyDelegate.delegateActive = data.length == 0;
             
-            if ( persist.tutorialVideo("http://www.youtube.com/watch?v=rFoFPHxUF34") ) {}
+            if ( persist.tutorialVideo("http://youtu.be/8KAx-FvNqE8") ) {}
             else if ( persist.tutorial("tutorialSync", qsTr("You can use the 'Update' button at the top-right to sync your block list with our servers to discover new spammers reported by the Auto Block community that you have not discovered yet!"), "asset:///images/toast/ic_import.png" ) ) {}
             else if ( persist.tutorial("tutorialSettings", qsTr("Swipe-down from the top-bezel and choose 'Settings' to customize the app!"), "file:///usr/share/icons/success_checkmark.png" ) ) {}
             else if ( gdm.size() > 15 && persist.tutorial("tutorialSearchSender", qsTr("You can use the 'Search' action from the menu to search if a specific sender's address is in your blocked list."), "asset:///images/menu/ic_search_user.png" ) ) {}

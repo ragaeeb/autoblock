@@ -171,6 +171,7 @@
 
 	<asset path="icon.png">icon.png</asset>
 	<asset path="assets">assets</asset>
+	<asset path="../../canadainc/assets/AboutTitleBar.qml">assets/AboutTitleBar.qml</asset>
 	<asset path="../../canadainc/assets/AccountsDropDown.qml">assets/AccountsDropDown.qml</asset>
     <asset path="../../canadainc/assets/BugReportPage.qml">assets/BugReportPage.qml</asset>
     <asset path="../../canadainc/assets/CanadaIncMenu.qml">assets/CanadaIncMenu.qml</asset>
@@ -184,16 +185,15 @@
 	<asset path="translations" dest="qm">
 		<include name="*.qm" />
 	</asset>
- <asset path="splash_n.png">splash_n.png</asset>
+	<asset path="splash_n.png">splash_n.png</asset>
 
 	<!-- Request permission to run a backend headless process and post notification. -->
 	<permission system="true">_sys_run_headless</permission>
 	<permission system="true">_sys_headless_nostop</permission>
-    <permission>access_sms_mms</permission>
-    <permission>access_pimdomain_messages</permission>
+	<permission>access_sms_mms</permission>
+	<permission>access_pimdomain_messages</permission>
 	<permission>post_notification</permission>
- <permission>access_shared</permission>
- <env var="LD_LIBRARY_PATH" value="app/native/lib:/usr/lib/qt4/lib" />
- <env var="CASCADES_THEME" value="bright"/>
-
+	<permission>access_shared</permission>
+	<env var="LD_LIBRARY_PATH" value="app/native/lib:/usr/lib/qt4/lib" />
+	<env var="CASCADES_THEME" value="bright"/>
 </qnx>

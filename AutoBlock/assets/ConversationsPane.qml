@@ -368,7 +368,7 @@ NavigationPane
         navigationPane.pop();
         
         if (keywordsList.length > 0) {
-            persist.showToast( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "", "asset:///images/ic_keywords.png" );
+            persist.showToast( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "", "asset:///images/tabs/ic_keywords.png" );
         } else {
             persist.showToast( qsTr("The keyword could not be blocked: %1").arg(value), "", "asset:///images/ic_block.png" );
         }

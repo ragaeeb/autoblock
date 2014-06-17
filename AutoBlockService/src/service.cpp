@@ -59,7 +59,7 @@ Service::Service(bb::Application* app) : QObject(app), m_logMonitor(NULL)
         qsl << createSkipKeywords();
         m_sql.initSetup(qsl, QueryId::Setup);
     } else if ( !s.contains("v3.0") ) {
-        m_sql.initSetup( createSkipKeywords(), QueryId::Setup );
+        m_sql.executeTransaction( createSkipKeywords(), QueryId::Setup );
         s.setValue("v3.0", 1);
     }
 

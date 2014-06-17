@@ -8,11 +8,13 @@ Page
         title: qsTr("Settings") + Retranslate.onLanguageChanged
     }
     
+    actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
+    
     actions: [
         ActionItem
         {
             title: qsTr("Backup") + Retranslate.onLanguageChanged
-            ActionBar.placement: ActionBarPlacement.OnBar
+            ActionBar.placement: 'Signature' in ActionBarPlacement ? ActionBarPlacement["Signature"] : ActionBarPlacement.OnBar
             imageSource: "images/menu/ic_backup.png"
             
             onTriggered: {

@@ -36,7 +36,7 @@ ActionItem
         navigationPane.pop();
         
         if (blocked.length > 0) {
-            persist.showToast( qsTr("The following keywords were added: %1").arg( blocked.join(", ") ), "", "asset:///images/ic_add_spammer.png" );
+            persist.showToast( qsTr("The following keywords were added: %1").arg( blocked.join(", ") ), "", "asset:///images/menu/ic_add_spammer.png" );
         } else {
             persist.showToast( qsTr("The keywords could not be added: %1").arg( addresses.join(", ") ), "", "asset:///images/tabs/ic_blocked.png" );
         }

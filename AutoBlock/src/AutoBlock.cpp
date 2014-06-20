@@ -250,7 +250,7 @@ void AutoBlock::create(Application* app) {
 
 void AutoBlock::loadAccounts()
 {
-	AccountImporter* ai = new AccountImporter();
+	AccountImporter* ai = new AccountImporter(Service::Messages, true);
 	connect( ai, SIGNAL( importCompleted(QVariantList const&) ), this, SIGNAL( accountsImported(QVariantList const&) ) );
 	IOUtils::startThread(ai);
 }
@@ -267,7 +267,7 @@ void AutoBlock::loadMessages(qint64 accountId)
     connect( m_importer, SIGNAL( importCompleted(QVariantList const&) ), this, SLOT( onMessagesImported(QVariantList const&) ) );
     connect( m_importer, SIGNAL( progress(int, int) ), this, SIGNAL( loadProgress(int, int) ) );
 
-	IOUtils::startThread(m_importer);
+    IOUtils::startThread(m_importer);
 }
 
 

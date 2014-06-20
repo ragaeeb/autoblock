@@ -331,68 +331,75 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="80"/>
+        <location filename="../assets/ConversationsPane.qml" line="81"/>
         <source>Days to Fetch: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="147"/>
+        <location filename="../assets/ConversationsPane.qml" line="148"/>
         <source>The following addresses were blocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="149"/>
+        <location filename="../assets/ConversationsPane.qml" line="150"/>
         <source>The senders could not be blocked. We suggest filing a bug-report.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message numerus="yes">
+        <location filename="../assets/ConversationsPane.qml" line="176"/>
+        <source>%n seconds</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="198"/>
+        <location filename="../assets/ConversationsPane.qml" line="232"/>
         <source>Block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="223"/>
-        <location filename="../assets/ConversationsPane.qml" line="247"/>
+        <location filename="../assets/ConversationsPane.qml" line="257"/>
+        <location filename="../assets/ConversationsPane.qml" line="281"/>
         <source>None selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="229"/>
+        <location filename="../assets/ConversationsPane.qml" line="263"/>
         <source>%1 conversations to mark as spam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="328"/>
+        <location filename="../assets/ConversationsPane.qml" line="362"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="336"/>
+        <location filename="../assets/ConversationsPane.qml" line="370"/>
         <source>Keywords</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="373"/>
+        <location filename="../assets/ConversationsPane.qml" line="407"/>
         <source>The keyword could not be blocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="387"/>
+        <location filename="../assets/ConversationsPane.qml" line="421"/>
         <source>Could not find any suspicious keywords in the message...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="106"/>
+        <location filename="../assets/ConversationsPane.qml" line="107"/>
         <source>There are no incoming messages detected for this account. As soon as the first spam message comes in, open this app, come to this screen and add that message as spam and all future messages from that sender will be blocked and deleted! Or increase the &apos;Days&apos; slider at the top to fetch more messages.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="244"/>
+        <location filename="../assets/ConversationsPane.qml" line="278"/>
         <source>You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="371"/>
+        <location filename="../assets/ConversationsPane.qml" line="405"/>
         <source>The following keywords were added: %1</source>
         <translation type="unfinished"></translation>
     </message>

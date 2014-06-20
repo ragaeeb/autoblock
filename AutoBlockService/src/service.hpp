@@ -2,13 +2,13 @@
 #define SERVICE_H_
 
 #include <QFileSystemWatcher>
-
 #include <bb/system/InvokeManager>
-
+#include <bb/system/phone/Phone>
 #include <bb/pim/message/MessageService>
 
 #include "customsqldatasource.h"
 #include "OptionSettings.h"
+#include "QueryId.h"
 
 namespace bb {
 	class Application;
@@ -26,7 +26,16 @@ namespace autoblock {
 
 using namespace bb::pim::message;
 using namespace bb::system;
+using namespace bb::system::phone;
 using namespace canadainc;
+
+struct PendingQueue
+{
+    QQueue<Message> senderQueue;
+    QQueue<Message> keywordQueue;
+    QQueue<Call> callQueue;
+    QMap<QString, bool> phoneToPending;
+};
 
 class Service: public QObject
 {
@@ -34,20 +43,24 @@ class Service: public QObject
 
 	OptionSettings m_options;
     MessageService m_manager;
+    Phone m_phone;
 	QFileSystemWatcher m_settingsWatcher;
 	InvokeManager m_invokeManager;
 	CustomSqlDataSource m_sql;
-	QQueue<Message> m_senderQueue;
-	QQueue<Message> m_keywordQueue;
+	PendingQueue m_queue;
 	LogMonitor* m_logMonitor;
 	QMap<qint64, quint64> m_accountToTrash;
 
+    void forceDelete(Message const& m);
 	void processSenders(QVariantList result);
 	void processKeywords(QVariantList result);
+	void processCalls(QVariantList result);
 	void spamDetected(Message const& m);
-	void forceDelete(Message const& m);
+	void updateCount(QVariantList result, QString const& field, QString const& table, QueryId::Type t);
+    void updateLog(QString const& address, QString const& message);
 
 private slots:
+    void callUpdated(bb::system::phone::Call const& call);
     void dataLoaded(int id, QVariant const& data);
 	void handleInvoke(const bb::system::InvokeRequest &);
 	void init();

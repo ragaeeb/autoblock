@@ -56,15 +56,16 @@ NavigationPane
                                     expanded = true;
                                 }
                             }
-
-                            onSelectedValueChanged: {
-                                var changed = persist.saveValueFor("accountId", selectedValue, false);
+                            
+                            onSelectedOptionChanged: {
+                                var value = selectedOption.value;
+                                var changed = persist.saveValueFor("accountId", value, false);
                                 
                                 if (changed) {
-                                    console.log("UserEvent: AccountDropDownChanged", selectedValue);
+                                    console.log("UserEvent: AccountDropDownChanged", value);
                                 }
                                 
-                                app.loadMessages(selectedValue);
+                                app.loadMessages(value, selectedOption.isCellular);
                             }
                         }
 
@@ -150,31 +151,64 @@ NavigationPane
                         }
 
                         persist.showToast(body, "", "asset:///images/menu/ic_blocked_user.png");
-                        keywordsDelegate.delegateActive = true;
+                        keywordsDelegate.delegateActive = accountChoice.selectedValue != 8;
+                    }
+                    
+                    function itemType(data, indexPath)
+                    {
+                        if (data.aid == 23) {
+                            return "sms";
+                        } else if (data.aid == 8) {
+                            return "cellular";
+                        } else if (data.aid == 199) {
+                            return "pin";
+                        } else {
+                            return "email";
+                        }
                     }
                     
                     listItemComponents: [
                         ListItemComponent
                         {
-                            StandardListItem {
-                                id: rootItem
-                                imageSource: ListItemData.imageSource ? ListItemData.imageSource : "images/ic_user.png"
+                            type: "cellular"
+                            
+                            ConversationListItem {
+                                description: qsTr("%n seconds", "", ListItemData.duration)
+                                imageSource: "file:///usr/share/icons/ic_phone.png"
+                                title: ListItemData.senderAddress
+                            }
+                        },
+                        
+                        ListItemComponent
+                        {
+                            type: "email"
+                            
+                            ConversationListItem {
+                                imageSource: ListItemData.imageSource ? ListItemData.imageSource : "images/ic_email.png"
                                 title: ListItemData.sender
                                 description: ListItemData.subject ? ListItemData.subject : ListItemData.text.replace(/\n/g, " ").substr(0, 60) + "..."
-                                
-                                animations: [
-                                    FadeTransition {
-                                        id: slider
-                                        fromOpacity: 0
-                                        toOpacity: 1
-                                        easingCurve: StockCurve.SineInOut
-                                        duration: 400
-                                    }
-                                ]
-                                
-                                onCreationCompleted: {
-                                    slider.play()
-                                }
+                            }
+                        },
+                        
+                        ListItemComponent
+                        {
+                            type: "pin"
+                            
+                            ConversationListItem {
+                                imageSource: "images/ic_user.png"
+                                title: ListItemData.sender
+                                description: ListItemData.text.replace(/\n/g, " ").substr(0, 60) + "..."
+                            }
+                        },
+                        
+                        ListItemComponent
+                        {
+                            type: "sms"
+                            
+                            ConversationListItem {
+                                description: ListItemData.text.replace(/\n/g, " ").substr(0, 60) + "..."
+                                imageSource: "images/dropdown/ic_sms.png"
+                                title: ListItemData.sender
                             }
                         }
                     ]

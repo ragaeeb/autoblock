@@ -6,7 +6,8 @@
 #include "Logger.h"
 #include "LogMonitor.h"
 #include "PimUtil.h"
-#include "QueryId.h"
+
+#include "bbndk.h"
 
 #define MAX_BODY_LENGTH 160
 
@@ -27,22 +28,11 @@ namespace autoblock {
 using namespace bb::multimedia;
 using namespace bb::platform;
 using namespace bb::system;
+using namespace bb::system::phone;
 using namespace canadainc;
 
 Service::Service(bb::Application* app) : QObject(app), m_logMonitor(NULL)
 {
-	QSettings s;
-
-	if ( !QFile::exists( s.fileName() ) )
-	{
-		s.setValue( "init", QDateTime::currentMSecsSinceEpoch() );
-		s.sync();
-	}
-
-    m_settingsWatcher.addPath( s.fileName() );
-
-    m_logMonitor = new LogMonitor(SERVICE_KEY, SERVICE_LOG_FILE, this);
-
     connect( &m_invokeManager, SIGNAL( invoked(const bb::system::InvokeRequest&) ), this, SLOT( handleInvoke(const bb::system::InvokeRequest&) ) );
     connect( &m_sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ) );
 
@@ -58,9 +48,6 @@ Service::Service(bb::Application* app) : QObject(app), m_logMonitor(NULL)
         qsl << "CREATE TABLE IF NOT EXISTS outbound_blacklist (address TEXT PRIMARY KEY, count INTEGER DEFAULT 0)";
         qsl << createSkipKeywords();
         m_sql.initSetup(qsl, QueryId::Setup);
-    } else if ( !s.contains("v3.0") ) {
-        m_sql.executeTransaction( createSkipKeywords(), QueryId::Setup );
-        s.setValue("v3.0", 1);
     }
 
 	connect( this, SIGNAL( initialize() ), this, SLOT( init() ), Qt::QueuedConnection ); // async startup
@@ -70,10 +57,26 @@ Service::Service(bb::Application* app) : QObject(app), m_logMonitor(NULL)
 
 void Service::init()
 {
+    QSettings s;
+
+    if ( !QFile::exists( s.fileName() ) )
+    {
+        s.setValue( "init", QDateTime::currentMSecsSinceEpoch() );
+        s.sync();
+    }
+
+    m_settingsWatcher.addPath( s.fileName() );
+
+    if ( !s.contains("v3.0") ) {
+        m_sql.executeTransaction( createSkipKeywords(), QueryId::Setup );
+        s.setValue("v3.0", 1);
+    }
+
     m_logMonitor = new LogMonitor(SERVICE_KEY, SERVICE_LOG_FILE, this);
 
     connect( &m_settingsWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( settingChanged(QString const&) ), Qt::QueuedConnection );
     connect( &m_manager, SIGNAL( messageAdded(bb::pim::account::AccountKey, bb::pim::message::ConversationKey, bb::pim::message::MessageKey) ), this, SLOT( messageAdded(bb::pim::account::AccountKey, bb::pim::message::ConversationKey, bb::pim::message::MessageKey) ) );
+    connect( &m_phone, SIGNAL( callUpdated(const bb::system::phone::Call&) ), this, SLOT( callUpdated(const bb::system::phone::Call&) ) );
 
 	settingChanged();
 
@@ -94,35 +97,56 @@ void Service::dataLoaded(int id, QVariant const& data)
         processKeywords( data.toList() );
     } else if (id == QueryId::Setup) {
         IOUtils::writeFile( BlockUtils::setupFilePath() );
+    } else if (id == QueryId::LookupCaller) {
+        processCalls( data.toList() );
     }
 }
 
 
 void Service::processKeywords(QVariantList result)
 {
-    LOGGER("ProcessKeywordsResult" << result.size() << m_options.threshold << m_keywordQueue.size());
+    LOGGER( result.size() << m_options.threshold << m_queue.keywordQueue.size() );
 
-    if ( !m_keywordQueue.isEmpty() )
+    if ( !m_queue.keywordQueue.isEmpty() )
     {
-        Message m = m_keywordQueue.dequeue();
+        Message m = m_queue.keywordQueue.dequeue();
 
         if ( result.size() >= m_options.threshold )
         {
-            LOGGER("SpamMatched!");
-
+            LOGGER("KeywordSpamMatched!");
             spamDetected(m);
-
-            QStringList placeHolders;
-
-            for (int i = result.size()-1; i >= 0; i--) {
-                result[i] = result[i].toMap().value("term");
-                placeHolders << "?";
-            }
-
-            m_sql.setQuery( QString("UPDATE inbound_keywords SET count=count+1 WHERE term IN (%1)").arg( placeHolders.join(",") ) );
-            m_sql.executePrepared(result, QueryId::BlockKeywords);
+            updateCount(result, "term", "inbound_keywords", QueryId::BlockKeywords);
         }
     }
+}
+
+
+void Service::processCalls(QVariantList result)
+{
+    LOGGER( result.size() << m_queue.callQueue.size() );
+
+    if ( !m_queue.callQueue.isEmpty() )
+    {
+        Call c = m_queue.callQueue.dequeue();
+        m_queue.phoneToPending.remove( c.phoneNumber() );
+        LOGGER("CallSpamMached");
+
+        bool ended = m_phone.endCall( c.callId() );
+
+        updateLog( c.phoneNumber(), ended ? tr("Successfully terminated call") : tr("Could not terminate call") );
+        updateCount(result, "address", "inbound_blacklist", QueryId::BlockSenders);
+    }
+}
+
+
+void Service::updateLog(QString const& address, QString const& message)
+{
+    if (m_options.sound) {
+        SystemSound::play(SystemSound::RecordingStartEvent);
+    }
+
+    m_sql.setQuery( QString("INSERT INTO logs (address,message,timestamp) VALUES (?,?,%1)").arg( QDateTime::currentMSecsSinceEpoch() ) );
+    m_sql.executePrepared( QVariantList() << address << message, QueryId::LogTransaction );
 }
 
 
@@ -145,20 +169,11 @@ void Service::spamDetected(Message const& m)
         forceDelete(m);
     }
 
-    if (m_options.sound) {
-        SystemSound::play(SystemSound::RecordingStartEvent);
-    }
-
-    QVariantList params = QVariantList() << m.sender().address();
-
     if ( body.length() > MAX_BODY_LENGTH ) {
-        params << QString("%1...").arg( body.left(MAX_BODY_LENGTH) );
-    } else {
-        params << body;
+        body = QString("%1...").arg( body.left(MAX_BODY_LENGTH) );
     }
 
-    m_sql.setQuery( QString("INSERT INTO logs (address,message,timestamp) VALUES (?,?,%1)").arg( QDateTime::currentMSecsSinceEpoch() ) );
-    m_sql.executePrepared(params, QueryId::LogTransaction);
+    updateLog( m.sender().address(), body );
 }
 
 
@@ -170,27 +185,32 @@ void Service::forceDelete(Message const& m)
 }
 
 
+void Service::updateCount(QVariantList result, QString const& field, QString const& table, QueryId::Type t)
+{
+    QStringList placeHolders;
+
+    for (int i = result.size()-1; i >= 0; i--) {
+        result[i] = result[i].toMap().value(field);
+        placeHolders << "?";
+    }
+
+    m_sql.setQuery( QString("UPDATE %3 SET count=count+1 WHERE %2 IN (%1)").arg( placeHolders.join(",") ).arg(field).arg(table) );
+    m_sql.executePrepared(result, t);
+}
+
+
 void Service::processSenders(QVariantList result)
 {
-    LOGGER( result << m_senderQueue.size() );
+    LOGGER( result << m_queue.senderQueue.size() );
 
-    if ( !m_senderQueue.isEmpty() )
+    if ( !m_queue.senderQueue.isEmpty() )
     {
-        Message m = m_senderQueue.dequeue();
+        Message m = m_queue.senderQueue.dequeue();
 
         if ( !result.isEmpty() )
         {
             spamDetected(m);
-
-            QStringList placeHolders;
-
-            for (int i = result.size()-1; i >= 0; i--) {
-                result[i] = result[i].toMap().value("address");
-                placeHolders << "?";
-            }
-
-            m_sql.setQuery( QString("UPDATE inbound_blacklist SET count=count+1 WHERE address IN (%1)").arg( placeHolders.join(",") ) );
-            m_sql.executePrepared(result, QueryId::BlockSenders);
+            updateCount(result, "address", "inbound_blacklist", QueryId::BlockSenders);
         } else {
             QString subjectBody = m.accountId() == ACCOUNT_KEY_SMS ? PimUtil::extractText(m) : m.subject();
             QStringList subjectTokens = subjectBody.trimmed().toLower().split(" ");
@@ -216,7 +236,7 @@ void Service::processSenders(QVariantList result)
 
             if ( !keywords.isEmpty() )
             {
-                m_keywordQueue << m;
+                m_queue.keywordQueue << m;
 
                 QString keywordQuery = QString("SELECT term FROM inbound_keywords WHERE term IN (%1)").arg( placeHolders.join(",") );
 
@@ -266,6 +286,28 @@ void Service::handleInvoke(const bb::system::InvokeRequest & request)
 }
 
 
+void Service::callUpdated(bb::system::phone::Call const& call)
+{
+    LOGGER( call.callId() << call.phoneNumber() << call.callType() << call.callState() );
+
+    if ( call.callType() == CallType::Incoming && call.callState() == CallState::Incoming && !call.phoneNumber().isEmpty() )
+    {
+#if BBNDK_VERSION_AT_LEAST(10,3,0)
+        QString phoneNumber = call.phoneNumber();
+
+        if ( !m_queue.phoneToPending.contains(phoneNumber) )
+        {
+            m_queue.callQueue << call;
+            m_queue.phoneToPending.insert(phoneNumber, true);
+
+            m_sql.setQuery( QString("SELECT address FROM inbound_blacklist WHERE address='%1'").arg(phoneNumber) );
+            m_sql.load(QueryId::LookupCaller);
+        }
+#endif
+    }
+}
+
+
 void Service::messageAdded(bb::pim::account::AccountKey ak, bb::pim::message::ConversationKey ck, bb::pim::message::MessageKey mk)
 {
 	Q_UNUSED(ck);
@@ -292,7 +334,7 @@ void Service::messageAdded(bb::pim::account::AccountKey ak, bb::pim::message::Co
 	        placeHolders << "?";
 	    }
 
-	    m_senderQueue << m;
+	    m_queue.senderQueue << m;
 
 	    m_sql.setQuery( QString("SELECT address FROM inbound_blacklist WHERE address IN (%1)").arg( placeHolders.join(",") ) );
 	    m_sql.executePrepared(addresses, QueryId::LookupSender);

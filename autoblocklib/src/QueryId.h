@@ -21,6 +21,7 @@ public:
         FetchExcludedWords,
         FetchLatestLogs,
     	LogTransaction,
+        LookupCaller,
         LookupKeyword,
     	LookupSender,
     	Optimize,

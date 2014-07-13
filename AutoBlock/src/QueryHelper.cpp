@@ -133,7 +133,7 @@ QStringList QueryHelper::blockKeywords(QVariantList const& keywords)
 
     QStringList all;
     QStringList keywordsList;
-    all << QString("INSERT OR REPLACE INTO inbound_keywords (term) SELECT ? AS 'address'");
+    all << QString("INSERT OR IGNORE INTO inbound_keywords (term) SELECT ? AS 'address'");
     QString addition = QString("UNION SELECT ?");
 
     for (int i = keywords.size()-1; i >= 0; i--)
@@ -200,7 +200,7 @@ QStringList QueryHelper::block(QVariantList const& addresses)
         }
     }
 
-    prepareTransaction("INSERT OR REPLACE INTO inbound_blacklist (address) VALUES(%1)", numbers, QueryId::BlockSenders);
+    prepareTransaction("INSERT OR IGNORE INTO inbound_blacklist (address) VALUES(%1)", numbers, QueryId::BlockSenders);
 
     return numbersList;
 }

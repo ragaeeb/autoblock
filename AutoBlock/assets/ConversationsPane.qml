@@ -146,7 +146,7 @@ NavigationPane
                         if (numbersList.length > 0) {
                             body = qsTr("The following addresses were blocked: %1").arg( numbersList.join(", ") );
                         } else {
-                            body = qsTr("The senders could not be blocked. We suggest filing a bug-report.")
+                            body = qsTr("The senders could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!")
                         }
 
                         persist.showToast(body, "", "asset:///images/menu/ic_blocked_user.png");

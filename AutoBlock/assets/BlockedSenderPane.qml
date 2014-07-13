@@ -77,7 +77,7 @@ NavigationPane
                                     if (blocked.length > 0) {
                                         persist.showToast( qsTr("Successfully blocked: %1").arg( blocked.join(", ") ), "", validEmail ? "asset:///images/menu/ic_add_email.png" : "asset:///images/menu/ic_add_sms.png" );
                                     } else {
-                                        persist.showToast( qsTr("Could not block: %1").arg(value), "", "asset:///images/tabs/ic_blocked.png" );
+                                        persist.showToast( qsTr("Could not block: %1\n\nPlease file a bug report!").arg(value), "", "asset:///images/tabs/ic_blocked.png" );
                                     }
                                 } else {
                                     persist.showToast( qsTr("Invalid address entered: %1").arg(value), "", "asset:///images/menu/ic_keyword.png" );

@@ -142,7 +142,7 @@ void AutoBlock::messageFetched(QVariantMap const& result)
         if ( !added.isEmpty() ) {
             m_persistance.showToast( tr("The following addresses were blocked: %1").arg( added.join(", ") ), "", "asset:///images/ic_blocked_user.png" );
         } else {
-            m_persistance.showToast( tr("The addresses could not be blocked."), "", "asset:///images/tabs/ic_blocked.png" );
+            m_persistance.showToast( tr("The addresses could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!"), "", "asset:///images/tabs/ic_blocked.png" );
         }
 
         parseKeywords(toProcess);

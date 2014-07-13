@@ -201,11 +201,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedSenderPane.qml" line="80"/>
-        <source>Could not block: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../assets/BlockedSenderPane.qml" line="83"/>
         <source>Invalid address entered: %1</source>
         <translation type="unfinished"></translation>
@@ -228,6 +223,13 @@
     <message>
         <location filename="../assets/BlockedSenderPane.qml" line="58"/>
         <source>Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/BlockedSenderPane.qml" line="80"/>
+        <source>Could not block: %1
+
+Please file a bug report!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -340,11 +342,6 @@
         <source>The following addresses were blocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../assets/ConversationsPane.qml" line="149"/>
-        <source>The senders could not be blocked. We suggest filing a bug-report.</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message numerus="yes">
         <location filename="../assets/ConversationsPane.qml" line="175"/>
         <source>%n seconds</source>
@@ -391,6 +388,11 @@
     <message>
         <location filename="../assets/ConversationsPane.qml" line="106"/>
         <source>There are no incoming messages detected for this account. As soon as the first spam message comes in, open this app, come to this screen and add that message as spam and all future messages from that sender will be blocked and deleted! Or increase the &apos;Days&apos; slider at the top to fetch more messages.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/ConversationsPane.qml" line="149"/>
+        <source>The senders could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -745,12 +747,14 @@ And to make it even easier for our users to discover more and more spammers, Aut
     </message>
     <message>
         <location filename="../assets/UpdateActionItem.qml" line="39"/>
-        <source>The following keywords were added: %1</source>
+        <source>The following addresses were added: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../assets/UpdateActionItem.qml" line="41"/>
-        <source>The keywords could not be added: %1</source>
+        <source>The addresses could not be added: %1
+
+Please file a bug report!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -809,7 +813,7 @@ Check back in a few days.</source>
     </message>
     <message>
         <location filename="../src/AutoBlock.cpp" line="145"/>
-        <source>The addresses could not be blocked.</source>
+        <source>The addresses could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

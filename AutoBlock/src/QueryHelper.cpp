@@ -153,7 +153,7 @@ QStringList QueryHelper::blockKeywords(QVariantList const& keywords)
 
 QStringList QueryHelper::block(QVariantList const& addresses)
 {
-    LOGGER(addresses);
+    LOGGER( addresses.size() << addresses );
 
     QStringList all;
     QVariantList numbers;
@@ -200,7 +200,11 @@ QStringList QueryHelper::block(QVariantList const& addresses)
         }
     }
 
-    prepareTransaction("INSERT OR IGNORE INTO inbound_blacklist (address) VALUES(%1)", numbers, QueryId::BlockSenders);
+    if ( !numbers.isEmpty() ) {
+        prepareTransaction("INSERT OR IGNORE INTO inbound_blacklist (address) VALUES(%1)", numbers, QueryId::BlockSenders);
+    } else {
+        LOGGER("[ERROR_001: No sender addresses found!]");
+    }
 
     return numbersList;
 }

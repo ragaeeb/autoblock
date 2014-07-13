@@ -29,7 +29,6 @@ NavigationPane
                     Label {
                         id: daysLabel
                         verticalAlignment: VerticalAlignment.Center
-                        textStyle.color: Color.White
                         textStyle.base: SystemDefaults.TextStyles.BigText
                     }
                 }
@@ -174,7 +173,7 @@ NavigationPane
                             
                             ConversationListItem {
                                 description: qsTr("%n seconds", "", ListItemData.duration)
-                                imageSource: "file:///usr/share/icons/ic_phone.png"
+                                imageSource: "images/ic_call.png"
                                 title: ListItemData.senderAddress
                             }
                         },

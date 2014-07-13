@@ -4,7 +4,6 @@
 #include <bb/system/CardDoneMessage>
 #include <bb/system/InvokeManager>
 
-#include "AppLogFetcher.h"
 #include "customsqldatasource.h"
 #include "LazySceneCover.h"
 #include "PaymentHelper.h"
@@ -19,7 +18,6 @@ namespace bb {
 }
 
 namespace canadainc {
-    class LogMonitor;
     class MessageImporter;
 }
 
@@ -35,12 +33,10 @@ class AutoBlock : public QObject
     LazySceneCover m_cover;
     CustomSqlDataSource m_sql;
     Persistance m_persistance;
-    AppLogFetcher m_reporter;
     QueryHelper m_helper;
     bb::system::InvokeManager m_invokeManager;
     MessageImporter* m_importer;
     UpdateManager m_update;
-    LogMonitor* m_logMonitor;
     PaymentHelper m_payment;
 
     AutoBlock(Application *app);

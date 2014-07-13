@@ -2,6 +2,7 @@
 
 #include "AutoBlock.hpp"
 #include "AccountImporter.h"
+#include "AppLogFetcher.h"
 #include "AutoBlockCollector.h"
 #include "BlockUtils.h"
 #include "IOUtils.h"
@@ -22,8 +23,8 @@ using namespace bb::cascades;
 using namespace canadainc;
 
 AutoBlock::AutoBlock(Application* app) :
-        QObject(app), m_cover("Cover.qml"), m_reporter( new AutoBlockCollector() ),
-        m_helper(&m_sql, &m_persistance, &m_reporter), m_importer(NULL), m_payment(&m_persistance)
+        QObject(app), m_cover("Cover.qml"),
+        m_helper(&m_sql, &m_persistance), m_importer(NULL), m_payment(&m_persistance)
 {
     INIT_SETTING(CARD_KEY, true);
     INIT_SETTING(UI_KEY, true);
@@ -32,13 +33,13 @@ AutoBlock::AutoBlock(Application* app) :
     switch ( m_invokeManager.startupMode() )
     {
     case ApplicationStartupMode::InvokeCard:
-        m_logMonitor = new LogMonitor(CARD_KEY, CARD_LOG_FILE, this);
+        LogMonitor::create(CARD_KEY, CARD_LOG_FILE, this);
         connect( &m_invokeManager, SIGNAL( invoked(bb::system::InvokeRequest const&) ), this, SLOT( invoked(bb::system::InvokeRequest const&) ) );
         connect( &m_invokeManager, SIGNAL( childCardDone(bb::system::CardDoneMessage const&) ), this, SLOT( childCardDone(bb::system::CardDoneMessage const&) ) );
         break;
 
     default:
-        m_logMonitor = new LogMonitor(UI_KEY, UI_LOG_FILE, this);
+        LogMonitor::create(UI_KEY, UI_LOG_FILE, this);
         initRoot();
         break;
     }
@@ -209,6 +210,8 @@ void AutoBlock::init()
 	INIT_SETTING("days", 7);
 	INIT_SETTING("keywordThreshold", 3);
 	INIT_SETTING("whitelistContacts", 1);
+
+    AppLogFetcher::create( new AutoBlockCollector(), this );
 
 	qmlRegisterType<bb::device::DisplayInfo>("bb.device", 1, 0, "DisplayInfo");
     qmlRegisterType<bb::cascades::pickers::FilePicker>("bb.cascades.pickers", 1, 0, "FilePicker");

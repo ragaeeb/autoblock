@@ -29,8 +29,8 @@ namespace autoblock {
 
 using namespace canadainc;
 
-QueryHelper::QueryHelper(CustomSqlDataSource* sql, Persistance* persist, AppLogFetcher* reporter) :
-        m_reporter(reporter), m_sql(sql), m_persist(persist), m_ms(NULL),
+QueryHelper::QueryHelper(CustomSqlDataSource* sql, Persistance* persist) :
+        m_sql(sql), m_persist(persist), m_ms(NULL),
         m_lastUpdate( QDateTime::currentMSecsSinceEpoch() ), m_logSearchMode(false),
         m_refreshNeeded(false)
 {
@@ -44,7 +44,7 @@ void QueryHelper::onError(QString const& errorMessage)
     LOGGER(errorMessage);
 
 #if defined(QT_NO_DEBUG)
-    m_reporter->submitLogs();
+    AppLogFetcher::getInstance()->submitLogs();
 #endif
 }
 

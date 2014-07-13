@@ -17,7 +17,7 @@ QStringList createSkipKeywords()
 {
     QStringList qsl;
     qsl << "CREATE TABLE IF NOT EXISTS skip_keywords (word TEXT PRIMARY KEY)";
-    qsl << "INSERT OR REPLACE INTO skip_keywords (word) VALUES ('able'),('after'),('from'),('have'),('into'),('over'),('same'),('that'),('their'),('there'),('these'),('they'),('thing'),('this'),('will'),('with'),('would')";
+    qsl << "INSERT OR IGNORE INTO skip_keywords (word) VALUES ('able'),('after'),('from'),('have'),('into'),('over'),('same'),('that'),('their'),('there'),('these'),('they'),('thing'),('this'),('will'),('with'),('would')";
     return qsl;
 }
 
@@ -31,7 +31,7 @@ using namespace bb::system;
 using namespace bb::system::phone;
 using namespace canadainc;
 
-Service::Service(bb::Application* app) : QObject(app), m_logMonitor(NULL)
+Service::Service(bb::Application* app) : QObject(app)
 {
     connect( &m_invokeManager, SIGNAL( invoked(const bb::system::InvokeRequest&) ), this, SLOT( handleInvoke(const bb::system::InvokeRequest&) ) );
     connect( &m_sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ) );
@@ -47,7 +47,7 @@ Service::Service(bb::Application* app) : QObject(app), m_logMonitor(NULL)
         qsl << "CREATE TABLE IF NOT EXISTS inbound_keywords (term TEXT PRIMARY KEY, count INTEGER DEFAULT 0)";
         qsl << "CREATE TABLE IF NOT EXISTS outbound_blacklist (address TEXT PRIMARY KEY, count INTEGER DEFAULT 0)";
         qsl << createSkipKeywords();
-        m_sql.initSetup(qsl, QueryId::Setup);
+        m_sql.initSetup(qsl, QueryId::Setup, QueryId::SettingUp);
     }
 
 	connect( this, SIGNAL( initialize() ), this, SLOT( init() ), Qt::QueuedConnection ); // async startup
@@ -67,12 +67,23 @@ void Service::init()
 
     m_settingsWatcher.addPath( s.fileName() );
 
-    if ( !s.contains("v3.0") ) {
-        m_sql.executeTransaction( createSkipKeywords(), QueryId::Setup );
+    if ( !s.contains("v3.0") )
+    {
+        m_sql.startTransaction(QueryId::Setup);
+
+        QStringList keywords = createSkipKeywords();
+
+        foreach (QString const& query, keywords)
+        {
+            m_sql.setQuery(query);
+            m_sql.load(QueryId::SettingUp);
+        }
+
+        m_sql.endTransaction(QueryId::Setup);
         s.setValue("v3.0", 1);
     }
 
-    m_logMonitor = new LogMonitor(SERVICE_KEY, SERVICE_LOG_FILE, this);
+    LogMonitor::create(SERVICE_KEY, SERVICE_LOG_FILE, this);
 
     connect( &m_settingsWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( settingChanged(QString const&) ), Qt::QueuedConnection );
     connect( &m_manager, SIGNAL( messageAdded(bb::pim::account::AccountKey, bb::pim::message::ConversationKey, bb::pim::message::MessageKey) ), this, SLOT( messageAdded(bb::pim::account::AccountKey, bb::pim::message::ConversationKey, bb::pim::message::MessageKey) ) );
@@ -124,18 +135,22 @@ void Service::processKeywords(QVariantList result)
 void Service::processCalls(QVariantList result)
 {
     LOGGER( result.size() << m_queue.callQueue.size() );
-
+#if BBNDK_VERSION_AT_LEAST(10,3,0)
     if ( !m_queue.callQueue.isEmpty() )
     {
         Call c = m_queue.callQueue.dequeue();
         m_queue.phoneToPending.remove( c.phoneNumber() );
         LOGGER("CallSpamMached");
 
-        bool ended = m_phone.endCall( c.callId() );
+        if ( !result.isEmpty() )
+        {
+            bool ended = m_phone.endCall( c.callId() );
 
-        updateLog( c.phoneNumber(), ended ? tr("Successfully terminated call") : tr("Could not terminate call") );
-        updateCount(result, "address", "inbound_blacklist", QueryId::BlockSenders);
+            updateLog( c.phoneNumber(), ended ? tr("Successfully terminated call") : tr("Could not terminate call") );
+            updateCount(result, "address", "inbound_blacklist", QueryId::BlockSenders);
+        }
     }
+#endif
 }
 
 
@@ -288,11 +303,11 @@ void Service::handleInvoke(const bb::system::InvokeRequest & request)
 
 void Service::callUpdated(bb::system::phone::Call const& call)
 {
+#if BBNDK_VERSION_AT_LEAST(10,3,0)
     LOGGER( call.callId() << call.phoneNumber() << call.callType() << call.callState() );
 
     if ( call.callType() == CallType::Incoming && call.callState() == CallState::Incoming && !call.phoneNumber().isEmpty() )
     {
-#if BBNDK_VERSION_AT_LEAST(10,3,0)
         QString phoneNumber = call.phoneNumber();
 
         if ( !m_queue.phoneToPending.contains(phoneNumber) )
@@ -303,8 +318,10 @@ void Service::callUpdated(bb::system::phone::Call const& call)
             m_sql.setQuery( QString("SELECT address FROM inbound_blacklist WHERE address='%1'").arg(phoneNumber) );
             m_sql.load(QueryId::LookupCaller);
         }
-#endif
     }
+#else
+    Q_UNUSED(call);
+#endif
 }
 
 

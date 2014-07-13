@@ -21,12 +21,10 @@ QByteArray AutoBlockCollector::compressFiles()
     AppLogFetcher::dumpDeviceInfo();
 
     QStringList files;
+    files << DEFAULT_LOGS;
     files << CARD_LOG_FILE;
-    files << DEVICE_INFO_LOG;
     files << BlockUtils::databasePath();
     files << SERVICE_LOG_FILE;
-    files << UI_LOG_FILE;
-    files << QSettings().fileName();
 
     for (int i = files.size()-1; i >= 0; i--)
     {

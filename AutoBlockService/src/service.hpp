@@ -18,10 +18,6 @@ namespace bb {
 	}
 }
 
-namespace canadainc {
-    class LogMonitor;
-}
-
 namespace autoblock {
 
 using namespace bb::pim::message;
@@ -48,7 +44,6 @@ class Service: public QObject
 	InvokeManager m_invokeManager;
 	CustomSqlDataSource m_sql;
 	PendingQueue m_queue;
-	LogMonitor* m_logMonitor;
 	QMap<qint64, quint64> m_accountToTrash;
 
     void forceDelete(Message const& m);

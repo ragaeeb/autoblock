@@ -40,7 +40,6 @@ NavigationPane
                     Label {
                         id: thresholdLabel
                         verticalAlignment: VerticalAlignment.Center
-                        textStyle.color: Color.White
                         textStyle.base: SystemDefaults.TextStyles.BigText
                     }
                 }

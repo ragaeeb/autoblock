@@ -7,7 +7,6 @@
 #include "QueryId.h"
 
 namespace canadainc {
-    class AppLogFetcher;
 	class CustomSqlDataSource;
 	class Persistance;
 }
@@ -29,7 +28,6 @@ class QueryHelper : public QObject
 {
 	Q_OBJECT
 
-	AppLogFetcher* m_reporter;
 	CustomSqlDataSource* m_sql;
 	Persistance* m_persist;
     MessageService* m_ms;
@@ -50,7 +48,7 @@ Q_SIGNALS:
     void dataReady(int id, QVariant const& data);
 
 public:
-	QueryHelper(CustomSqlDataSource* sql, Persistance* persist, AppLogFetcher* reporter);
+	QueryHelper(CustomSqlDataSource* sql, Persistance* persist);
 	virtual ~QueryHelper();
 
     Q_INVOKABLE void clearBlockedKeywords();

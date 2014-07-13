@@ -25,9 +25,10 @@ public:
         LookupKeyword,
     	LookupSender,
     	Optimize,
+        SettingUp,
+        Setup,
     	UnblockKeywords,
-    	UnblockSenders,
-    	Setup
+    	UnblockSenders
     };
 };
 

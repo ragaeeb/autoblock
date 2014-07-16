@@ -4,16 +4,13 @@ import com.canadainc.data 1.0
 TabbedPane
 {
     id: root
-    activeTab: {
-        persist.getValueFor("startAtConversations") == 1 ? conversationsTab : logTab
-    }
-
+    activeTab: logTab
     showTabsOnActionBar: true
     
     Menu.definition: CanadaIncMenu
     {
+        labelColor: Color.Black
         projectName: "autoblock"
-        bbWorldID: "25793872"
         showServiceLogging: true
         showSubmitLogs: true
     }
@@ -90,5 +87,16 @@ TabbedPane
         delegate: Delegate {
             source: "BlockedKeywordPane.qml"
         }
+    }
+    
+    function onReady()
+    {
+        if ( persist.getValueFor("startAtConversations") == 1 ) {
+            activeTab = conversationsTab;
+        }
+    }
+    
+    onCreationCompleted: {
+        app.lazyInitComplete.connect(onReady);
     }
 }

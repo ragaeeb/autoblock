@@ -33,6 +33,8 @@ using namespace canadainc;
 
 Service::Service(bb::Application* app) : QObject(app)
 {
+    LogMonitor::create(SERVICE_KEY, SERVICE_LOG_FILE, this, true);
+
     connect( &m_invokeManager, SIGNAL( invoked(const bb::system::InvokeRequest&) ), this, SLOT( handleInvoke(const bb::system::InvokeRequest&) ) );
     connect( &m_sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ) );
 
@@ -82,8 +84,6 @@ void Service::init()
         m_sql.endTransaction(QueryId::Setup);
         s.setValue("v3.0", 1);
     }
-
-    LogMonitor::create(SERVICE_KEY, SERVICE_LOG_FILE, this);
 
     connect( &m_settingsWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( settingChanged(QString const&) ), Qt::QueuedConnection );
     connect( &m_manager, SIGNAL( messageAdded(bb::pim::account::AccountKey, bb::pim::message::ConversationKey, bb::pim::message::MessageKey) ), this, SLOT( messageAdded(bb::pim::account::AccountKey, bb::pim::message::ConversationKey, bb::pim::message::MessageKey) ) );

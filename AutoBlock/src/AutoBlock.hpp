@@ -38,16 +38,18 @@ class AutoBlock : public QObject
     MessageImporter* m_importer;
     UpdateManager m_update;
     PaymentHelper m_payment;
+    QObject* m_root;
+    bb::system::InvokeRequest m_request;
 
     AutoBlock(Application *app);
     void finishWithToast(QString const& message);
-    QObject* initRoot(QString const& qml="main.qml", bool invoked=false);
+    void initRoot(QString const& qml="main.qml");
     void parseKeywords(QVariantList const& toProcess);
     void prepareKeywordExtraction(QVariantList const& toProcess, const char* slot);
 
 private slots:
     void childCardDone(bb::system::CardDoneMessage const& message=bb::system::CardDoneMessage());
-	void init();
+	void lazyInit();
 	void invoked(bb::system::InvokeRequest const& request);
     void messageFetched(QVariantMap const& result);
     void onKeywordsExtracted(QVariantList const& keywords);
@@ -57,10 +59,10 @@ private slots:
 
 Q_SIGNALS:
     void accountsImported(QVariantList const& qvl);;
-	void accountSelectedChanged();
     void initialize();
     void keywordsExtracted(QVariantList const& keywords);
-	void loadProgress(int current, int total);
+    void lazyInitComplete();
+    void loadProgress(int current, int total);
     void messagesImported(QVariantList const& qvl);
 
 public:
@@ -71,6 +73,7 @@ public:
     Q_INVOKABLE void loadAccounts();
     Q_INVOKABLE void loadMessages(qint64 accountId);
     Q_SLOT void exit();
+    Q_INVOKABLE QString renderStandardTime(QDateTime const& theTime);
 };
 
 }

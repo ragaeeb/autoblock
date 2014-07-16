@@ -739,6 +739,14 @@ And to make it even easier for our users to discover more and more spammers, Aut
     </message>
 </context>
 <context>
+    <name>SetupDialog</name>
+    <message>
+        <location filename="../assets/SetupDialog.qml" line="69"/>
+        <source>Setup in progress...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>UpdateActionItem</name>
     <message>
         <location filename="../assets/UpdateActionItem.qml" line="8"/>

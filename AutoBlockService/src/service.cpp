@@ -33,7 +33,7 @@ using namespace canadainc;
 
 Service::Service(bb::Application* app) : QObject(app)
 {
-    LogMonitor::create(SERVICE_KEY, SERVICE_LOG_FILE, this, true);
+    LogMonitor::create(SERVICE_KEY, SERVICE_LOG_FILE, this);
 
     connect( &m_invokeManager, SIGNAL( invoked(const bb::system::InvokeRequest&) ), this, SLOT( handleInvoke(const bb::system::InvokeRequest&) ) );
     connect( &m_sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ) );

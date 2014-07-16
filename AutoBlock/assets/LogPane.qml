@@ -149,6 +149,11 @@ NavigationPane
                         setupComplete();
                     } else {
                         helper.readyChanged.connect(setupComplete);
+
+                        definition.source = "SetupDialog.qml";
+                        var setup = definition.createObject();
+                        
+                        setup.open();
                     }
                 }
                 
@@ -161,6 +166,10 @@ NavigationPane
                 ImagePaintDefinition {
                     id: ipd
                     imageSource: "images/background.png"
+                },
+                
+                ComponentDefinition {
+                    id: definition
                 }
             ]
         }

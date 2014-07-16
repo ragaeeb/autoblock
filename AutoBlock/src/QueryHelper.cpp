@@ -332,6 +332,8 @@ bool QueryHelper::checkDatabase(QString const& path)
         m_updateWatcher.removePath( QDir::homePath() );
         m_updateWatcher.addPath( BlockUtils::databasePath() );
 
+        emit readyChanged();
+
         return true;
     } else {
         LOGGER("wait...");

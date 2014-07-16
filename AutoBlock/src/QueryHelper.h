@@ -27,6 +27,7 @@ using namespace bb::pim::message;
 class QueryHelper : public QObject
 {
 	Q_OBJECT
+	Q_PROPERTY(bool ready READ ready NOTIFY readyChanged)
 
 	CustomSqlDataSource* m_sql;
 	Persistance* m_persist;
@@ -35,7 +36,6 @@ class QueryHelper : public QObject
     QFileSystemWatcher m_updateWatcher;
     bool m_logSearchMode;
     QMap<qint64, quint64> m_accountToTrash;
-    bool m_refreshNeeded;
 
     void prepareTransaction(QString const& query, QVariantList const& elements, QueryId::Type qid);
 
@@ -46,6 +46,7 @@ private slots:
 
 Q_SIGNALS:
     void dataReady(int id, QVariant const& data);
+    void readyChanged();
 
 public:
 	QueryHelper(CustomSqlDataSource* sql, Persistance* persist);
@@ -65,8 +66,9 @@ public:
     Q_INVOKABLE QStringList unblock(QVariantList const& senders);
     Q_INVOKABLE QStringList unblockKeywords(QVariantList const& keywords);
     Q_INVOKABLE void optimize();
-    Q_SLOT void checkDatabase(QString const& path=QString());
+    Q_SLOT bool checkDatabase(QString const& path=QString());
+    bool ready() const;
 };
 
-} /* namespace oct10 */
+} /* namespace autoblock */
 #endif /* QUERYHELPER_H_ */

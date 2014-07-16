@@ -31,11 +31,12 @@ using namespace canadainc;
 
 QueryHelper::QueryHelper(CustomSqlDataSource* sql, Persistance* persist) :
         m_sql(sql), m_persist(persist), m_ms(NULL),
-        m_lastUpdate( QDateTime::currentMSecsSinceEpoch() ), m_logSearchMode(false),
-        m_refreshNeeded(false)
+        m_lastUpdate( QDateTime::currentMSecsSinceEpoch() ),
+        m_logSearchMode(false)
 {
     connect( sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ), Qt::QueuedConnection );
     connect( sql, SIGNAL( error(QString const&) ), this, SLOT( onError(QString const&) ) );
+    connect( &m_updateWatcher, SIGNAL( directoryChanged(QString const&) ), this, SLOT( checkDatabase(QString const&) ) );
 }
 
 
@@ -317,35 +318,26 @@ void QueryHelper::fetchLatestLogs()
 }
 
 
-void QueryHelper::checkDatabase(QString const& path)
+bool QueryHelper::checkDatabase(QString const& path)
 {
     Q_UNUSED(path);
 
-    QString database = BlockUtils::databasePath();
+    LOGGER("checking");
 
-    if ( QFile::exists(database) )
+    if ( ready() )
     {
-        m_sql->setSource(database);
+        LOGGER("ready...");
+        m_sql->setSource( BlockUtils::databasePath() );
 
-        disconnect( &m_updateWatcher, SIGNAL( directoryChanged(QString const&) ), this, SLOT( checkDatabase(QString const&) ) );
-        connect( &m_updateWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( databaseUpdated(QString const&) ) );
-        m_updateWatcher.addPath(database);
+        m_updateWatcher.removePath( QDir::homePath() );
+        m_updateWatcher.addPath( BlockUtils::databasePath() );
 
-        if (m_refreshNeeded)
-        {
-            fetchAllLogs();
-            fetchAllBlockedSenders();
-            fetchAllBlockedKeywords();
-
-            m_refreshNeeded = false;
-        }
+        return true;
     } else {
+        LOGGER("wait...");
         m_updateWatcher.addPath( QDir::homePath() );
 
-        connect( &m_updateWatcher, SIGNAL( directoryChanged(QString const&) ), this, SLOT( checkDatabase(QString const&) ) );
-        LOGGER("Database does not exist");
-
-        m_refreshNeeded = true;
+        return false;
     }
 }
 
@@ -363,6 +355,11 @@ void QueryHelper::databaseUpdated(QString const& path)
 
     LOGGER("DatabaseUpdated!");
     fetchLatestLogs();
+}
+
+
+bool QueryHelper::ready() const {
+    return QFile::exists( BlockUtils::setupFilePath() );
 }
 
 

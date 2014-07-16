@@ -5,6 +5,7 @@
 #include "AppLogFetcher.h"
 #include "AutoBlockCollector.h"
 #include "BlockUtils.h"
+#include "CardUtils.h"
 #include "IOUtils.h"
 #include "InvocationUtils.h"
 #include "KeywordParserThread.h"
@@ -16,6 +17,8 @@
 #include "PimUtil.h"
 
 #define CARD_KEY "logCard"
+#define TARGET_BLOCK_EMAIL "com.canadainc.AutoBlock.reply"
+#define TARGET_PLAIN_TEXT "com.canadainc.AutoBlock.sharehandler"
 
 namespace autoblock {
 
@@ -24,11 +27,12 @@ using namespace canadainc;
 
 AutoBlock::AutoBlock(Application* app) :
         QObject(app), m_cover("Cover.qml"),
-        m_helper(&m_sql, &m_persistance), m_importer(NULL), m_payment(&m_persistance)
+        m_helper(&m_sql, &m_persistance), m_importer(NULL), m_payment(&m_persistance), m_root(NULL)
 {
     INIT_SETTING(CARD_KEY, true);
     INIT_SETTING(UI_KEY, true);
     INIT_SETTING(SERVICE_KEY, false);
+    INIT_SETTING("days", 7);
 
     switch ( m_invokeManager.startupMode() )
     {
@@ -46,47 +50,90 @@ AutoBlock::AutoBlock(Application* app) :
 }
 
 
+void AutoBlock::initRoot(QString const& qmlDoc)
+{
+    qmlRegisterUncreatableType<QueryId>("com.canadainc.data", 1, 0, "QueryId", "Can't instantiate");
+
+    QMap<QString, QObject*> context;
+    context.insert("app", this);
+    context.insert("helper", &m_helper);
+    context.insert("payment", &m_payment);
+    context.insert("updater", &m_update);
+
+    m_root = CardUtils::initAppropriate(qmlDoc, context, this);
+    emit initialize();
+}
+
+
 void AutoBlock::invoked(bb::system::InvokeRequest const& request)
 {
-    LOGGER( request.uri() << request.mimeType() << request.action() << request.target() );
-    bool ok = false;
+    QString target = request.target();
 
-    if ( request.target().compare("com.canadainc.AutoBlock.reply", Qt::CaseInsensitive) == 0 )
+    LOGGER( request.action() << target << request.mimeType() << request.metadata() << request.uri().toString() << QString( request.data() ) );
+
+    QMap<QString,QString> targetToQML;
+    targetToQML[TARGET_BLOCK_EMAIL] = "ElementPickerPage.qml";
+    targetToQML[TARGET_PLAIN_TEXT] = "ElementPickerPage.qml";
+
+    QString qml = targetToQML.value(target);
+
+    if ( qml.isNull() ) {
+        qml = "LogPane.qml";
+    }
+
+    initRoot(qml);
+
+    m_request = request;
+}
+
+
+void AutoBlock::lazyInit()
+{
+    LOGGER("Lazy init");
+    INIT_SETTING("keywordThreshold", 3);
+    INIT_SETTING("whitelistContacts", 1);
+
+    qmlRegisterType<bb::cascades::pickers::FilePicker>("bb.cascades.pickers", 1, 0, "FilePicker");
+    qmlRegisterUncreatableType<bb::cascades::pickers::FileType>("bb.cascades.pickers", 1, 0, "FileType", "Can't instantiate");
+    qmlRegisterUncreatableType<bb::cascades::pickers::FilePickerMode>("bb.cascades.pickers", 1, 0, "FilePickerMode", "Can't instantiate");
+
+    InvokeRequest request;
+    request.setTarget("com.canadainc.AutoBlockService");
+    request.setAction("com.canadainc.AutoBlockService.RESET");
+    m_invokeManager.invoke(request);
+
+    if ( !PimUtil::validateEmailSMSAccess( tr("Warning: It seems like the app does not have access to your Email/SMS messages Folder. This permission is needed for the app to access the SMS and email services it needs to do the filtering of the spam messages. If you leave this permission off, some features may not work properly. Select OK to launch the Application Permissions screen where you can turn these settings on.") ) ) {}
+    else if ( !InvocationUtils::validateSharedFolderAccess( tr("Warning: It seems like the app does not have access to your Shared Folder. This permission is needed for the app to properly allow you to backup & restore the database. If you leave this permission off, some features may not work properly. Select OK to launch the Application Permissions screen where you can turn these settings on.") ) ) {}
+
+    connect( Application::instance(), SIGNAL( aboutToQuit() ), this, SLOT( terminateThreads() ) );
+
+    m_cover.setContext("helper", &m_helper);
+
+    AppLogFetcher::create( new AutoBlockCollector(), this );
+
+    QString target = m_request.target();
+
+    if ( !target.isNull() )
     {
-        QStringList tokens = request.uri().toString().split(":");
-        LOGGER("InvokedData" << tokens);
+        connect( m_root, SIGNAL( elementsSelected(QVariant) ), this, SLOT( onKeywordsSelected(QVariant) ) );
 
-        if ( tokens.size() > 3 )
+        if (target == TARGET_BLOCK_EMAIL)
         {
-            QObject* root = initRoot("ElementPickerPage.qml", true);
-            connect( root, SIGNAL( elementsSelected(QVariant) ), this, SLOT( onKeywordsSelected(QVariant) ) );
+            QStringList tokens = request.uri().toString().split(":");
 
             MessageFetcherThread* ai = new MessageFetcherThread(tokens);
             connect( ai, SIGNAL( messageFetched(QVariantMap const&) ), this, SLOT( messageFetched(QVariantMap const&) ) );
             IOUtils::startThread(ai);
-
-            ok = true;
-        }
-    } else if ( request.target().compare("com.canadainc.AutoBlock.sharehandler", Qt::CaseInsensitive) == 0 ) {
-        QString mime = request.mimeType();
-
-        if (mime == "text/plain")
-        {
-            QObject* root = initRoot("ElementPickerPage.qml", true);
-            connect( root, SIGNAL( elementsSelected(QVariant) ), this, SLOT( onKeywordsSelected(QVariant) ) );
+        } else if (target == TARGET_PLAIN_TEXT) {
             QString result = QString::fromUtf8( request.data().constData() );
 
             QVariantMap map;
             map["text"] = result;
             parseKeywords( QVariantList() << map );
-
-            ok = true;
         }
     }
 
-    if (!ok) {
-        initRoot();
-    }
+    emit lazyInitComplete();
 }
 
 
@@ -167,77 +214,6 @@ void AutoBlock::onKeywordsExtracted(QVariantList const& keywords)
 }
 
 
-QObject* AutoBlock::initRoot(QString const& qmlSource, bool invoked)
-{
-    m_cover.setContext("helper", &m_helper);
-
-    qmlRegisterType<canadainc::LocaleUtil>("com.canadainc.data", 1, 0, "LocaleUtil");
-    qmlRegisterUncreatableType<QueryId>("com.canadainc.data", 1, 0, "QueryId", "Can't instantiate");
-
-    m_helper.checkDatabase();
-
-    QmlDocument* qml = QmlDocument::create("asset:///"+qmlSource).parent(this);
-    qml->setContextProperty("app", this);
-    qml->setContextProperty("helper", &m_helper);
-    qml->setContextProperty("updater", &m_update);
-    qml->setContextProperty("payment", &m_payment);
-
-    AbstractPane* root = qml->createRootObject<AbstractPane>();
-    Application::instance()->setScene(root);
-
-    if (invoked) {
-        Page* r = qml->createRootObject<Page>();
-        NavigationPane* np = NavigationPane::create().backButtons(true);
-        np->push(r);
-        Application::instance()->setScene(np);
-
-        root = r;
-    } else {
-        root = qml->createRootObject<AbstractPane>();
-        Application::instance()->setScene(root);
-    }
-
-    connect( this, SIGNAL( initialize() ), this, SLOT( init() ), Qt::QueuedConnection ); // async startup
-
-    emit initialize();
-
-    return root;
-}
-
-
-void AutoBlock::init()
-{
-	INIT_SETTING("days", 7);
-	INIT_SETTING("keywordThreshold", 3);
-	INIT_SETTING("whitelistContacts", 1);
-
-    AppLogFetcher::create( new AutoBlockCollector(), this );
-
-	qmlRegisterType<bb::device::DisplayInfo>("bb.device", 1, 0, "DisplayInfo");
-    qmlRegisterType<bb::cascades::pickers::FilePicker>("bb.cascades.pickers", 1, 0, "FilePicker");
-    qmlRegisterUncreatableType<bb::cascades::pickers::FileType>("bb.cascades.pickers", 1, 0, "FileType", "Can't instantiate");
-    qmlRegisterUncreatableType<bb::cascades::pickers::FilePickerMode>("bb.cascades.pickers", 1, 0, "FilePickerMode", "Can't instantiate");
-
-	connect( Application::instance(), SIGNAL( aboutToQuit() ), this, SLOT( terminateThreads() ) );
-
-    InvokeRequest request;
-    request.setTarget("com.canadainc.AutoBlockService");
-    request.setAction("com.canadainc.AutoBlockService.RESET");
-    m_invokeManager.invoke(request);
-
-    bool ok = PimUtil::validateEmailSMSAccess( tr("Warning: It seems like the app does not have access to your Email/SMS messages Folder. This permission is needed for the app to access the SMS and email services it needs to do the filtering of the spam messages. If you leave this permission off, some features may not work properly. Select OK to launch the Application Permissions screen where you can turn these settings on.") );
-
-    if (ok) {
-        InvocationUtils::validateSharedFolderAccess( tr("Warning: It seems like the app does not have access to your Shared Folder. This permission is needed for the app to properly allow you to backup & restore the database. If you leave this permission off, some features may not work properly. Select OK to launch the Application Permissions screen where you can turn these settings on.") );
-    }
-
-    if ( !m_persistance.contains("clearedNulls") ) {
-        m_helper.cleanInvalidEntries();
-        m_persistance.saveValueFor("clearedNulls", 1, false);
-    }
-}
-
-
 void AutoBlock::terminateThreads()
 {
     if (m_importer) {
@@ -290,6 +266,11 @@ void AutoBlock::extractKeywords(QVariantList const& messages)
 
 void AutoBlock::childCardDone(bb::system::CardDoneMessage const& message) {
     m_invokeManager.sendCardDone(message);
+}
+
+
+QString AutoBlock::renderStandardTime(QDateTime const& theTime) {
+    return LocaleUtil::renderStandardTime(theTime);
 }
 
 

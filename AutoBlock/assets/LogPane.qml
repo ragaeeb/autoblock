@@ -13,7 +13,8 @@ NavigationPane
     Page
     {
         actions: [
-            SearchActionItem {
+            SearchActionItem
+            {
                 imageSource: "images/menu/ic_search_logs.png"
                 
                 onQueryChanged: {
@@ -21,7 +22,8 @@ NavigationPane
                 }
             },
             
-            DeleteActionItem {
+            DeleteActionItem
+            {
                 title: qsTr("Clear Logs") + Retranslate.onLanguageChanged
                 imageSource: "images/menu/ic_clear_logs.png"
                 
@@ -71,7 +73,7 @@ NavigationPane
             ListView
             {
                 id: listView
-                property LocaleUtil localizer: LocaleUtil {}
+                property variant localizer: app
                 
                 listItemComponents: [
                     ListItemComponent
@@ -115,7 +117,8 @@ NavigationPane
                 
                 function onDataLoaded(id, data)
                 {
-                    if (id == QueryId.FetchAllLogs || id == QueryId.ClearLogs) {
+                    if (id == QueryId.FetchAllLogs || id == QueryId.ClearLogs)
+                    {
                         adm.clear();
                         adm.append(data);
                         
@@ -132,14 +135,25 @@ NavigationPane
                     emptyDelegate.delegateActive = adm.isEmpty();
                 }
                 
-                function onReady()
+                function setupComplete()
                 {
                     helper.dataReady.connect(onDataLoaded);
                     helper.fetchAllLogs();
                 }
                 
+                function onReady()
+                {
+                    helper.checkDatabase();
+                    
+                    if (helper.ready) {
+                        setupComplete();
+                    } else {
+                        helper.readyChanged.connect(setupComplete);
+                    }
+                }
+                
                 onCreationCompleted: {
-                    app.initialize.connect(onReady);
+                    app.lazyInitComplete.connect(onReady);
                 }
             }
             

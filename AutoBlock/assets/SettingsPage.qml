@@ -86,6 +86,18 @@ Page
             onCreationCompleted: {
                 helper.dataReady.connect(onDataReady);
             }
+        },
+        
+        ActionItem {
+            imageSource: "images/menu/ic_error_recovery.png"
+            title: qsTr("Error Recovery") + Retranslate.onLanguageChanged
+            
+            onTriggered: {
+                console.log("UserEvent: ErrorRecovery");
+                app.forceSetup();
+                
+                persist.showToast( qsTr("Error Recovery triggered!"), "", "asset:///images/menu/ic_error_recovery.png" );
+            }
         }
     ]
     

@@ -74,6 +74,7 @@ public:
     Q_INVOKABLE void loadMessages(qint64 accountId);
     Q_SLOT void exit();
     Q_INVOKABLE QString renderStandardTime(QDateTime const& theTime);
+    Q_INVOKABLE void forceSetup();
 };
 
 }

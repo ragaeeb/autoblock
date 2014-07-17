@@ -37,6 +37,7 @@ QueryHelper::QueryHelper(CustomSqlDataSource* sql, Persistance* persist) :
     connect( sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ) );
     connect( sql, SIGNAL( error(QString const&) ), this, SLOT( onError(QString const&) ) );
     connect( &m_updateWatcher, SIGNAL( directoryChanged(QString const&) ), this, SLOT( checkDatabase(QString const&) ) );
+    connect( &m_updateWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( databaseUpdated(QString const&) ) );
 }
 
 

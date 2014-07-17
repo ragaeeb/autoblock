@@ -31,6 +31,7 @@ struct PendingQueue
     QQueue<Message> keywordQueue;
     QQueue<Call> callQueue;
     QMap<QString, bool> phoneToPending;
+    int lastCallId;
 };
 
 class Service: public QObject

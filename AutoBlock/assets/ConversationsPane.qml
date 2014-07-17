@@ -127,6 +127,7 @@ NavigationPane
                 ListView
                 {
                     id: listView
+                    property variant localizer: app
                     
                     layoutProperties: StackLayoutProperties {
                         spaceQuota: 1
@@ -171,10 +172,11 @@ NavigationPane
                         {
                             type: "cellular"
                             
-                            ConversationListItem {
+                            ConversationListItem
+                            {
                                 description: qsTr("%n seconds", "", ListItemData.duration)
                                 imageSource: "images/ic_call.png"
-                                title: ListItemData.senderAddress
+                                title: ListItemData.senderAddress.length > 0 ? ListItemData.senderAddress : qsTr("Unknown Number") + Retranslate.onLanguageChanged
                             }
                         },
                         
@@ -182,9 +184,9 @@ NavigationPane
                         {
                             type: "email"
                             
-                            ConversationListItem {
+                            ConversationListItem
+                            {
                                 imageSource: ListItemData.imageSource ? ListItemData.imageSource : "images/ic_email.png"
-                                title: ListItemData.sender
                                 description: ListItemData.subject ? ListItemData.subject : ListItemData.text.replace(/\n/g, " ").substr(0, 60) + "..."
                             }
                         },
@@ -193,9 +195,9 @@ NavigationPane
                         {
                             type: "pin"
                             
-                            ConversationListItem {
+                            ConversationListItem
+                            {
                                 imageSource: "images/ic_user.png"
-                                title: ListItemData.sender
                                 description: ListItemData.text.replace(/\n/g, " ").substr(0, 60) + "..."
                             }
                         },
@@ -204,18 +206,22 @@ NavigationPane
                         {
                             type: "sms"
                             
-                            ConversationListItem {
+                            ConversationListItem
+                            {
                                 description: ListItemData.text.replace(/\n/g, " ").substr(0, 60) + "..."
                                 imageSource: "images/dropdown/ic_sms.png"
-                                title: ListItemData.sender
                             }
                         }
                     ]
                     
                     onTriggered: {
                         console.log("UserEvent: ConversationPane ListItem Tapped", indexPath);
-                        multiSelectHandler.active = true;
-                        toggleSelection(indexPath);
+
+                        if ( dataModel.data(indexPath).senderAddress.length > 0 )
+                        {
+                            multiSelectHandler.active = true;
+                            toggleSelection(indexPath);
+                        }
                     }
                     
                     dataModel: ArrayDataModel {
@@ -257,6 +263,10 @@ NavigationPane
                     }
                     
                     onSelectionChanged: {
+                        if ( dataModel.data(indexPath).senderAddress.length == 0 && selected ) {
+                            select(indexPath, false);
+                        }
+
                         var n = selectionList().length;
                         blockAction.enabled = n > 0;
                         multiSelectHandler.status = qsTr("%1 conversations to mark as spam").arg(n);

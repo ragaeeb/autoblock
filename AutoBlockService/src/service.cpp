@@ -41,19 +41,24 @@ Service::Service(bb::Application* app) : QObject(app)
     QString database = BlockUtils::databasePath();
     m_sql.setSource(database);
 
-    if ( !QFile(database).exists() )
-    {
-        QStringList qsl;
-        qsl << "CREATE TABLE IF NOT EXISTS logs (id INTEGER PRIMARY KEY AUTOINCREMENT, address TEXT NOT NULL, message TEXT, timestamp INTEGER NOT NULL)";
-        qsl << "CREATE TABLE IF NOT EXISTS inbound_blacklist ( address TEXT PRIMARY KEY, count INTEGER DEFAULT 0, CHECK(address <> '') )";
-        qsl << "CREATE TABLE IF NOT EXISTS inbound_keywords ( term TEXT PRIMARY KEY, count INTEGER DEFAULT 0, CHECK(term <> '') )";
-        qsl << "CREATE TABLE IF NOT EXISTS outbound_blacklist ( address TEXT PRIMARY KEY, count INTEGER DEFAULT 0, CHECK(address <> '') )";
-        qsl << createSkipKeywords();
-        m_sql.initSetup(qsl, QueryId::Setup, QueryId::SettingUp);
+    if ( !QFile(database).exists() ) {
+        setup();
     }
 
 	connect( this, SIGNAL( initialize() ), this, SLOT( init() ), Qt::QueuedConnection ); // async startup
 	emit initialize();
+}
+
+
+void Service::setup()
+{
+    QStringList qsl;
+    qsl << "CREATE TABLE IF NOT EXISTS logs (id INTEGER PRIMARY KEY AUTOINCREMENT, address TEXT NOT NULL, message TEXT, timestamp INTEGER NOT NULL)";
+    qsl << "CREATE TABLE IF NOT EXISTS inbound_blacklist ( address TEXT PRIMARY KEY, count INTEGER DEFAULT 0, CHECK(address <> '') )";
+    qsl << "CREATE TABLE IF NOT EXISTS inbound_keywords ( term TEXT PRIMARY KEY, count INTEGER DEFAULT 0, CHECK(term <> '') )";
+    qsl << "CREATE TABLE IF NOT EXISTS outbound_blacklist ( address TEXT PRIMARY KEY, count INTEGER DEFAULT 0, CHECK(address <> '') )";
+    qsl << createSkipKeywords();
+    m_sql.initSetup(qsl, QueryId::Setup, QueryId::SettingUp);
 }
 
 
@@ -71,7 +76,7 @@ void Service::init()
 
     if ( !s.contains("v3.0") )
     {
-        m_sql.startTransaction(QueryId::Setup);
+        m_sql.startTransaction(QueryId::SettingUp);
 
         QStringList keywords = createSkipKeywords();
 
@@ -293,9 +298,12 @@ void Service::handleInvoke(const bb::system::InvokeRequest & request)
     {
         QString command = QString( request.data() );
 
-        if ( command.compare("terminate", Qt::CaseInsensitive) == 0 ) {
+        if (command == "terminate") {
             LOGGER("Kill switch! Terminating service...");
             bb::Application::instance()->quit();
+        } else if (command == "setup") {
+            LOGGER("Force setup...");
+            setup();
         }
     }
 }

@@ -274,6 +274,16 @@ QString AutoBlock::renderStandardTime(QDateTime const& theTime) {
 }
 
 
+void AutoBlock::forceSetup()
+{
+    InvokeRequest request;
+    request.setTarget("com.canadainc.AutoBlockService");
+    request.setAction("com.canadainc.AutoBlockService.RESET");
+    request.setData( QString("setup").toAscii() );
+    m_invokeManager.invoke(request);
+}
+
+
 void AutoBlock::exit()
 {
     LOGGER("Terminating...");

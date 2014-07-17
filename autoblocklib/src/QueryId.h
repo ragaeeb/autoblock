@@ -13,6 +13,7 @@ class QueryId
 public:
     enum Type {
         BlockKeywords,
+        BlockSenderChunk,
     	BlockSenders,
     	ClearLogs,
     	FetchBlockedKeywords,

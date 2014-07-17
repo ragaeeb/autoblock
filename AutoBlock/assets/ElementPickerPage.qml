@@ -7,7 +7,7 @@ Page
     property string titleText: qsTr("Keywords") + Retranslate.onLanguageChanged
     property string instructionText: qsTr("Do you want to automatically filter future messages that contain the following elements?") + Retranslate.onLanguageChanged
     property variant listImage: "images/menu/ic_keyword.png"
-    property bool showSelectAll: false
+    property bool showSelectAll: true
     signal elementsSelected(variant elements)
     
     actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll

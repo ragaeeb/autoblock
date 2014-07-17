@@ -494,6 +494,14 @@ And to make it even easier for our users to discover more and more spammers, Aut
     </message>
 </context>
 <context>
+    <name>LargeTransactionDialog</name>
+    <message>
+        <location filename="../assets/LargeTransactionDialog.qml" line="54"/>
+        <source>Processing...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LogPane</name>
     <message>
         <location filename="../assets/LogPane.qml" line="27"/>
@@ -754,50 +762,50 @@ And to make it even easier for our users to discover more and more spammers, Aut
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="39"/>
+        <location filename="../assets/UpdateActionItem.qml" line="41"/>
         <source>The following addresses were added: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="41"/>
+        <location filename="../assets/UpdateActionItem.qml" line="50"/>
         <source>The addresses could not be added: %1
 
 Please file a bug report!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="62"/>
+        <location filename="../assets/UpdateActionItem.qml" line="71"/>
         <source>There are no new known spammers available yet.
 Check back in a few days.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="76"/>
+        <location filename="../assets/UpdateActionItem.qml" line="85"/>
         <source>Reported Spammers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="77"/>
+        <location filename="../assets/UpdateActionItem.qml" line="86"/>
         <source>Which of the following reported spammers do you want to add to your blocked list?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="84"/>
+        <location filename="../assets/UpdateActionItem.qml" line="93"/>
         <source>Confirmation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="85"/>
+        <location filename="../assets/UpdateActionItem.qml" line="94"/>
         <source>The update may consume data. Make sure you are on an appropriate Wi-Fi connection or a good data plan. Would you like to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="86"/>
+        <location filename="../assets/UpdateActionItem.qml" line="95"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="87"/>
+        <location filename="../assets/UpdateActionItem.qml" line="96"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>

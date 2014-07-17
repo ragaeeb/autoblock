@@ -10,7 +10,8 @@ ActionItem
     signal confirmed()
     
     onConfirmed: {
-        progress = progressDialog.createObject();
+        definition.source = "ProgressDialog.qml";
+        progress = definition.createObject();
         progress.open();
     }
     
@@ -35,8 +36,9 @@ ActionItem
         var blocked = helper.block(transformed);
         navigationPane.pop();
         
-        if (blocked.length > 0) {
-            persist.showToast( qsTr("The following addresses were added: %1").arg( blocked.join(", ") ), "", "asset:///images/menu/ic_add_spammer.png" );
+        if (blocked.length > 0)
+        {
+            persist.showToast( blocked.length > 50 ? qsTr("Blocking addresses...") : qsTr("The following addresses were added: %1").arg( blocked.join(", ") ), "", "asset:///images/menu/ic_add_spammer.png" );
         } else {
             persist.showToast( qsTr("The addresses could not be added: %1\n\nPlease file a bug report!").arg( addresses.join(", ") ), "", "asset:///images/tabs/ic_blocked.png" );
         }
@@ -99,8 +101,7 @@ ActionItem
         },
         
         ComponentDefinition {
-            id: progressDialog
-            source: "ProgressDialog.qml"
+            id: definition
         }
     ]
 }

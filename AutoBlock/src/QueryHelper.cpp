@@ -34,7 +34,7 @@ QueryHelper::QueryHelper(CustomSqlDataSource* sql, Persistance* persist) :
         m_lastUpdate( QDateTime::currentMSecsSinceEpoch() ),
         m_logSearchMode(false)
 {
-    connect( sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ), Qt::QueuedConnection );
+    connect( sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ) );
     connect( sql, SIGNAL( error(QString const&) ), this, SLOT( onError(QString const&) ) );
     connect( &m_updateWatcher, SIGNAL( directoryChanged(QString const&) ), this, SLOT( checkDatabase(QString const&) ) );
 }
@@ -58,6 +58,7 @@ void QueryHelper::dataLoaded(int id, QVariant const& data)
         fetchAllBlockedKeywords();
     } else if (id == QueryId::UnblockSenders || id == QueryId::BlockSenders) {
         fetchAllBlockedSenders();
+        emit dataReady(id, data);
     } else {
         emit dataReady(id, data);
     }
@@ -202,7 +203,7 @@ QStringList QueryHelper::block(QVariantList const& addresses)
     }
 
     if ( !numbers.isEmpty() ) {
-        prepareTransaction("INSERT OR IGNORE INTO inbound_blacklist (address) VALUES(%1)", numbers, QueryId::BlockSenders);
+        prepareTransaction("INSERT OR IGNORE INTO inbound_blacklist (address) VALUES(%1)", numbers, QueryId::BlockSenders, QueryId::BlockSenderChunk);
     } else {
         LOGGER("[ERROR_001: No sender addresses found!]");
     }
@@ -211,11 +212,11 @@ QStringList QueryHelper::block(QVariantList const& addresses)
 }
 
 
-void QueryHelper::prepareTransaction(QString const& query, QVariantList const& elements, QueryId::Type qid)
+void QueryHelper::prepareTransaction(QString const& query, QVariantList const& elements, QueryId::Type qid, QueryId::Type chunkId)
 {
     static QString maxPlaceHolders = getPlaceHolders(MAX_TRANSACTION_SIZE);
 
-    m_sql->startTransaction(qid);
+    m_sql->startTransaction(chunkId);
 
     QVariantList chunk;
 
@@ -226,7 +227,7 @@ void QueryHelper::prepareTransaction(QString const& query, QVariantList const& e
         if ( chunk.size() >= MAX_TRANSACTION_SIZE )
         {
             m_sql->setQuery( query.arg(maxPlaceHolders) );
-            m_sql->executePrepared(chunk, 20);
+            m_sql->executePrepared(chunk, chunkId);
             chunk.clear();
         }
     }
@@ -236,7 +237,7 @@ void QueryHelper::prepareTransaction(QString const& query, QVariantList const& e
     if (remaining < MAX_TRANSACTION_SIZE)
     {
         m_sql->setQuery( query.arg( getPlaceHolders(remaining) ) );
-        m_sql->executePrepared(chunk, 20);
+        m_sql->executePrepared(chunk, chunkId);
     }
 
     m_sql->endTransaction(qid);

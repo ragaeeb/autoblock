@@ -37,7 +37,7 @@ class QueryHelper : public QObject
     bool m_logSearchMode;
     QMap<qint64, quint64> m_accountToTrash;
 
-    void prepareTransaction(QString const& query, QVariantList const& elements, QueryId::Type qid);
+    void prepareTransaction(QString const& query, QVariantList const& elements, QueryId::Type qid, QueryId::Type chunkId);
 
 private slots:
     void databaseUpdated(QString const& path);

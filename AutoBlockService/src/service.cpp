@@ -312,16 +312,21 @@ void Service::handleInvoke(const bb::system::InvokeRequest & request)
 void Service::callUpdated(bb::system::phone::Call const& call)
 {
 #if BBNDK_VERSION_AT_LEAST(10,3,0)
-    LOGGER( call.callId() << call.phoneNumber() << call.callType() << call.callState() );
 
-    if ( call.callType() == CallType::Incoming && call.callState() == CallState::Incoming && !call.phoneNumber().isEmpty() )
+    int callId = call.callId();
+    QString phoneNumber = call.phoneNumber();
+    CallType::Type t = call.callType();
+    CallState::Type s = call.callState();
+
+    LOGGER(callId << phoneNumber << t << s);
+
+    if ( t == CallType::Incoming && s == CallState::Incoming && !phoneNumber.isEmpty() )
     {
-        QString phoneNumber = call.phoneNumber();
-
-        if ( !m_queue.phoneToPending.contains(phoneNumber) )
+        if ( !m_queue.phoneToPending.contains(phoneNumber) && m_queue.lastCallId != callId )
         {
             m_queue.callQueue << call;
             m_queue.phoneToPending.insert(phoneNumber, true);
+            m_queue.lastCallId = callId;
 
             m_sql.setQuery( QString("SELECT address FROM inbound_blacklist WHERE address='%1'").arg(phoneNumber) );
             m_sql.load(QueryId::LookupCaller);

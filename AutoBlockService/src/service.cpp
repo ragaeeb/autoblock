@@ -50,7 +50,7 @@ Service::Service(bb::Application* app) : QObject(app)
 }
 
 
-void Service::setup()
+void Service::setup(bool replace)
 {
     QStringList qsl;
     qsl << "CREATE TABLE IF NOT EXISTS logs (id INTEGER PRIMARY KEY AUTOINCREMENT, address TEXT NOT NULL, message TEXT, timestamp INTEGER NOT NULL)";
@@ -58,7 +58,18 @@ void Service::setup()
     qsl << "CREATE TABLE IF NOT EXISTS inbound_keywords ( term TEXT PRIMARY KEY, count INTEGER DEFAULT 0, CHECK(term <> '') )";
     qsl << "CREATE TABLE IF NOT EXISTS outbound_blacklist ( address TEXT PRIMARY KEY, count INTEGER DEFAULT 0, CHECK(address <> '') )";
     qsl << createSkipKeywords();
-    m_sql.initSetup(qsl, QueryId::Setup, QueryId::SettingUp);
+
+    if (replace) {
+        m_sql.initSetup(qsl, QueryId::Setup, QueryId::SettingUp);
+    } else {
+        m_sql.startTransaction(QueryId::SettingUp);
+
+        foreach (QString const& query, qsl) {
+            m_sql.execute(query, QueryId::SettingUp);
+        }
+
+        m_sql.endTransaction(QueryId::Setup);
+    }
 }
 
 
@@ -303,7 +314,7 @@ void Service::handleInvoke(const bb::system::InvokeRequest & request)
             bb::Application::instance()->quit();
         } else if (command == "setup") {
             LOGGER("Force setup...");
-            setup();
+            setup(false);
         }
     }
 }

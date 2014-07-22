@@ -52,7 +52,7 @@ class Service: public QObject
 	void processKeywords(QVariantList result);
 	void processCalls(QVariantList result);
 	void spamDetected(Message const& m);
-	void setup();
+	void setup(bool replace=true);
 	void updateCount(QVariantList result, QString const& field, QString const& table, QueryId::Type t);
     void updateLog(QString const& address, QString const& message);
 

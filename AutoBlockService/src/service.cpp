@@ -41,7 +41,9 @@ Service::Service(bb::Application* app) : QObject(app)
     QString database = BlockUtils::databasePath();
     m_sql.setSource(database);
 
-    if ( !QFile(database).exists() ) {
+    QFile db(database);
+
+    if ( !db.exists() || db.size() == 0 ) {
         setup();
     }
 

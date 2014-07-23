@@ -10,6 +10,10 @@ TabbedPane
     Menu.definition: CanadaIncMenu
     {
         labelColor: Color.Black
+        help.imageSource: "images/menu/ic_help.png"
+        help.title: qsTr("Help") + Retranslate.onLanguageChanged
+        settings.imageSource: "images/menu/ic_settings.png"
+        settings.title: qsTr("Settings") + Retranslate.onLanguageChanged
         projectName: "autoblock"
         showServiceLogging: true
         showSubmitLogs: true

@@ -362,10 +362,8 @@ void QueryHelper::databaseUpdated(QString const& path)
 }
 
 
-bool QueryHelper::ready() const
-{
-    QFile dbase( BlockUtils::setupFilePath() );
-    return dbase.exists() && dbase.size() > 0;
+bool QueryHelper::ready() const {
+    return QFile::exists( BlockUtils::setupFilePath() );
 }
 
 

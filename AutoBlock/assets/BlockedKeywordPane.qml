@@ -100,7 +100,7 @@ NavigationPane
                 id: addAction
                 title: qsTr("Add") + Retranslate.onLanguageChanged
                 imageSource: "images/menu/ic_add_spammer.png"
-                ActionBar.placement: ActionBarPlacement.OnBar
+                ActionBar.placement: 'Signature' in ActionBarPlacement ? ActionBarPlacement["Signature"] : ActionBarPlacement.OnBar
                 
                 shortcuts: [
                     SystemShortcut {

@@ -3,8 +3,6 @@
 
 #include <QMap>
 
-#define min_keyword_length 4
-#define max_keyword_length 20
 #define SERVICE_KEY "logService"
 #define SERVICE_LOG_FILE QString("%1/logs/service.log").arg( QDir::currentPath() )
 

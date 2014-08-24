@@ -4,6 +4,9 @@
 
 #include <bb/pim/message/MessageService>
 
+#define min_keyword_length 3
+#define max_keyword_length 20
+
 namespace autoblock {
 
 QString BlockUtils::databasePath() {

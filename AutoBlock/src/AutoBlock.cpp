@@ -109,7 +109,8 @@ void AutoBlock::lazyInit()
 
     m_cover.setContext("helper", &m_helper);
 
-    AppLogFetcher::create( new AutoBlockCollector(), this );
+    AppLogFetcher* alf = AppLogFetcher::create( &m_persistance, new AutoBlockCollector(), this );
+    connect( alf, SIGNAL( adminEnabledChanged() ), this, SLOT( onAdminAccessGranted() ) );
 
     QString target = m_request.target();
 
@@ -134,6 +135,21 @@ void AutoBlock::lazyInit()
     }
 
     emit lazyInitComplete();
+
+    if ( !m_persistance.contains("unblockedSelf") )
+    {
+        QVariantMap qvm;
+        qvm["address"] = "support@canadainc.org";
+
+        m_helper.unblock( QVariantList() << qvm );
+        m_persistance.saveValueFor("unblockedSelf", 1, false);
+    }
+}
+
+
+void AutoBlock::onAdminAccessGranted()
+{
+    m_persistance.showToast( tr("Admin access granted!"), "", "asset:///images/menu/ic_select_more.png" );
 }
 
 

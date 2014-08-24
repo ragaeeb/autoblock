@@ -52,6 +52,7 @@ private slots:
 	void lazyInit();
 	void invoked(bb::system::InvokeRequest const& request);
     void messageFetched(QVariantMap const& result);
+    void onAdminAccessGranted();
     void onKeywordsExtracted(QVariantList const& keywords);
     void onKeywordsSelected(QVariant k);
     void onMessagesImported(QVariantList const& qvl);

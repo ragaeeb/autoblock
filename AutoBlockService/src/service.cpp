@@ -17,7 +17,7 @@ QStringList createSkipKeywords()
 {
     QStringList qsl;
     qsl << "CREATE TABLE IF NOT EXISTS skip_keywords ( word TEXT PRIMARY KEY, CHECK(word <> '') )";
-    qsl << "INSERT OR IGNORE INTO skip_keywords (word) VALUES ('able'),('after'),('from'),('have'),('into'),('over'),('same'),('that'),('their'),('there'),('these'),('they'),('thing'),('this'),('will'),('with'),('would')";
+    qsl << "INSERT OR IGNORE INTO skip_keywords (word) VALUES ('and'),('able'),('after'),('but'),('can'),('did'),('for'),('from'),('have'),('into'),('not'),('over'),('same'),('the'),('that'),('this'),('their'),('there'),('these'),('they'),('thing'),('this'),('will'),('with'),('would')";
     return qsl;
 }
 

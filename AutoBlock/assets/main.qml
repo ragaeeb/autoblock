@@ -16,7 +16,6 @@ TabbedPane
         settings.title: qsTr("Settings") + Retranslate.onLanguageChanged
         projectName: "autoblock"
         showServiceLogging: true
-        showSubmitLogs: true
     }
     
     Tab

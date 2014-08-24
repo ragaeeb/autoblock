@@ -4,6 +4,8 @@ import com.canadainc.data 1.0
 
 Page
 {
+    id: rootPage
+    
     titleBar: TitleBar {
         title: qsTr("Settings") + Retranslate.onLanguageChanged
     }
@@ -246,5 +248,7 @@ Page
         else if ( persist.tutorial("tutorialMoveTrash", qsTr("Enable the Move Spam to Trash checkbox if you want to move the spam messages to your web server's Trash folder instead of immediately permanently deleting it."), "file:///usr/share/icons/bb_action_delete.png" ) ) {}
         else if ( persist.tutorial("tutorialOptimize", qsTr("Use the Optimize option from the menu every once in a while if you want to speed up the performance of the app."), "asset:///images/menu/ic_optimize.png" ) ) {}
         else if ( persist.tutorial("tutorialBackupRestore", qsTr("You can use the 'Backup' action at the bottom if you want to save your blocked senders, logs, and keywords. At a later date you can use the Restore action to reimport the backup file to restore your database!"), "asset:///images/menu/ic_backup.png" ) ) {}
+        
+        reporter.initPage(rootPage);
     }
 }

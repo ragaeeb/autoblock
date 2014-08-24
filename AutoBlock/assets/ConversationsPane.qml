@@ -11,6 +11,7 @@ NavigationPane
     
     Page
     {
+        id: conversationsPage
         actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
         
         titleBar: TitleBar
@@ -386,9 +387,17 @@ NavigationPane
                         
                         gestureHandlers: [
                             TapHandler {
+                                id: tapHandler
+                                property bool launched: false
+                                
                                 onTapped: {
                                     console.log("UserEvent: AddKeywordsToast");
-                                    app.extractKeywords(keywordsDelegate.toBlock);
+                                    
+                                    if (!launched) {
+                                        launched = true;
+                                        app.keywordsExtracted.connect(onKeywordsExtracted);
+                                        app.extractKeywords(keywordsDelegate.toBlock);
+                                    }
                                 }
                             }
                         ]
@@ -419,6 +428,8 @@ NavigationPane
     
     function onKeywordsExtracted(keywords)
     {
+        app.keywordsExtracted.disconnect(onKeywordsExtracted);
+        
         if (keywords.length > 0)
         {
             var inspectPage = definition.createObject();
@@ -431,14 +442,40 @@ NavigationPane
         }
     }
     
-    onCreationCompleted: {
-        app.keywordsExtracted.connect(onKeywordsExtracted);
-    }
-    
     attachedObjects: [
         ComponentDefinition {
             id: definition
             source: "ElementPickerPage.qml"
+        },
+        
+        ActionItem {
+            id: testKeywords
+            imageSource: "images/menu/ic_help.png"
+            title: qsTr("Test Keywords") + Retranslate.onLanguageChanged
+            ActionBar.placement: ActionBarPlacement.OnBar
+            
+            onTriggered: {
+                console.log("UserEvent: TestKeywordsTriggered");
+                
+                if (accountChoice.selectedValue != 8)
+                {
+                    var selected = listView.selectionList();
+                    var toBlock = [];
+                    
+                    for (var i = selected.length-1; i >= 0; i--) {
+                        toBlock.push( dm.data(selected[i]) );
+                    }
+                    
+                    app.keywordsExtracted.connect(onKeywordsExtracted);
+                    app.extractKeywords(toBlock);
+                }
+            }
+            
+            onCreationCompleted: {
+                if (reporter.isAdmin) {
+                    listView.multiSelectHandler.addAction(testKeywords);
+                }
+            }
         }
     ]
 }

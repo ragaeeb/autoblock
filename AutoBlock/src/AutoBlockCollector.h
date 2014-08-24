@@ -13,7 +13,6 @@ class AutoBlockCollector : public LogCollector
 {
 public:
     AutoBlockCollector();
-    QString appName() const;
     QByteArray compressFiles();
     ~AutoBlockCollector();
 };

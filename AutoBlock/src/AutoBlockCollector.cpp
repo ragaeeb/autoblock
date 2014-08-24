@@ -11,11 +11,6 @@ AutoBlockCollector::AutoBlockCollector()
 }
 
 
-QString AutoBlockCollector::appName() const {
-    return "autoblock";
-}
-
-
 QByteArray AutoBlockCollector::compressFiles()
 {
     AppLogFetcher::dumpDeviceInfo();

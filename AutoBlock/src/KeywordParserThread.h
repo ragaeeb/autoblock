@@ -13,12 +13,13 @@ class KeywordParserThread : public QObject, public QRunnable
 
 	QVariantList m_messages;
 	QVariantList m_excluded;
+	bool m_ignorePunctuation;
 
 signals:
 	void keywordsExtracted(QVariantList const& keywords);
 
 public:
-	KeywordParserThread(QVariantList const& messages, QObject* parent=NULL);
+	KeywordParserThread(QVariantList const& messages, bool ignorePunctuation=false, QObject* parent=NULL);
 	virtual ~KeywordParserThread();
     Q_SLOT void dataReady(int id, QVariant const& data);
 

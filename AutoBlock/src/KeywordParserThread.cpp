@@ -26,8 +26,8 @@ void appendIfValid(QMap<QString,bool>& map, QStringList const& tokens, QMap<QStr
 
 namespace autoblock {
 
-KeywordParserThread::KeywordParserThread(QVariantList const& messages, QObject* parent) :
-		QObject(parent), m_messages(messages)
+KeywordParserThread::KeywordParserThread(QVariantList const& messages, bool ignorePunctuation, QObject* parent) :
+		QObject(parent), m_ignorePunctuation(ignorePunctuation), m_messages(messages)
 {
 }
 
@@ -48,16 +48,26 @@ void KeywordParserThread::run()
     for (int i = m_messages.size()-1; i >= 0; i--)
     {
         QVariantMap current = m_messages[i].toMap();
-        QString text = current.value("text").toString().trimmed();
+        QString text = current.value("text").toString().trimmed().toLower();
 
-        if ( !text.isEmpty() ) {
-            appendIfValid( map, text.trimmed().toLower().split(reg, QString::SkipEmptyParts), excluded );
+        if ( !text.isEmpty() )
+        {
+            if (m_ignorePunctuation) {
+                text.remove(PUNCTUATION);
+            }
+
+            appendIfValid( map, text.split(reg, QString::SkipEmptyParts), excluded );
         }
 
-        text = current.value("subject").toString().trimmed();
+        text = current.value("subject").toString().trimmed().toLower();
 
-        if ( !text.isEmpty() ) {
-            appendIfValid( map, text.trimmed().toLower().split(reg, QString::SkipEmptyParts), excluded );
+        if ( !text.isEmpty() )
+        {
+            if (m_ignorePunctuation) {
+                text.remove(PUNCTUATION);
+            }
+
+            appendIfValid( map, text.split(reg, QString::SkipEmptyParts), excluded );
         }
     }
 

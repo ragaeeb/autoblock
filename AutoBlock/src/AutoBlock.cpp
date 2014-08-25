@@ -183,7 +183,7 @@ void AutoBlock::parseKeywords(QVariantList const& toProcess)
 
 void AutoBlock::prepareKeywordExtraction(QVariantList const& toProcess, const char* slot)
 {
-    KeywordParserThread* ai = new KeywordParserThread(toProcess);
+    KeywordParserThread* ai = new KeywordParserThread( toProcess, m_persistance.getValueFor("ignorePunctuation") == 1 );
     connect( ai, SIGNAL( keywordsExtracted(QVariantList const&) ), this, slot );
     connect( &m_helper, SIGNAL( dataReady(int, QVariant const&) ), ai, SLOT( dataReady(int, QVariant const&) ) );
 

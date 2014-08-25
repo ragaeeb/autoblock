@@ -5,6 +5,7 @@
 
 #define SERVICE_KEY "logService"
 #define SERVICE_LOG_FILE QString("%1/logs/service.log").arg( QDir::currentPath() )
+#define PUNCTUATION QRegExp("[\\.,!:;()]")
 
 namespace bb {
     namespace pim {

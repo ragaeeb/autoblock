@@ -290,8 +290,9 @@ NavigationPane
                         
                         multiSelectHandler.status = qsTr("None selected");
                         blockAction.enabled = false;
-                        mainContainer.visible = listView.multiSelectHandler.active = results.length > 0;
+                        mainContainer.visible = results.length > 0;
                         emptyDelegate.delegateActive = results.length == 0;
+                        listView.multiSelectHandler.active = false;
                     }
                 }
             }

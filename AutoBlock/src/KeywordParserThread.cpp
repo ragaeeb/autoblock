@@ -27,7 +27,7 @@ void appendIfValid(QMap<QString,bool>& map, QStringList const& tokens, QMap<QStr
 namespace autoblock {
 
 KeywordParserThread::KeywordParserThread(QVariantList const& messages, bool ignorePunctuation, QObject* parent) :
-		QObject(parent), m_ignorePunctuation(ignorePunctuation), m_messages(messages)
+		QObject(parent), m_messages(messages), m_ignorePunctuation(ignorePunctuation)
 {
 }
 

@@ -17,7 +17,7 @@ QStringList createSkipKeywords()
 {
     QStringList qsl;
     qsl << "CREATE TABLE IF NOT EXISTS skip_keywords ( word TEXT PRIMARY KEY, CHECK(word <> '') )";
-    qsl << "INSERT OR IGNORE INTO skip_keywords (word) VALUES ('and'),('able'),('after'),('but'),('can'),('did'),('for'),('from'),('have'),('into'),('not'),('over'),('same'),('the'),('that'),('this'),('their'),('there'),('these'),('they'),('thing'),('this'),('will'),('with'),('would')";
+    qsl << "INSERT OR IGNORE INTO skip_keywords (word) VALUES ('and'),('able'),('after'),('but'),('can'),('did'),('for'),('from'),('had'),('have'),('into'),('not'),('over'),('same'),('see'),('the'),('that'),('this'),('their'),('there'),('these'),('they'),('thing'),('this'),('was'),('will'),('with'),('would')";
     return qsl;
 }
 
@@ -246,7 +246,13 @@ void Service::processSenders(QVariantList result)
             updateCount(result, "address", "inbound_blacklist", QueryId::BlockSenders);
         } else {
             QString subjectBody = m.accountId() == ACCOUNT_KEY_SMS ? PimUtil::extractText(m) : m.subject();
-            QStringList subjectTokens = subjectBody.trimmed().toLower().split(" ");
+            subjectBody = subjectBody.trimmed().toLower();
+
+            if (m_options.ignorePunctuation) {
+                subjectBody.remove(PUNCTUATION);
+            }
+
+            QStringList subjectTokens = subjectBody.split(" ");
             LOGGER("SubjectTokens" << subjectTokens);
             QVariantList keywords;
             QStringList placeHolders;
@@ -296,6 +302,7 @@ void Service::settingChanged(QString const& path)
 
 	QSettings q;
 	m_options.blockStrangers = q.value("blockStrangers").toInt() == 1;
+	m_options.ignorePunctuation = q.value("ignorePunctuation").toInt() == 1;
 	m_options.moveToTrash = q.value("moveToTrash").toInt() == 1;
 	m_options.scanName = q.value("scanName").toInt() == 1;
 	m_options.scanAddress = q.value("scanAddress").toInt() == 1;

@@ -208,6 +208,21 @@ Page
             
             PersistCheckBox
             {
+                topMargin: 10
+                key: "ignorePunctuation"
+                text: qsTr("Ignore Punctuation") + Retranslate.onLanguageChanged
+                
+                onCheckedChanged: {
+                    if (checked) {
+                        infoText.text = qsTr("Punctuation will be removed from messages before they are tested.");
+                    } else {
+                        infoText.text = qsTr("Punctuation will be left as-is when comparing with the blocked list of keywords.");
+                    }
+                }
+            }
+            
+            PersistCheckBox
+            {
                 id: moveTrash
                 topMargin: 10
                 key: "moveToTrash"

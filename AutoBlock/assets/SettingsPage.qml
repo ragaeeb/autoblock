@@ -210,7 +210,7 @@ Page
             {
                 topMargin: 10
                 key: "ignorePunctuation"
-                text: qsTr("Ignore Punctuation") + Retranslate.onLanguageChanged
+                text: qsTr("Strip Punctuation from Keywords") + Retranslate.onLanguageChanged
                 
                 onCheckedChanged: {
                     if (checked) {

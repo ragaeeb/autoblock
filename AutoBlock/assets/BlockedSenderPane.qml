@@ -37,7 +37,8 @@ NavigationPane
                 ActionBar.placement: ActionBarPlacement.OnBar
                 
                 onTriggered: {
-                    console.log("UserEvent: BlockEmailSender");
+                    console.log("UserEvent: BlockSenderTriggered");
+                    persist.tutorial( "tutorialManualAdd", qsTr("Important: If you are manually attempting to input phone numbers to block note that plus signs and dashes may be necessary in order to match the format that is used by the spammer. It might be more appropriate for you to go to the 'Conversations' tab and add the spammer from there instead."), "asset:///images/menu/ic_help.png" );
                     addPrompt.show();
                 }
                 
@@ -277,6 +278,8 @@ NavigationPane
             else if ( persist.tutorial("tutorialAddSender", qsTr("Use the 'Add' action from the menu to add a specific phone number or email address you want to block."), "asset:///images/menu/ic_search_user.png" ) ) {}
             else if ( persist.tutorial("tutorialClearBlocked", qsTr("You can clear this blocked list by selecting 'Unblock All' from the menu."), "asset:///images/menu/ic_unblock_all.png" ) ) {}
             else if ( persist.tutorial("tutorialUnblock", qsTr("You can unblock a user you blocked by mistake by simply tapping on the blocked address and choosing 'Unblock' from the menu."), "asset:///images/menu/ic_unblock.png" ) ) {}
+            else if ( persist.reviewed() ) {}
+            else if ( reporter.performCII() ) {}
         }
     }
     

@@ -46,7 +46,7 @@ void QueryHelper::onError(QString const& errorMessage)
     LOGGER(errorMessage);
 
 #if defined(QT_NO_DEBUG)
-    AppLogFetcher::getInstance()->submitLogs();
+    AppLogFetcher::getInstance()->submitLogs("[AutoBlock]: queryError");
 #endif
 }
 

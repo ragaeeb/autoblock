@@ -132,8 +132,8 @@ NavigationPane
                                 if ( value.indexOf(" ") >= 0 ) {
                                     persist.showToast( qsTr("The keyword cannot contain any spaces!"), "", "asset:///images/ic_block.png" );
                                     return;
-                                } else if (value.length < 4 || value.length > 20) {
-                                    persist.showToast( qsTr("The keyword must be between 4 to 20 characters in length (inclusive)!"), "", "asset:///images/ic_block.png" );
+                                } else if (value.length < 3 || value.length > 20) {
+                                    persist.showToast( qsTr("The keyword must be between 3 to 20 characters in length (inclusive)!"), "", "asset:///images/ic_block.png" );
                                     return;
                                 }
                                 

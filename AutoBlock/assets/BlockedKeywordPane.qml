@@ -231,6 +231,12 @@ NavigationPane
                 	}
                 }
                 
+                onTriggered: {
+                    console.log("UserEvent: KeywordTapped", indexPath);
+                    multiSelectHandler.active = true;
+                    toggleSelection(indexPath);
+                }
+                
                 multiSelectAction: MultiSelectActionItem {
                     imageSource: "images/menu/ic_select_more.png"
                 }
@@ -272,25 +278,6 @@ NavigationPane
                                     slider.play();
                                 }
                             }
-                            
-                            contextActions: [
-                                ActionSet
-                                {
-                                    title: sli.title
-                                    subtitle: sli.description
-                                    
-                                    DeleteActionItem
-                                    {
-                                        imageSource: "images/menu/ic_unblock.png"
-                                        title: qsTr("Unblock") + Retranslate.onLanguageChanged
-                                        
-                                        onTriggered: {
-                                            console.log("UserEvent: UnblockKeyword");
-                                            sli.ListItem.view.unblock([ListItemData]);
-                                        }
-                                    }
-                                }
-                            ]
                         }
                     }
                 ]

@@ -482,12 +482,7 @@ Please file a bug report!</source>
 <context>
     <name>HelpPage</name>
     <message>
-        <location filename="../assets/HelpPage.qml" line="16"/>
-        <source>Our BBM Channel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/HelpPage.qml" line="34"/>
+        <location filename="../assets/HelpPage.qml" line="29"/>
         <source>Video Tutorial</source>
         <translation type="unfinished"></translation>
     </message>
@@ -565,6 +560,26 @@ And to make it even easier for our users to discover more and more spammers, Aut
     <message>
         <location filename="../assets/LogPane.qml" line="127"/>
         <source>If this list is getting too cluttered, you can always clear the logs by using the &apos;Clear Logs&apos; action from the menu.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/LogPane.qml" line="141"/>
+        <source>In this tab you will be able to modify the reply text that you wish to send out when your contacts message you.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/LogPane.qml" line="144"/>
+        <source>To get more help, swipe-down from the top-bezel and choose the &apos;Help&apos; action.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/LogPane.qml" line="148"/>
+        <source>To change the blue LED blinking, swipe-down from the top-bezel and choose the &apos;Settings&apos; action.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/LogPane.qml" line="152"/>
+        <source>If you notice any bugs in the app that you want to report or you want to file a feature request, swipe-down from the top-bezel and choose the &apos;Bug Reports&apos; action.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -857,32 +872,32 @@ Check back in a few days.</source>
 <context>
     <name>autoblock::AutoBlock</name>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="152"/>
+        <location filename="../src/AutoBlock.cpp" line="155"/>
         <source>Admin access granted!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="162"/>
+        <location filename="../src/AutoBlock.cpp" line="165"/>
         <source>The following keywords were added: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="164"/>
+        <location filename="../src/AutoBlock.cpp" line="167"/>
         <source>The keyword(s) could not be added.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="206"/>
+        <location filename="../src/AutoBlock.cpp" line="209"/>
         <source>The following addresses were blocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="208"/>
+        <location filename="../src/AutoBlock.cpp" line="211"/>
         <source>The addresses could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="214"/>
+        <location filename="../src/AutoBlock.cpp" line="217"/>
         <source>Could not block the sender, this is due to a bug in BlackBerry OS 10.2.1. There are two ways around this problem:
 
 1) From the BlackBerry Hub, tap on the email to open it, tap on the menu icon (...) on the bottom-right, choose Share, and then choose Auto Block.
@@ -891,50 +906,40 @@ Check back in a few days.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="228"/>
+        <location filename="../src/AutoBlock.cpp" line="231"/>
         <source>Could not find any suspicious keywords in the message...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/AutoBlock.cpp" line="105"/>
-        <source>Warning: It seems like the app does not have access to your Email/SMS messages Folder. This permission is needed for the app to access the SMS and email services it needs to do the filtering of the spam messages. If you leave this permission off, some features may not work properly. Select OK to launch the Application Permissions screen where you can turn these settings on.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/AutoBlock.cpp" line="106"/>
-        <source>Warning: It seems like the app does not have access to your Shared Folder. This permission is needed for the app to properly allow you to backup &amp; restore the database. If you leave this permission off, some features may not work properly. Select OK to launch the Application Permissions screen where you can turn these settings on.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>main</name>
     <message>
-        <location filename="../assets/main.qml" line="49"/>
+        <location filename="../assets/main.qml" line="53"/>
         <source>Blocked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="50"/>
+        <location filename="../assets/main.qml" line="54"/>
         <source>Blocked List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="73"/>
+        <location filename="../assets/main.qml" line="81"/>
         <source>Conversations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="74"/>
+        <location filename="../assets/main.qml" line="82"/>
         <source>Potential Spam Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="85"/>
+        <location filename="../assets/main.qml" line="97"/>
         <source>Keywords</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="86"/>
+        <location filename="../assets/main.qml" line="98"/>
         <source>Blacklisted Keywords</source>
         <translation type="unfinished"></translation>
     </message>

@@ -9,7 +9,7 @@ TabbedPane
     
     Menu.definition: CanadaIncMenu
     {
-        labelColor: Color.Black
+        labelColor: 'Signature' in ActionBarPlacement ? Color.Black : Color.White
         help.imageSource: "images/menu/ic_help.png"
         help.title: qsTr("Help") + Retranslate.onLanguageChanged
         settings.imageSource: "images/menu/ic_settings.png"
@@ -42,6 +42,10 @@ TabbedPane
         onCreationCompleted: {
             helper.dataReady.connect(onDataLoaded);
         }
+        
+        onTriggered: {
+            console.log("UserEvent: LogTabTriggered");
+        }
     }
     
     Tab {
@@ -66,6 +70,10 @@ TabbedPane
                 }
             }
         }
+        
+        onTriggered: {
+            console.log("UserEvent: BlockedTabTriggered");
+        }
     }
     
     Tab {
@@ -78,6 +86,10 @@ TabbedPane
         delegate: Delegate {
             source: "ConversationsPane.qml"
         }
+        
+        onTriggered: {
+            console.log("UserEvent: ConversationsTabTriggered");
+        }
     }
     
     Tab {
@@ -89,6 +101,10 @@ TabbedPane
         
         delegate: Delegate {
             source: "BlockedKeywordPane.qml"
+        }
+        
+        onTriggered: {
+            console.log("UserEvent: KeywordsTabTriggered");
         }
     }
     

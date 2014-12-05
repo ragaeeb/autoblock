@@ -43,7 +43,7 @@ NavigationPane
                         onFinished: {
                             console.log("UserEvent: ClearLogsPrompt", result);
                             
-                            if (result == SystemUiResult.ConfirmButtonSelection)
+                            if (value == SystemUiResult.ConfirmButtonSelection)
                             {
                                 helper.clearLogs();
                                 persist.showToast( qsTr("Cleared all blocked senders!"), "", "asset:///images/menu/ic_clear_logs.png" );
@@ -106,7 +106,7 @@ NavigationPane
                 ]
                 
                 onTriggered: {
-                    console.log("UserEvent: Log Tapped", indexPath);
+                    console.log("UserEvent: LogTapped", indexPath);
                     var data = dataModel.data(indexPath);
                     persist.showToast( data.message.trim(), qsTr("OK"), "asset:///images/tabs/ic_blocked.png" );
                 }
@@ -133,6 +133,28 @@ NavigationPane
                     
                     listView.visible = !adm.isEmpty();
                     emptyDelegate.delegateActive = adm.isEmpty();
+                    
+                    var tutorialText = "";
+                    var icon = ""
+                    
+                    if ( !persist.contains("tutorialLogPane") ) {
+                        tutorialText = qsTr("In this tab you will be able to modify the reply text that you wish to send out when your contacts message you.");
+                        persist.saveValueFor("tutorialLogPane", 1, false);
+                    } else if ( !persist.contains("tutorialHelp") ) {
+                        tutorialText = qsTr("To get more help, swipe-down from the top-bezel and choose the 'Help' action.");
+                        icon = "images/menu/ic_help.png";
+                        persist.saveValueFor("tutorialHelp", 1, false);
+                    } else if ( !persist.contains("tutorialSettings") ) {
+                        tutorialText = qsTr("To change the blue LED blinking, swipe-down from the top-bezel and choose the 'Settings' action.");
+                        icon = "images/menu/ic_settings.png";
+                        persist.saveValueFor("tutorialSettings", 1, false);
+                    } else if ( !persist.contains("tutorialBugReports") ) {
+                        tutorialText = qsTr("If you notice any bugs in the app that you want to report or you want to file a feature request, swipe-down from the top-bezel and choose the 'Bug Reports' action.");
+                        icon = "images/ic_bugs.png";
+                        persist.saveValueFor("tutorialBugReports", 1, false);
+                    }
+                    
+                    tutorialToast.init(tutorialText, icon);
                 }
                 
                 function setupComplete()
@@ -160,6 +182,13 @@ NavigationPane
                 onCreationCompleted: {
                     app.lazyInitComplete.connect(onReady);
                 }
+            }
+            
+            PermissionToast
+            {
+                id: tm
+                horizontalAlignment: HorizontalAlignment.Right
+                verticalAlignment: VerticalAlignment.Center
             }
             
             attachedObjects: [

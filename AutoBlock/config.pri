@@ -39,20 +39,27 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/AutoBlockTitleBar.qml) \
         $$quote($$BASEDIR/assets/BlockedKeywordPane.qml) \
         $$quote($$BASEDIR/assets/BlockedSenderPane.qml) \
+        $$quote($$BASEDIR/assets/ConversationListItem.qml) \
         $$quote($$BASEDIR/assets/ConversationsPane.qml) \
         $$quote($$BASEDIR/assets/Cover.qml) \
         $$quote($$BASEDIR/assets/ElementPickerPage.qml) \
         $$quote($$BASEDIR/assets/HelpPage.qml) \
+        $$quote($$BASEDIR/assets/LargeTransactionDialog.qml) \
         $$quote($$BASEDIR/assets/LogPane.qml) \
+        $$quote($$BASEDIR/assets/NotificationToast.qml) \
+        $$quote($$BASEDIR/assets/PermissionToast.qml) \
         $$quote($$BASEDIR/assets/ProgressDialog.qml) \
         $$quote($$BASEDIR/assets/SearchActionItem.qml) \
         $$quote($$BASEDIR/assets/SettingsPage.qml) \
+        $$quote($$BASEDIR/assets/SetupDialog.qml) \
         $$quote($$BASEDIR/assets/UpdateActionItem.qml) \
         $$quote($$BASEDIR/assets/images/add_keyword_strip.amd) \
         $$quote($$BASEDIR/assets/images/add_keyword_strip.png) \
         $$quote($$BASEDIR/assets/images/background.png) \
         $$quote($$BASEDIR/assets/images/cover_bg.png) \
         $$quote($$BASEDIR/assets/images/dropdown/ic_account.png) \
+        $$quote($$BASEDIR/assets/images/dropdown/ic_phone.png) \
+        $$quote($$BASEDIR/assets/images/dropdown/ic_pin.png) \
         $$quote($$BASEDIR/assets/images/dropdown/ic_sms.png) \
         $$quote($$BASEDIR/assets/images/dropdown/ic_sync.png) \
         $$quote($$BASEDIR/assets/images/empty/ic_empty_blocked.png) \
@@ -61,6 +68,8 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/images/empty/ic_empty_messages.png) \
         $$quote($$BASEDIR/assets/images/ic_block.png) \
         $$quote($$BASEDIR/assets/images/ic_bugs.png) \
+        $$quote($$BASEDIR/assets/images/ic_call.png) \
+        $$quote($$BASEDIR/assets/images/ic_email.png) \
         $$quote($$BASEDIR/assets/images/ic_pim_warning.png) \
         $$quote($$BASEDIR/assets/images/ic_review.png) \
         $$quote($$BASEDIR/assets/images/ic_steps.png) \
@@ -73,8 +82,11 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/images/menu/ic_blocked_user.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_clear.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_clear_logs.png) \
+        $$quote($$BASEDIR/assets/images/menu/ic_error_recovery.png) \
+        $$quote($$BASEDIR/assets/images/menu/ic_help.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_keyword.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_log.png) \
+        $$quote($$BASEDIR/assets/images/menu/ic_optimize.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_restore.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_restore_error.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_search_keyword.png) \
@@ -82,8 +94,11 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/images/menu/ic_search_user.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_select_all.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_select_more.png) \
+        $$quote($$BASEDIR/assets/images/menu/ic_settings.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_unblock.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_unblock_all.png) \
+        $$quote($$BASEDIR/assets/images/processing.png) \
+        $$quote($$BASEDIR/assets/images/setup.png) \
         $$quote($$BASEDIR/assets/images/spinner.png) \
         $$quote($$BASEDIR/assets/images/tabs/ic_blocked.png) \
         $$quote($$BASEDIR/assets/images/tabs/ic_conversations.png) \
@@ -91,10 +106,19 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/images/tabs/ic_logs.png) \
         $$quote($$BASEDIR/assets/images/titlebar/arrows1.png) \
         $$quote($$BASEDIR/assets/images/titlebar/arrows2.png) \
+        $$quote($$BASEDIR/assets/images/titlebar/core_titlebar_gradient.png) \
         $$quote($$BASEDIR/assets/images/titlebar/title_bg.amd) \
         $$quote($$BASEDIR/assets/images/titlebar/title_bg.png) \
         $$quote($$BASEDIR/assets/images/titlebar/title_text.png) \
         $$quote($$BASEDIR/assets/images/toast/ic_import.png) \
+        $$quote($$BASEDIR/assets/images/toast/no_email_access.png) \
+        $$quote($$BASEDIR/assets/images/toast/no_shared_folder.png) \
+        $$quote($$BASEDIR/assets/images/toast/permission_toast_bg.amd) \
+        $$quote($$BASEDIR/assets/images/toast/permission_toast_bg.png) \
+        $$quote($$BASEDIR/assets/images/toast/toast_bg.amd) \
+        $$quote($$BASEDIR/assets/images/toast/toast_bg.png) \
+        $$quote($$BASEDIR/assets/images/toast/toast_close.png) \
+        $$quote($$BASEDIR/assets/images/toast/tutorial_info.png) \
         $$quote($$BASEDIR/assets/main.qml)
 }
 

@@ -91,7 +91,7 @@ ActionItem
             onFinished: {
                 console.log("UserEvent: SyncUpdatePrompt", result);
                 
-                if (result == SystemUiResult.ConfirmButtonSelection)
+                if (value == SystemUiResult.ConfirmButtonSelection)
                 {
                     persist.saveValueFor("updateTutorial", 1, false);
                     updateAction.enabled = false;

@@ -125,7 +125,7 @@ NavigationPane
                         onFinished: {
                             console.log("UserEvent: AddKeywordPrompt", result);
                             
-                            if (result == SystemUiResult.ConfirmButtonSelection)
+                            if (value == SystemUiResult.ConfirmButtonSelection)
                             {
                                 var value = addPrompt.inputFieldTextEntry().trim().toLowerCase();
                                 
@@ -179,7 +179,7 @@ NavigationPane
                         onFinished: {
                             console.log("UserEvent: ClearAllBlockedPrompt", result);
                             
-                            if (result == SystemUiResult.ConfirmButtonSelection)
+                            if (value == SystemUiResult.ConfirmButtonSelection)
                             {
                                 helper.clearBlockedKeywords();
                                 persist.showToast( qsTr("Cleared all blocked keywords!"), "", "asset:///images/menu/ic_clear.png" );

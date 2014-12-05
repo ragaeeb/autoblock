@@ -61,8 +61,6 @@ FullScreenDialog
     
     function onDataLoaded(id, data)
     {
-        console.log("***", id);
-        
         if (id == QueryId.BlockSenders) {
             close();
         }

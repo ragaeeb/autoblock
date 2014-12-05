@@ -90,7 +90,8 @@ Page
             }
         },
         
-        ActionItem {
+        ActionItem
+        {
             imageSource: "images/menu/ic_error_recovery.png"
             title: qsTr("Error Recovery") + Retranslate.onLanguageChanged
             
@@ -114,7 +115,7 @@ Page
             }
             
             onFileSelected : {
-                console.log("UserEvent: File Selected", selectedFiles[0]);
+                console.log("UserEvent: FileSelected", selectedFiles[0]);
                 
                 if (mode == FilePickerMode.Picker) {
                     updater.restore(selectedFiles[0]);

@@ -61,7 +61,7 @@ NavigationPane
                         onFinished: {
                             console.log("UserEvent: BlockSenderPrompt", result);
                             
-                            if (result == SystemUiResult.ConfirmButtonSelection)
+                            if (value == SystemUiResult.ConfirmButtonSelection)
                             {
                                 var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                                 var phoneRegex = /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i;
@@ -118,7 +118,7 @@ NavigationPane
                         onFinished: {
                             console.log("UserEvent: UnblockAllPrompt", result);
                             
-                            if (result == SystemUiResult.ConfirmButtonSelection)
+                            if (value == SystemUiResult.ConfirmButtonSelection)
                             {
                                 helper.clearBlockedSenders();
                                 persist.showToast( qsTr("Cleared all blocked senders!"), "", "asset:///images/menu/ic_unblock_all.png" );
@@ -213,7 +213,7 @@ NavigationPane
                 ]
                 
                 onTriggered: {
-                    console.log("UserEvent: BlockedListItem Tapped", indexPath);
+                    console.log("UserEvent: BlockedListItemTapped", indexPath);
                     multiSelectHandler.active = true;
                     toggleSelection(indexPath);
                 }

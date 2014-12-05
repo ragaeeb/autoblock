@@ -31,7 +31,7 @@ AutoBlock::AutoBlock(Application* app) :
 {
     INIT_SETTING(CARD_KEY, true);
     INIT_SETTING(UI_KEY, true);
-    INIT_SETTING(SERVICE_KEY, false);
+    INIT_SETTING(SERVICE_KEY, true);
     INIT_SETTING("days", 7);
 
     switch ( m_invokeManager.startupMode() )
@@ -55,7 +55,6 @@ void AutoBlock::initRoot(QString const& qmlDoc)
     qmlRegisterUncreatableType<QueryId>("com.canadainc.data", 1, 0, "QueryId", "Can't instantiate");
 
     QMap<QString, QObject*> context;
-    context.insert("app", this);
     context.insert("helper", &m_helper);
     context.insert("payment", &m_payment);
     context.insert("updater", &m_update);
@@ -102,9 +101,6 @@ void AutoBlock::lazyInit()
     request.setAction("com.canadainc.AutoBlockService.RESET");
     m_invokeManager.invoke(request);
 
-    if ( !PimUtil::validateEmailSMSAccess( tr("Warning: It seems like the app does not have access to your Email/SMS messages Folder. This permission is needed for the app to access the SMS and email services it needs to do the filtering of the spam messages. If you leave this permission off, some features may not work properly. Select OK to launch the Application Permissions screen where you can turn these settings on.") ) ) {}
-    else if ( !InvocationUtils::validateSharedFolderAccess( tr("Warning: It seems like the app does not have access to your Shared Folder. This permission is needed for the app to properly allow you to backup & restore the database. If you leave this permission off, some features may not work properly. Select OK to launch the Application Permissions screen where you can turn these settings on.") ) ) {}
-
     connect( Application::instance(), SIGNAL( aboutToQuit() ), this, SLOT( terminateThreads() ) );
 
     m_cover.setContext("helper", &m_helper);
@@ -133,6 +129,10 @@ void AutoBlock::lazyInit()
             parseKeywords( QVariantList() << map );
         }
     }
+
+    QmlDocument* qml = QmlDocument::create("asset:///NotificationToast.qml").parent(this);
+    QObject* toast = qml->createRootObject<QObject>();
+    QmlDocument::defaultDeclarativeEngine()->rootContext()->setContextProperty("tutorialToast", toast);
 
     emit lazyInitComplete();
 

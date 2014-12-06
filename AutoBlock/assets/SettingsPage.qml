@@ -30,7 +30,7 @@ Page
             }
             
             function onSaved(result) {
-                persist.showBlockingToast( qsTr("Successfully backed up to %1").arg( result.substring(15) ), qsTr("OK"), "asset:///images/menu/ic_backup.png" );
+                tutorialToast.init( qsTr("Successfully backed up to %1").arg( result.substring(15) ), "images/menu/ic_backup.png" );
             }
             
             onCreationCompleted: {
@@ -58,7 +58,7 @@ Page
                     persist.showBlockingToast( qsTr("Successfully restored! The app will now close itself so when you re-open it the restored database can take effect!"), qsTr("OK"), "asset:///images/menu/ic_restore.png" );
                     app.exit();
                 } else {
-                    persist.showBlockingToast( qsTr("The database could not be restored. Please re-check the backup file to ensure it is valid, and if the problem persists please file a bug report. Make sure to attach the backup file with your report!"), qsTr("OK"), "asset:///images/menu/ic_restore_error.png" );
+                    tutorialToast.init( qsTr("The database could not be restored. Please re-check the backup file to ensure it is valid, and if the problem persists please file a bug report. Make sure to attach the backup file with your report!"), "images/menu/ic_restore_error.png" );
                 }
             }
             
@@ -231,7 +231,7 @@ Page
                 
                 onCheckedChanged: {
                     if ( checked && !persist.contains("autoblock_junk") ) {
-                        persist.showBlockingToast( qsTr("This is a purchasable feature that will allow spam messages to be moved to the trash folder instead of directly deleting them. Press OK to launch the payment screen."), qsTr("OK"), "file:///usr/share/icons/bb_action_delete.png" );
+                        tutorialToast.init( qsTr("This is a purchasable feature that will allow spam messages to be moved to the trash folder instead of directly deleting them. Press OK to launch the payment screen."), "images/toast/move_trash.png" );
                         moveTrash.checked = false;
                         payment.requestPurchase("autoblock_junk", "Junk Folder (Move to Trash)");
                     } else {
@@ -262,13 +262,13 @@ Page
     }
     
     onCreationCompleted: {
-        if ( persist.tutorial("tutorialSound", qsTr("Enable the Sound checkbox if you want to hear a sound everytime a message is blocked (this will only sound if you have the device is an appropriate profile that allows notifications)."), "file:///usr/share/icons/cs_audio_caution.png" ) ) {}
+        if ( tutorialToast.tutorial("tutorialSound", qsTr("Enable the Sound checkbox if you want to hear a sound everytime a message is blocked (this will only sound if you have the device is an appropriate profile that allows notifications)."), "images/toast/sound.png" ) ) {}
         //else if ( persist.tutorial("tutorialBlockStrangers", qsTr("Enable the Block Non-Contacts checkbox if you want to block messages from anyone who is not in your contact list."), "file:///usr/share/icons/ic_open_contacts.png" ) ) {}
-        else if ( persist.tutorial("tutorialWhitelist", qsTr("Enable the Whitelist All Contacts checkbox if you want to prevent scanning of messages sent by anyone in your contact list."), "file:///usr/share/icons/add_to_contacts.png" ) ) {}
-        else if ( persist.tutorial("tutorialStartConversations", qsTr("Enable the Start At Conversations Tab checkbox if you want the app to start at the Conversations tab instead of the default Logs tab."), "file:///usr/share/icons/ic_tentative.png" ) ) {}
-        else if ( persist.tutorial("tutorialMoveTrash", qsTr("Enable the Move Spam to Trash checkbox if you want to move the spam messages to your web server's Trash folder instead of immediately permanently deleting it."), "file:///usr/share/icons/bb_action_delete.png" ) ) {}
-        else if ( persist.tutorial("tutorialOptimize", qsTr("Use the Optimize option from the menu every once in a while if you want to speed up the performance of the app."), "asset:///images/menu/ic_optimize.png" ) ) {}
-        else if ( persist.tutorial("tutorialBackupRestore", qsTr("You can use the 'Backup' action at the bottom if you want to save your blocked senders, logs, and keywords. At a later date you can use the Restore action to reimport the backup file to restore your database!"), "asset:///images/menu/ic_backup.png" ) ) {}
+        else if ( tutorialToast.tutorial("tutorialWhitelist", qsTr("Enable the Whitelist All Contacts checkbox if you want to prevent scanning of messages sent by anyone in your contact list."), "images/toast/whitelist.png" ) ) {}
+        else if ( tutorialToast.tutorial("tutorialStartConversations", qsTr("Enable the Start At Conversations Tab checkbox if you want the app to start at the Conversations tab instead of the default Logs tab."), "images/tabs/ic_conversations.png" ) ) {}
+        else if ( tutorialToast.tutorial("tutorialMoveTrash", qsTr("Enable the Move Spam to Trash checkbox if you want to move the spam messages to your web server's Trash folder instead of immediately permanently deleting it."), "images/toast/move_trash.png" ) ) {}
+        else if ( tutorialToast.tutorial("tutorialOptimize", qsTr("Use the Optimize option from the menu every once in a while if you want to speed up the performance of the app."), "images/menu/ic_optimize.png" ) ) {}
+        else if ( tutorialToast.tutorial("tutorialBackupRestore", qsTr("You can use the 'Backup' action at the bottom if you want to save your blocked senders, logs, and keywords. At a later date you can use the Restore action to reimport the backup file to restore your database!"), "images/menu/ic_backup.png" ) ) {}
         
         reporter.initPage(rootPage);
     }

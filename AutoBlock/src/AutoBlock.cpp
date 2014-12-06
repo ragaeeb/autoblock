@@ -116,13 +116,13 @@ void AutoBlock::lazyInit()
 
         if (target == TARGET_BLOCK_EMAIL)
         {
-            QStringList tokens = request.uri().toString().split(":");
+            QByteArray data = m_request.data();
 
-            MessageFetcherThread* ai = new MessageFetcherThread(tokens);
+            MessageFetcherThread* ai = new MessageFetcherThread(data);
             connect( ai, SIGNAL( messageFetched(QVariantMap const&) ), this, SLOT( messageFetched(QVariantMap const&) ) );
             IOUtils::startThread(ai);
         } else if (target == TARGET_PLAIN_TEXT) {
-            QString result = QString::fromUtf8( request.data().constData() );
+            QString result = QString::fromUtf8( m_request.data().constData() );
 
             QVariantMap map;
             map["text"] = result;

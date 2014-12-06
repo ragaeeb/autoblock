@@ -9,32 +9,29 @@ namespace autoblock {
 using namespace canadainc;
 using namespace bb::pim::message;
 
-MessageFetcherThread::MessageFetcherThread(QStringList const& tokens, QObject* parent) :
-		QObject(parent), m_tokens(tokens)
+MessageFetcherThread::MessageFetcherThread(QByteArray const& data, QObject* parent) :
+		QObject(parent), m_data(data)
 {
 }
 
 
 void MessageFetcherThread::run()
 {
-    qint64 accountId = m_tokens[2].toLongLong();
-    qint64 messageId = m_tokens[3].toLongLong();
-
-    LOGGER("Tokens" << m_tokens << accountId << messageId);
-
-    MessageService m;
-    Message message = m.message(accountId, messageId);
-
-    if ( !message.isValid() )
-    {
-        messageId = m_tokens[4].toLongLong();
-        message = m.message(accountId, messageId);
-    }
+    bb::data::JsonDataAccess jda;
+    QVariantMap json = jda.loadFromBuffer(m_data).toMap().value("attributes").toMap();
 
     QVariantMap result;
 
-    if ( message.isValid() )
+    if ( json.contains("accountid") && json.contains("messageid") )
     {
+        qint64 accountId = json.value("accountid").toLongLong();
+        qint64 messageId = json.value("messageid").toLongLong();
+
+        LOGGER("Tokens" << accountId << messageId);
+
+        MessageService m;
+        Message message = m.message(accountId, messageId);
+
         result = MessageImporter::transform(message);
         result["accountId"] = accountId;
     }

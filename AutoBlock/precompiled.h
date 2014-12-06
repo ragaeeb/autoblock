@@ -9,4 +9,6 @@
 
 #include <bb/pim/message/MessageService>
 
+#include <bb/data/JsonDataAccess>
+
 #include <bb/system/InvokeManager>

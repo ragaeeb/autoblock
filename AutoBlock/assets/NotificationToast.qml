@@ -21,6 +21,18 @@ Delegate
         }
     }
     
+    function tutorial(key, text, imageUri)
+    {
+        if ( !persist.contains(key) )
+        {
+            init(text, imageUri);
+            persist.saveValueFor(key, 1, false);
+            return true;
+        }
+        
+        return false;
+    }
+    
     sourceComponent: ComponentDefinition
     {
         Dialog
@@ -69,7 +81,7 @@ Delegate
                         
                         Label {
                             id: tipLabel
-                            text: "Tip!"
+                            text: qsTr("Tip!") + Retranslate.onLanguageChanged
                             textStyle.fontSize: FontSize.XXSmall
                             textStyle.fontWeight: FontWeight.Bold
                             verticalAlignment: VerticalAlignment.Top

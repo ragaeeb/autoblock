@@ -87,7 +87,7 @@ NavigationPane
                             onCheckedChanged: {
                                 validatePurchase(scanAddress);
                                 
-                                if ( control.checked && persist.tutorial( "tutorialScanAddress", qsTr("Warning: Be very careful when turning on this feature as it can result in harmless messages being classified as spam. For example if you enter a keyword as 'gmail', then any email address that contains 'gmail' will be blocked! This is useful for blocking entire domain names but it can also be too aggressive if not used properly."), "asset:///images/ic_pim_warning.png" ) ) {}
+                                if ( control.checked && tutorialToast.tutorial( "tutorialScanAddress", qsTr("Warning: Be very careful when turning on this feature as it can result in harmless messages being classified as spam. For example if you enter a keyword as 'gmail', then any email address that contains 'gmail' will be blocked! This is useful for blocking entire domain names but it can also be too aggressive if not used properly."), "images/ic_pim_warning.png" ) ) {}
                             }
                         }
                     }
@@ -325,13 +325,13 @@ NavigationPane
                         listView.visible = data.length > 0;
                         emptyDelegate.delegateActive = data.length == 0;
                         
-                        if ( persist.tutorial("tutorialKeywords", qsTr("You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam."), "asset:///images/tabs/ic_keywords.png" ) ) {}
-                        else if ( persist.tutorial("tutorialScanSenderName", qsTr("Enable the 'Scan Sender Name' checkbox to match keywords on the sender's name as well as the subject line."), "file:///usr/share/icons/bb_action_markspam.png" ) ) {}
-                        else if ( persist.tutorial("tutorialScanSenderAddress", qsTr("Enable the 'Scan Sender Address' checkbox to match keywords on the sender's address as well as the subject line. This is especially useful if you want to block domain names for example."), "file:///usr/share/icons/ca_set_as_contact_ringtone.png" ) ) {}
-                        else if ( adm.size() > 15 && persist.tutorial("tutorialSearchKeyword", qsTr("You can use the 'Search' action from the menu to search if a specific keyword is in your blocked list."), "asset:///images/menu/ic_search_keyword.png" ) ) {}
-                        else if ( persist.tutorial("tutorialAddKeyword", qsTr("Use the 'Add' action from the menu to add a specific keyword you want to block."), "asset:///images/menu/ic_add_spammer.png" ) ) {}
-                        else if ( persist.tutorial("tutorialClearBlockedKeywords", qsTr("You can clear this blocked list by selecting 'Clear All' from the menu."), "asset:///images/menu/ic_unblock_all.png" ) ) {}
-                        else if ( persist.tutorial("tutorialUnblockKeyword", qsTr("You can unblock a keyword you blocked by mistake by simply pressing-and-holding on the keyword and choosing 'Unblock' from the menu."), "asset:///images/menu/ic_unblock.png" ) ) {}
+                        if ( tutorialToast.tutorial("tutorialKeywords", qsTr("You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam."), "images/tabs/ic_keywords.png" ) ) {}
+                        else if ( tutorialToast.tutorial("tutorialScanSenderName", qsTr("Enable the 'Scan Sender Name' checkbox to match keywords on the sender's name as well as the subject line."), "images/toast/scan_sender.png" ) ) {}
+                        else if ( tutorialToast.tutorial("tutorialScanSenderAddress", qsTr("Enable the 'Scan Sender Address' checkbox to match keywords on the sender's address as well as the subject line. This is especially useful if you want to block domain names for example."), "images/toast/scan_address.png" ) ) {}
+                        else if ( adm.size() > 15 && tutorialToast.tutorial("tutorialSearchKeyword", qsTr("You can use the 'Search' action from the menu to search if a specific keyword is in your blocked list."), "images/menu/ic_search_keyword.png" ) ) {}
+                        else if ( tutorialToast.tutorial("tutorialAddKeyword", qsTr("Use the 'Add' action from the menu to add a specific keyword you want to block."), "images/menu/ic_add_spammer.png" ) ) {}
+                        else if ( tutorialToast.tutorial("tutorialClearBlockedKeywords", qsTr("You can clear this blocked list by selecting 'Clear All' from the menu."), "images/menu/ic_unblock_all.png" ) ) {}
+                        else if ( tutorialToast.tutorial("tutorialUnblockKeyword", qsTr("You can unblock a keyword you blocked by mistake by simply pressing-and-holding on the keyword and choosing 'Unblock' from the menu."), "images/menu/ic_unblock.png" ) ) {}
                     }
                 }
                 

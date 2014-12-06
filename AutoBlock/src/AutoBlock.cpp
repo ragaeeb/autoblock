@@ -135,15 +135,6 @@ void AutoBlock::lazyInit()
     QmlDocument::defaultDeclarativeEngine()->rootContext()->setContextProperty("tutorialToast", toast);
 
     emit lazyInitComplete();
-
-    if ( !m_persistance.contains("unblockedSelf") )
-    {
-        QVariantMap qvm;
-        qvm["address"] = "support@canadainc.org";
-
-        m_helper.unblock( QVariantList() << qvm );
-        m_persistance.saveValueFor("unblockedSelf", 1, false);
-    }
 }
 
 

@@ -285,7 +285,7 @@ NavigationPane
                         {
                             dm.append(results);
                             
-                            if ( persist.tutorial("tutorialMarkSpam", qsTr("You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam."), "asset:///images/tabs/ic_keywords.png" ) ) {}
+                            if ( tutorialToast.tutorial("tutorialMarkSpam", qsTr("You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam."), "images/tabs/ic_keywords.png" ) ) {}
                         }
                         
                         multiSelectHandler.status = qsTr("None selected");

@@ -244,8 +244,13 @@ Page
                 }
             }
             
-            Label {
+            ImageView {
                 topMargin: 40
+                imageSource: "images/divider.png"
+                horizontalAlignment: HorizontalAlignment.Center
+            }
+            
+            Label {
                 id: infoText
                 multiline: true
                 textStyle.fontSize: FontSize.XXSmall

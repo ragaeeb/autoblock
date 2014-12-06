@@ -24,6 +24,7 @@ NavigationPane
             
             DeleteActionItem
             {
+                enabled: listView.visible
                 title: qsTr("Clear Logs") + Retranslate.onLanguageChanged
                 imageSource: "images/menu/ic_clear_logs.png"
                 

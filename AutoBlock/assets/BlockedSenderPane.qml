@@ -99,6 +99,7 @@ NavigationPane
             
             DeleteActionItem {
                 id: unblockAllAction
+                enabled: listView.visible
                 title: qsTr("Unblock All") + Retranslate.onLanguageChanged
                 imageSource: "images/menu/ic_unblock_all.png"
                 

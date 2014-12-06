@@ -4,6 +4,7 @@ ActionItem
 {
     property variant search
     title: qsTr("Search") + Retranslate.onLanguageChanged
+    enabled: listView.visible
     ActionBar.placement: ActionBarPlacement.OnBar
     signal queryChanged(string query);
     

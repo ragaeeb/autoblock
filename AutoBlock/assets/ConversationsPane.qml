@@ -1,5 +1,4 @@
 import bb.cascades 1.0
-import bb.system 1.0
 
 NavigationPane
 {
@@ -79,11 +78,11 @@ NavigationPane
                                 var actualValue = Math.floor(value);
                                 var changed = persist.saveValueFor("days", actualValue, false);
                                 daysLabel.text = qsTr("Days to Fetch: %1").arg(actualValue);
-                                
+
                                 if (accountChoice.selectedOption != null)
                                 {
                                     if (changed) {
-                                        accountChoice.selectedValueChanged(accountChoice.selectedValue);
+                                        accountChoice.selectedOptionChanged(accountChoice.selectedOption);
                                     }
                                 }
                             }

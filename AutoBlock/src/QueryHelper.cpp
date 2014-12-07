@@ -37,7 +37,7 @@ QueryHelper::QueryHelper(CustomSqlDataSource* sql, Persistance* persist) :
     connect( sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ) );
     connect( sql, SIGNAL( error(QString const&) ), this, SLOT( onError(QString const&) ) );
     connect( &m_updateWatcher, SIGNAL( directoryChanged(QString const&) ), this, SLOT( checkDatabase(QString const&) ) );
-    connect( &m_updateWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( databaseUpdated(QString const&) ) );
+    setActive(true);
 }
 
 
@@ -359,6 +359,16 @@ void QueryHelper::databaseUpdated(QString const& path)
 
     LOGGER("DatabaseUpdated!");
     fetchLatestLogs();
+}
+
+
+void QueryHelper::setActive(bool active)
+{
+    if (active) {
+        connect( &m_updateWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( databaseUpdated(QString const&) ) );
+    } else {
+        disconnect( &m_updateWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( databaseUpdated(QString const&) ) );
+    }
 }
 
 

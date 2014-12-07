@@ -84,7 +84,7 @@ ActionItem
         SystemDialog {
             id: prompt
             title: qsTr("Confirmation") + Retranslate.onLanguageChanged
-            body: qsTr("The update may consume data. Make sure you are on an appropriate Wi-Fi connection or a good data plan. Would you like to proceed?") + Retranslate.onLanguageChanged
+            body: qsTr("The update may consume data. Make sure you are on an appropriate Wi-Fi connection or a good data plan. This action will sync your blocked list with our servers so that you can benefit from and benefit other users to report spammers. Would you like to proceed?") + Retranslate.onLanguageChanged
             confirmButton.label: qsTr("Yes") + Retranslate.onLanguageChanged
             cancelButton.label: qsTr("No") + Retranslate.onLanguageChanged
             

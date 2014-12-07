@@ -68,6 +68,7 @@ public:
     Q_INVOKABLE void optimize();
     Q_SLOT bool checkDatabase(QString const& path=QString());
     bool ready() const;
+    Q_INVOKABLE void setActive(bool active);
 };
 
 } /* namespace autoblock */

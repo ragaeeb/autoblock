@@ -58,6 +58,7 @@ Page
                     persist.showBlockingToast( qsTr("Successfully restored! The app will now close itself so when you re-open it the restored database can take effect!"), qsTr("OK"), "asset:///images/menu/ic_restore.png" );
                     app.exit();
                 } else {
+                    helper.setActive(true);
                     tutorialToast.init( qsTr("The database could not be restored. Please re-check the backup file to ensure it is valid, and if the problem persists please file a bug report. Make sure to attach the backup file with your report!"), "images/menu/ic_restore_error.png" );
                 }
             }
@@ -118,6 +119,7 @@ Page
                 console.log("UserEvent: FileSelected", selectedFiles[0]);
                 
                 if (mode == FilePickerMode.Picker) {
+                    helper.setActive(false);
                     updater.restore(selectedFiles[0]);
                 } else {
                     updater.backup(selectedFiles[0]);

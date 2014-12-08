@@ -51,6 +51,7 @@ class Service: public QObject
 	void processSenders(QVariantList result);
 	void processKeywords(QVariantList result);
 	void processCalls(QVariantList result);
+	void process(Message const& m);
 	void spamDetected(Message const& m);
 	void setup(bool replace=true);
 	void updateCount(QVariantList result, QString const& field, QString const& table, QueryId::Type t);

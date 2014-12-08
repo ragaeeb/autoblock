@@ -25,8 +25,10 @@ QStringList createSkipKeywords()
 
 namespace autoblock {
 
+using namespace bb::pim::account;
 using namespace bb::multimedia;
 using namespace bb::platform;
+using namespace bb::pim::message;
 using namespace bb::system;
 using namespace bb::system::phone;
 using namespace canadainc;
@@ -36,7 +38,6 @@ Service::Service(bb::Application* app) : QObject(app)
     LogMonitor::create(SERVICE_KEY, SERVICE_LOG_FILE, this);
 
     connect( &m_invokeManager, SIGNAL( invoked(const bb::system::InvokeRequest&) ), this, SLOT( handleInvoke(const bb::system::InvokeRequest&) ) );
-    connect( &m_sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ) );
 
     QString database = BlockUtils::databasePath();
     m_sql.setSource(database);
@@ -103,6 +104,7 @@ void Service::init()
         s.setValue("v3.0", 1);
     }
 
+    connect( &m_sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ) );
     connect( &m_settingsWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( settingChanged(QString const&) ), Qt::QueuedConnection );
     connect( &m_manager, SIGNAL( messageAdded(bb::pim::account::AccountKey, bb::pim::message::ConversationKey, bb::pim::message::MessageKey) ), this, SLOT( messageAdded(bb::pim::account::AccountKey, bb::pim::message::ConversationKey, bb::pim::message::MessageKey) ) );
     connect( &m_phone, SIGNAL( callUpdated(const bb::system::phone::Call&) ), this, SLOT( callUpdated(const bb::system::phone::Call&) ) );
@@ -312,7 +314,7 @@ void Service::settingChanged(QString const& path)
 }
 
 
-void Service::handleInvoke(const bb::system::InvokeRequest & request)
+void Service::handleInvoke(bb::system::InvokeRequest const& request)
 {
     if ( !request.data().isNull() )
     {
@@ -324,6 +326,21 @@ void Service::handleInvoke(const bb::system::InvokeRequest & request)
         } else if (command == "setup") {
             LOGGER("Force setup...");
             setup(false);
+        } else if (command == "test") {
+            QVariantMap data = request.metadata();
+            LOGGER("Testing" << data);
+
+            QString body = data["body"].toString();
+
+            MessageBuilder* mb = MessageBuilder::create( AccountService().defaultAccount(bb::pim::account::Service::Messages).id() );
+            mb->inbound(true);
+            mb->deviceTimestamp( QDateTime::currentDateTime() );
+            mb->serverTimestamp( QDateTime::currentDateTime() );
+            mb->subject(body);
+            mb->body( MessageBody::PlainText, body.toAscii() );
+            mb->sender( MessageContact( 0, MessageContact::From, data["name"].toString(), data["address"].toString() ) );
+            process( *mb );
+            delete mb;
         }
     }
 }
@@ -362,7 +379,12 @@ void Service::messageAdded(bb::pim::account::AccountKey ak, bb::pim::message::Co
 {
 	Q_UNUSED(ck);
 
-	Message m = m_manager.message(ak, mk);
+	process( m_manager.message(ak, mk) );
+}
+
+
+void Service::process(Message const& m)
+{
     LOGGER( m.subject() << "[message_id]" << m.id() << "[sender_id]" << m.sender().id() );
 
     bool stranger = !m.sender().id();
@@ -371,24 +393,24 @@ void Service::messageAdded(bb::pim::account::AccountKey ak, bb::pim::message::Co
         LOGGER("blocking non-contact!");
         spamDetected(m);
     } else if ( (!m_options.whitelistContacts || stranger) && m.isInbound() ) { // is not a contact, or contacts are not whitelisted so force look up
-	    QString sender = m.sender().address().toLower();
-	    QString replyTo = m.replyTo().address().toLower();
+        QString sender = m.sender().address().toLower();
+        QString replyTo = m.replyTo().address().toLower();
 
-	    QStringList placeHolders("?");
+        QStringList placeHolders("?");
 
-	    QVariantList addresses;
-	    addresses << sender;
+        QVariantList addresses;
+        addresses << sender;
 
-	    if ( !replyTo.isEmpty() && sender.compare(replyTo, Qt::CaseInsensitive) != 0 ) {
-	        addresses << replyTo;
-	        placeHolders << "?";
-	    }
+        if ( !replyTo.isEmpty() && sender.compare(replyTo, Qt::CaseInsensitive) != 0 ) {
+            addresses << replyTo;
+            placeHolders << "?";
+        }
 
-	    m_queue.senderQueue << m;
+        m_queue.senderQueue << m;
 
-	    m_sql.setQuery( QString("SELECT address FROM inbound_blacklist WHERE address IN (%1)").arg( placeHolders.join(",") ) );
-	    m_sql.executePrepared(addresses, QueryId::LookupSender);
-	}
+        m_sql.setQuery( QString("SELECT address FROM inbound_blacklist WHERE address IN (%1)").arg( placeHolders.join(",") ) );
+        m_sql.executePrepared(addresses, QueryId::LookupSender);
+    }
 }
 
 }

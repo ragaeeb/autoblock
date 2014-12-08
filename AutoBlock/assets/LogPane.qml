@@ -1,5 +1,4 @@
-import bb.cascades 1.0
-import bb.system 1.0
+import bb.cascades 1.2
 import com.canadainc.data 1.0
 
 NavigationPane
@@ -22,6 +21,31 @@ NavigationPane
                 }
             },
             
+            ActionItem {
+                imageSource: "images/dropdown/ic_test.png"
+                title: qsTr("Test") + Retranslate.onLanguageChanged
+                
+                onTriggered: {
+                    shortcut.active = true;
+                    shortcut.object.testPrompt.reset();
+                    shortcut.object.testPrompt.show();
+                }
+                
+                attachedObjects: [
+                    Delegate {
+                        id: shortcut
+                        active: false
+                        source: "TestHelper.qml"
+                    }
+                ]
+                
+                shortcuts: [
+                    Shortcut {
+                        key: qsTr("X") + Retranslate.onLanguageChanged
+                    }
+                ]
+            },
+            
             DeleteActionItem
             {
                 enabled: listView.visible
@@ -30,28 +54,15 @@ NavigationPane
                 
                 onTriggered: {
                     console.log("UserEvent: ClearLogs");
-                    prompt.show();
-                }
-                
-                attachedObjects: [
-                    SystemDialog {
-                        id: prompt
-                        title: qsTr("Confirmation") + Retranslate.onLanguageChanged
-                        body: qsTr("Are you sure you want to clear all the logs?") + Retranslate.onLanguageChanged
-                        confirmButton.label: qsTr("Yes") + Retranslate.onLanguageChanged
-                        cancelButton.label: qsTr("No") + Retranslate.onLanguageChanged
-                        
-                        onFinished: {
-                            console.log("UserEvent: ClearLogsPrompt", result);
-                            
-                            if (value == SystemUiResult.ConfirmButtonSelection)
-                            {
-                                helper.clearLogs();
-                                persist.showToast( qsTr("Cleared all blocked senders!"), "", "asset:///images/menu/ic_clear_logs.png" );
-                            }
-                        }
+                    
+                    var ok = persist.showBlockingDialog( qsTr("Confirmation"), qsTr("Are you sure you want to clear all the logs?") );
+                    console.log("UserEvent: ClearLogsConfirm", ok);
+                    
+                    if (ok) {
+                        helper.clearLogs();
+                        persist.showToast( qsTr("Cleared all blocked senders!"), "", "asset:///images/menu/ic_clear_logs.png" );
                     }
-                ]
+                }
             }
         ]
         

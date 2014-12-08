@@ -298,6 +298,25 @@ void AutoBlock::exit()
 }
 
 
+void AutoBlock::invokeService(QString const& senderAddress, QString const& senderName, QString const& body)
+{
+    LOGGER(senderAddress << senderName << body);
+
+    InvokeRequest request;
+    request.setTarget("com.canadainc.AutoBlockService");
+    request.setAction("com.canadainc.AutoBlockService.RESET");
+    request.setData( QString("test").toAscii() );
+
+    QVariantMap data;
+    data["address"] = senderAddress;
+    data["body"] = body;
+    data["name"] = senderName;
+    request.setMetadata(data);
+
+    m_invokeManager.invoke(request);
+}
+
+
 AutoBlock::~AutoBlock()
 {
 }

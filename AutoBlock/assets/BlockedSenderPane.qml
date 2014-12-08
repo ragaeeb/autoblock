@@ -97,7 +97,8 @@ NavigationPane
                 }
             },
             
-            DeleteActionItem {
+            DeleteActionItem
+            {
                 id: unblockAllAction
                 enabled: listView.visible
                 title: qsTr("Unblock All") + Retranslate.onLanguageChanged
@@ -105,28 +106,15 @@ NavigationPane
                 
                 onTriggered: {
                     console.log("UserEvent: UnblockAllSenders");
-                    prompt.show();
-                }
-                
-                attachedObjects: [
-                    SystemDialog {
-                        id: prompt
-                        title: qsTr("Confirmation") + Retranslate.onLanguageChanged
-                        body: qsTr("Are you sure you want to clear all blocked members?") + Retranslate.onLanguageChanged
-                        confirmButton.label: qsTr("Yes") + Retranslate.onLanguageChanged
-                        cancelButton.label: qsTr("No") + Retranslate.onLanguageChanged
-                        
-                        onFinished: {
-                            console.log("UserEvent: UnblockAllPrompt", result);
-                            
-                            if (value == SystemUiResult.ConfirmButtonSelection)
-                            {
-                                helper.clearBlockedSenders();
-                                persist.showToast( qsTr("Cleared all blocked senders!"), "", "asset:///images/menu/ic_unblock_all.png" );
-                            }
-                        }
+                    
+                    var ok = persist.showBlockingDialog( qsTr("Confirmation"), qsTr("Are you sure you want to clear all blocked members?") );
+                    console.log("UserEvent: UnblockAllSendersConfirm", ok);
+                    
+                    if (ok) {
+                        helper.clearBlockedSenders();
+                        persist.showToast( qsTr("Cleared all blocked senders!"), "", "asset:///images/menu/ic_unblock_all.png" );
                     }
-                ]
+                }
             }
         ]
         

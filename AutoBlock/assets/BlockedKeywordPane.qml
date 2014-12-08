@@ -123,26 +123,26 @@ NavigationPane
                         inputOptions: SystemUiInputOption.None
                         
                         onFinished: {
-                            console.log("UserEvent: AddKeywordPrompt", result);
+                            console.log("UserEvent: AddKeywordPrompt", value);
                             
                             if (value == SystemUiResult.ConfirmButtonSelection)
                             {
-                                var value = addPrompt.inputFieldTextEntry().trim().toLowerCase();
+                                var inputValue = addPrompt.inputFieldTextEntry().trim().toLowerCase();
                                 
-                                if ( value.indexOf(" ") >= 0 ) {
+                                if ( inputValue.indexOf(" ") >= 0 ) {
                                     persist.showToast( qsTr("The keyword cannot contain any spaces!"), "", "asset:///images/ic_block.png" );
                                     return;
-                                } else if (value.length < 3 || value.length > 20) {
+                                } else if (inputValue.length < 3 || inputValue.length > 20) {
                                     persist.showToast( qsTr("The keyword must be between 3 to 20 characters in length (inclusive)!"), "", "asset:///images/ic_block.png" );
                                     return;
                                 }
                                 
-                                var keywordsList = helper.blockKeywords([value]);
+                                var keywordsList = helper.blockKeywords([inputValue]);
                                 
                                 if (keywordsList.length > 0) {
                                     persist.showToast( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "", "asset:///images/tabs/ic_keywords.png" );
                                 } else {
-                                    persist.showToast( qsTr("The keyword could not be blocked: %1").arg(value), "", "asset:///images/ic_block.png" );
+                                    persist.showToast( qsTr("The keyword could not be blocked: %1").arg(inputValue), "", "asset:///images/ic_block.png" );
                                 }
                             }
                         }
@@ -166,28 +166,15 @@ NavigationPane
                 
                 onTriggered: {
                     console.log("UserEvent: ClearAllBlockedKeywords");
-                    prompt.show();
-                }
-                
-                attachedObjects: [
-                    SystemDialog {
-                        id: prompt
-                        title: qsTr("Confirmation") + Retranslate.onLanguageChanged
-                        body: qsTr("Are you sure you want to clear all blocked keywords?") + Retranslate.onLanguageChanged
-                        confirmButton.label: qsTr("Yes") + Retranslate.onLanguageChanged
-                        cancelButton.label: qsTr("No") + Retranslate.onLanguageChanged
-                        
-                        onFinished: {
-                            console.log("UserEvent: ClearAllBlockedPrompt", result);
-                            
-                            if (value == SystemUiResult.ConfirmButtonSelection)
-                            {
-                                helper.clearBlockedKeywords();
-                                persist.showToast( qsTr("Cleared all blocked keywords!"), "", "asset:///images/menu/ic_clear.png" );
-                            }
-                        }
+                    
+                    var ok = persist.showBlockingDialog( qsTr("Confirmation"), qsTr("Are you sure you want to clear all blocked keywords?") );
+                    console.log("UserEvent: ClearAllBlockedPrompt", ok);
+                    
+                    if (ok) {
+                        helper.clearBlockedKeywords();
+                        persist.showToast( qsTr("Cleared all blocked keywords!"), "", "asset:///images/menu/ic_clear.png" );
                     }
-                ]
+                }
             }
         ]
         
@@ -196,7 +183,6 @@ NavigationPane
             horizontalAlignment: HorizontalAlignment.Fill
             verticalAlignment: VerticalAlignment.Fill
             background: ipd.imagePaint
-            
             layout: DockLayout {}
             
             EmptyDelegate {

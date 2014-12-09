@@ -47,21 +47,23 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/LargeTransactionDialog.qml) \
         $$quote($$BASEDIR/assets/LogPane.qml) \
         $$quote($$BASEDIR/assets/NotificationToast.qml) \
-        $$quote($$BASEDIR/assets/PermissionToast.qml) \
         $$quote($$BASEDIR/assets/ProgressDialog.qml) \
         $$quote($$BASEDIR/assets/SearchActionItem.qml) \
         $$quote($$BASEDIR/assets/SettingsPage.qml) \
         $$quote($$BASEDIR/assets/SetupDialog.qml) \
+        $$quote($$BASEDIR/assets/TestHelper.qml) \
         $$quote($$BASEDIR/assets/UpdateActionItem.qml) \
         $$quote($$BASEDIR/assets/images/add_keyword_strip.amd) \
         $$quote($$BASEDIR/assets/images/add_keyword_strip.png) \
         $$quote($$BASEDIR/assets/images/background.png) \
         $$quote($$BASEDIR/assets/images/cover_bg.png) \
+        $$quote($$BASEDIR/assets/images/divider.png) \
         $$quote($$BASEDIR/assets/images/dropdown/ic_account.png) \
         $$quote($$BASEDIR/assets/images/dropdown/ic_phone.png) \
         $$quote($$BASEDIR/assets/images/dropdown/ic_pin.png) \
         $$quote($$BASEDIR/assets/images/dropdown/ic_sms.png) \
         $$quote($$BASEDIR/assets/images/dropdown/ic_sync.png) \
+        $$quote($$BASEDIR/assets/images/dropdown/ic_test.png) \
         $$quote($$BASEDIR/assets/images/empty/ic_empty_blocked.png) \
         $$quote($$BASEDIR/assets/images/empty/ic_empty_keywords.png) \
         $$quote($$BASEDIR/assets/images/empty/ic_empty_logs.png) \
@@ -111,14 +113,20 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/images/titlebar/title_bg.png) \
         $$quote($$BASEDIR/assets/images/titlebar/title_text.png) \
         $$quote($$BASEDIR/assets/images/toast/ic_import.png) \
+        $$quote($$BASEDIR/assets/images/toast/move_trash.png) \
         $$quote($$BASEDIR/assets/images/toast/no_email_access.png) \
+        $$quote($$BASEDIR/assets/images/toast/no_phone_control.png) \
         $$quote($$BASEDIR/assets/images/toast/no_shared_folder.png) \
         $$quote($$BASEDIR/assets/images/toast/permission_toast_bg.amd) \
         $$quote($$BASEDIR/assets/images/toast/permission_toast_bg.png) \
+        $$quote($$BASEDIR/assets/images/toast/scan_address.png) \
+        $$quote($$BASEDIR/assets/images/toast/scan_sender.png) \
+        $$quote($$BASEDIR/assets/images/toast/sound.png) \
         $$quote($$BASEDIR/assets/images/toast/toast_bg.amd) \
         $$quote($$BASEDIR/assets/images/toast/toast_bg.png) \
         $$quote($$BASEDIR/assets/images/toast/toast_close.png) \
         $$quote($$BASEDIR/assets/images/toast/tutorial_info.png) \
+        $$quote($$BASEDIR/assets/images/toast/whitelist.png) \
         $$quote($$BASEDIR/assets/main.qml)
 }
 

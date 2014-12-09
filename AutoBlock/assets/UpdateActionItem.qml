@@ -1,5 +1,4 @@
 import bb.cascades 1.2
-import bb.system 1.0
 
 ActionItem
 {
@@ -17,9 +16,18 @@ ActionItem
     
     onTriggered: {
         console.log("UserEvent: SyncUpdate");
+        enabled = false;
         
-        if ( !persist.contains("updateTutorial") ) {
-            prompt.show();
+        if ( !persist.contains("updateTutorial") )
+        {
+            var confirm = persist.showBlockingDialog( qsTr("Confirmation"), qsTr("The update may consume data. Make sure you are on an appropriate Wi-Fi connection or a good data plan. This action will sync your blocked list with our servers so that you can benefit from and benefit other users to report spammers. Would you like to proceed?") );
+            console.log("UserEvent: SyncUpdateConfirm", confirm);
+            
+            if (confirm) {
+                persist.saveValueFor("updateTutorial", 1, false);
+                updateAction.enabled = false;
+                confirmed();
+            }
         } else {
             confirmed();
         }
@@ -78,25 +86,6 @@ ActionItem
                 titleText: qsTr("Reported Spammers") + Retranslate.onLanguageChanged
                 instructionText: qsTr("Which of the following reported spammers do you want to add to your blocked list?") + Retranslate.onLanguageChanged
                 listImage: "images/menu/ic_blocked_user.png"
-            }
-        },
-        
-        SystemDialog {
-            id: prompt
-            title: qsTr("Confirmation") + Retranslate.onLanguageChanged
-            body: qsTr("The update may consume data. Make sure you are on an appropriate Wi-Fi connection or a good data plan. This action will sync your blocked list with our servers so that you can benefit from and benefit other users to report spammers. Would you like to proceed?") + Retranslate.onLanguageChanged
-            confirmButton.label: qsTr("Yes") + Retranslate.onLanguageChanged
-            cancelButton.label: qsTr("No") + Retranslate.onLanguageChanged
-            
-            onFinished: {
-                console.log("UserEvent: SyncUpdatePrompt", result);
-                
-                if (value == SystemUiResult.ConfirmButtonSelection)
-                {
-                    persist.saveValueFor("updateTutorial", 1, false);
-                    updateAction.enabled = false;
-                    confirmed();
-                }
             }
         },
         

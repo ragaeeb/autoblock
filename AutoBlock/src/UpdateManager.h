@@ -7,13 +7,17 @@ namespace autoblock {
 
 using namespace canadainc;
 
+class QueryHelper;
+
 class UpdateManager : public QObject
 {
     Q_OBJECT
 
     NetworkProcessor m_network;
+    QueryHelper* m_helper;
 
 private slots:
+    void onDataReady(int id, QVariant const& data);
     void onSaved();
     void onRestored();
     void onCompressed();
@@ -27,7 +31,7 @@ Q_SIGNALS:
     void updatesAvailable(QVariantList const& addresses);
 
 public:
-    UpdateManager();
+    UpdateManager(QueryHelper* helper);
     virtual ~UpdateManager();
 
     Q_SLOT void submit();

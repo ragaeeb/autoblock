@@ -7,6 +7,8 @@
 
 #include <bb/device/DisplayInfo>
 
+#include <bb/pim/account/AccountService>
+
 #include <bb/pim/message/MessageService>
 
 #include <bb/data/JsonDataAccess>

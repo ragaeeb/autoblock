@@ -9,6 +9,7 @@
 
 #define PLACEHOLDER "?"
 #define MAX_TRANSACTION_SIZE 50
+#define MAX_LOG_SIZE 300
 
 namespace {
 
@@ -66,6 +67,18 @@ void QueryHelper::dataLoaded(int id, QVariant const& data)
         }
 
         emit dataReady(id, data);
+    }
+
+    if ( id == QueryId::FetchAllLogs && data.toList().size() > MAX_LOG_SIZE && !m_persist->contains("dontAskToClear") )
+    {
+        bool remember = true;
+        bool doClear = m_persist->showBlockingDialog( tr("Clear Logs"), tr("You seem to have a lot of entries here, would you like to clear this list to improve app startup time?"), tr("Don't Ask Again"), remember );
+
+        if (doClear) {
+            clearLogs();
+        } else if (remember) {
+            m_persist->saveValueFor("dontAskToClear", 1, false);
+        }
     }
 }
 

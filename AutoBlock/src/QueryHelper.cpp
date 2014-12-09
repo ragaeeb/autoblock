@@ -57,10 +57,14 @@ void QueryHelper::dataLoaded(int id, QVariant const& data)
 
     if (id == QueryId::UnblockKeywords || id == QueryId::BlockKeywords) {
         fetchAllBlockedKeywords();
-    } else if (id == QueryId::UnblockSenders || id == QueryId::BlockSenders) {
-        fetchAllBlockedSenders();
-        emit dataReady(id, data);
+    } else if (id == QueryId::AttachReportedDatabase) {
+        m_sql->setQuery("SELECT address AS value FROM reported");
+        m_sql->load(QueryId::FetchAllReported);
     } else {
+        if (id == QueryId::UnblockSenders || id == QueryId::BlockSenders) {
+            fetchAllBlockedSenders();
+        }
+
         emit dataReady(id, data);
     }
 }
@@ -305,6 +309,13 @@ void QueryHelper::fetchAllLogs(QString const& filter)
         m_sql->setQuery("SELECT address,message,timestamp FROM logs WHERE address LIKE '%' || ? || '%' ORDER BY timestamp DESC");
         m_sql->executePrepared( QVariantList() << filter, QueryId::FetchAllLogs );
     }
+}
+
+
+void QueryHelper::attachReportedDatabase(QString const& tempDatabase)
+{
+    m_sql->setQuery( QString("ATTACH DATABASE '%1' AS reported").arg(tempDatabase) );
+    m_sql->load(QueryId::AttachReportedDatabase);
 }
 
 

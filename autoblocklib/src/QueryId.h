@@ -12,6 +12,7 @@ class QueryId
 
 public:
     enum Type {
+        AttachReportedDatabase,
         BlockKeywords,
         BlockSenderChunk,
     	BlockSenders,
@@ -19,6 +20,7 @@ public:
     	FetchBlockedKeywords,
     	FetchBlockedSenders,
         FetchAllLogs,
+        FetchAllReported,
         FetchExcludedWords,
         FetchLatestLogs,
     	LogTransaction,

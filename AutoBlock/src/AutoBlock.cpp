@@ -27,7 +27,7 @@ using namespace canadainc;
 
 AutoBlock::AutoBlock(Application* app) :
         QObject(app), m_cover("Cover.qml"),
-        m_helper(&m_sql, &m_persistance), m_importer(NULL), m_payment(&m_persistance), m_root(NULL)
+        m_helper(&m_sql, &m_persistance), m_importer(NULL), m_update(&m_helper), m_payment(&m_persistance), m_root(NULL)
 {
     INIT_SETTING(CARD_KEY, true);
     INIT_SETTING(UI_KEY, true);

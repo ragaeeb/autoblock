@@ -151,21 +151,13 @@ QStringList QueryHelper::blockKeywords(QVariantList const& keywords)
 {
     LOGGER("BlockKeywords" << keywords);
 
-    QStringList all;
     QStringList keywordsList;
-    all << QString("INSERT OR IGNORE INTO inbound_keywords (term) SELECT ? AS 'address'");
-    QString addition = QString("UNION SELECT ?");
 
-    for (int i = keywords.size()-1; i >= 0; i--)
-    {
-        all << addition;
+    for (int i = keywords.size()-1; i >= 0; i--) {
         keywordsList << keywords[i].toString();
     }
 
-    all.removeLast();
-
-    m_sql->setQuery( all.join(" ") );
-    m_sql->executePrepared(keywords, QueryId::BlockKeywords);
+    prepareTransaction("INSERT OR IGNORE INTO inbound_keywords (term) VALUES(%1)", keywords, QueryId::BlockKeywords, QueryId::BlockKeywordChunk);
 
     return keywordsList;
 }

@@ -59,7 +59,7 @@ void QueryHelper::dataLoaded(int id, QVariant const& data)
     if (id == QueryId::UnblockKeywords || id == QueryId::BlockKeywords) {
         fetchAllBlockedKeywords();
     } else if (id == QueryId::AttachReportedDatabase) {
-        m_sql->setQuery("SELECT address AS value FROM reported");
+        m_sql->setQuery("SELECT address AS value FROM reported_addresses");
         m_sql->load(QueryId::FetchAllReported);
     } else {
         if (id == QueryId::UnblockSenders || id == QueryId::BlockSenders) {
@@ -390,6 +390,11 @@ void QueryHelper::setActive(bool active)
 
 bool QueryHelper::ready() const {
     return QFile::exists( BlockUtils::setupFilePath() );
+}
+
+
+Persistance* QueryHelper::getPersist() {
+    return m_persist;
 }
 
 

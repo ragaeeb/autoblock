@@ -71,6 +71,7 @@ public:
     Q_INVOKABLE void setActive(bool active);
 
     void attachReportedDatabase(QString const& tempDatabase);
+    Persistance* getPersist();
 };
 
 } /* namespace autoblock */

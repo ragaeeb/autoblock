@@ -13,6 +13,7 @@ class QueryId
 public:
     enum Type {
         AttachReportedDatabase,
+        BlockKeywordChunk,
         BlockKeywords,
         BlockSenderChunk,
     	BlockSenders,

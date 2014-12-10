@@ -61,6 +61,10 @@ void QueryHelper::dataLoaded(int id, QVariant const& data)
     } else if (id == QueryId::AttachReportedDatabase) {
         m_sql->setQuery("SELECT address AS value FROM reported_addresses");
         m_sql->load(QueryId::FetchAllReported);
+    } else if (id == QueryId::FetchAllReported) {
+        m_sql->setQuery("DETACH DATABASE reported");
+        m_sql->load(QueryId::DetachReportedDatabase);
+        emit dataReady(id, data);
     } else {
         if (id == QueryId::UnblockSenders || id == QueryId::BlockSenders) {
             fetchAllBlockedSenders();

@@ -50,6 +50,7 @@ FullScreenDialog
             horizontalAlignment: HorizontalAlignment.Fill
             verticalAlignment: VerticalAlignment.Center
             textStyle.base: SystemDefaults.TextStyles.BigText
+            multiline: true
             textStyle.fontWeight: FontWeight.Bold
             textStyle.color: Color.White
             opacity: 0.8
@@ -59,8 +60,13 @@ FullScreenDialog
                 text = mathUtil.bytesToSize(received);
             }
             
+            function onStatusUpdate(value) {
+                text = value;
+            }
+            
             onCreationCompleted: {
                 updater.downloadProgress.connect(onDownloadProgress);
+                updater.statusUpdate.connect(onStatusUpdate);
             }
             
             attachedObjects: [

@@ -29,6 +29,7 @@ Q_SIGNALS:
     void restoreComplete(bool success);
     void downloadProgress(QVariant const&, qint64 bytesReceived, qint64 bytesTotal);
     void updatesAvailable(QVariantList const& addresses);
+    void statusUpdate(QString const& status);
 
 public:
     UpdateManager(QueryHelper* helper);

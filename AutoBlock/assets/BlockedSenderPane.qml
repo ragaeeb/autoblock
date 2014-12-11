@@ -59,29 +59,29 @@ NavigationPane
                         title: qsTr("Address") + Retranslate.onLanguageChanged
                         
                         onFinished: {
-                            console.log("UserEvent: BlockSenderPrompt", result);
+                            console.log("UserEvent: BlockSenderPrompt", value);
                             
                             if (value == SystemUiResult.ConfirmButtonSelection)
                             {
                                 var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                                 var phoneRegex = /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i;
                                 
-                                var value = addPrompt.inputFieldTextEntry().trim();
-                                var validEmail = emailRegex.test(value);
-                                var validNumber = phoneRegex.test(value);
+                                var inputEntry = addPrompt.inputFieldTextEntry().trim();
+                                var validEmail = emailRegex.test(inputEntry);
+                                var validNumber = phoneRegex.test(inputEntry);
                                 
                                 if (validEmail || validNumber)
                                 {
-                                    var toBlock = [{'senderAddress': value}];
+                                    var toBlock = [{'senderAddress': inputEntry}];
                                     var blocked = helper.block(toBlock);
                                     
                                     if (blocked.length > 0) {
                                         persist.showToast( qsTr("Successfully blocked: %1").arg( blocked.join(", ") ), "", validEmail ? "asset:///images/menu/ic_add_email.png" : "asset:///images/menu/ic_add_sms.png" );
                                     } else {
-                                        persist.showToast( qsTr("Could not block: %1\n\nPlease file a bug report!").arg(value), "", "asset:///images/tabs/ic_blocked.png" );
+                                        persist.showToast( qsTr("Could not block: %1\n\nPlease file a bug report!").arg(inputEntry), "", "asset:///images/tabs/ic_blocked.png" );
                                     }
                                 } else {
-                                    persist.showToast( qsTr("Invalid address entered: %1").arg(value), "", "asset:///images/menu/ic_keyword.png" );
+                                    persist.showToast( qsTr("Invalid address entered: %1").arg(inputEntry), "", "asset:///images/menu/ic_keyword.png" );
                                 }
                             }
                         }
@@ -260,7 +260,7 @@ NavigationPane
             listView.visible = data.length > 0;
             emptyDelegate.delegateActive = data.length == 0;
             
-            if ( tutorialToast.tutorialVideo("http://youtu.be/8KAx-FvNqE8") ) {}
+            if ( persist.tutorialVideo("http://youtu.be/8KAx-FvNqE8") ) {}
             else if ( tutorialToast.tutorial("tutorialSync", qsTr("You can use the 'Update' button at the top-right to sync your block list with our servers to discover new spammers reported by the Auto Block community that you have not discovered yet!"), "images/toast/ic_import.png" ) ) {}
             else if ( tutorialToast.tutorial("tutorialSettings", qsTr("Swipe-down from the top-bezel and choose 'Settings' to customize the app!"), "images/menu/ic_settings.png" ) ) {}
             else if ( gdm.size() > 15 && tutorialToast.tutorial("tutorialSearchSender", qsTr("You can use the 'Search' action from the menu to search if a specific sender's address is in your blocked list."), "images/menu/ic_search_user.png" ) ) {}

@@ -2,22 +2,53 @@ import bb.cascades 1.2
 
 Delegate
 {
-    property string bodyText
-    property variant icon
+    property variant data
+    
+    function showNext()
+    {
+        if (messages.length > 0)
+        {
+            var allMessages = messages;
+            var currentMessage = allMessages.pop();
+            messages = allMessages;
+            
+            var allIcons = icons;
+            var currentIcon = allIcons.pop();
+            icons = allIcons;
+            
+            object.body = currentMessage;
+            object.icon = currentIcon;
+        }
+    }
     
     onObjectChanged: {
         if (object) {
+            showNext();
             object.open();
         }
     }
     
-    function init(text, iconUri)
+    function init(text, iconUri) {
+        initInternal(text, iconUri, "");
+    }
+    
+    function initInteral(text, iconUri, key)
     {
         if (text.length > 0)
         {
-            active = true;
-            bodyText = text;
-            icon = iconUri;
+            var allMessages = messages;
+            allMessages.push(text);
+            messages = allMessages;
+            
+            var allIcons = icons;
+            allIcons.push(iconUri);
+            icons = allIcons;
+            
+            if (!active) {
+                active = true;
+            } else {
+                showNext();
+            }
         }
     }
     
@@ -38,6 +69,8 @@ Delegate
         Dialog
         {
             id: root
+            property alias body: bodyLabel.text
+            property alias icon: toastIcon.imageSource
             
             onOpened: {
                 mainAnim.play();
@@ -76,6 +109,7 @@ Delegate
                             id: infoImage
                             imageSource: "images/toast/tutorial_info.png"
                             verticalAlignment: VerticalAlignment.Center
+                            loadEffect: ImageViewLoadEffect.FadeZoom
                             translationX: -500
                         }
                         
@@ -113,7 +147,6 @@ Delegate
                     ImageView
                     {
                         id: toastIcon
-                        imageSource: icon
                         horizontalAlignment: HorizontalAlignment.Center
                         verticalAlignment: VerticalAlignment.Center
                         loadEffect: ImageViewLoadEffect.FadeZoom
@@ -131,7 +164,6 @@ Delegate
                             multiline: true
                             textStyle.fontSize: FontSize.XSmall
                             textStyle.fontStyle: FontStyle.Italic
-                            text: bodyText
                             scaleX: 1.25
                             scaleY: 1.25
                             opacity: 0
@@ -151,7 +183,7 @@ Delegate
                         onTapped: {
                             console.log("UserEvent: NotificationToastTapped");
                             
-                            if (event.propagationPhase == PropagationPhase.AtTarget) {
+                            if ( event.propagationPhase == PropagationPhase.AtTarget && !mainAnim.isPlaying() ) {
                                 console.log("UserEvent: NotificationOutsideBounds");
                                 fadeOut.play();
                             }

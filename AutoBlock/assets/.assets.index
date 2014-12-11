@@ -1,5 +1,5 @@
 1
-100
+102
 AutoBlockTitleBar.qml
 BlockedKeywordPane.qml
 BlockedSenderPane.qml
@@ -18,6 +18,7 @@ images/dropdown/ic_phone.png
 images/dropdown/ic_pin.png
 images/dropdown/ic_sms.png
 images/dropdown/ic_sync.png
+images/dropdown/ic_test.png
 images/empty/ic_empty_blocked.png
 images/empty/ic_empty_keywords.png
 images/empty/ic_empty_logs.png
@@ -89,6 +90,7 @@ ProgressDialog.qml
 SearchActionItem.qml
 SettingsPage.qml
 SetupDialog.qml
+TestHelper.qml
 UpdateActionItem.qml
 AboutTitleBar.qml
 AccountsDropDown.qml

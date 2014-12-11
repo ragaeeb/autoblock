@@ -6,18 +6,13 @@ Delegate
     
     function showNext()
     {
-        if (messages.length > 0)
+        if (data.length > 0)
         {
-            var allMessages = messages;
-            var currentMessage = allMessages.pop();
-            messages = allMessages;
+            var allData = data;
+            var current = allData[allData.length-1];
             
-            var allIcons = icons;
-            var currentIcon = allIcons.pop();
-            icons = allIcons;
-            
-            object.body = currentMessage;
-            object.icon = currentIcon;
+            object.body = current.body;
+            object.icon = current.icon;
         }
     }
     
@@ -36,13 +31,9 @@ Delegate
     {
         if (text.length > 0)
         {
-            var allMessages = messages;
-            allMessages.push(text);
-            messages = allMessages;
-            
-            var allIcons = icons;
-            allIcons.push(iconUri);
-            icons = allIcons;
+            var allData = data;
+            allData.push( {'key': key, 'body': text, 'icon': iconUri} );
+            data = allData;
             
             if (!active) {
                 active = true;
@@ -56,8 +47,7 @@ Delegate
     {
         if ( !persist.contains(key) )
         {
-            init(text, imageUri);
-            persist.saveValueFor(key, 1, false);
+            initInternal(text, imageUri, key);
             return true;
         }
         
@@ -74,6 +64,25 @@ Delegate
             
             onOpened: {
                 mainAnim.play();
+            }
+            
+            function dismiss()
+            {
+                if (data.length > 0)
+                {
+                    var allData = data;
+                    var key = allData.pop().key;
+                    
+                    if (key.length > 0) {
+                        persist.saveValueFor(key, 1, false);
+                    }
+                }
+                
+                if (data.length > 0) {
+                    showNext();
+                } else {
+                    fadeOut.play();
+                }
             }
             
             Container
@@ -139,7 +148,7 @@ Delegate
                             
                             onClicked: {
                                 console.log("UserEvent: NotificationClose");
-                                fadeOut.play();
+                                root.dismiss();
                             }
                         }
                     }
@@ -185,7 +194,7 @@ Delegate
                             
                             if ( event.propagationPhase == PropagationPhase.AtTarget && !mainAnim.isPlaying() ) {
                                 console.log("UserEvent: NotificationOutsideBounds");
-                                fadeOut.play();
+                                root.dismiss();
                             }
                         }
                     }

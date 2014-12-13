@@ -50,7 +50,7 @@ NavigationPane
 
                             onAccountsLoaded: {
                                 if (numAccounts == 0) {
-                                    persist.showToast( qsTr("Did not find any accounts. Maybe the app does not have the permissions it needs..."), "", "asset:///images/ic_account.png" );
+                                    tutorialToast.init( qsTr("Did not find any accounts. Maybe the app does not have the permissions it needs..."), "images/ic_account.png" );
                                 } else if (selectedOption == null) {
                                     expanded = true;
                                 }
@@ -150,7 +150,7 @@ NavigationPane
                             body = qsTr("The senders could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!")
                         }
 
-                        persist.showToast(body, "", "asset:///images/menu/ic_blocked_user.png");
+                        tutorialToast.init(body, "images/menu/ic_blocked_user.png");
                         keywordsDelegate.delegateActive = accountChoice.selectedValue != 8;
                     }
                     
@@ -420,9 +420,9 @@ NavigationPane
         navigationPane.pop();
         
         if (keywordsList.length > 0) {
-            persist.showToast( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "", "asset:///images/tabs/ic_keywords.png" );
+            tutorialToast.init( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "images/tabs/ic_keywords.png" );
         } else {
-            persist.showToast( qsTr("The keyword could not be blocked: %1").arg(value), "", "asset:///images/ic_block.png" );
+            tutorialToast.init( qsTr("The keyword could not be blocked: %1").arg(value), "images/ic_block.png" );
         }
     }
     
@@ -438,7 +438,7 @@ NavigationPane
             
             navigationPane.push(inspectPage);
         } else {
-            persist.showToast( qsTr("Could not find any suspicious keywords in the message..."), "", "asset:///images/ic_steps.png" );
+            tutorialToast.init( qsTr("Could not find any suspicious keywords in the message..."), "images/ic_steps.png" );
         }
     }
     

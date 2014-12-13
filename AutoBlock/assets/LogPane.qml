@@ -60,7 +60,7 @@ NavigationPane
                     
                     if (ok) {
                         helper.clearLogs();
-                        persist.showToast( qsTr("Cleared all blocked senders!"), "", "asset:///images/menu/ic_clear_logs.png" );
+                        tutorialToast.init( qsTr("Cleared all blocked senders!"), "images/menu/ic_clear_logs.png" );
                     }
                 }
             }
@@ -120,7 +120,7 @@ NavigationPane
                 onTriggered: {
                     console.log("UserEvent: LogTapped", indexPath);
                     var data = dataModel.data(indexPath);
-                    persist.showToast( data.message.trim(), qsTr("OK"), "asset:///images/tabs/ic_blocked.png" );
+                    tutorialToast.init( data.message.trim(), "asset:///images/tabs/ic_blocked.png" );
                 }
                 
                 dataModel: ArrayDataModel {

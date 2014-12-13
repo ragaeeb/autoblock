@@ -33,7 +33,7 @@ QtObject
                 var bookmarkName = inputFieldTextEntry().trim();
                 
                 if (bookmarkName.length == 0) {
-                    persist.showToast( qsTr("Invalid input entered"), "", "asset:///images/menu/ic_unblock_all.png" );
+                    tutorialToast.init( qsTr("Invalid input entered"), "images/menu/ic_unblock_all.png" );
                 } else if (address.length == 0) { // need to ask for subject now
                     address = bookmarkName;
                     body = qsTr("Please enter the message subject/body:");

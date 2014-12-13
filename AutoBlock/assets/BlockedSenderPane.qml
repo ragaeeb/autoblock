@@ -76,12 +76,12 @@ NavigationPane
                                     var blocked = helper.block(toBlock);
                                     
                                     if (blocked.length > 0) {
-                                        persist.showToast( qsTr("Successfully blocked: %1").arg( blocked.join(", ") ), "", validEmail ? "asset:///images/menu/ic_add_email.png" : "asset:///images/menu/ic_add_sms.png" );
+                                        tutorialToast.init( qsTr("Successfully blocked: %1").arg( blocked.join(", ") ), "", validEmail ? "images/menu/ic_add_email.png" : "images/menu/ic_add_sms.png" );
                                     } else {
-                                        persist.showToast( qsTr("Could not block: %1\n\nPlease file a bug report!").arg(inputEntry), "", "asset:///images/tabs/ic_blocked.png" );
+                                        tutorialToast.init( qsTr("Could not block: %1\n\nPlease file a bug report!").arg(inputEntry), "images/tabs/ic_blocked.png" );
                                     }
                                 } else {
-                                    persist.showToast( qsTr("Invalid address entered: %1").arg(inputEntry), "", "asset:///images/menu/ic_keyword.png" );
+                                    tutorialToast.init( qsTr("Invalid address entered: %1").arg(inputEntry), "images/menu/ic_keyword.png" );
                                 }
                             }
                         }
@@ -112,7 +112,7 @@ NavigationPane
                     
                     if (ok) {
                         helper.clearBlockedSenders();
-                        persist.showToast( qsTr("Cleared all blocked senders!"), "", "asset:///images/menu/ic_unblock_all.png" );
+                        tutorialToast.init( qsTr("Cleared all blocked senders!"), "images/menu/ic_unblock_all.png" );
                     }
                 }
             }
@@ -153,9 +153,9 @@ NavigationPane
                     var keywordsList = helper.unblock(blocked);
                     
                     if (keywordsList.length > 0) {
-                        persist.showToast( qsTr("The following addresses were unblocked: %1").arg( keywordsList.join(", ") ), "", "asset:///images/menu/ic_unblock.png" );
+                        tutorialToast.init( qsTr("The following addresses were unblocked: %1").arg( keywordsList.join(", ") ), "images/menu/ic_unblock.png" );
                     } else {
-                        persist.showToast( qsTr("The following addresses could not be unblocked: %1").arg( blocked.join(", ") ), "", "asset:///images/tabs/ic_blocked.png" );
+                        tutorialToast.init( qsTr("The following addresses could not be unblocked: %1").arg( blocked.join(", ") ), "images/tabs/ic_blocked.png" );
                     }
                 }
                 

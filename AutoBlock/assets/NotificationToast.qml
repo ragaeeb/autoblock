@@ -2,7 +2,7 @@ import bb.cascades 1.2
 
 Delegate
 {
-    property variant data
+    property variant data: []
     
     function showNext()
     {
@@ -10,7 +10,6 @@ Delegate
         {
             var allData = data;
             var current = allData[allData.length-1];
-            
             object.body = current.body;
             object.icon = current.icon;
         }
@@ -27,14 +26,14 @@ Delegate
         initInternal(text, iconUri, "");
     }
     
-    function initInteral(text, iconUri, key)
+    function initInternal(text, iconUri, key)
     {
         if (text.length > 0)
         {
             var allData = data;
             allData.push( {'key': key, 'body': text, 'icon': iconUri} );
             data = allData;
-            
+
             if (!active) {
                 active = true;
             } else {
@@ -72,6 +71,7 @@ Delegate
                 {
                     var allData = data;
                     var key = allData.pop().key;
+                    data = allData;
                     
                     if (key.length > 0) {
                         persist.saveValueFor(key, 1, false);
@@ -80,6 +80,7 @@ Delegate
                 
                 if (data.length > 0) {
                     showNext();
+                    iconRotate.play();
                 } else {
                     fadeOut.play();
                 }
@@ -160,6 +161,17 @@ Delegate
                         verticalAlignment: VerticalAlignment.Center
                         loadEffect: ImageViewLoadEffect.FadeZoom
                         opacity: 0
+                        
+                        animations: [
+                            RotateTransition
+                            {
+                                id: iconRotate
+                                fromAngleZ: 0
+                                toAngleZ: 360
+                                duration: 750
+                                easingCurve: StockCurve.QuarticIn
+                            }
+                        ]
                     }
                     
                     Container

@@ -518,11 +518,6 @@ And to make it even easier for our users to discover more and more spammers, Aut
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/LogPane.qml" line="123"/>
-        <source>OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../assets/LogPane.qml" line="148"/>
         <source>You can use the &apos;Search&apos; action from the menu to search the logs if a specific message that was blocked.</source>
         <translation type="unfinished"></translation>
@@ -566,7 +561,7 @@ And to make it even easier for our users to discover more and more spammers, Aut
 <context>
     <name>NotificationToast</name>
     <message>
-        <location filename="../assets/NotificationToast.qml" line="84"/>
+        <location filename="../assets/NotificationToast.qml" line="129"/>
         <source>Tip!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -574,7 +569,7 @@ And to make it even easier for our users to discover more and more spammers, Aut
 <context>
     <name>ProgressDialog</name>
     <message>
-        <location filename="../assets/ProgressDialog.qml" line="56"/>
+        <location filename="../assets/ProgressDialog.qml" line="57"/>
         <source>Downloading...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -859,61 +854,51 @@ And to make it even easier for our users to discover more and more spammers, Aut
 <context>
     <name>UpdateActionItem</name>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="8"/>
+        <location filename="../assets/UpdateActionItem.qml" line="7"/>
         <source>Update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="41"/>
+        <location filename="../assets/UpdateActionItem.qml" line="49"/>
         <source>The following addresses were added: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="41"/>
+        <location filename="../assets/UpdateActionItem.qml" line="49"/>
         <source>Blocking addresses...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="43"/>
+        <location filename="../assets/UpdateActionItem.qml" line="51"/>
         <source>The addresses could not be added: %1
 
 Please file a bug report!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="64"/>
+        <location filename="../assets/UpdateActionItem.qml" line="72"/>
         <source>There are no new known spammers available yet.
 Check back in a few days.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="78"/>
+        <location filename="../assets/UpdateActionItem.qml" line="86"/>
         <source>Reported Spammers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="79"/>
+        <location filename="../assets/UpdateActionItem.qml" line="87"/>
         <source>Which of the following reported spammers do you want to add to your blocked list?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="86"/>
+        <location filename="../assets/UpdateActionItem.qml" line="23"/>
         <source>Confirmation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/UpdateActionItem.qml" line="87"/>
+        <location filename="../assets/UpdateActionItem.qml" line="23"/>
         <source>The update may consume data. Make sure you are on an appropriate Wi-Fi connection or a good data plan. This action will sync your blocked list with our servers so that you can benefit from and benefit other users to report spammers. Would you like to proceed?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/UpdateActionItem.qml" line="88"/>
-        <source>Yes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/UpdateActionItem.qml" line="89"/>
-        <source>No</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -962,18 +947,41 @@ Check back in a few days.</source>
 <context>
     <name>autoblock::QueryHelper</name>
     <message>
-        <location filename="../src/QueryHelper.cpp" line="75"/>
+        <location filename="../src/QueryHelper.cpp" line="79"/>
         <source>Clear Logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/QueryHelper.cpp" line="75"/>
+        <location filename="../src/QueryHelper.cpp" line="79"/>
         <source>You seem to have a lot of entries here, would you like to clear this list to improve app startup time?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/QueryHelper.cpp" line="75"/>
+        <location filename="../src/QueryHelper.cpp" line="79"/>
         <source>Don&apos;t Ask Again</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>autoblock::UpdateManager</name>
+    <message>
+        <location filename="../src/UpdateManager.cpp" line="85"/>
+        <source>Rendering results...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/UpdateManager.cpp" line="103"/>
+        <source>Uncompressing data...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/UpdateManager.cpp" line="128"/>
+        <source>Processing results...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/UpdateManager.cpp" line="154"/>
+        <source>At least one default email address must be set up to sync to the server!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

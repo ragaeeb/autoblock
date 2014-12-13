@@ -82,7 +82,7 @@ Page
             {
                 if (id == QueryId.Optimize) {
                     busy.running = false;
-                    persist.showToast( qsTr("Optimization Complete!"), "", "asset:///images/menu/ic_optimize.png" );
+                    tutorialToast.init( qsTr("Optimization Complete!"), "images/menu/ic_optimize.png" );
                 }
             }
             
@@ -100,7 +100,7 @@ Page
                 console.log("UserEvent: ErrorRecovery");
                 app.forceSetup();
                 
-                persist.showToast( qsTr("Error Recovery triggered!"), "", "asset:///images/menu/ic_error_recovery.png" );
+                tutorialToast.init( qsTr("Error Recovery triggered!"), "images/menu/ic_error_recovery.png" );
             }
         }
     ]

@@ -130,19 +130,19 @@ NavigationPane
                                 var inputValue = addPrompt.inputFieldTextEntry().trim().toLowerCase();
                                 
                                 if ( inputValue.indexOf(" ") >= 0 ) {
-                                    persist.showToast( qsTr("The keyword cannot contain any spaces!"), "", "asset:///images/ic_block.png" );
+                                    tutorialToast.init( qsTr("The keyword cannot contain any spaces!"), "images/ic_block.png" );
                                     return;
                                 } else if (inputValue.length < 3 || inputValue.length > 20) {
-                                    persist.showToast( qsTr("The keyword must be between 3 to 20 characters in length (inclusive)!"), "", "asset:///images/ic_block.png" );
+                                    tutorialToast.init( qsTr("The keyword must be between 3 to 20 characters in length (inclusive)!"), "images/ic_block.png" );
                                     return;
                                 }
                                 
                                 var keywordsList = helper.blockKeywords([inputValue]);
                                 
                                 if (keywordsList.length > 0) {
-                                    persist.showToast( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "", "asset:///images/tabs/ic_keywords.png" );
+                                    tutorialToast.init( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "images/tabs/ic_keywords.png" );
                                 } else {
-                                    persist.showToast( qsTr("The keyword could not be blocked: %1").arg(inputValue), "", "asset:///images/ic_block.png" );
+                                    tutorialToast.init( qsTr("The keyword could not be blocked: %1").arg(inputValue), "images/ic_block.png" );
                                 }
                             }
                         }
@@ -172,7 +172,7 @@ NavigationPane
                     
                     if (ok) {
                         helper.clearBlockedKeywords();
-                        persist.showToast( qsTr("Cleared all blocked keywords!"), "", "asset:///images/menu/ic_clear.png" );
+                        tutorialToast.init( qsTr("Cleared all blocked keywords!"), "images/menu/ic_clear.png" );
                     }
                 }
             }
@@ -212,9 +212,9 @@ NavigationPane
                 	var keywordsList = helper.unblockKeywords(blocked);
                 	
                 	if (keywordsList.length > 0) {
-                        persist.showToast( qsTr("The following keywords were unblocked: %1").arg( keywordsList.join(", ") ), "", "asset:///images/menu/ic_unblock.png" );
+                        tutorialToast.init( qsTr("The following keywords were unblocked: %1").arg( keywordsList.join(", ") ), "images/menu/ic_unblock.png" );
                 	} else {
-                        persist.showToast( qsTr("The following keywords could not be unblocked: %1").arg( blocked.join(", ") ), "", "asset:///images/tabs/ic_blocked.png" );
+                        tutorialToast.init( qsTr("The following keywords could not be unblocked: %1").arg( blocked.join(", ") ), "images/tabs/ic_blocked.png" );
                 	}
                 }
                 

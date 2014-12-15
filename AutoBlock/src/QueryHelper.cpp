@@ -306,6 +306,7 @@ QStringList QueryHelper::unblock(QVariantList const& senders)
 
 void QueryHelper::fetchAllLogs(QString const& filter)
 {
+    LOGGER(filter);
     m_logSearchMode = !filter.isNull();
 
     if (!m_logSearchMode)

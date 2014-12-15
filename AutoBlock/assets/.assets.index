@@ -1,5 +1,5 @@
 1
-102
+106
 AutoBlockTitleBar.qml
 BlockedKeywordPane.qml
 BlockedSenderPane.qml
@@ -14,6 +14,8 @@ images/background.png
 images/cover_bg.png
 images/divider.png
 images/dropdown/ic_account.png
+images/dropdown/ic_bugs_cancel.png
+images/dropdown/ic_bugs_submit.png
 images/dropdown/ic_phone.png
 images/dropdown/ic_pin.png
 images/dropdown/ic_sms.png
@@ -25,6 +27,7 @@ images/empty/ic_empty_logs.png
 images/empty/ic_empty_messages.png
 images/ic_block.png
 images/ic_bugs.png
+images/ic_bugs_divider.png
 images/ic_call.png
 images/ic_email.png
 images/ic_pim_warning.png
@@ -67,6 +70,7 @@ images/titlebar/core_titlebar_gradient.png
 images/titlebar/title_bg.amd
 images/titlebar/title_bg.png
 images/titlebar/title_text.png
+images/toast/ic_bugs_info.png
 images/toast/ic_import.png
 images/toast/move_trash.png
 images/toast/no_email_access.png

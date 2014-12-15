@@ -71,6 +71,7 @@ Page
         ActionItem {
             imageSource: "images/menu/ic_optimize.png"
             title: qsTr("Optimize") + Retranslate.onLanguageChanged
+            ActionBar.placement: ActionBarPlacement.OnBar
             
             onTriggered: {
                 console.log("UserEvent: Optimize");

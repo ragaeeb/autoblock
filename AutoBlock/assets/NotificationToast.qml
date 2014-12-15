@@ -81,7 +81,7 @@ Delegate
                 if (data.length > 0) {
                     showNext();
                     iconRotate.play();
-                } else {
+                } else if ( !fadeOut.isPlaying() ) {
                     fadeOut.play();
                 }
             }

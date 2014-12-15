@@ -148,8 +148,10 @@ Delegate
                             translationX: 1000
                             
                             onClicked: {
-                                console.log("UserEvent: NotificationClose");
-                                root.dismiss();
+                                if ( !mainAnim.isPlaying() ) {
+                                    console.log("UserEvent: NotificationCloseButton");
+                                    root.dismiss();
+                                }
                             }
                             
                             onCreationCompleted: {

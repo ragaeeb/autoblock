@@ -7,7 +7,7 @@ Page
     titleBar: AboutTitleBar
     {
         id: atb
-        labelColor: Color.Black
+        labelColor: 'Signature' in ActionBarPlacement ? Color.Black : Color.White
     }
     
     actions: [

@@ -140,6 +140,17 @@ NavigationPane
 
                     listView.visible = !adm.isEmpty();
                     emptyDelegate.delegateActive = adm.isEmpty();
+<<<<<<< HEAD
+=======
+
+                    if ( tutorialToast.tutorial("tutorialLogPane", qsTr("In this tab you will be able to view all the messages that were blocked."), "images/tabs/ic_logs.png") ) {}
+                    else if ( tutorialToast.tutorial("tutorialHelp", qsTr("To get more help, swipe-down from the top-bezel and choose the 'Help' action."), "images/menu/ic_help.png") ) {}
+                    else if ( tutorialToast.tutorial("tutorialSettings", qsTr("To move the junk mail to the Trash folder instead of permanently deleting them, swipe-down from the top-bezel and go to Settings."), "images/menu/ic_settings.png") ) {}
+                    else if ( tutorialToast.tutorial("tutorialBugReports", qsTr("If you notice any bugs in the app that you want to report or you want to file a feature request, swipe-down from the top-bezel and choose the 'Bug Reports' action."), "images/ic_bugs.png") ) {}
+                    else if ( tutorialToast.tutorial("tutorialSearchLogs", qsTr("You can use the 'Search' action from the menu to search the logs if a specific message that was blocked."), "images/menu/ic_search_logs.png") && adm.size() > 10 ) {}
+                    else if ( tutorialToast.tutorial("tutorialClearLogs", qsTr("If this list is getting too cluttered, you can always clear the logs by using the 'Clear Logs' action from the menu."), "images/menu/ic_clear_logs.png") && adm.size() > 10 ) {}
+                    else if ( persist.reviewed() ) {}
+>>>>>>> Issue 175:	Conversations tab title bar text is black in 10.2.1
                 }
                 
                 function setupComplete()

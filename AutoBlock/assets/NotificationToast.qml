@@ -151,6 +151,10 @@ Delegate
                                 console.log("UserEvent: NotificationClose");
                                 root.dismiss();
                             }
+                            
+                            onCreationCompleted: {
+                                persist.attachBackKeyToClickedSignal(closeButton, dialogContainer);
+                            }
                         }
                     }
                     

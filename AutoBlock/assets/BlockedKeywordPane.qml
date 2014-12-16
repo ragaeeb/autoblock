@@ -41,6 +41,7 @@ NavigationPane
                         id: thresholdLabel
                         verticalAlignment: VerticalAlignment.Center
                         textStyle.base: SystemDefaults.TextStyles.BigText
+                        textStyle.color: 'Signature' in ActionBarPlacement ? Color.Black : Color.White
                     }
                 }
                 

@@ -48,6 +48,7 @@ class AutoBlock : public QObject
     void prepareKeywordExtraction(QVariantList const& toProcess, const char* slot);
 
 private slots:
+    void completeInvoke();
     void childCardDone(bb::system::CardDoneMessage const& message=bb::system::CardDoneMessage());
 	void lazyInit();
 	void invoked(bb::system::InvokeRequest const& request);

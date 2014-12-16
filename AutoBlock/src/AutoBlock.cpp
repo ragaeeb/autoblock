@@ -112,21 +112,12 @@ void AutoBlock::lazyInit()
 
     if ( !target.isNull() )
     {
-        connect( m_root, SIGNAL( elementsSelected(QVariant) ), this, SLOT( onKeywordsSelected(QVariant) ) );
+        bool ready = m_helper.checkDatabase();
 
-        if (target == TARGET_BLOCK_EMAIL)
-        {
-            QByteArray data = m_request.data();
-
-            MessageFetcherThread* ai = new MessageFetcherThread(data);
-            connect( ai, SIGNAL( messageFetched(QVariantMap const&) ), this, SLOT( messageFetched(QVariantMap const&) ) );
-            IOUtils::startThread(ai);
-        } else if (target == TARGET_PLAIN_TEXT) {
-            QString result = QString::fromUtf8( m_request.data().constData() );
-
-            QVariantMap map;
-            map["text"] = result;
-            parseKeywords( QVariantList() << map );
+        if (ready) {
+            completeInvoke();
+        } else {
+            connect( &m_helper, SIGNAL( readyChanged() ), this, SLOT( completeInvoke() ) );
         }
     }
 
@@ -135,6 +126,29 @@ void AutoBlock::lazyInit()
     QmlDocument::defaultDeclarativeEngine()->rootContext()->setContextProperty("tutorialToast", toast);
 
     emit lazyInitComplete();
+}
+
+
+void AutoBlock::completeInvoke()
+{
+    connect( m_root, SIGNAL( elementsSelected(QVariant) ), this, SLOT( onKeywordsSelected(QVariant) ) );
+
+    QString target = m_request.target();
+
+    if (target == TARGET_BLOCK_EMAIL)
+    {
+        QByteArray data = m_request.data();
+
+        MessageFetcherThread* ai = new MessageFetcherThread( data, m_request.uri().toString(), this );
+        connect( ai, SIGNAL( messageFetched(QVariantMap const&) ), this, SLOT( messageFetched(QVariantMap const&) ) );
+        IOUtils::startThread(ai);
+    } else if (target == TARGET_PLAIN_TEXT) {
+        QString result = QString::fromUtf8( m_request.data().constData() );
+
+        QVariantMap map;
+        map["text"] = result;
+        parseKeywords( QVariantList() << map );
+    }
 }
 
 

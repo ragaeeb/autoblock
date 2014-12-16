@@ -55,7 +55,7 @@ Page
             function onRestored(result)
             {
                 if (result) {
-                    persist.showBlockingToast( qsTr("Successfully restored! The app will now close itself so when you re-open it the restored database can take effect!"), qsTr("OK"), "asset:///images/menu/ic_restore.png" );
+                    persist.showBlockingToast( qsTr("Successfully restored! The app will now close itself so when you re-open it the restored database can take effect!"), "", "asset:///images/menu/ic_restore.png" );
                     app.exit();
                 } else {
                     helper.setActive(true);

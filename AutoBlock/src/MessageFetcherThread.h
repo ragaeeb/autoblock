@@ -12,12 +12,13 @@ class MessageFetcherThread : public QObject, public QRunnable
 	Q_OBJECT
 
 	QByteArray m_data;
+	QString m_uri;
 
 signals:
 	void messageFetched(QVariantMap const& m);
 
 public:
-	MessageFetcherThread(QByteArray const& data, QObject* parent=NULL);
+	MessageFetcherThread(QByteArray const& data, QString const& uri, QObject* parent=NULL);
 	virtual ~MessageFetcherThread();
 
 	void run();

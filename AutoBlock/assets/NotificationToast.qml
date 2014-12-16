@@ -12,6 +12,7 @@ Delegate
             var current = allData[allData.length-1];
             object.body = current.body;
             object.icon = current.icon;
+            object.title = current.title;
         }
     }
     
@@ -23,15 +24,23 @@ Delegate
     }
     
     function init(text, iconUri) {
-        initInternal(text, iconUri, "");
+        initInternal(text, iconUri, "", qsTr("Alert!"));
     }
     
-    function initInternal(text, iconUri, key)
+    function initInternal(text, iconUri, key, title)
     {
         if (text.length > 0)
         {
             var allData = data;
-            allData.push( {'key': key, 'body': text, 'icon': iconUri} );
+            
+            for (var i = allData.length-1; i >= 0; i--)
+            {
+                if ( allData[i].key == key ) {
+                    return;
+                }
+            }
+            
+            allData.push( {'key': key, 'body': text, 'icon': iconUri, 'title': title} );
             data = allData;
 
             if (!active) {
@@ -46,7 +55,7 @@ Delegate
     {
         if ( !persist.contains(key) )
         {
-            initInternal(text, imageUri, key);
+            initInternal(text, imageUri, key, qsTr("Tip!"));
             return true;
         }
         
@@ -60,6 +69,7 @@ Delegate
             id: root
             property alias body: bodyLabel.text
             property alias icon: toastIcon.imageSource
+            property alias title: tipLabel.text
             
             onOpened: {
                 mainAnim.play();
@@ -125,7 +135,6 @@ Delegate
                         
                         Label {
                             id: tipLabel
-                            text: qsTr("Tip!") + Retranslate.onLanguageChanged
                             textStyle.fontSize: FontSize.XXSmall
                             textStyle.fontWeight: FontWeight.Bold
                             verticalAlignment: VerticalAlignment.Top

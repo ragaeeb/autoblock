@@ -210,9 +210,27 @@ Delegate
                         onTapped: {
                             console.log("UserEvent: NotificationToastTapped");
                             
-                            if ( event.propagationPhase == PropagationPhase.AtTarget && !mainAnim.isPlaying() ) {
+                            if (event.propagationPhase == PropagationPhase.AtTarget)
+                            {
                                 console.log("UserEvent: NotificationOutsideBounds");
-                                root.dismiss();
+                                
+                                if ( mainAnim.isPlaying() )
+                                {
+                                    mainAnim.stop();
+                                    dialogContainer.opacity = dialogFt.toOpacity;
+                                    closeButton.translationX = closeTt.toX;
+                                    toastIcon.opacity = toastIconFt.toOpacity;
+                                    toastIcon.rotationZ = toastIconRt.toAngleZ;
+                                    infoImage.translationX = infoImageTt.toX;
+                                    tipLabel.translationX = tipLabelTt.toX;
+                                    infoImage.rotationZ = infoImageRt.toAngleZ;
+                                    closeButton.rotationZ = closeButtonRt.toAngleZ;
+                                    bodyLabel.opacity = bodyLabelFt.toOpacity;
+                                    bodyLabel.scaleX = bodyLabelSt.toX;
+                                    bodyLabel.scaleY = bodyLabelSt.toY;
+                                } else {
+                                    root.dismiss();
+                                }
                             }
                         }
                     }
@@ -229,10 +247,11 @@ Delegate
                     id: mainAnim
                     
                     FadeTransition {
+                        id: dialogFt
                         target: dialogContainer
                         fromOpacity: 0
                         toOpacity: 1
-                        duration: 500
+                        duration: 250
                         easingCurve: StockCurve.SineOut
                     }
                     
@@ -240,8 +259,9 @@ Delegate
                     {
                         TranslateTransition
                         {
+                            id: closeTt
                             target: closeButton
-                            duration: 500
+                            duration: 250
                             fromX: -500
                             toX: 0
                             easingCurve: StockCurve.QuinticOut
@@ -249,27 +269,30 @@ Delegate
                         
                         FadeTransition
                         {
+                            id: toastIconFt
                             fromOpacity: 0
                             toOpacity: 1
                             target: toastIcon
-                            duration: 750
+                            duration: 400
                             easingCurve: StockCurve.ExponentialInOut
                         }
                         
                         RotateTransition
                         {
+                            id: toastIconRt
                             fromAngleZ: 0
                             toAngleZ: 360
                             target: toastIcon
-                            duration: 1250
-                            delay: 500
+                            duration: 500
+                            delay: 250
                             easingCurve: StockCurve.CubicInOut
                         }
                         
                         TranslateTransition
                         {
+                            id: infoImageTt
                             target: infoImage
-                            duration: 500
+                            duration: 250
                             fromX: 1000
                             toX: 0
                             easingCurve: StockCurve.CubicOut
@@ -277,9 +300,10 @@ Delegate
                         
                         TranslateTransition
                         {
+                            id: tipLabelTt
                             target: tipLabel
-                            delay: 500
-                            duration: 750
+                            delay: 250
+                            duration: 400
                             fromX: 500
                             toX: 0
                             easingCurve: StockCurve.ExponentialOut
@@ -290,20 +314,22 @@ Delegate
                     {
                         RotateTransition
                         {
+                            id: infoImageRt
                             target: infoImage
                             fromAngleZ: 0
                             toAngleZ: 360
-                            duration: 750
+                            duration: 400
                             easingCurve: StockCurve.ExponentialIn
                         }
-                        
+
                         RotateTransition
                         {
+                            id: closeButtonRt
                             target: closeButton
-                            delay: 250
+                            delay: 150
                             fromAngleZ: 360
                             toAngleZ: 0
-                            duration: 750
+                            duration: 350
                             easingCurve: StockCurve.CircularOut
                         }
                     }
@@ -311,22 +337,24 @@ Delegate
                     ParallelAnimation
                     {
                         target: bodyLabel
-                        
+
                         FadeTransition
                         {
+                            id: bodyLabelFt
                             fromOpacity: 0
                             toOpacity: 1
-                            duration: 500
+                            duration: 250
                             easingCurve: StockCurve.QuadraticOut
                         }
                         
                         ScaleTransition
                         {
+                            id: bodyLabelSt
                             fromX: 1.5
                             fromY: 1.5
                             toX: 1
                             toY: 1
-                            duration: 750
+                            duration: 500
                             easingCurve: StockCurve.DoubleBounceIn
                         }
                     }
@@ -339,7 +367,7 @@ Delegate
                     FadeTransition {
                         fromOpacity: 1
                         toOpacity: 0
-                        duration: 750
+                        duration: 500
                         easingCurve: StockCurve.QuinticIn
                         target: dialogContainer
                     }
@@ -349,7 +377,7 @@ Delegate
                         target: toastBg
                         fromY: 0
                         toY: 1000
-                        duration: 750
+                        duration: 500
                         easingCurve: StockCurve.BackIn
                     }
                     

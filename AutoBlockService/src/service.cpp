@@ -71,6 +71,8 @@ void Service::setup(bool replace)
             m_sql.execute(query, QueryId::SettingUp);
         }
 
+        m_sql.execute("DELETE FROM inbound_blacklist WHERE address IS NULL OR trim(address) = ''", QueryId::SettingUp);
+        m_sql.execute("DELETE FROM inbound_keywords WHERE term IS NULL OR trim(term) = ''", QueryId::SettingUp);
         m_sql.endTransaction(QueryId::Setup);
     }
 }

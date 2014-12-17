@@ -51,7 +51,10 @@ Container {
         
         onCreationCompleted: {
             helper.dataReady.connect(onDataLoaded);
-            helper.fetchAllLogs();
+            
+            if (helper.ready) {
+                helper.fetchAllLogs();
+            } // else, it'll automatically do it
         }
     }
 }

@@ -268,7 +268,6 @@ NavigationPane
             else if ( tutorialToast.tutorial("tutorialAddSender", qsTr("Use the 'Add' action from the menu to add a specific phone number or email address you want to block."), "images/menu/ic_search_user.png" ) ) {}
             else if ( tutorialToast.tutorial("tutorialClearBlocked", qsTr("You can clear this blocked list by selecting 'Unblock All' from the menu."), "images/menu/ic_unblock_all.png" ) ) {}
             else if ( tutorialToast.tutorial("tutorialUnblock", qsTr("You can unblock a user you blocked by mistake by simply tapping on the blocked address and choosing 'Unblock' from the menu."), "images/menu/ic_unblock.png" ) ) {}
-            else if ( tutorialToast.reviewed() ) {}
             else if ( reporter.performCII() ) {}
         }
     }

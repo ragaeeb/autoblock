@@ -31,7 +31,7 @@ Page
             
             onTriggered: {
                 console.log("UserEvent: VideoTutorialTriggered");
-                persist.tutorialVideo("http://youtu.be/8KAx-FvNqE8", false);
+                persist.tutorialVideo("http://youtu.be/EBxX3353Q2I", false);
             }
         }
     ]

@@ -74,7 +74,7 @@ public:
     Q_INVOKABLE void extractKeywords(QVariantList const& messages);
     Q_INVOKABLE void loadAccounts();
     Q_INVOKABLE void loadMessages(qint64 accountId);
-    Q_SLOT void exit();
+    Q_SLOT void exitAfterRestore();
     Q_INVOKABLE QString renderStandardTime(QDateTime const& theTime);
     Q_INVOKABLE void forceSetup();
     Q_INVOKABLE void invokeService(QString const& senderAddress, QString const& senderName, QString const& body);

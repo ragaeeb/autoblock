@@ -55,8 +55,7 @@ Page
             function onRestored(result)
             {
                 if (result) {
-                    persist.showBlockingToast( qsTr("Successfully restored! The app will now close itself so when you re-open it the restored database can take effect!"), "", "asset:///images/menu/ic_restore.png" );
-                    app.exit();
+                    app.exitAfterRestore();
                 } else {
                     helper.setActive(true);
                     tutorialToast.init( qsTr("The database could not be restored. Please re-check the backup file to ensure it is valid, and if the problem persists please file a bug report. Make sure to attach the backup file with your report!"), "images/menu/ic_restore_error.png" );
@@ -113,7 +112,7 @@ Page
             filter: ["*.zip"]
             
             directories :  {
-                return ["/accounts/1000/removable/sdcard/misc", "/accounts/1000/shared/misc"]
+                return ["/accounts/1000/removable/sdcard", "/accounts/1000/shared/misc"]
             }
             
             onFileSelected : {

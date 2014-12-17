@@ -157,11 +157,18 @@ QStringList QueryHelper::blockKeywords(QVariantList const& keywords)
 
     QStringList keywordsList;
 
-    for (int i = keywords.size()-1; i >= 0; i--) {
-        keywordsList << keywords[i].toString();
+    for (int i = keywords.size()-1; i >= 0; i--)
+    {
+        QString current = keywords[i].toString().trimmed();
+
+        if ( !current.isEmpty() ) {
+            keywordsList << current;
+        }
     }
 
-    prepareTransaction("INSERT OR IGNORE INTO inbound_keywords (term) VALUES(%1)", keywords, QueryId::BlockKeywords, QueryId::BlockKeywordChunk);
+    if ( !keywordsList.isEmpty() ) {
+        prepareTransaction("INSERT OR IGNORE INTO inbound_keywords (term) VALUES(%1)", keywords, QueryId::BlockKeywords, QueryId::BlockKeywordChunk);
+    }
 
     return keywordsList;
 }

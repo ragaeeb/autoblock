@@ -20,7 +20,6 @@ images/dropdown/ic_phone.png
 images/dropdown/ic_pin.png
 images/dropdown/ic_sms.png
 images/dropdown/ic_sync.png
-images/dropdown/ic_test.png
 images/empty/ic_empty_blocked.png
 images/empty/ic_empty_keywords.png
 images/empty/ic_empty_logs.png
@@ -55,6 +54,7 @@ images/menu/ic_search_user.png
 images/menu/ic_select_all.png
 images/menu/ic_select_more.png
 images/menu/ic_settings.png
+images/menu/ic_test.png
 images/menu/ic_unblock.png
 images/menu/ic_unblock_all.png
 images/processing.png

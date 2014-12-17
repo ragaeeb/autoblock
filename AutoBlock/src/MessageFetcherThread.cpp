@@ -19,8 +19,8 @@ void MessageFetcherThread::run()
 {
     QVariantMap result;
 
-    qint64 accountId;
-    qint64 messageId;
+    qint64 accountId = 0;
+    qint64 messageId = 0;
 
     if ( !m_data.isEmpty() )
     {

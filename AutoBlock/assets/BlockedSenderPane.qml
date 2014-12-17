@@ -1,5 +1,5 @@
 import bb.cascades 1.0
-import bb.system 1.0
+import bb.system 1.2
 import com.canadainc.data 1.0
 
 NavigationPane
@@ -56,6 +56,7 @@ NavigationPane
                         cancelButton.label: qsTr("Cancel") + Retranslate.onLanguageChanged
                         inputField.inputMode: SystemUiInputMode.Email
                         inputField.emptyText: qsTr("(ie: +14162150012 OR abc@spam.com") + Retranslate.onLanguageChanged
+                        inputOptions: SystemUiInputOption.None
                         title: qsTr("Address") + Retranslate.onLanguageChanged
                         
                         onFinished: {

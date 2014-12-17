@@ -22,7 +22,7 @@ NavigationPane
             },
             
             ActionItem {
-                imageSource: "images/dropdown/ic_test.png"
+                imageSource: "images/menu/ic_test.png"
                 title: qsTr("Test") + Retranslate.onLanguageChanged
                 
                 onTriggered: {
@@ -40,8 +40,8 @@ NavigationPane
                 ]
                 
                 shortcuts: [
-                    Shortcut {
-                        key: qsTr("X") + Retranslate.onLanguageChanged
+                    SystemShortcut {
+                        type: SystemShortcuts.CreateNew
                     }
                 ]
             },

@@ -1,4 +1,5 @@
 import bb.cascades 1.2
+import bb.system 1.0
 import com.canadainc.data 1.0
 
 NavigationPane
@@ -48,6 +49,7 @@ NavigationPane
             
             DeleteActionItem
             {
+                id: clearLogsAction
                 enabled: listView.visible
                 title: qsTr("Clear Logs") + Retranslate.onLanguageChanged
                 imageSource: "images/menu/ic_clear_logs.png"
@@ -133,6 +135,10 @@ NavigationPane
                     {
                         adm.clear();
                         adm.append(data);
+                        
+                        if ( id == QueryId.FetchAllLogs && adm.size() > 300 && !persist.contains("dontAskToClear") ) {
+                            clearDialog.showing = true;
+                        }
                     } else if (id == QueryId.FetchLatestLogs) {
                         adm.insert(0, data);
                         listView.scrollToPosition(ScrollPosition.Beginning, ScrollAnimation.Smooth);
@@ -220,6 +226,36 @@ NavigationPane
                 ImagePaintDefinition {
                     id: ipd
                     imageSource: "images/background.png"
+                },
+                
+                SystemDialog {
+                    id: clearDialog
+                    property bool showing: false
+                    body: qsTr("You seem to have a lot of entries here, would you like to clear this list to improve app startup time?") + Retranslate.onLanguageChanged
+                    title: qsTr("Clear Logs") + Retranslate.onLanguageChanged
+                    cancelButton.label: qsTr("No") + Retranslate.onLanguageChanged
+                    confirmButton.label: qsTr("Yes") + Retranslate.onLanguageChanged
+                    rememberMeChecked: false
+                    includeRememberMe: true
+                    rememberMeText: qsTr("Don't Ask Again") + Retranslate.onLanguageChanged
+                    
+                    onShowingChanged: {
+                        if (showing) {
+                            show();
+                        }
+                    }
+                    
+                    onFinished: {
+                        showing = false;
+                        console.log("UserEvent: ClearNoticePrompt", value);
+                        
+                        if (value == SystemUiResult.ConfirmButtonSelection) {
+                            helper.clearLogs();
+                            tutorialToast.init( qsTr("Cleared all blocked senders!"), "images/menu/ic_clear_logs.png" );
+                        } else if ( rememberMeSelection() ) {
+                            persist.saveValueFor("dontAskToClear", 1, false);
+                        }
+                    }
                 },
                 
                 ComponentDefinition {

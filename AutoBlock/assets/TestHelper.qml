@@ -21,6 +21,7 @@ QtObject
         {
             body = qsTr("Please enter the address of the sender to test:");
             address = "";
+            subject = "";
             inputField.emptyText = qsTr("abc@hotmail.com or +1234567890");
             inputField.inputMode = SystemUiInputMode.Email;
             inputOptions = SystemUiInputOption.None;
@@ -39,6 +40,7 @@ QtObject
                     body = qsTr("Please enter the message subject/body:");
                     inputField.emptyText = qsTr("Enter message");
                     inputField.defaultText = "";
+                    inputField.inputMode = SystemUiInputMode.Default;
                     inputOptions = SystemUiInputOption.AutoCapitalize;
                     title = qsTr("Enter Subject/Message");
                     show();
@@ -47,6 +49,7 @@ QtObject
                     body = qsTr("Please enter the sender name:");
                     inputField.emptyText = qsTr("Enter name");
                     inputField.defaultText = address;
+                    inputField.inputMode = SystemUiInputMode.Default;
                     inputOptions = SystemUiInputOption.AutoCapitalize;
                     title = qsTr("Enter Name");
                     show();

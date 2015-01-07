@@ -14,9 +14,7 @@
 #include "LogMonitor.h"
 #include "MessageFetcherThread.h"
 #include "MessageImporter.h"
-#include "PimUtil.h"
 
-#define CARD_KEY "logCard"
 #define TARGET_BLOCK_EMAIL "com.canadainc.AutoBlock.reply"
 #define TARGET_PLAIN_TEXT "com.canadainc.AutoBlock.sharehandler"
 

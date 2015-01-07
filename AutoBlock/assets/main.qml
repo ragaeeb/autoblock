@@ -9,7 +9,6 @@ TabbedPane
     
     Menu.definition: CanadaIncMenu
     {
-        labelColor: 'Signature' in ActionBarPlacement ? Color.Black : Color.White
         help.imageSource: "images/menu/ic_help.png"
         help.title: qsTr("Help") + Retranslate.onLanguageChanged
         settings.imageSource: "images/menu/ic_settings.png"

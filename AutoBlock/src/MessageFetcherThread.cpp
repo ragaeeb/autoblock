@@ -3,6 +3,7 @@
 #include "MessageFetcherThread.h"
 #include "MessageImporter.h"
 #include "Logger.h"
+#include "PimUtil.h"
 
 namespace autoblock {
 
@@ -20,30 +21,7 @@ void MessageFetcherThread::run()
     QVariantMap result;
 
     qint64 accountId = 0;
-    qint64 messageId = 0;
-
-    if ( !m_data.isEmpty() )
-    {
-        bb::data::JsonDataAccess jda;
-        QVariantMap json = jda.loadFromBuffer(m_data).toMap().value("attributes").toMap();
-
-        if ( json.contains("accountid") && json.contains("messageid") )
-        {
-            accountId = json.value("accountid").toLongLong();
-            messageId = json.value("messageid").toLongLong();
-        }
-    } else if ( !m_uri.isEmpty() ) {
-        QStringList tokens = m_uri.split(":");
-
-        if ( tokens.size() > 3 ) {
-            accountId = tokens[2].toLongLong();
-            messageId = tokens[3].toLongLong();
-        } else {
-            LOGGER("NotEnoughTokens" << tokens);
-        }
-    }
-
-    LOGGER("Tokens" << accountId << messageId);
+    qint64 messageId = PimUtil::extractIdsFromInvoke(m_uri, m_data, accountId);
 
     if (accountId && messageId)
     {

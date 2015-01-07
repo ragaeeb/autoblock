@@ -36,8 +36,9 @@ AutoBlock::AutoBlock(Application* app) :
     {
     case ApplicationStartupMode::InvokeCard:
         LogMonitor::create(CARD_KEY, CARD_LOG_FILE, this);
-        connect( &m_invokeManager, SIGNAL( invoked(bb::system::InvokeRequest const&) ), this, SLOT( invoked(bb::system::InvokeRequest const&) ) );
+        connect( &m_invokeManager, SIGNAL( cardPooled(bb::system::CardDoneMessage const&) ), app, SLOT( quit() ) );
         connect( &m_invokeManager, SIGNAL( childCardDone(bb::system::CardDoneMessage const&) ), this, SLOT( childCardDone(bb::system::CardDoneMessage const&) ) );
+        connect( &m_invokeManager, SIGNAL( invoked(bb::system::InvokeRequest const&) ), this, SLOT( invoked(bb::system::InvokeRequest const&) ) );
         break;
 
     default:
@@ -283,7 +284,9 @@ void AutoBlock::extractKeywords(QVariantList const& messages)
 }
 
 
-void AutoBlock::childCardDone(bb::system::CardDoneMessage const& message) {
+void AutoBlock::childCardDone(bb::system::CardDoneMessage const& message)
+{
+    LOGGER( message.reason() );
     m_invokeManager.sendCardDone(message);
 }
 

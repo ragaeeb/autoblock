@@ -3,6 +3,17 @@ import bb.cascades 1.2
 Delegate
 {
     property variant data: []
+    property bool suppress: persist.getValueFor("suppressTutorials") == 1
+    
+    function onSettingChanged(key) {
+        if (key == "suppressTutorials") {
+            suppress = persist.getValueFor("suppressTutorials");
+        }
+    }
+    
+    onCreationCompleted: {
+        persist.settingChanged.connect(onSettingChanged);
+    }
     
     function showNext()
     {
@@ -53,7 +64,7 @@ Delegate
     
     function tutorial(key, text, imageUri)
     {
-        if ( !persist.contains(key) )
+        if ( !persist.contains(key) && !suppress )
         {
             initInternal(text, imageUri, key, qsTr("Tip!"));
             return true;

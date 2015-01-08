@@ -309,8 +309,8 @@ void AutoBlock::forceSetup()
 void AutoBlock::exitAfterRestore()
 {
     LOGGER("Terminating...");
-    m_persistance.showBlockingToast( tr("Successfully restored! The app will now close itself so when you re-open it the restored database can take effect!"), "", "asset:///images/menu/ic_restore.png" );
-    bb::cascades::Application::instance()->quit();
+    m_persistance.showBlockingDialog( tr("Exit"), tr("Successfully restored! The app will now close itself so when you re-open it the restored database can take effect!"), tr("OK"), "" );
+    Application::instance()->quit();
 }
 
 

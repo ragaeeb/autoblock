@@ -12,10 +12,11 @@ NavigationPane
     
     function validatePurchase(control)
     {
-        if ( control.checked && !persist.contains("autoblock_constraints") ) {
-            persist.showBlockingToast( qsTr("This is a purchasable feature that will also scan the sender's name and email address to try to match if any of the keywords here are found."), "", "asset:///images/tabs/ic_keywords.png" );
+        if ( control.checked && !persist.contains("autoblock_constraints") )
+        {
+            tutorialToast.init( qsTr("This is a purchasable feature that will also scan the sender's name and email address to try to match if any of the keywords here are found."), "images/tabs/ic_keywords.png" );
             control.checked = false;
-            payment.requestPurchase("autoblock_constraints", "Additional Constraints");
+            payment.requestPurchase( "autoblock_constraints", qsTr("Additional Constraints") );
         }
     }
     

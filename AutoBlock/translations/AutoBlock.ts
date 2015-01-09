@@ -384,6 +384,11 @@ Please file a bug report!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../assets/ConversationsPane.qml" line="485"/>
+        <source>Insert Random</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../assets/ConversationsPane.qml" line="107"/>
         <source>There are no incoming messages detected for this account. As soon as the first spam message comes in, open this app, come to this screen and add that message as spam and all future messages from that sender will be blocked and deleted! Or increase the &apos;Days&apos; slider at the top to fetch more messages.</source>
         <translation type="unfinished"></translation>
@@ -929,32 +934,32 @@ Check back in a few days.</source>
 <context>
     <name>autoblock::AutoBlock</name>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="156"/>
+        <location filename="../src/AutoBlock.cpp" line="155"/>
         <source>Admin access granted!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="166"/>
+        <location filename="../src/AutoBlock.cpp" line="165"/>
         <source>The following keywords were added: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="168"/>
+        <location filename="../src/AutoBlock.cpp" line="167"/>
         <source>The keyword(s) could not be added.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="210"/>
+        <location filename="../src/AutoBlock.cpp" line="209"/>
         <source>The following addresses were blocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="212"/>
+        <location filename="../src/AutoBlock.cpp" line="211"/>
         <source>The addresses could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="218"/>
+        <location filename="../src/AutoBlock.cpp" line="217"/>
         <source>Could not block the sender, this is due to a bug in BlackBerry OS 10.2.1. There are two ways around this problem:
 
 1) From the BlackBerry Hub, tap on the email to open it, tap on the menu icon (...) on the bottom-right, choose Share, and then choose Auto Block.
@@ -963,22 +968,22 @@ Check back in a few days.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="232"/>
+        <location filename="../src/AutoBlock.cpp" line="231"/>
         <source>Could not find any suspicious keywords in the message...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="312"/>
+        <location filename="../src/AutoBlock.cpp" line="311"/>
         <source>Successfully restored! The app will now close itself so when you re-open it the restored database can take effect!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="312"/>
+        <location filename="../src/AutoBlock.cpp" line="311"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="312"/>
+        <location filename="../src/AutoBlock.cpp" line="311"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>

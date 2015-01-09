@@ -29,7 +29,7 @@ AutoBlock::AutoBlock(Application* app) :
 {
     INIT_SETTING(CARD_KEY, true);
     INIT_SETTING(UI_KEY, true);
-    INIT_SETTING(SERVICE_KEY, true);
+    INIT_SETTING(SERVICE_KEY, false);
     INIT_SETTING("days", 7);
 
     switch ( m_invokeManager.startupMode() )
@@ -87,7 +87,6 @@ void AutoBlock::invoked(bb::system::InvokeRequest const& request)
 
 void AutoBlock::lazyInit()
 {
-    LOGGER("Lazy init");
     INIT_SETTING("keywordThreshold", 3);
     INIT_SETTING("whitelistContacts", 1);
 
@@ -172,7 +171,7 @@ void AutoBlock::onKeywordsSelected(QVariant k)
 
 void AutoBlock::finishWithToast(QString const& message)
 {
-    m_persistance.showBlockingToast(message);
+    m_persistance.showBlockingToast( message, "", "asset:///images/ic_steps.png" );
     m_invokeManager.sendCardDone( CardDoneMessage() );
 }
 
@@ -207,7 +206,7 @@ void AutoBlock::messageFetched(QVariantMap const& result)
         QStringList added = m_helper.block(toProcess);
 
         if ( !added.isEmpty() ) {
-            m_persistance.showToast( tr("The following addresses were blocked: %1").arg( added.join(", ") ), "", "asset:///images/ic_blocked_user.png" );
+            m_persistance.showToast( tr("The following addresses were blocked: %1").arg( added.join(", ") ), "", "asset:///images/menu/ic_blocked_user.png" );
         } else {
             m_persistance.showToast( tr("The addresses could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!"), "", "asset:///images/tabs/ic_blocked.png" );
         }

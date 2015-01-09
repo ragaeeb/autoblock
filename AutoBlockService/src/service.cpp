@@ -11,18 +11,6 @@
 
 #define MAX_BODY_LENGTH 160
 
-namespace {
-
-QStringList createSkipKeywords()
-{
-    QStringList qsl;
-    qsl << "CREATE TABLE IF NOT EXISTS skip_keywords ( word TEXT PRIMARY KEY, CHECK(word <> '') )";
-    qsl << "INSERT OR IGNORE INTO skip_keywords (word) VALUES ('and'),('able'),('after'),('but'),('can'),('did'),('for'),('from'),('had'),('have'),('into'),('not'),('over'),('same'),('see'),('the'),('that'),('this'),('their'),('there'),('these'),('they'),('thing'),('this'),('was'),('will'),('with'),('would')";
-    return qsl;
-}
-
-}
-
 namespace autoblock {
 
 using namespace bb::pim::account;
@@ -36,17 +24,11 @@ using namespace canadainc;
 Service::Service(bb::Application* app) : QObject(app)
 {
     LogMonitor::create(SERVICE_KEY, SERVICE_LOG_FILE, this);
+    m_sql.setSource(DATABASE_PATH);
+
+    setup();
 
     connect( &m_invokeManager, SIGNAL( invoked(const bb::system::InvokeRequest&) ), this, SLOT( handleInvoke(const bb::system::InvokeRequest&) ) );
-
-    QString database = BlockUtils::databasePath();
-    m_sql.setSource(database);
-
-    QFile db(database);
-
-    if ( !db.exists() || db.size() == 0 ) {
-        setup();
-    }
 
 	connect( this, SIGNAL( initialize() ), this, SLOT( init() ), Qt::QueuedConnection ); // async startup
 	emit initialize();
@@ -60,21 +42,24 @@ void Service::setup(bool replace)
     qsl << "CREATE TABLE IF NOT EXISTS inbound_blacklist ( address TEXT PRIMARY KEY, count INTEGER DEFAULT 0, CHECK(address <> '') )";
     qsl << "CREATE TABLE IF NOT EXISTS inbound_keywords ( term TEXT PRIMARY KEY, count INTEGER DEFAULT 0, CHECK(term <> '') )";
     qsl << "CREATE TABLE IF NOT EXISTS outbound_blacklist ( address TEXT PRIMARY KEY, count INTEGER DEFAULT 0, CHECK(address <> '') )";
-    qsl << createSkipKeywords();
+    qsl << "CREATE TABLE IF NOT EXISTS skip_keywords ( word TEXT PRIMARY KEY, CHECK(word <> '') )";
+    qsl << "INSERT OR IGNORE INTO skip_keywords (word) VALUES ('and'),('able'),('after'),('but'),('can'),('did'),('for'),('from'),('had'),('have'),('into'),('not'),('over'),('same'),('see'),('the'),('that'),('this'),('their'),('there'),('these'),('they'),('thing'),('this'),('was'),('will'),('with'),('would')";
+    qsl << "DELETE FROM inbound_blacklist WHERE address IS NULL OR trim(address) = ''";
+    qsl << "DELETE FROM inbound_keywords WHERE term IS NULL OR trim(term) = ''";
 
-    if (replace) {
-        m_sql.initSetup(qsl, QueryId::Setup, QueryId::SettingUp);
-    } else {
-        m_sql.startTransaction(QueryId::SettingUp);
-
-        foreach (QString const& query, qsl) {
-            m_sql.execute(query, QueryId::SettingUp);
-        }
-
-        m_sql.execute("DELETE FROM inbound_blacklist WHERE address IS NULL OR trim(address) = ''", QueryId::SettingUp);
-        m_sql.execute("DELETE FROM inbound_keywords WHERE term IS NULL OR trim(term) = ''", QueryId::SettingUp);
-        m_sql.endTransaction(QueryId::Setup);
+    if ( !QFile::exists(DATABASE_PATH) )
+    {
+        bool result = IOUtils::writeFile(DATABASE_PATH);
+        LOGGER("WroteDatabase" << result);
     }
+
+    m_sql.startTransaction(QueryId::SettingUp);
+
+    foreach (QString const& query, qsl) {
+        m_sql.execute(query, QueryId::SettingUp);
+    }
+
+    m_sql.endTransaction(QueryId::Setup);
 }
 
 
@@ -89,22 +74,6 @@ void Service::init()
     }
 
     m_settingsWatcher.addPath( s.fileName() );
-
-    if ( !s.contains("v3.0") )
-    {
-        m_sql.startTransaction(QueryId::SettingUp);
-
-        QStringList keywords = createSkipKeywords();
-
-        foreach (QString const& query, keywords)
-        {
-            m_sql.setQuery(query);
-            m_sql.load(QueryId::SettingUp);
-        }
-
-        m_sql.endTransaction(QueryId::Setup);
-        s.setValue("v3.0", 1);
-    }
 
     connect( &m_sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ) );
     connect( &m_settingsWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( settingChanged(QString const&) ), Qt::QueuedConnection );
@@ -129,7 +98,7 @@ void Service::dataLoaded(int id, QVariant const& data)
         LOGGER("LookupKeyword");
         processKeywords( data.toList() );
     } else if (id == QueryId::Setup) {
-        IOUtils::writeFile( BlockUtils::setupFilePath() );
+        IOUtils::writeFile(SETUP_FILE_PATH);
     } else if (id == QueryId::LookupCaller) {
         processCalls( data.toList() );
     }

@@ -9,15 +9,6 @@
 
 namespace autoblock {
 
-QString BlockUtils::databasePath() {
-	return QString("%1/database.db").arg( QDir::homePath() );
-}
-
-QString BlockUtils::setupFilePath() {
-    return QString("%1/setup.log").arg( QDir::homePath() );
-}
-
-
 bool BlockUtils::moveToTrash(qint64 accountId, qint64 messageId, MessageService* ms, QMap<qint64, quint64>& accountToTrash)
 {
     quint64 trashFolderId = 0;

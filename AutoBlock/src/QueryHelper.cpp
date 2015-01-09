@@ -345,10 +345,10 @@ bool QueryHelper::checkDatabase(QString const& path)
     if ( ready() )
     {
         LOGGER("ready...");
-        m_sql->setSource( BlockUtils::databasePath() );
+        m_sql->setSource(DATABASE_PATH);
 
         m_updateWatcher.removePath( QDir::homePath() );
-        m_updateWatcher.addPath( BlockUtils::databasePath() );
+        m_updateWatcher.addPath(DATABASE_PATH);
 
         emit readyChanged();
 
@@ -389,7 +389,7 @@ void QueryHelper::setActive(bool active)
 
 
 bool QueryHelper::ready() const {
-    return QFile::exists( BlockUtils::setupFilePath() );
+    return QFile::exists(SETUP_FILE_PATH);
 }
 
 

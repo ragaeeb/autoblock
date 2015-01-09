@@ -4,10 +4,8 @@ Page
 {
     actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
     
-    titleBar: AboutTitleBar
-    {
+    titleBar: AboutTitleBar {
         id: atb
-        labelColor: 'Signature' in ActionBarPlacement ? Color.Black : Color.White
     }
     
     actions: [

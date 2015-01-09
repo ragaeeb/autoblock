@@ -162,9 +162,9 @@ QStringList QueryHelper::blockKeywords(QVariantList const& keywords)
 }
 
 
-QStringList QueryHelper::block(QVariantList const& addresses)
+QStringList QueryHelper::block(QVariantList const& messages)
 {
-    LOGGER( addresses.size() << addresses );
+    LOGGER( messages.size() );
 
     QStringList all;
     QVariantList numbers;
@@ -177,9 +177,9 @@ QStringList QueryHelper::block(QVariantList const& addresses)
 
     bool moveToTrash = m_persist->getValueFor("moveToTrash") == 1;
 
-    for (int i = addresses.size()-1; i >= 0; i--)
+    foreach (QVariant q, messages)
     {
-        QVariantMap current = addresses[i].toMap();
+        QVariantMap current = q.toMap();
         QString address = current.value("senderAddress").toString().toLower();
 
         if ( !address.trimmed().isEmpty() )
@@ -243,7 +243,7 @@ void QueryHelper::prepareTransaction(QString const& query, QVariantList const& e
 
     int remaining = chunk.size();
 
-    if (remaining < MAX_TRANSACTION_SIZE)
+    if (remaining > 0 && remaining < MAX_TRANSACTION_SIZE)
     {
         m_sql->setQuery( query.arg( getPlaceHolders(remaining) ) );
         m_sql->executePrepared(chunk, chunkId);

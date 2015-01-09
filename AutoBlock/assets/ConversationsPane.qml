@@ -477,6 +477,32 @@ NavigationPane
                     listView.multiSelectHandler.addAction(testKeywords);
                 }
             }
+        },
+        
+        ActionItem
+        {
+            id: insertRandom
+            title: qsTr("Insert Random") + Retranslate.onLanguageChanged
+            ActionBar.placement: 'Signature' in ActionBarPlacement ? ActionBarPlacement["Signature"] : ActionBarPlacement.OnBar
+            
+            onTriggered: {
+                console.log("UserEvent: InsertRandom");
+                
+                dm.clear();
+                var elements = [];
+                
+                for (var i = 0; i < 35; i++) {
+                    elements.push( {'sender': Math.random().toString(36).substring(7), 'senderAddress': Math.random().toString(36).substring(5)+"@gmail.com", 'subject': Math.random().toString(36).substring(7), 'time': new Date() } );
+                }
+
+                dm.append(elements);
+            }
+            
+            onCreationCompleted: {
+                if (reporter.isAdmin) {
+                    conversationsPage.addAction(insertRandom);
+                }
+            }
         }
     ]
 }

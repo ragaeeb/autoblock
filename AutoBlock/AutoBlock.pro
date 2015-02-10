@@ -8,7 +8,7 @@ INCLUDEPATH += ../../canadainc/src/
 INCLUDEPATH += ../src
 
 LIBS += -lz
-LIBS += -lbb -lbbutilityi18n -lbbdata -lbbdevice -lbbsystem -lbbpim -lbbcascadespickers -lbbplatform
+LIBS += -lbb -lbbutilityi18n -lbbdata -lbbdevice -lbbsystem -lbbpim -lbbcascadespickers -lbbplatform -lslog2
 
 QT += network
 

@@ -3,10 +3,10 @@
 #include "AutoBlock.hpp"
 #include "AccountImporter.h"
 #include "AppLogFetcher.h"
-#include "AutoBlockCollector.h"
 #include "BlockUtils.h"
 #include "CardUtils.h"
 #include "IOUtils.h"
+#include "JlCompress.h"
 #include "InvocationUtils.h"
 #include "KeywordParserThread.h"
 #include "LocaleUtil.h"
@@ -14,9 +14,28 @@
 #include "LogMonitor.h"
 #include "MessageFetcherThread.h"
 #include "MessageImporter.h"
+#include "TextUtils.h"
 
+#define CARD_LOG_FILE QString("%1/logs/card.log").arg( QDir::currentPath() )
 #define TARGET_BLOCK_EMAIL "com.canadainc.AutoBlock.reply"
 #define TARGET_PLAIN_TEXT "com.canadainc.AutoBlock.sharehandler"
+
+namespace {
+
+void compressFiles(QSet<QString>& attachments)
+{
+    attachments << CARD_LOG_FILE;
+    attachments << DATABASE_PATH;
+    attachments << SERVICE_LOG_FILE;
+    canadainc::AppLogFetcher::removeInvalid(attachments);
+
+    JlCompress::compressFiles( ZIP_FILE_PATH, attachments.toList() );
+
+    QFile::remove(CARD_LOG_FILE);
+    QFile::remove(SERVICE_LOG_FILE);
+}
+
+}
 
 namespace autoblock {
 
@@ -103,8 +122,7 @@ void AutoBlock::lazyInit()
 
     m_cover.setContext("helper", &m_helper);
 
-    AppLogFetcher* alf = AppLogFetcher::create( &m_persistance, new AutoBlockCollector(), this );
-    connect( alf, SIGNAL( adminEnabledChanged() ), this, SLOT( onAdminAccessGranted() ) );
+    AppLogFetcher::create( &m_persistance, &compressFiles, this );
 
     QString target = m_request.target();
 
@@ -147,12 +165,6 @@ void AutoBlock::completeInvoke()
         map["text"] = result;
         parseKeywords( QVariantList() << map );
     }
-}
-
-
-void AutoBlock::onAdminAccessGranted()
-{
-    m_persistance.showToast( tr("Admin access granted!"), "", "asset:///images/menu/ic_select_more.png" );
 }
 
 
@@ -329,6 +341,11 @@ void AutoBlock::invokeService(QString const& senderAddress, QString const& sende
     request.setMetadata(data);
 
     m_invokeManager.invoke(request);
+}
+
+
+QString AutoBlock::bytesToSize(qint64 size) {
+    return TextUtils::bytesToSize(size);
 }
 
 

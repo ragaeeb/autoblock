@@ -934,32 +934,27 @@ Check back in a few days.</source>
 <context>
     <name>autoblock::AutoBlock</name>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="155"/>
-        <source>Admin access granted!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/AutoBlock.cpp" line="165"/>
+        <location filename="../src/AutoBlock.cpp" line="177"/>
         <source>The following keywords were added: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="167"/>
+        <location filename="../src/AutoBlock.cpp" line="179"/>
         <source>The keyword(s) could not be added.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="209"/>
+        <location filename="../src/AutoBlock.cpp" line="221"/>
         <source>The following addresses were blocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="211"/>
+        <location filename="../src/AutoBlock.cpp" line="223"/>
         <source>The addresses could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="217"/>
+        <location filename="../src/AutoBlock.cpp" line="229"/>
         <source>Could not block the sender, this is due to a bug in BlackBerry OS 10.2.1. There are two ways around this problem:
 
 1) From the BlackBerry Hub, tap on the email to open it, tap on the menu icon (...) on the bottom-right, choose Share, and then choose Auto Block.
@@ -968,22 +963,22 @@ Check back in a few days.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="231"/>
+        <location filename="../src/AutoBlock.cpp" line="243"/>
         <source>Could not find any suspicious keywords in the message...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="311"/>
+        <location filename="../src/AutoBlock.cpp" line="323"/>
         <source>Successfully restored! The app will now close itself so when you re-open it the restored database can take effect!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="311"/>
+        <location filename="../src/AutoBlock.cpp" line="323"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="311"/>
+        <location filename="../src/AutoBlock.cpp" line="323"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>

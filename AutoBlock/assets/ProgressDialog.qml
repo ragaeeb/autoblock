@@ -57,7 +57,7 @@ FullScreenDialog
             text: qsTr("Downloading...") + Retranslate.onLanguageChanged
             
             function onDownloadProgress(cookie, received, total) {
-                text = mathUtil.bytesToSize(received);
+                text = app.bytesToSize(received);
             }
             
             function onStatusUpdate(value) {
@@ -68,12 +68,6 @@ FullScreenDialog
                 updater.downloadProgress.connect(onDownloadProgress);
                 updater.statusUpdate.connect(onStatusUpdate);
             }
-            
-            attachedObjects: [
-                MathUtil {
-                    id: mathUtil
-                }
-            ]
         }
     }
 }

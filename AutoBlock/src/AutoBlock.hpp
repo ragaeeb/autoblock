@@ -53,7 +53,6 @@ private slots:
 	void lazyInit();
 	void invoked(bb::system::InvokeRequest const& request);
     void messageFetched(QVariantMap const& result);
-    void onAdminAccessGranted();
     void onKeywordsExtracted(QVariantList const& keywords);
     void onKeywordsSelected(QVariant k);
     void onMessagesImported(QVariantList const& qvl);
@@ -78,6 +77,7 @@ public:
     Q_INVOKABLE QString renderStandardTime(QDateTime const& theTime);
     Q_INVOKABLE void forceSetup();
     Q_INVOKABLE void invokeService(QString const& senderAddress, QString const& senderName, QString const& body);
+    Q_INVOKABLE QString bytesToSize(qint64 size);
 };
 
 }

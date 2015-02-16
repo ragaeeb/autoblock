@@ -6,25 +6,11 @@
 #include "customsqldatasource.h"
 #include "Logger.h"
 #include "Persistance.h"
+#include "TextUtils.h"
 
 #define PLACEHOLDER "?"
 #define MAX_TRANSACTION_SIZE 50
 #define MAX_LOG_SIZE 300
-
-namespace {
-
-QString getPlaceHolders(int n)
-{
-    QStringList placeHolders;
-
-    for (int i = 0; i < n; i++) {
-        placeHolders << PLACEHOLDER;
-    }
-
-    return placeHolders.join("),(");
-}
-
-}
 
 namespace autoblock {
 
@@ -223,7 +209,7 @@ QStringList QueryHelper::block(QVariantList const& messages)
 
 void QueryHelper::prepareTransaction(QString const& query, QVariantList const& elements, QueryId::Type qid, QueryId::Type chunkId)
 {
-    static QString maxPlaceHolders = getPlaceHolders(MAX_TRANSACTION_SIZE);
+    static QString maxPlaceHolders = TextUtils::getPlaceHolders(MAX_TRANSACTION_SIZE);
 
     m_sql->startTransaction(chunkId);
 
@@ -245,7 +231,7 @@ void QueryHelper::prepareTransaction(QString const& query, QVariantList const& e
 
     if (remaining > 0 && remaining < MAX_TRANSACTION_SIZE)
     {
-        m_sql->setQuery( query.arg( getPlaceHolders(remaining) ) );
+        m_sql->setQuery( query.arg( TextUtils::getPlaceHolders(remaining) ) );
         m_sql->executePrepared(chunk, chunkId);
     }
 

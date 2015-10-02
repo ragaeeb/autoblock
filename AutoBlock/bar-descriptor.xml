@@ -179,6 +179,7 @@
     <asset path="../../canadainc/assets/PermissionToast.qml">assets/PermissionToast.qml</asset>
     <asset path="../../canadainc/assets/PersistCheckBox.qml">assets/PersistCheckBox.qml</asset>
     <asset path="../../canadainc/assets/ProgressDelegate.qml">assets/ProgressDelegate.qml</asset>
+    <asset path="../../canadainc/assets/TutorialTip.qml">assets/TutorialTip.qml</asset>
 
 	<!-- Locale support -->
 	<asset path="translations" dest="qm">

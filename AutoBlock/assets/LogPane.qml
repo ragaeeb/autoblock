@@ -5,6 +5,7 @@ import com.canadainc.data 1.0
 NavigationPane
 {
     id: navigationPane
+    property alias permissionToast: tm
 
     onPopTransitionEnded: {
         page.destroy();
@@ -188,38 +189,6 @@ NavigationPane
                 id: tm
                 horizontalAlignment: HorizontalAlignment.Right
                 verticalAlignment: VerticalAlignment.Center
-                
-                function onReady()
-                {
-                    var allMessages = [];
-                    var allIcons = [];
-                    
-                    if ( !persist.hasEmailSmsAccess() ) {
-                        allMessages.push("Warning: It seems like the app does not have access to your Email/SMS messages Folder. This permission is needed for the app to access the SMS and email services it needs to do the filtering of the spam messages. If you leave this permission off, some features may not work properly. Select the icon to launch the Application Permissions screen where you can turn these settings on.");
-                        allIcons.push("images/toast/no_email_access.png");
-                    }
-                    
-                    if ( !persist.hasSharedFolderAccess() ) {
-                        allMessages.push("Warning: It seems like the app does not have access to your Shared Folder. This permission is needed for the app to properly allow you to backup & restore the database. If you leave this permission off, some features may not work properly. Select the icon to launch the Application Permissions screen where you can turn these settings on.");
-                        allIcons.push("images/toast/no_shared_folder.png");
-                    }
-                    
-                    if ( !persist.hasPhoneControlAccess() ) {
-                        allMessages.push("Warning: It seems like the app does not have access to control your phone. This permission is needed for the app to access the phone service required to be able to block calls based on the incoming number. Select the icon to launch the Application Permissions screen where you can turn these settings on.");
-                        allIcons.push("images/toast/no_phone_control.png");
-                    }
-                    
-                    if (allMessages.length > 0)
-                    {
-                        messages = allMessages;
-                        icons = allIcons;
-                        delegateActive = true;
-                    }
-                }
-                
-                onCreationCompleted: {
-                    app.lazyInitComplete.connect(onReady);
-                }
             }
             
             attachedObjects: [

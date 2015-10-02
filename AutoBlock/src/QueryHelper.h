@@ -4,10 +4,10 @@
 #include <QStringList>
 #include <QFileSystemWatcher>
 
+#include "DatabaseHelper.h"
 #include "QueryId.h"
 
 namespace canadainc {
-	class CustomSqlDataSource;
 	class Persistance;
 }
 
@@ -29,7 +29,7 @@ class QueryHelper : public QObject
 	Q_OBJECT
 	Q_PROPERTY(bool ready READ ready NOTIFY readyChanged)
 
-	CustomSqlDataSource* m_sql;
+	DatabaseHelper m_sql;
 	Persistance* m_persist;
     MessageService* m_ms;
     qint64 m_lastUpdate;
@@ -41,15 +41,14 @@ class QueryHelper : public QObject
 
 private slots:
     void databaseUpdated(QString const& path);
-    void dataLoaded(int id, QVariant const& data);
-    void onError(QString const& errorMessage);
+    void onDataLoaded(QVariant id, QVariant data);
 
 Q_SIGNALS:
     void dataReady(int id, QVariant const& data);
     void readyChanged();
 
 public:
-	QueryHelper(CustomSqlDataSource* sql, Persistance* persist);
+	QueryHelper(Persistance* persist);
 	virtual ~QueryHelper();
 
     Q_INVOKABLE void clearBlockedKeywords();
@@ -72,6 +71,8 @@ public:
 
     void attachReportedDatabase(QString const& tempDatabase);
     Persistance* getPersist();
+
+    void lazyInit();
 };
 
 } /* namespace autoblock */

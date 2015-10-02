@@ -4,8 +4,9 @@
 #include <bb/system/CardDoneMessage>
 #include <bb/system/InvokeManager>
 
-#include "customsqldatasource.h"
+#include "DeviceUtils.h"
 #include "LazySceneCover.h"
+#include "Offloader.h"
 #include "PaymentHelper.h"
 #include "Persistance.h"
 #include "QueryHelper.h"
@@ -24,6 +25,7 @@ namespace canadainc {
 namespace autoblock {
 
 using namespace bb::cascades;
+using namespace bb::system;
 using namespace canadainc;
 
 class AutoBlock : public QObject
@@ -31,7 +33,6 @@ class AutoBlock : public QObject
     Q_OBJECT
 
     LazySceneCover m_cover;
-    CustomSqlDataSource m_sql;
     Persistance m_persistance;
     QueryHelper m_helper;
     bb::system::InvokeManager m_invokeManager;
@@ -40,8 +41,9 @@ class AutoBlock : public QObject
     PaymentHelper m_payment;
     QObject* m_root;
     bb::system::InvokeRequest m_request;
+    Offloader m_offloader;
+    DeviceUtils m_device;
 
-    AutoBlock(Application *app);
     void finishWithToast(QString const& message);
     void initRoot(QString const& qml="main.qml");
     void parseKeywords(QVariantList const& toProcess);
@@ -67,14 +69,13 @@ Q_SIGNALS:
     void messagesImported(QVariantList const& qvl);
 
 public:
-	static void create(Application *app);
+    AutoBlock(InvokeManager* i);
     virtual ~AutoBlock();
     bool accountSelected();
     Q_INVOKABLE void extractKeywords(QVariantList const& messages);
     Q_INVOKABLE void loadAccounts();
     Q_INVOKABLE void loadMessages(qint64 accountId);
     Q_SLOT void exitAfterRestore();
-    Q_INVOKABLE QString renderStandardTime(QDateTime const& theTime);
     Q_INVOKABLE void forceSetup();
     Q_INVOKABLE void invokeService(QString const& senderAddress, QString const& senderName, QString const& body);
     Q_INVOKABLE QString bytesToSize(qint64 size);

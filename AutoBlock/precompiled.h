@@ -14,3 +14,5 @@
 #include <bb/data/JsonDataAccess>
 
 #include <bb/system/InvokeManager>
+
+#include <bb/utility/i18n/Formatting>

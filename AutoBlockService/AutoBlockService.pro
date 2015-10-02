@@ -3,7 +3,7 @@ APP_NAME = AutoBlockService
 CONFIG += qt warn_on
 INCLUDEPATH += ../src ../../../canadainc/src/ ../../autoblocklib/src/
 QT += declarative
-LIBS += -lbb -lbbdata -lbbsystem -lbbplatform -lbbmultimedia -lbbpim -lbbdevice -lQtSql -lQtXml -lQtNetwork -lQtCore
+LIBS += -lbb -lbbdata -lbbsystem -lbbplatform -lbbmultimedia -lbbpim -lbbdevice -lQtSql -lQtXml -lQtNetwork -lQtCore -lslog2
 
 CONFIG(release, debug|release) {
     DESTDIR = o.le-v7

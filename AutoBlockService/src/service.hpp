@@ -2,6 +2,7 @@
 #define SERVICE_H_
 
 #include <QFileSystemWatcher>
+
 #include <bb/system/InvokeManager>
 #include <bb/system/phone/Phone>
 #include <bb/pim/message/MessageService>
@@ -46,6 +47,7 @@ class Service: public QObject
 	CustomSqlDataSource m_sql;
 	PendingQueue m_queue;
 	QMap<qint64, quint64> m_accountToTrash;
+	QSettings m_settings;
 
     void forceDelete(Message const& m);
 	void processSenders(QVariantList result);
@@ -63,13 +65,14 @@ private slots:
 	void handleInvoke(const bb::system::InvokeRequest &);
 	void init();
 	void messageAdded(bb::pim::account::AccountKey, bb::pim::message::ConversationKey, bb::pim::message::MessageKey);
-	void settingChanged(QString const& key=QString());
+	void settingChanged(QString const& path=QString());
 
 Q_SIGNALS:
 	void initialize();
 
 public:
 	Service(bb::Application* app);
+	virtual ~Service();
 };
 
 }

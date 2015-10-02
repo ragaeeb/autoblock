@@ -16,40 +16,40 @@ namespace autoblock {
 
 using namespace canadainc;
 
-QueryHelper::QueryHelper(CustomSqlDataSource* sql, Persistance* persist) :
-        m_sql(sql), m_persist(persist), m_ms(NULL),
+QueryHelper::QueryHelper(Persistance* persist) :
+        m_sql(DATABASE_PATH), m_persist(persist), m_ms(NULL),
         m_lastUpdate( QDateTime::currentMSecsSinceEpoch() ),
         m_logSearchMode(false)
 {
-    connect( sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ) );
-    connect( sql, SIGNAL( error(QString const&) ), this, SLOT( onError(QString const&) ) );
-    connect( &m_updateWatcher, SIGNAL( directoryChanged(QString const&) ), this, SLOT( checkDatabase(QString const&) ) );
-    setActive(true);
 }
 
 
-void QueryHelper::onError(QString const& errorMessage)
-{
-    LOGGER(errorMessage);
 
-#if defined(QT_NO_DEBUG)
-    AppLogFetcher::getInstance()->submitLogs("[AutoBlock]: queryError");
+void QueryHelper::lazyInit()
+{
+    connect( &m_updateWatcher, SIGNAL( directoryChanged(QString const&) ), this, SLOT( checkDatabase(QString const&) ) );
+    setActive(true);
+
+#ifdef DEBUG_RELEASE
+    connect( &m_sql, SIGNAL( error(QString const&) ), AppLogFetcher::getInstance(), SLOT( onError(QString const&) ) );
+#else
+    connect( &m_sql, SIGNAL( error(QString const&) ), &m_persist, SLOT( onError(QString const&) ) );
 #endif
 }
 
 
-void QueryHelper::dataLoaded(int id, QVariant const& data)
+void QueryHelper::onDataLoaded(QVariant idV, QVariant data)
 {
+    int id = idV.toInt();
+
     LOGGER(id/* << data*/);
 
     if (id == QueryId::UnblockKeywords || id == QueryId::BlockKeywords) {
         fetchAllBlockedKeywords();
     } else if (id == QueryId::AttachReportedDatabase) {
-        m_sql->setQuery("SELECT address AS value FROM reported_addresses");
-        m_sql->load(QueryId::FetchAllReported);
+        m_sql.executeQuery(this, "SELECT address AS value FROM reported_addresses", QueryId::FetchAllReported);
     } else if (id == QueryId::FetchAllReported) {
-        m_sql->setQuery("DETACH DATABASE reported");
-        m_sql->load(QueryId::DetachReportedDatabase);
+        m_sql.executeQuery(this, "DETACH DATABASE reported", QueryId::DetachReportedDatabase);
         emit dataReady(id, data);
     } else {
         if (id == QueryId::UnblockSenders || id == QueryId::BlockSenders) {
@@ -64,11 +64,9 @@ void QueryHelper::dataLoaded(int id, QVariant const& data)
 void QueryHelper::fetchAllBlockedKeywords(QString const& filter)
 {
     if ( filter.isNull() ) {
-        m_sql->setQuery("SELECT term,count FROM inbound_keywords ORDER BY term");
-        m_sql->load(QueryId::FetchBlockedKeywords);
+        m_sql.executeQuery(this, "SELECT term,count FROM inbound_keywords ORDER BY term", QueryId::FetchBlockedKeywords);
     } else {
-        m_sql->setQuery("SELECT term,count FROM inbound_keywords WHERE term LIKE '%' || ? || '%' ORDER BY term");
-        m_sql->executePrepared( QVariantList() << filter, QueryId::FetchBlockedKeywords );
+        m_sql.executeQuery(this, "SELECT term,count FROM inbound_keywords WHERE term LIKE '%' || ? || '%' ORDER BY term", QueryId::FetchBlockedKeywords, QVariantList() << filter);
     }
 }
 
@@ -76,11 +74,9 @@ void QueryHelper::fetchAllBlockedKeywords(QString const& filter)
 void QueryHelper::fetchExcludedWords(QString const& filter)
 {
     if ( filter.isNull() ) {
-        m_sql->setQuery("SELECT word FROM skip_keywords ORDER BY word");
-        m_sql->load(QueryId::FetchExcludedWords);
+        m_sql.executeQuery(this, "SELECT word FROM skip_keywords ORDER BY word", QueryId::FetchExcludedWords);
     } else {
-        m_sql->setQuery("SELECT word FROM skip_keywords WHERE word LIKE '%' || ? || '%' ORDER BY word");
-        m_sql->executePrepared( QVariantList() << filter, QueryId::FetchExcludedWords );
+        m_sql.executeQuery(this, "SELECT word FROM skip_keywords WHERE word LIKE '%' || ? || '%' ORDER BY word", QueryId::FetchExcludedWords, QVariantList() << filter);
     }
 }
 
@@ -88,40 +84,30 @@ void QueryHelper::fetchExcludedWords(QString const& filter)
 void QueryHelper::fetchAllBlockedSenders(QString const& filter)
 {
     if ( filter.isNull() ) {
-        m_sql->setQuery("SELECT address,count FROM inbound_blacklist ORDER BY address");
-        m_sql->load(QueryId::FetchBlockedSenders);
+        m_sql.executeQuery(this, "SELECT address,count FROM inbound_blacklist ORDER BY address", QueryId::FetchBlockedSenders);
     } else {
-        m_sql->setQuery("SELECT address,count FROM inbound_blacklist WHERE address LIKE '%' || ? || '%' ORDER BY address");
-        m_sql->executePrepared( QVariantList() << filter, QueryId::FetchBlockedSenders );
+        m_sql.executeQuery(this, "SELECT address,count FROM inbound_blacklist WHERE address LIKE '%' || ? || '%' ORDER BY address", QueryId::FetchBlockedSenders, QVariantList() << filter);
     }
 }
 
 
-void QueryHelper::clearBlockedSenders()
-{
-    m_sql->setQuery("DELETE FROM inbound_blacklist");
-    m_sql->load(QueryId::UnblockSenders);
+void QueryHelper::clearBlockedSenders() {
+    m_sql.executeClear(this, "inbound_blacklist", QueryId::UnblockSenders);
 }
 
 
-void QueryHelper::clearBlockedKeywords()
-{
-    m_sql->setQuery("DELETE FROM inbound_keywords");
-    m_sql->load(QueryId::UnblockKeywords);
+void QueryHelper::clearBlockedKeywords() {
+    m_sql.executeClear(this, "inbound_keywords", QueryId::UnblockKeywords);
 }
 
 
-void QueryHelper::cleanInvalidEntries()
-{
-    m_sql->setQuery("DELETE FROM inbound_blacklist WHERE address IS NULL OR trim(address) = ''");
-    m_sql->load(QueryId::UnblockKeywords);
+void QueryHelper::cleanInvalidEntries() {
+    m_sql.executeQuery(this, "DELETE FROM inbound_blacklist WHERE address IS NULL OR trim(address) = ''", QueryId::UnblockKeywords);
 }
 
 
-void QueryHelper::clearLogs()
-{
-    m_sql->setQuery("DELETE FROM logs");
-    m_sql->load(QueryId::ClearLogs);
+void QueryHelper::clearLogs() {
+    m_sql.executeClear(this, "logs", QueryId::ClearLogs);
 }
 
 
@@ -209,9 +195,9 @@ QStringList QueryHelper::block(QVariantList const& messages)
 
 void QueryHelper::prepareTransaction(QString const& query, QVariantList const& elements, QueryId::Type qid, QueryId::Type chunkId)
 {
-    static QString maxPlaceHolders = TextUtils::getPlaceHolders(MAX_TRANSACTION_SIZE);
+    QString maxPlaceHolders = DatabaseHelper::getPlaceHolders(MAX_TRANSACTION_SIZE);
 
-    m_sql->startTransaction(chunkId);
+    m_sql.startTransaction(this, chunkId);
 
     QVariantList chunk;
 
@@ -221,21 +207,18 @@ void QueryHelper::prepareTransaction(QString const& query, QVariantList const& e
 
         if ( chunk.size() >= MAX_TRANSACTION_SIZE )
         {
-            m_sql->setQuery( query.arg(maxPlaceHolders) );
-            m_sql->executePrepared(chunk, chunkId);
+            m_sql.executeQuery( this, query.arg(maxPlaceHolders), chunkId, chunk );
             chunk.clear();
         }
     }
 
     int remaining = chunk.size();
 
-    if (remaining > 0 && remaining < MAX_TRANSACTION_SIZE)
-    {
-        m_sql->setQuery( query.arg( TextUtils::getPlaceHolders(remaining) ) );
-        m_sql->executePrepared(chunk, chunkId);
+    if (remaining > 0 && remaining < MAX_TRANSACTION_SIZE) {
+        m_sql.executeQuery( this, query.arg( DatabaseHelper::getPlaceHolders(remaining) ), chunkId, chunk );
     }
 
-    m_sql->endTransaction(qid);
+    m_sql.endTransaction(this, qid);
 }
 
 
@@ -255,8 +238,7 @@ QStringList QueryHelper::unblockKeywords(QVariantList const& keywords)
         placeHolders << PLACEHOLDER;
     }
 
-    m_sql->setQuery( QString("DELETE FROM inbound_keywords WHERE term IN (%1)").arg( placeHolders.join(",") ) );
-    m_sql->executePrepared(keywordsVariants, QueryId::UnblockKeywords);
+    m_sql.executeQuery( this, QString("DELETE FROM inbound_keywords WHERE term IN (%1)").arg( placeHolders.join(",") ), QueryId::UnblockKeywords, keywordsVariants);
 
     return keywordsList;
 }
@@ -278,8 +260,7 @@ QStringList QueryHelper::unblock(QVariantList const& senders)
         placeHolders << PLACEHOLDER;
     }
 
-    m_sql->setQuery( QString("DELETE FROM inbound_blacklist WHERE address IN (%1)").arg( placeHolders.join(",") ) );
-    m_sql->executePrepared(keywordsVariants, QueryId::UnblockSenders);
+    m_sql.executeQuery(this, QString("DELETE FROM inbound_blacklist WHERE address IN (%1)").arg( placeHolders.join(",") ), QueryId::UnblockSenders, keywordsVariants);
 
     return keywordsList;
 }
@@ -294,19 +275,15 @@ void QueryHelper::fetchAllLogs(QString const& filter)
     {
         m_lastUpdate = QDateTime::currentMSecsSinceEpoch();
 
-        m_sql->setQuery("SELECT address,message,timestamp FROM logs ORDER BY timestamp DESC");
-        m_sql->load(QueryId::FetchAllLogs);
+        m_sql.executeQuery(this, "SELECT address,message,timestamp FROM logs ORDER BY timestamp DESC", QueryId::FetchAllLogs);
     } else {
-        m_sql->setQuery("SELECT address,message,timestamp FROM logs WHERE address LIKE '%' || ? || '%' ORDER BY timestamp DESC");
-        m_sql->executePrepared( QVariantList() << filter, QueryId::FetchAllLogs );
+        m_sql.executeQuery( this, "SELECT address,message,timestamp FROM logs WHERE address LIKE '%' || ? || '%' ORDER BY timestamp DESC", QueryId::FetchAllLogs, QVariantList() << filter );
     }
 }
 
 
-void QueryHelper::attachReportedDatabase(QString const& tempDatabase)
-{
-    m_sql->setQuery( QString("ATTACH DATABASE '%1' AS reported").arg(tempDatabase) );
-    m_sql->load(QueryId::AttachReportedDatabase);
+void QueryHelper::attachReportedDatabase(QString const& tempDatabase) {
+    m_sql.executeQuery( this, QString("ATTACH DATABASE '%1' AS reported").arg(tempDatabase), QueryId::AttachReportedDatabase );
 }
 
 
@@ -314,9 +291,7 @@ void QueryHelper::fetchLatestLogs()
 {
     if (!m_logSearchMode)
     {
-        m_sql->setQuery( QString("SELECT address,message,timestamp FROM logs WHERE timestamp > %1 ORDER BY timestamp").arg(m_lastUpdate) );
-        m_sql->load(QueryId::FetchLatestLogs);
-
+        m_sql.executeQuery( this, QString("SELECT address,message,timestamp FROM logs WHERE timestamp > %1 ORDER BY timestamp").arg(m_lastUpdate), QueryId::FetchLatestLogs );
         m_lastUpdate = QDateTime::currentMSecsSinceEpoch();
     }
 }
@@ -331,8 +306,6 @@ bool QueryHelper::checkDatabase(QString const& path)
     if ( ready() )
     {
         LOGGER("ready...");
-        m_sql->setSource(DATABASE_PATH);
-
         m_updateWatcher.removePath( QDir::homePath() );
         m_updateWatcher.addPath(DATABASE_PATH);
 
@@ -348,10 +321,8 @@ bool QueryHelper::checkDatabase(QString const& path)
 }
 
 
-void QueryHelper::optimize()
-{
-    m_sql->setQuery("VACUUM");
-    m_sql->load(QueryId::Optimize);
+void QueryHelper::optimize() {
+    m_sql.executeQuery(this, "VACUUM", QueryId::Optimize);
 }
 
 

@@ -14,7 +14,13 @@ TabbedPane
         settings.imageSource: "images/menu/ic_settings.png"
         settings.title: qsTr("Settings") + Retranslate.onLanguageChanged
         projectName: "autoblock"
-        showServiceLogging: true
+        bbWorldID: "25793872"
+        
+        onFinished: {
+            if ( persist.getValueFor("startAtConversations") == 1 ) {
+                activeTab = conversationsTab;
+            }
+        }
     }
     
     Tab
@@ -105,16 +111,5 @@ TabbedPane
         onTriggered: {
             console.log("UserEvent: KeywordsTabTriggered");
         }
-    }
-    
-    function onReady()
-    {
-        if ( persist.getValueFor("startAtConversations") == 1 ) {
-            activeTab = conversationsTab;
-        }
-    }
-    
-    onCreationCompleted: {
-        app.lazyInitComplete.connect(onReady);
     }
 }

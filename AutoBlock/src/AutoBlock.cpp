@@ -11,66 +11,48 @@
 #include "KeywordParserThread.h"
 #include "LocaleUtil.h"
 #include "Logger.h"
-#include "LogMonitor.h"
 #include "MessageFetcherThread.h"
 #include "MessageImporter.h"
 #include "TextUtils.h"
+#include "ThreadUtils.h"
 
-#define CARD_LOG_FILE QString("%1/logs/card.log").arg( QDir::currentPath() )
 #define TARGET_BLOCK_EMAIL "com.canadainc.AutoBlock.reply"
 #define TARGET_PLAIN_TEXT "com.canadainc.AutoBlock.sharehandler"
-
-namespace {
-
-void compressFiles(QSet<QString>& attachments)
-{
-    attachments << CARD_LOG_FILE;
-    attachments << DATABASE_PATH;
-    attachments << SERVICE_LOG_FILE;
-    canadainc::AppLogFetcher::removeInvalid(attachments);
-
-    JlCompress::compressFiles( ZIP_FILE_PATH, attachments.toList() );
-
-    QFile::remove(CARD_LOG_FILE);
-    QFile::remove(SERVICE_LOG_FILE);
-}
-
-}
 
 namespace autoblock {
 
 using namespace bb::cascades;
+using namespace bb::system;
 using namespace canadainc;
 
-AutoBlock::AutoBlock(Application* app) :
-        QObject(app), m_cover("Cover.qml"),
-        m_helper(&m_sql, &m_persistance), m_importer(NULL), m_update(&m_helper), m_payment(&m_persistance), m_root(NULL)
+AutoBlock::AutoBlock(InvokeManager* i) :
+        m_cover( i->startupMode() != ApplicationStartupMode::InvokeCard, this ),
+        m_persistance(i),
+        m_helper(&m_persistance), m_importer(NULL), m_update(&m_helper),
+        m_payment(&m_persistance), m_root(NULL)
 {
-    INIT_SETTING(CARD_KEY, true);
-    INIT_SETTING(UI_KEY, true);
-    INIT_SETTING(SERVICE_KEY, false);
-    INIT_SETTING("days", 7);
-
     switch ( m_invokeManager.startupMode() )
     {
     case ApplicationStartupMode::InvokeCard:
-        LogMonitor::create(CARD_KEY, CARD_LOG_FILE, this);
-        connect( &m_invokeManager, SIGNAL( cardPooled(bb::system::CardDoneMessage const&) ), app, SLOT( quit() ) );
-        connect( &m_invokeManager, SIGNAL( childCardDone(bb::system::CardDoneMessage const&) ), this, SLOT( childCardDone(bb::system::CardDoneMessage const&) ) );
-        connect( &m_invokeManager, SIGNAL( invoked(bb::system::InvokeRequest const&) ), this, SLOT( invoked(bb::system::InvokeRequest const&) ) );
+        connect( i, SIGNAL( cardPooled(bb::system::CardDoneMessage const&) ), QCoreApplication::instance(), SLOT( quit() ) );
+        connect( i, SIGNAL( invoked(bb::system::InvokeRequest const&) ), this, SLOT( invoked(bb::system::InvokeRequest const&) ) );
         break;
 
     default:
-        LogMonitor::create(UI_KEY, UI_LOG_FILE, this);
         initRoot();
         break;
     }
+
+    connect( &m_invokeManager, SIGNAL( childCardDone(bb::system::CardDoneMessage const&) ), this, SLOT( childCardDone(bb::system::CardDoneMessage const&) ) );
 }
 
 
 void AutoBlock::initRoot(QString const& qmlDoc)
 {
     qmlRegisterUncreatableType<QueryId>("com.canadainc.data", 1, 0, "QueryId", "Can't instantiate");
+
+    QDeclarativeContext* rootContext = QmlDocument::defaultDeclarativeEngine()->rootContext();
+    rootContext->setContextProperty("offloader", &m_offloader );
 
     QMap<QString, QObject*> context;
     context.insert("helper", &m_helper);
@@ -106,40 +88,26 @@ void AutoBlock::invoked(bb::system::InvokeRequest const& request)
 
 void AutoBlock::lazyInit()
 {
+    disconnect( this, SIGNAL( initialize() ), this, SLOT( lazyInit() ) ); // in case we get invoked again
+    connect( Application::instance(), SIGNAL( aboutToQuit() ), this, SLOT( terminateThreads() ) );
+
     INIT_SETTING("keywordThreshold", 3);
     INIT_SETTING("whitelistContacts", 1);
 
-    qmlRegisterType<bb::cascades::pickers::FilePicker>("bb.cascades.pickers", 1, 0, "FilePicker");
-    qmlRegisterUncreatableType<bb::cascades::pickers::FileType>("bb.cascades.pickers", 1, 0, "FileType", "Can't instantiate");
-    qmlRegisterUncreatableType<bb::cascades::pickers::FilePickerMode>("bb.cascades.pickers", 1, 0, "FilePickerMode", "Can't instantiate");
+    AppLogFetcher::create( &m_persistance, &ThreadUtils::compressFiles, this );
 
-    InvokeRequest request;
-    request.setTarget("com.canadainc.AutoBlockService");
-    request.setAction("com.canadainc.AutoBlockService.RESET");
-    m_invokeManager.invoke(request);
-
-    connect( Application::instance(), SIGNAL( aboutToQuit() ), this, SLOT( terminateThreads() ) );
-
+    m_persistance.invoke("com.canadainc.AutoBlockService", "com.canadainc.AutoBlockService.RESET");
     m_cover.setContext("helper", &m_helper);
-
-    AppLogFetcher::create( &m_persistance, &compressFiles, this );
-
-    QString target = m_request.target();
-
-    if ( !target.isNull() )
-    {
-        bool ready = m_helper.checkDatabase();
-
-        if (ready) {
-            completeInvoke();
-        } else {
-            connect( &m_helper, SIGNAL( readyChanged() ), this, SLOT( completeInvoke() ) );
-        }
-    }
 
     QmlDocument* qml = QmlDocument::create("asset:///NotificationToast.qml").parent(this);
     QObject* toast = qml->createRootObject<QObject>();
     QmlDocument::defaultDeclarativeEngine()->rootContext()->setContextProperty("tutorialToast", toast);
+
+    DeviceUtils::registerTutorialTips(this);
+
+    if ( !m_helper.checkDatabase() ) {
+        connect( &m_helper, SIGNAL( readyChanged() ), this, SLOT( completeInvoke() ) );
+    }
 
     emit lazyInitComplete();
 }
@@ -183,7 +151,7 @@ void AutoBlock::onKeywordsSelected(QVariant k)
 
 void AutoBlock::finishWithToast(QString const& message)
 {
-    m_persistance.showBlockingToast( message, "", "asset:///images/ic_steps.png" );
+    m_persistance.showBlockingDialog( tr("Auto Block"), message, tr("OK"), "" );
     m_invokeManager.sendCardDone( CardDoneMessage() );
 }
 
@@ -218,15 +186,15 @@ void AutoBlock::messageFetched(QVariantMap const& result)
         QStringList added = m_helper.block(toProcess);
 
         if ( !added.isEmpty() ) {
-            m_persistance.showToast( tr("The following addresses were blocked: %1").arg( added.join(", ") ), "", "asset:///images/menu/ic_blocked_user.png" );
+            m_persistance.showToast( tr("The following addresses were blocked: %1").arg( added.join(", ") ), "asset:///images/menu/ic_blocked_user.png" );
         } else {
-            m_persistance.showToast( tr("The addresses could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!"), "", "asset:///images/tabs/ic_blocked.png" );
+            m_persistance.showToast( tr("The addresses could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!"), "asset:///images/tabs/ic_blocked.png" );
         }
 
         parseKeywords(toProcess);
     } else {
         LOGGER("[FAILEDHUBBLOCK]");
-        m_persistance.showToast( tr("Could not block the sender, this is due to a bug in BlackBerry OS 10.2.1. There are two ways around this problem:\n\n1) From the BlackBerry Hub, tap on the email to open it, tap on the menu icon (...) on the bottom-right, choose Share, and then choose Auto Block.\n\n2) Open the app and block the message from the Conversations tab."), "", "asset:///images/ic_pim_warning.png" );
+        m_persistance.showToast( tr("Could not block the sender, this is due to a bug in BlackBerry OS 10.2.1. There are two ways around this problem:\n\n1) From the BlackBerry Hub, tap on the email to open it, tap on the menu icon (...) on the bottom-right, choose Share, and then choose Auto Block.\n\n2) Open the app and block the message from the Conversations tab."), "asset:///images/ic_pim_warning.png" );
     }
 }
 
@@ -250,11 +218,6 @@ void AutoBlock::terminateThreads()
     if (m_importer) {
         m_importer->cancel();
     }
-}
-
-
-void AutoBlock::create(Application* app) {
-	new AutoBlock(app);
 }
 
 
@@ -298,12 +261,10 @@ void AutoBlock::extractKeywords(QVariantList const& messages)
 void AutoBlock::childCardDone(bb::system::CardDoneMessage const& message)
 {
     LOGGER( message.reason() );
-    m_invokeManager.sendCardDone(message);
-}
 
-
-QString AutoBlock::renderStandardTime(QDateTime const& theTime) {
-    return LocaleUtil::renderStandardTime(theTime);
+    if ( !message.data().isEmpty() ) {
+        m_persistance.invokeManager()->sendCardDone(message);
+    }
 }
 
 

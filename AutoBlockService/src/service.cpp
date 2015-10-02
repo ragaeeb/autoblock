@@ -4,7 +4,6 @@
 #include "BlockUtils.h"
 #include "IOUtils.h"
 #include "Logger.h"
-#include "LogMonitor.h"
 #include "PimUtil.h"
 
 #include "bbndk.h"
@@ -23,13 +22,6 @@ using namespace canadainc;
 
 Service::Service(bb::Application* app) : QObject(app)
 {
-    LogMonitor::create(SERVICE_KEY, SERVICE_LOG_FILE, this);
-    m_sql.setSource(DATABASE_PATH);
-
-    setup();
-
-    connect( &m_invokeManager, SIGNAL( invoked(const bb::system::InvokeRequest&) ), this, SLOT( handleInvoke(const bb::system::InvokeRequest&) ) );
-
 	connect( this, SIGNAL( initialize() ), this, SLOT( init() ), Qt::QueuedConnection ); // async startup
 	emit initialize();
 }
@@ -65,21 +57,23 @@ void Service::setup(bool replace)
 
 void Service::init()
 {
-    QSettings s;
+    m_sql.setSource(DATABASE_PATH);
 
-    if ( !QFile::exists( s.fileName() ) )
+    if ( !QFile::exists( m_settings.fileName() ) )
     {
-        s.setValue( "init", QDateTime::currentMSecsSinceEpoch() );
-        s.sync();
+        m_settings.setValue("days", 7);
+        m_settings.sync();
     }
 
-    m_settingsWatcher.addPath( s.fileName() );
+    m_settingsWatcher.addPath( m_settings.fileName() );
 
+    connect( &m_invokeManager, SIGNAL( invoked(const bb::system::InvokeRequest&) ), this, SLOT( handleInvoke(const bb::system::InvokeRequest&) ) );
     connect( &m_sql, SIGNAL( dataLoaded(int, QVariant const&) ), this, SLOT( dataLoaded(int, QVariant const&) ) );
     connect( &m_settingsWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( settingChanged(QString const&) ), Qt::QueuedConnection );
     connect( &m_manager, SIGNAL( messageAdded(bb::pim::account::AccountKey, bb::pim::message::ConversationKey, bb::pim::message::MessageKey) ), this, SLOT( messageAdded(bb::pim::account::AccountKey, bb::pim::message::ConversationKey, bb::pim::message::MessageKey) ) );
     connect( &m_phone, SIGNAL( callUpdated(const bb::system::phone::Call&) ), this, SLOT( callUpdated(const bb::system::phone::Call&) ) );
 
+    setup();
 	settingChanged();
 
     Notification::clearEffectsForAll();
@@ -126,12 +120,12 @@ void Service::processKeywords(QVariantList result)
 void Service::processCalls(QVariantList result)
 {
     LOGGER( result.size() << m_queue.callQueue.size() );
-#if BBNDK_VERSION_AT_LEAST(10,3,0)
+
     if ( !m_queue.callQueue.isEmpty() )
     {
         Call c = m_queue.callQueue.dequeue();
         m_queue.phoneToPending.remove( c.phoneNumber() );
-        LOGGER("CallSpamMached");
+        LOGGER("CallSpamMatched");
 
         if ( !result.isEmpty() )
         {
@@ -141,7 +135,6 @@ void Service::processCalls(QVariantList result)
             updateCount(result, "address", "inbound_blacklist", QueryId::BlockSenders);
         }
     }
-#endif
 }
 
 
@@ -271,17 +264,18 @@ void Service::processSenders(QVariantList result)
 
 void Service::settingChanged(QString const& path)
 {
-    Q_UNUSED(path);
+    if ( !path.isEmpty() ) {
+        m_settings.sync();
+    }
 
-	QSettings q;
-	m_options.blockStrangers = q.value("blockStrangers").toInt() == 1;
-	m_options.ignorePunctuation = q.value("ignorePunctuation").toInt() == 1;
-	m_options.moveToTrash = q.value("moveToTrash").toInt() == 1;
-	m_options.scanName = q.value("scanName").toInt() == 1;
-	m_options.scanAddress = q.value("scanAddress").toInt() == 1;
-    m_options.sound = q.value("sound").toInt() == 1;
-    m_options.threshold = q.value("keywordThreshold").toInt();
-    m_options.whitelistContacts = q.value("whitelistContacts").toInt() == 1;
+	m_options.blockStrangers = m_settings.value("blockStrangers").toInt() == 1;
+	m_options.ignorePunctuation = m_settings.value("ignorePunctuation").toInt() == 1;
+	m_options.moveToTrash = m_settings.value("moveToTrash").toInt() == 1;
+	m_options.scanName = m_settings.value("scanName").toInt() == 1;
+	m_options.scanAddress = m_settings.value("scanAddress").toInt() == 1;
+    m_options.sound = m_settings.value("sound").toInt() == 1;
+    m_options.threshold = m_settings.value("keywordThreshold").toInt();
+    m_options.whitelistContacts = m_settings.value("whitelistContacts").toInt() == 1;
 }
 
 
@@ -301,12 +295,13 @@ void Service::handleInvoke(bb::system::InvokeRequest const& request)
             QVariantMap data = request.metadata();
             LOGGER("Testing" << data);
 
+            QDateTime now = QDateTime::currentDateTime();
             QString body = data["body"].toString();
 
             MessageBuilder* mb = MessageBuilder::create( AccountService().defaultAccount(bb::pim::account::Service::Messages).id() );
             mb->inbound(true);
-            mb->deviceTimestamp( QDateTime::currentDateTime() );
-            mb->serverTimestamp( QDateTime::currentDateTime() );
+            mb->deviceTimestamp(now);
+            mb->serverTimestamp(now);
             mb->subject(body);
             mb->body( MessageBody::PlainText, body.toAscii() );
             mb->sender( MessageContact( 0, MessageContact::From, data["name"].toString(), data["address"].toString() ) );
@@ -319,8 +314,6 @@ void Service::handleInvoke(bb::system::InvokeRequest const& request)
 
 void Service::callUpdated(bb::system::phone::Call const& call)
 {
-#if BBNDK_VERSION_AT_LEAST(10,3,0)
-
     int callId = call.callId();
     QString phoneNumber = call.phoneNumber();
     CallType::Type t = call.callType();
@@ -340,9 +333,6 @@ void Service::callUpdated(bb::system::phone::Call const& call)
             m_sql.load(QueryId::LookupCaller);
         }
     }
-#else
-    Q_UNUSED(call);
-#endif
 }
 
 
@@ -382,6 +372,11 @@ void Service::process(Message const& m)
         m_sql.setQuery( QString("SELECT address FROM inbound_blacklist WHERE address IN (%1)").arg( placeHolders.join(",") ) );
         m_sql.executePrepared(addresses, QueryId::LookupSender);
     }
+}
+
+
+Service::~Service() {
+    QFile::remove(SETUP_FILE_PATH);
 }
 
 }

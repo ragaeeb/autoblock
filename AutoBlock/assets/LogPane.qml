@@ -87,7 +87,7 @@ NavigationPane
             ListView
             {
                 id: listView
-                property variant localizer: app
+                property variant localizer: offloader
                 
                 listItemComponents: [
                     ListItemComponent

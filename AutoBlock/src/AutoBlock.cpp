@@ -1,7 +1,6 @@
 #include "precompiled.h"
 
 #include "AutoBlock.hpp"
-#include "AccountImporter.h"
 #include "AppLogFetcher.h"
 #include "BlockUtils.h"
 #include "CardUtils.h"
@@ -12,7 +11,6 @@
 #include "LocaleUtil.h"
 #include "Logger.h"
 #include "MessageFetcherThread.h"
-#include "MessageImporter.h"
 #include "TextUtils.h"
 #include "ThreadUtils.h"
 
@@ -28,8 +26,8 @@ using namespace canadainc;
 AutoBlock::AutoBlock(InvokeManager* i) :
         m_cover( i->startupMode() != ApplicationStartupMode::InvokeCard, this ),
         m_persistance(i),
-        m_helper(&m_persistance), m_importer(NULL), m_update(&m_helper),
-        m_payment(&m_persistance), m_root(NULL)
+        m_helper(&m_persistance), m_update(&m_helper),
+        m_payment(&m_persistance), m_root(NULL), m_offloader(&m_persistance)
 {
     switch ( m_invokeManager.startupMode() )
     {
@@ -89,14 +87,15 @@ void AutoBlock::invoked(bb::system::InvokeRequest const& request)
 void AutoBlock::lazyInit()
 {
     disconnect( this, SIGNAL( initialize() ), this, SLOT( lazyInit() ) ); // in case we get invoked again
-    connect( Application::instance(), SIGNAL( aboutToQuit() ), this, SLOT( terminateThreads() ) );
 
     INIT_SETTING("keywordThreshold", 3);
     INIT_SETTING("whitelistContacts", 1);
 
     AppLogFetcher::create( &m_persistance, &ThreadUtils::compressFiles, this );
+    m_offloader.lazyInit();
+    m_update.lazyInit();
 
-    m_persistance.invoke("com.canadainc.AutoBlockService", "com.canadainc.AutoBlockService.RESET");
+    m_update.invokeService();
     m_cover.setContext("helper", &m_helper);
 
     QmlDocument* qml = QmlDocument::create("asset:///NotificationToast.qml").parent(this);
@@ -213,44 +212,6 @@ void AutoBlock::onKeywordsExtracted(QVariantList const& keywords)
 }
 
 
-void AutoBlock::terminateThreads()
-{
-    if (m_importer) {
-        m_importer->cancel();
-    }
-}
-
-
-void AutoBlock::loadAccounts()
-{
-	AccountImporter* ai = new AccountImporter(Service::Messages, true);
-	connect( ai, SIGNAL( importCompleted(QVariantList const&) ), this, SIGNAL( accountsImported(QVariantList const&) ) );
-	IOUtils::startThread(ai);
-}
-
-
-void AutoBlock::loadMessages(qint64 accountId)
-{
-    LOGGER(accountId);
-    terminateThreads();
-
-    m_importer = new MessageImporter(accountId);
-    m_importer->setTimeLimit( m_persistance.getValueFor("days").toInt() );
-
-    connect( m_importer, SIGNAL( importCompleted(QVariantList const&) ), this, SLOT( onMessagesImported(QVariantList const&) ) );
-    connect( m_importer, SIGNAL( progress(int, int) ), this, SIGNAL( loadProgress(int, int) ) );
-
-    IOUtils::startThread(m_importer);
-}
-
-
-void AutoBlock::onMessagesImported(QVariantList const& qvl)
-{
-    emit messagesImported(qvl);
-    m_importer = NULL;
-}
-
-
 void AutoBlock::extractKeywords(QVariantList const& messages)
 {
     LOGGER(messages);
@@ -268,13 +229,8 @@ void AutoBlock::childCardDone(bb::system::CardDoneMessage const& message)
 }
 
 
-void AutoBlock::forceSetup()
-{
-    InvokeRequest request;
-    request.setTarget("com.canadainc.AutoBlockService");
-    request.setAction("com.canadainc.AutoBlockService.RESET");
-    request.setData( QString("setup").toAscii() );
-    m_invokeManager.invoke(request);
+void AutoBlock::forceSetup() {
+    m_update.invokeService("setup");
 }
 
 

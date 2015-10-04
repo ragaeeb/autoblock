@@ -306,8 +306,14 @@ bool QueryHelper::checkDatabase(QString const& path)
     if ( ready() )
     {
         LOGGER("ready...");
-        m_updateWatcher.removePath( QDir::homePath() );
-        m_updateWatcher.addPath(DATABASE_PATH);
+
+        if ( m_updateWatcher.directories().contains( QDir::homePath() ) ) {
+            m_updateWatcher.removePath( QDir::homePath() );
+        }
+
+        if ( !m_updateWatcher.files().contains(DATABASE_PATH) ) {
+            m_updateWatcher.addPath(DATABASE_PATH);
+        }
 
         emit readyChanged();
 

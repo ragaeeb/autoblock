@@ -17,36 +17,26 @@ TabbedPane
         bbWorldID: "25793872"
         
         onFinished: {
-            if ( persist.getValueFor("startAtConversations") == 1 ) {
-                activeTab = conversationsTab;
-            }
-            
-            var allMessages = [];
-            var allIcons = [];
-            
-            if ( !persist.hasEmailSmsAccess() ) {
-                allMessages.push("Warning: It seems like the app does not have access to your Email/SMS messages Folder. This permission is needed for the app to access the SMS and email services it needs to do the filtering of the spam messages. If you leave this permission off, some features may not work properly. Select the icon to launch the Application Permissions screen where you can turn these settings on.");
-                allIcons.push("images/toast/no_email_access.png");
-            }
-            
-            if ( !persist.hasSharedFolderAccess() ) {
-                allMessages.push("Warning: It seems like the app does not have access to your Shared Folder. This permission is needed for the app to properly allow you to backup & restore the database. If you leave this permission off, some features may not work properly. Select the icon to launch the Application Permissions screen where you can turn these settings on.");
-                allIcons.push("images/toast/no_shared_folder.png");
-            }
-            
-            if ( !persist.hasPhoneControlAccess() ) {
-                allMessages.push("Warning: It seems like the app does not have access to control your phone. This permission is needed for the app to access the phone service required to be able to block calls based on the incoming number. Select the icon to launch the Application Permissions screen where you can turn these settings on.");
-                allIcons.push("images/toast/no_phone_control.png");
-            }
-            
-            if (allMessages.length > 0)
-            {
-                logTab.content.permissionToast.messages = allMessages;
-                logTab.content.permissionToast.icons = allIcons;
-                logTab.content.permissionToast.delegateActive = true;
-            }
-            
             tutorial.execAppMenu();
+            
+            if (helper.ready) {
+                setupComplete();
+            } else {
+                helper.readyChanged.connect(setupComplete);
+                
+                definition.source = "SetupDialog.qml";
+                var setup = definition.createObject();
+                setup.open();
+            }
+        }
+    }
+    
+    function setupComplete()
+    {
+        logTab.delegateActivationPolicy = TabDelegateActivationPolicy.ActivateWhenSelected;
+        
+        if ( persist.getValueFor("startAtConversations") == 1 ) {
+            activeTab = conversationsTab;
         }
     }
     
@@ -56,21 +46,12 @@ TabbedPane
         title: qsTr("Logs") + Retranslate.onLanguageChanged
         description: qsTr("Blocked Messages") + Retranslate.onLanguageChanged
         imageSource: "images/tabs/ic_logs.png"
-        delegateActivationPolicy: TabDelegateActivationPolicy.ActivateWhenSelected
+        delegateActivationPolicy: TabDelegateActivationPolicy.None
         
         delegate: Delegate {
             source: "LogPane.qml"
         }
-        
-        function onDataLoaded(id, data)
-        {
-            if (id == QueryId.FetchAllLogs) {
-                unreadContentCount = data.length;
-            } else if (id == QueryId.FetchLatestLogs) {
-                unreadContentCount = unreadContentCount + data.length;
-            }
-        }
-        
+
         onCreationCompleted: {
             helper.dataReady.connect(onDataLoaded);
         }
@@ -139,4 +120,10 @@ TabbedPane
             console.log("UserEvent: KeywordsTabTriggered");
         }
     }
+    
+    attachedObjects: [
+        ComponentDefinition {
+            id: definition
+        }
+    ]
 }

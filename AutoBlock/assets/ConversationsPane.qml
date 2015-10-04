@@ -47,6 +47,7 @@ NavigationPane
                         AccountsDropDown
                         {
                             id: accountChoice
+                            controller: offloader
                             selectedAccountId: persist.getValueFor("accountId")
 
                             onAccountsLoaded: {
@@ -65,7 +66,7 @@ NavigationPane
                                     console.log("UserEvent: AccountDropDownChanged", value);
                                 }
                                 
-                                app.loadMessages(value, selectedOption.isCellular);
+                                offloader.loadMessages(value, selectedOption.isCellular);
                             }
                         }
 
@@ -121,7 +122,7 @@ NavigationPane
                 ProgressDelegate
                 {
                     onCreationCompleted: {
-                        app.loadProgress.connect(onProgressChanged);
+                        offloader.loadProgress.connect(onProgressChanged);
                     }
                 }
                 
@@ -274,7 +275,7 @@ NavigationPane
                     }
                     
                     onCreationCompleted: {
-                        app.messagesImported.connect(onMessagesImported);
+                        offloader.messagesImported.connect(onMessagesImported);
                     }
                     
                     function onMessagesImported(results)

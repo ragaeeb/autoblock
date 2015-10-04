@@ -18,10 +18,6 @@ namespace bb {
 	}
 }
 
-namespace canadainc {
-    class MessageImporter;
-}
-
 namespace autoblock {
 
 using namespace bb::cascades;
@@ -36,7 +32,6 @@ class AutoBlock : public QObject
     Persistance m_persistance;
     QueryHelper m_helper;
     bb::system::InvokeManager m_invokeManager;
-    MessageImporter* m_importer;
     UpdateManager m_update;
     PaymentHelper m_payment;
     QObject* m_root;
@@ -57,24 +52,17 @@ private slots:
     void messageFetched(QVariantMap const& result);
     void onKeywordsExtracted(QVariantList const& keywords);
     void onKeywordsSelected(QVariant k);
-    void onMessagesImported(QVariantList const& qvl);
-	void terminateThreads();
 
 Q_SIGNALS:
-    void accountsImported(QVariantList const& qvl);;
     void initialize();
     void keywordsExtracted(QVariantList const& keywords);
     void lazyInitComplete();
-    void loadProgress(int current, int total);
-    void messagesImported(QVariantList const& qvl);
 
 public:
     AutoBlock(InvokeManager* i);
     virtual ~AutoBlock();
     bool accountSelected();
     Q_INVOKABLE void extractKeywords(QVariantList const& messages);
-    Q_INVOKABLE void loadAccounts();
-    Q_INVOKABLE void loadMessages(qint64 accountId);
     Q_SLOT void exitAfterRestore();
     Q_INVOKABLE void forceSetup();
     Q_INVOKABLE void invokeService(QString const& senderAddress, QString const& senderName, QString const& body);

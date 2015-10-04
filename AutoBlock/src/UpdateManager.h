@@ -22,7 +22,7 @@ private slots:
     void onRestored();
     void onCompressed();
     void onUncompressed();
-    void onRequestComplete(QVariant const& cookie, QByteArray const& data);
+    void onRequestComplete(QVariant const& cookie, QByteArray const& data, bool error);
 
 Q_SIGNALS:
     void backupComplete(QString const& file);
@@ -38,6 +38,9 @@ public:
     Q_SLOT void submit();
     Q_INVOKABLE void backup(QString const& destination);
     Q_INVOKABLE void restore(QString const& source);
+
+    void lazyInit();
+    void invokeService(const char* data=NULL);
 };
 
 } /* namespace autoblock */

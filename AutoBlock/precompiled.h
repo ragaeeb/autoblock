@@ -8,8 +8,11 @@
 #include <bb/device/DisplayInfo>
 
 #include <bb/pim/account/AccountService>
+#include <bb/pim/account/Provider>
 
 #include <bb/pim/message/MessageService>
+
+#include <bb/system/phone/Phone>
 
 #include <bb/data/JsonDataAccess>
 

@@ -16,7 +16,7 @@ FullScreenDialog
             id: spinner
             horizontalAlignment: HorizontalAlignment.Center
             verticalAlignment: VerticalAlignment.Center
-            imageSource: "images/processing.png"
+            imageSource: "images/progress/processing.png"
             translationX: -150
             
             animations: [

@@ -176,7 +176,7 @@ NavigationPane
                             ConversationListItem
                             {
                                 description: qsTr("%n seconds", "", ListItemData.duration)
-                                imageSource: "images/ic_call.png"
+                                imageSource: "images/list/ic_call.png"
                                 title: ListItemData.senderAddress.length > 0 ? ListItemData.senderAddress : qsTr("Unknown Number") + Retranslate.onLanguageChanged
                             }
                         },
@@ -187,7 +187,7 @@ NavigationPane
                             
                             ConversationListItem
                             {
-                                imageSource: ListItemData.imageSource ? ListItemData.imageSource : "images/ic_email.png"
+                                imageSource: ListItemData.imageSource ? ListItemData.imageSource : "images/list/ic_email.png"
                                 description: ListItemData.subject ? ListItemData.subject : ListItemData.text.replace(/\n/g, " ").substr(0, 60) + "..."
                             }
                         },
@@ -198,7 +198,7 @@ NavigationPane
                             
                             ConversationListItem
                             {
-                                imageSource: "images/ic_user.png"
+                                imageSource: "images/list/ic_user.png"
                                 description: ListItemData.text.replace(/\n/g, " ").substr(0, 60) + "..."
                             }
                         },

@@ -239,7 +239,7 @@ void AutoBlock::exitAfterRestore()
 {
     LOGGER("Terminating...");
     m_persistance.showBlockingDialog( tr("Exit"), tr("Successfully restored! The app will now close itself so when you re-open it the restored database can take effect!"), tr("OK"), "" );
-    Application::instance()->quit();
+    Application::instance()->requestExit();
 }
 
 

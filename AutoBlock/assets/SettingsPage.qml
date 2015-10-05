@@ -1,20 +1,52 @@
-import bb.cascades 1.0
+import bb.cascades 1.3
 import bb.cascades.pickers 1.0
 import com.canadainc.data 1.0
 
 Page
 {
     id: rootPage
+    actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
     
     titleBar: TitleBar {
         title: qsTr("Settings") + Retranslate.onLanguageChanged
     }
     
-    actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
+    function cleanUp()
+    {
+        updater.backupComplete.disconnect(backup.onSaved);
+        updater.restoreComplete.disconnect(restore.onRestored);
+    }
+    
+    onActionMenuVisualStateChanged: {
+        if (actionMenuVisualState == ActionMenuVisualState.VisibleFull) {
+            tutorial.exec("recovery", qsTr("You can use the '%1' action from the menu to recreate the database if it became corrupt.").arg(recover.title), HorizontalAlignment.Right, VerticalAlignment.Center, 0, ui.du(2), 0, 0, recover.imageSource.toString() );
+        }
+        
+        reporter.record("SettingsPageMenuOpened", actionMenuVisualState.toString());
+    }
+    
+    onCreationCompleted: {
+        tutorial.execBelowTitleBar("sound", qsTr("Enable the '%1' checkbox if you want to hear a sound everytime a message is blocked (this will only sound if you have the device is an appropriate profile that allows notifications).").arg(sound.text), 0, "r", undefined, "images/toast/sound.png" );
+        //else if ( persist.tutorial("tutorialBlockStrangers", qsTr("Enable the Block Non-Contacts checkbox if you want to block messages from anyone who is not in your contact list."), "file:///usr/share/icons/ic_open_contacts.png" ) ) {}
+        tutorial.execBelowTitleBar("whitelist", qsTr("Enable the '%1' checkbox if you want to prevent scanning of messages sent by anyone in your contact list.").arg(whitelist.text), ui.du(3), "r", undefined, "images/toast/whitelist.png" );
+        tutorial.execBelowTitleBar("startConversations", qsTr("Enable the '%1' checkbox if you want the app to start at the Conversations tab instead of the default Logs tab.").arg(startConvo.text), ui.du(12), "r", undefined, "images/tabs/ic_conversations.png" );
+        tutorial.execBelowTitleBar("stripKeywords", qsTr("Enable the '%1' checkbox if you want to remove all punctuation from keywords before processing it. This can be useful when spammers try to trick the app by using 'app.le' to get around a keyword like 'apple'.").arg(ignorePunc.text), ui.du(16), "r", undefined, "images/toast/strip_keywords.png" );
+        tutorial.execBelowTitleBar("moveTrash", qsTr("Enable the '%1' checkbox if you want to move the spam messages to your web server's Trash folder instead of immediately permanently deleting it.").arg(moveTrash.text), ui.du(25), "r", undefined, "images/toast/move_trash.png" );
+
+        tutorial.execActionBar("optimize", qsTr("Use the '%1' option from the menu every once in a while if you want to speed up the performance of the app.").arg(optimize.title), "r" );
+        tutorial.execActionBar("backup", qsTr("You can use the '%1' action at the bottom if you want to save your blocked senders, logs, and keywords.").arg(backup.title) );
+        tutorial.execActionBar("restore", qsTr("At a later date you can use the '%1' action to reimport the backup file to restore your database!").arg(restore.title), "l" );
+        tutorial.execActionBar("settingsBack", qsTr("To close this page, either swipe to the right or tap on this back button!"), "b" );
+        
+        reporter.initPage(rootPage);
+        updater.backupComplete.connect(backup.onSaved);
+        updater.restoreComplete.connect(restore.onRestored);
+    }
     
     actions: [
         ActionItem
         {
+            id: backup
             title: qsTr("Backup") + Retranslate.onLanguageChanged
             ActionBar.placement: 'Signature' in ActionBarPlacement ? ActionBarPlacement["Signature"] : ActionBarPlacement.OnBar
             imageSource: "images/menu/ic_backup.png"
@@ -32,14 +64,11 @@ Page
             function onSaved(result) {
                 toaster.init( qsTr("Successfully backed up to %1").arg( result.substring(15) ), "images/menu/ic_backup.png" );
             }
-            
-            onCreationCompleted: {
-                updater.backupComplete.connect(onSaved);
-            }
         },
         
         ActionItem
         {
+            id: restore
             title: qsTr("Restore") + Retranslate.onLanguageChanged
             ActionBar.placement: ActionBarPlacement.OnBar
             imageSource: "images/menu/ic_restore.png"
@@ -61,13 +90,11 @@ Page
                     toaster.init( qsTr("The database could not be restored. Please re-check the backup file to ensure it is valid, and if the problem persists please file a bug report. Make sure to attach the backup file with your report!"), "images/menu/ic_restore_error.png" );
                 }
             }
-            
-            onCreationCompleted: {
-                updater.restoreComplete.connect(onRestored);
-            }
         },
         
-        ActionItem {
+        ActionItem
+        {
+            id: optimize
             imageSource: "images/menu/ic_optimize.png"
             title: qsTr("Optimize") + Retranslate.onLanguageChanged
             ActionBar.placement: ActionBarPlacement.OnBar
@@ -75,24 +102,22 @@ Page
             onTriggered: {
                 console.log("UserEvent: Optimize");
                 busy.running = true;
-                helper.optimize();
+                helper.optimize(optimize);
             }
             
-            function onDataReady(id, data)
+            function onDataLoaded(id, data)
             {
-                if (id == QueryId.Optimize) {
+                if (id == QueryId.Optimize)
+                {
                     busy.running = false;
                     toaster.init( qsTr("Optimization Complete!"), "images/menu/ic_optimize.png" );
                 }
-            }
-            
-            onCreationCompleted: {
-                helper.dataReady.connect(onDataReady);
             }
         },
         
         ActionItem
         {
+            id: recover
             imageSource: "images/menu/ic_error_recovery.png"
             title: qsTr("Error Recovery") + Retranslate.onLanguageChanged
             
@@ -149,6 +174,7 @@ Page
             
             PersistCheckBox
             {
+                id: sound
                 key: "sound"
                 text: qsTr("Sound") + Retranslate.onLanguageChanged
                 
@@ -180,6 +206,7 @@ Page
             
             PersistCheckBox
             {
+                id: whitelist
                 topMargin: 10
                 enabled: !blockStrangers.checked
                 key: "whitelistContacts"
@@ -196,6 +223,7 @@ Page
             
             PersistCheckBox
             {
+                id: startConvo
                 topMargin: 10
                 key: "startAtConversations"
                 text: qsTr("Start At Conversations Tab") + Retranslate.onLanguageChanged
@@ -211,6 +239,7 @@ Page
             
             PersistCheckBox
             {
+                id: ignorePunc
                 topMargin: 10
                 key: "ignorePunctuation"
                 text: qsTr("Strip Punctuation from Keywords") + Retranslate.onLanguageChanged
@@ -261,17 +290,5 @@ Page
                 horizontalAlignment: HorizontalAlignment.Center
             }
         }
-    }
-    
-    onCreationCompleted: {
-        if ( tutorial.exec("tutorialSound", qsTr("Enable the Sound checkbox if you want to hear a sound everytime a message is blocked (this will only sound if you have the device is an appropriate profile that allows notifications)."), "images/toast/sound.png" ) ) {}
-        //else if ( persist.tutorial("tutorialBlockStrangers", qsTr("Enable the Block Non-Contacts checkbox if you want to block messages from anyone who is not in your contact list."), "file:///usr/share/icons/ic_open_contacts.png" ) ) {}
-        else if ( tutorial.exec("tutorialWhitelist", qsTr("Enable the Whitelist All Contacts checkbox if you want to prevent scanning of messages sent by anyone in your contact list."), "images/toast/whitelist.png" ) ) {}
-        else if ( tutorial.exec("tutorialStartConversations", qsTr("Enable the Start At Conversations Tab checkbox if you want the app to start at the Conversations tab instead of the default Logs tab."), "images/tabs/ic_conversations.png" ) ) {}
-        else if ( tutorial.exec("tutorialMoveTrash", qsTr("Enable the Move Spam to Trash checkbox if you want to move the spam messages to your web server's Trash folder instead of immediately permanently deleting it."), "images/toast/move_trash.png" ) ) {}
-        else if ( tutorial.exec("tutorialOptimize", qsTr("Use the Optimize option from the menu every once in a while if you want to speed up the performance of the app."), "images/menu/ic_optimize.png" ) ) {}
-        else if ( tutorial.exec("tutorialBackupRestore", qsTr("You can use the 'Backup' action at the bottom if you want to save your blocked senders, logs, and keywords. At a later date you can use the Restore action to reimport the backup file to restore your database!"), "images/menu/ic_backup.png" ) ) {}
-        
-        reporter.initPage(rootPage);
     }
 }

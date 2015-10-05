@@ -1,4 +1,4 @@
-import bb.cascades 1.2
+import bb.cascades 1.3
 import bb.system 1.0
 import com.canadainc.data 1.0
 
@@ -12,9 +12,21 @@ NavigationPane
     
     Page
     {
+        onActionMenuVisualStateChanged: {
+            if (actionMenuVisualState == ActionMenuVisualState.VisibleFull)
+            {
+                tutorial.exec("searchLogs", qsTr("You can use the '%1' action from the menu to search the logs if a specific message that was blocked.").arg(search.title), HorizontalAlignment.Right, VerticalAlignment.Center, 0, ui.du(2), 0, 0, search.imageSource.toString() );
+                tutorial.exec("clearLogs", qsTr("If this list is getting too cluttered, you can always clear the logs by using the '%1' action from the menu.").arg(clearLogsAction.title), HorizontalAlignment.Right, VerticalAlignment.Center, 0, ui.du(2), 0, 0, clearLogsAction.imageSource.toString() );
+                tutorial.exec("testAction", qsTr("You can test out if your keywords and blocked list is properly set up by using the '%1' action from the menu.").arg(testAction.title), HorizontalAlignment.Right, VerticalAlignment.Center, 0, ui.du(2), 0, 0, testAction.imageSource.toString() );
+            }
+            
+            reporter.record("LogPageMenuOpened", actionMenuVisualState.toString());
+        }
+        
         actions: [
             SearchActionItem
             {
+                id: search
                 imageSource: "images/menu/ic_search_logs.png"
                 
                 onQueryChanged: {
@@ -23,6 +35,7 @@ NavigationPane
             },
             
             ActionItem {
+                id: testAction
                 imageSource: "images/menu/ic_test.png"
                 title: qsTr("Test") + Retranslate.onLanguageChanged
                 
@@ -54,16 +67,20 @@ NavigationPane
                 title: qsTr("Clear Logs") + Retranslate.onLanguageChanged
                 imageSource: "images/menu/ic_clear_logs.png"
                 
-                onTriggered: {
-                    console.log("UserEvent: ClearLogs");
-                    
-                    var ok = persist.showBlockingDialog( qsTr("Confirmation"), qsTr("Are you sure you want to clear all the logs?") );
+                function onFinished(ok)
+                {
                     console.log("UserEvent: ClearLogsConfirm", ok);
                     
                     if (ok) {
                         helper.clearLogs();
-                        tutorialToast.init( qsTr("Cleared all blocked senders!"), "images/menu/ic_clear_logs.png" );
+                        toaster.init( qsTr("Cleared all blocked senders!"), "images/menu/ic_clear_logs.png" );
                     }
+                }
+                
+                onTriggered: {
+                    console.log("UserEvent: ClearLogs");
+                    
+                    persist.showDialog( clearLogsAction, qsTr("Confirmation"), qsTr("Are you sure you want to clear all the logs?") );
                 }
             }
         ]
@@ -87,7 +104,6 @@ NavigationPane
             ListView
             {
                 id: listView
-                property variant localizer: offloader
                 
                 listItemComponents: [
                     ListItemComponent
@@ -98,7 +114,7 @@ NavigationPane
                             title: ListItemData.address
                             imageSource: "images/menu/ic_log.png"
                             description: ListItemData.message.replace(/\n/g, " ").substr(0, 120) + "..."
-                            status: ListItem.view.localizer.renderStandardTime( new Date(ListItemData.timestamp) )
+                            status: offloader.renderStandardTime( new Date(ListItemData.timestamp) )
                             opacity: 0
                             
                             animations: [
@@ -122,7 +138,7 @@ NavigationPane
                 onTriggered: {
                     console.log("UserEvent: LogTapped", indexPath);
                     var data = dataModel.data(indexPath);
-                    tutorialToast.init( data.message.trim(), "asset:///images/tabs/ic_blocked.png" );
+                    toaster.init( data.message.trim(), "asset:///images/tabs/ic_blocked.png" );
                 }
                 
                 dataModel: ArrayDataModel {
@@ -156,12 +172,7 @@ NavigationPane
                     helper.dataReady.connect(onDataLoaded);
                     helper.fetchAllLogs();
                     
-                    if ( tutorialToast.tutorial("tutorialLogPane", qsTr("In this tab you will be able to view all the messages that were blocked."), "images/tabs/ic_logs.png") ) {}
-                    else if ( tutorialToast.tutorial("tutorialHelp", qsTr("To get more help, swipe-down from the top-bezel and choose the 'Help' action."), "images/menu/ic_help.png") ) {}
-                    else if ( tutorialToast.tutorial("tutorialSettings", qsTr("To move the junk mail to the Trash folder instead of permanently deleting them, swipe-down from the top-bezel and go to Settings."), "images/menu/ic_settings.png") ) {}
-                    else if ( tutorialToast.tutorial("tutorialBugReports", qsTr("If you notice any bugs in the app that you want to report or you want to file a feature request, swipe-down from the top-bezel and choose the 'Bug Reports' action."), "images/ic_bugs.png") ) {}
-                    else if ( tutorialToast.tutorial("tutorialSearchLogs", qsTr("You can use the 'Search' action from the menu to search the logs if a specific message that was blocked."), "images/menu/ic_search_logs.png") ) {}
-                    else if ( tutorialToast.tutorial("tutorialClearLogs", qsTr("If this list is getting too cluttered, you can always clear the logs by using the 'Clear Logs' action from the menu."), "images/menu/ic_clear_logs.png") ) {}
+                    tutorial.execCentered("logPane", qsTr("In this tab you will be able to view all the messages that were blocked.") );
                 }
             }
             
@@ -230,7 +241,7 @@ NavigationPane
                 
                 if (value == SystemUiResult.ConfirmButtonSelection) {
                     helper.clearLogs();
-                    tutorialToast.init( qsTr("Cleared all blocked senders!"), "images/menu/ic_clear_logs.png" );
+                    toaster.init( qsTr("Cleared all blocked senders!"), "images/menu/ic_clear_logs.png" );
                 } else if ( rememberMeSelection() ) {
                     persist.saveValueFor("dontAskToClear", 1, false);
                 }

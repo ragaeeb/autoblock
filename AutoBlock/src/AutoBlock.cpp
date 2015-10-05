@@ -94,13 +94,14 @@ void AutoBlock::lazyInit()
     AppLogFetcher::create( &m_persistance, &ThreadUtils::compressFiles, this );
     m_offloader.lazyInit();
     m_update.lazyInit();
+    m_helper.lazyInit();
 
     m_update.invokeService();
     m_cover.setContext("helper", &m_helper);
 
     QmlDocument* qml = QmlDocument::create("asset:///NotificationToast.qml").parent(this);
     QObject* toast = qml->createRootObject<QObject>();
-    QmlDocument::defaultDeclarativeEngine()->rootContext()->setContextProperty("tutorialToast", toast);
+    QmlDocument::defaultDeclarativeEngine()->rootContext()->setContextProperty("toaster", toast);
 
     DeviceUtils::registerTutorialTips(this);
 

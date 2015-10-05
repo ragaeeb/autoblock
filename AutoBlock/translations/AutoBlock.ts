@@ -316,12 +316,12 @@ Please file a bug report!</source>
 <context>
     <name>ConversationsPane</name>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="54"/>
+        <location filename="../assets/ConversationsPane.qml" line="55"/>
         <source>Did not find any accounts. Maybe the app does not have the permissions it needs...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="81"/>
+        <location filename="../assets/ConversationsPane.qml" line="82"/>
         <source>Days to Fetch: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -389,7 +389,7 @@ Please file a bug report!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/ConversationsPane.qml" line="107"/>
+        <location filename="../assets/ConversationsPane.qml" line="108"/>
         <source>There are no incoming messages detected for this account. As soon as the first spam message comes in, open this app, come to this screen and add that message as spam and all future messages from that sender will be blocked and deleted! Or increase the &apos;Days&apos; slider at the top to fetch more messages.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -502,85 +502,75 @@ And to make it even easier for our users to discover more and more spammers, Aut
 <context>
     <name>LogPane</name>
     <message>
-        <location filename="../assets/LogPane.qml" line="54"/>
-        <location filename="../assets/LogPane.qml" line="235"/>
+        <location filename="../assets/LogPane.qml" line="67"/>
+        <location filename="../assets/LogPane.qml" line="225"/>
         <source>Clear Logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/LogPane.qml" line="60"/>
+        <location filename="../assets/LogPane.qml" line="83"/>
         <source>Confirmation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/LogPane.qml" line="60"/>
+        <location filename="../assets/LogPane.qml" line="83"/>
         <source>Are you sure you want to clear all the logs?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/LogPane.qml" line="65"/>
-        <location filename="../assets/LogPane.qml" line="254"/>
+        <location filename="../assets/LogPane.qml" line="76"/>
+        <location filename="../assets/LogPane.qml" line="244"/>
         <source>Cleared all blocked senders!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/LogPane.qml" line="84"/>
+        <location filename="../assets/LogPane.qml" line="18"/>
+        <source>You can use the &apos;%1&apos; action from the menu to search the logs if a specific message that was blocked.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/LogPane.qml" line="19"/>
+        <source>If this list is getting too cluttered, you can always clear the logs by using the &apos;%1&apos; action from the menu.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/LogPane.qml" line="20"/>
+        <source>You can test out if your keywords and blocked list is properly set up by using the &apos;%1&apos; action from the menu.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/LogPane.qml" line="101"/>
         <source>No spam messages detected yet.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/LogPane.qml" line="168"/>
-        <source>You can use the &apos;Search&apos; action from the menu to search the logs if a specific message that was blocked.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/LogPane.qml" line="169"/>
-        <source>If this list is getting too cluttered, you can always clear the logs by using the &apos;Clear Logs&apos; action from the menu.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/LogPane.qml" line="234"/>
+        <location filename="../assets/LogPane.qml" line="224"/>
         <source>You seem to have a lot of entries here, would you like to clear this list to improve app startup time?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/LogPane.qml" line="236"/>
+        <location filename="../assets/LogPane.qml" line="226"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/LogPane.qml" line="237"/>
+        <location filename="../assets/LogPane.qml" line="227"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/LogPane.qml" line="240"/>
+        <location filename="../assets/LogPane.qml" line="230"/>
         <source>Don&apos;t Ask Again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/LogPane.qml" line="164"/>
+        <location filename="../assets/LogPane.qml" line="175"/>
         <source>In this tab you will be able to view all the messages that were blocked.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/LogPane.qml" line="27"/>
+        <location filename="../assets/LogPane.qml" line="40"/>
         <source>Test</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/LogPane.qml" line="166"/>
-        <source>To move the junk mail to the Trash folder instead of permanently deleting them, swipe-down from the top-bezel and go to Settings.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/LogPane.qml" line="165"/>
-        <source>To get more help, swipe-down from the top-bezel and choose the &apos;Help&apos; action.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/LogPane.qml" line="167"/>
-        <source>If you notice any bugs in the app that you want to report or you want to file a feature request, swipe-down from the top-bezel and choose the &apos;Bug Reports&apos; action.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -808,6 +798,12 @@ And to make it even easier for our users to discover more and more spammers, Aut
         <source>Setup in progress...</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../assets/SetupDialog.qml" line="81"/>
+        <source>If this screen remains indefinitely it means that you may have accidentally disabled the background service from running.
+Click here to fix it.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TestHelper</name>
@@ -934,27 +930,32 @@ Check back in a few days.</source>
 <context>
     <name>autoblock::AutoBlock</name>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="177"/>
+        <location filename="../src/AutoBlock.cpp" line="145"/>
         <source>The following keywords were added: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="179"/>
+        <location filename="../src/AutoBlock.cpp" line="147"/>
         <source>The keyword(s) could not be added.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="221"/>
+        <location filename="../src/AutoBlock.cpp" line="154"/>
+        <source>Auto Block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/AutoBlock.cpp" line="189"/>
         <source>The following addresses were blocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="223"/>
+        <location filename="../src/AutoBlock.cpp" line="191"/>
         <source>The addresses could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="229"/>
+        <location filename="../src/AutoBlock.cpp" line="197"/>
         <source>Could not block the sender, this is due to a bug in BlackBerry OS 10.2.1. There are two ways around this problem:
 
 1) From the BlackBerry Hub, tap on the email to open it, tap on the menu icon (...) on the bottom-right, choose Share, and then choose Auto Block.
@@ -963,22 +964,23 @@ Check back in a few days.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="243"/>
+        <location filename="../src/AutoBlock.cpp" line="211"/>
         <source>Could not find any suspicious keywords in the message...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="323"/>
+        <location filename="../src/AutoBlock.cpp" line="241"/>
         <source>Successfully restored! The app will now close itself so when you re-open it the restored database can take effect!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="323"/>
+        <location filename="../src/AutoBlock.cpp" line="241"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="323"/>
+        <location filename="../src/AutoBlock.cpp" line="154"/>
+        <location filename="../src/AutoBlock.cpp" line="241"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
@@ -986,22 +988,22 @@ Check back in a few days.</source>
 <context>
     <name>autoblock::UpdateManager</name>
     <message>
-        <location filename="../src/UpdateManager.cpp" line="85"/>
+        <location filename="../src/UpdateManager.cpp" line="94"/>
         <source>Rendering results...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/UpdateManager.cpp" line="103"/>
+        <location filename="../src/UpdateManager.cpp" line="123"/>
         <source>Uncompressing data...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/UpdateManager.cpp" line="128"/>
+        <location filename="../src/UpdateManager.cpp" line="148"/>
         <source>Processing results...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/UpdateManager.cpp" line="154"/>
+        <location filename="../src/UpdateManager.cpp" line="177"/>
         <source>At least one default email address must be set up to sync to the server!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1009,37 +1011,37 @@ Check back in a few days.</source>
 <context>
     <name>main</name>
     <message>
-        <location filename="../assets/main.qml" line="52"/>
+        <location filename="../assets/main.qml" line="62"/>
         <source>Blocked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="53"/>
+        <location filename="../assets/main.qml" line="63"/>
         <source>Blocked List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="80"/>
+        <location filename="../assets/main.qml" line="90"/>
         <source>Conversations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="81"/>
+        <location filename="../assets/main.qml" line="91"/>
         <source>Potential Spam Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="96"/>
+        <location filename="../assets/main.qml" line="106"/>
         <source>Keywords</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="97"/>
+        <location filename="../assets/main.qml" line="107"/>
         <source>Blacklisted Keywords</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="23"/>
+        <location filename="../assets/main.qml" line="46"/>
         <source>Logs</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1054,7 +1056,7 @@ Check back in a few days.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="24"/>
+        <location filename="../assets/main.qml" line="47"/>
         <source>Blocked Messages</source>
         <translation type="unfinished"></translation>
     </message>

@@ -4,35 +4,15 @@ Page
 {
     actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
     
-    titleBar: AboutTitleBar {
+    titleBar: AboutTitleBar
+    {
         id: atb
+        videoTutorialUri: "http://youtu.be/EBxX3353Q2I"
     }
     
-    actions: [
-        ActionItem
-        {
-            imageSource: "file:///usr/share/icons/bb_action_openbbmchannel.png"
-            title: atb.channelTitle
-            ActionBar.placement: ActionBarPlacement.OnBar
-            
-            onTriggered: {
-                console.log("UserEvent: OpenChannelTriggered");
-                persist.openChannel();
-            }
-        },
-        
-        ActionItem
-        {
-            imageSource: "images/ic_steps.png"
-            title: qsTr("Video Tutorial") + Retranslate.onLanguageChanged
-            ActionBar.placement: 'Signature' in ActionBarPlacement ? ActionBarPlacement["Signature"] : ActionBarPlacement.OnBar
-            
-            onTriggered: {
-                console.log("UserEvent: VideoTutorialTriggered");
-                persist.tutorialVideo("http://youtu.be/EBxX3353Q2I", false);
-            }
-        }
-    ]
+    function cleanUp()
+    {
+    }
 
     Container
     {

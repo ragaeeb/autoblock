@@ -15,7 +15,7 @@ FullScreenDialog
             id: spinner
             horizontalAlignment: HorizontalAlignment.Center
             verticalAlignment: VerticalAlignment.Center
-            imageSource: "images/setup.png"
+            imageSource: "images/progress/setup.png"
             
             animations: [
                 SequentialAnimation

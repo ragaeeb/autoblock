@@ -3,17 +3,6 @@ import bb.cascades 1.2
 Delegate
 {
     property variant data: []
-    property bool suppress: persist.getValueFor("suppressTutorials") == 1
-    
-    function onSettingChanged(key) {
-        if (key == "suppressTutorials") {
-            suppress = persist.getValueFor("suppressTutorials");
-        }
-    }
-    
-    onCreationCompleted: {
-        persist.settingChanged.connect(onSettingChanged);
-    }
     
     function showNext()
     {
@@ -34,43 +23,21 @@ Delegate
         }
     }
     
-    function init(text, iconUri) {
-        initInternal(text, iconUri, "", qsTr("Alert!"));
-    }
-    
-    function initInternal(text, iconUri, key, title)
+    function init(text, iconUri, title)
     {
         if (text.length > 0)
         {
             var allData = data;
             
-            for (var i = allData.length-1; i >= 0; i--)
-            {
-                if ( allData[i].key == key ) {
-                    return;
-                }
-            }
-            
-            allData.push( {'key': key, 'body': text, 'icon': iconUri, 'title': title} );
+            allData.push( {'body': text, 'icon': iconUri, 'title': title ? title : qsTr("Alert!")} );
             data = allData;
-
+            
             if (!active) {
                 active = true;
             } else {
                 showNext();
             }
         }
-    }
-    
-    function tutorial(key, text, imageUri)
-    {
-        if ( !persist.contains(key) && !suppress )
-        {
-            initInternal(text, imageUri, key, qsTr("Tip!"));
-            return true;
-        }
-        
-        return false;
     }
     
     sourceComponent: ComponentDefinition
@@ -91,12 +58,8 @@ Delegate
                 if (data.length > 0)
                 {
                     var allData = data;
-                    var key = allData.pop().key;
+                    allData.pop();
                     data = allData;
-                    
-                    if (key.length > 0) {
-                        persist.saveValueFor(key, 1, false);
-                    }
                 }
                 
                 if (data.length > 0) {

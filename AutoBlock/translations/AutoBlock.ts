@@ -471,12 +471,7 @@ Please file a bug report!</source>
 <context>
     <name>HelpPage</name>
     <message>
-        <location filename="../assets/HelpPage.qml" line="27"/>
-        <source>Video Tutorial</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/HelpPage.qml" line="56"/>
+        <location filename="../assets/HelpPage.qml" line="36"/>
         <source>
 
 Tired of spammers irritating you with their advertisements and scams via SMS and email? Is there some crazy ex-partner that is constantly bugging you and you want to completely cut out of your life? Wish there was a way to automatically filter them out of your inbox without it affecting the conversations that actually matter in your life?
@@ -577,13 +572,8 @@ And to make it even easier for our users to discover more and more spammers, Aut
 <context>
     <name>NotificationToast</name>
     <message>
-        <location filename="../assets/NotificationToast.qml" line="38"/>
+        <location filename="../assets/NotificationToast.qml" line="32"/>
         <source>Alert!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/NotificationToast.qml" line="69"/>
-        <source>Tip!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -611,182 +601,202 @@ And to make it even easier for our users to discover more and more spammers, Aut
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="10"/>
+        <location filename="../assets/SettingsPage.qml" line="11"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="18"/>
-        <source>Backup</source>
+        <location filename="../assets/SettingsPage.qml" line="22"/>
+        <source>You can use the &apos;%1&apos; action from the menu to recreate the database if it became corrupt.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="24"/>
-        <source>Select Destination</source>
+        <location filename="../assets/SettingsPage.qml" line="29"/>
+        <source>Enable the &apos;%1&apos; checkbox if you want to hear a sound everytime a message is blocked (this will only sound if you have the device is an appropriate profile that allows notifications).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="43"/>
-        <source>Restore</source>
+        <location filename="../assets/SettingsPage.qml" line="31"/>
+        <source>Enable the &apos;%1&apos; checkbox if you want to prevent scanning of messages sent by anyone in your contact list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="49"/>
-        <source>Select File</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="61"/>
-        <source>The database could not be restored. Please re-check the backup file to ensure it is valid, and if the problem persists please file a bug report. Make sure to attach the backup file with your report!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="72"/>
-        <source>Optimize</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="85"/>
-        <source>Optimization Complete!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="97"/>
-        <source>Error Recovery</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="103"/>
-        <source>Error Recovery triggered!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="153"/>
-        <source>Sound</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="157"/>
-        <source>A sound will be played every time a spam message is blocked.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="159"/>
-        <source>No sound will be played every time a spam message is blocked.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="169"/>
-        <source>Block Non-Contacts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="174"/>
-        <source>Messages from anyone who is not on your contact list will be blocked automatically.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="176"/>
-        <source>Messages from senders who are not on your contact list will only be blocked if they are in the blocked senders or send messages with subjects that match your blocked keywords list.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="186"/>
-        <source>Whitelist All Contacts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="190"/>
-        <source>Messages from your contacts will never be marked as spam.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="192"/>
-        <source>Messages from your contacts should still be tested for spam keywords/senders.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="201"/>
-        <source>Start At Conversations Tab</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="205"/>
-        <source>The app will start at the Conversations tab when it is loaded.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="207"/>
-        <source>The app will start at the Logs tab when it is loaded.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="220"/>
-        <source>Punctuation will be removed from messages before they are tested.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="222"/>
-        <source>Punctuation will be left as-is when comparing with the blocked list of keywords.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="232"/>
-        <source>Move Spam to Trash</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="236"/>
-        <source>This is a purchasable feature that will allow spam messages to be moved to the trash folder instead of directly deleting them. Press OK to launch the payment screen.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="267"/>
-        <source>Enable the Sound checkbox if you want to hear a sound everytime a message is blocked (this will only sound if you have the device is an appropriate profile that allows notifications).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="269"/>
-        <source>Enable the Whitelist All Contacts checkbox if you want to prevent scanning of messages sent by anyone in your contact list.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="270"/>
-        <source>Enable the Start At Conversations Tab checkbox if you want the app to start at the Conversations tab instead of the default Logs tab.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="271"/>
-        <source>Enable the Move Spam to Trash checkbox if you want to move the spam messages to your web server&apos;s Trash folder instead of immediately permanently deleting it.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="272"/>
-        <source>Use the Optimize option from the menu every once in a while if you want to speed up the performance of the app.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="273"/>
-        <source>You can use the &apos;Backup&apos; action at the bottom if you want to save your blocked senders, logs, and keywords. At a later date you can use the Restore action to reimport the backup file to restore your database!</source>
+        <location filename="../assets/SettingsPage.qml" line="32"/>
+        <source>Enable the &apos;%1&apos; checkbox if you want the app to start at the Conversations tab instead of the default Logs tab.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../assets/SettingsPage.qml" line="33"/>
+        <source>Enable the &apos;%1&apos; checkbox if you want to remove all punctuation from keywords before processing it. This can be useful when spammers try to trick the app by using &apos;app.le&apos; to get around a keyword like &apos;apple&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="34"/>
+        <source>Enable the &apos;%1&apos; checkbox if you want to move the spam messages to your web server&apos;s Trash folder instead of immediately permanently deleting it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="36"/>
+        <source>Use the &apos;%1&apos; option from the menu every once in a while if you want to speed up the performance of the app.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="37"/>
+        <source>You can use the &apos;%1&apos; action at the bottom if you want to save your blocked senders, logs, and keywords.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="38"/>
+        <source>At a later date you can use the &apos;%1&apos; action to reimport the backup file to restore your database!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="39"/>
+        <source>To close this page, either swipe to the right or tap on this back button!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="50"/>
+        <source>Backup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="56"/>
+        <source>Select Destination</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="72"/>
+        <source>Restore</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="78"/>
+        <source>Select File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="90"/>
+        <source>The database could not be restored. Please re-check the backup file to ensure it is valid, and if the problem persists please file a bug report. Make sure to attach the backup file with your report!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="99"/>
+        <source>Optimize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="113"/>
+        <source>Optimization Complete!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="122"/>
+        <source>Error Recovery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="128"/>
+        <source>Error Recovery triggered!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="179"/>
+        <source>Sound</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="183"/>
+        <source>A sound will be played every time a spam message is blocked.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="185"/>
+        <source>No sound will be played every time a spam message is blocked.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="195"/>
+        <source>Block Non-Contacts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="200"/>
+        <source>Messages from anyone who is not on your contact list will be blocked automatically.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="202"/>
+        <source>Messages from senders who are not on your contact list will only be blocked if they are in the blocked senders or send messages with subjects that match your blocked keywords list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="213"/>
+        <source>Whitelist All Contacts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="217"/>
+        <source>Messages from your contacts will never be marked as spam.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="219"/>
+        <source>Messages from your contacts should still be tested for spam keywords/senders.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="229"/>
+        <source>Start At Conversations Tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="233"/>
+        <source>The app will start at the Conversations tab when it is loaded.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="235"/>
+        <source>The app will start at the Logs tab when it is loaded.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="249"/>
+        <source>Punctuation will be removed from messages before they are tested.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="251"/>
+        <source>Punctuation will be left as-is when comparing with the blocked list of keywords.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="261"/>
+        <source>Move Spam to Trash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="265"/>
+        <source>This is a purchasable feature that will allow spam messages to be moved to the trash folder instead of directly deleting them. Press OK to launch the payment screen.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="65"/>
         <source>Successfully backed up to %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="216"/>
+        <location filename="../assets/SettingsPage.qml" line="245"/>
         <source>Strip Punctuation from Keywords</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="241"/>
+        <location filename="../assets/SettingsPage.qml" line="270"/>
         <source>The app will move the spam messages to the trash folder instead of directly deleting them. This way if a message is accidentally blocked, you can still go recover it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="243"/>
+        <location filename="../assets/SettingsPage.qml" line="272"/>
         <source>The app will permanently delete all spam messages. Warning: There is no way to recover these deleted messages with this setting.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -988,22 +998,22 @@ Check back in a few days.</source>
 <context>
     <name>autoblock::UpdateManager</name>
     <message>
-        <location filename="../src/UpdateManager.cpp" line="94"/>
+        <location filename="../src/UpdateManager.cpp" line="89"/>
         <source>Rendering results...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/UpdateManager.cpp" line="123"/>
+        <location filename="../src/UpdateManager.cpp" line="118"/>
         <source>Uncompressing data...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/UpdateManager.cpp" line="148"/>
+        <location filename="../src/UpdateManager.cpp" line="143"/>
         <source>Processing results...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/UpdateManager.cpp" line="177"/>
+        <location filename="../src/UpdateManager.cpp" line="172"/>
         <source>At least one default email address must be set up to sync to the server!</source>
         <translation type="unfinished"></translation>
     </message>

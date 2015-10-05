@@ -15,7 +15,7 @@ FullScreenDialog
             id: spinner
             horizontalAlignment: HorizontalAlignment.Center
             verticalAlignment: VerticalAlignment.Center
-            imageSource: "images/spinner.png"
+            imageSource: "images/progress/spinner.png"
             
             onCreationCompleted: {
                 rt.play();

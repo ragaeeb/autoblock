@@ -329,8 +329,8 @@ bool QueryHelper::checkDatabase(QString const& path)
 }
 
 
-void QueryHelper::optimize() {
-    m_sql.executeQuery(this, "VACUUM", QueryId::Optimize);
+void QueryHelper::optimize(QObject* caller) {
+    m_sql.executeQuery(caller, "VACUUM", QueryId::Optimize);
 }
 
 

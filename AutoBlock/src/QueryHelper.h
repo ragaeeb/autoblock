@@ -64,7 +64,7 @@ public:
     Q_INVOKABLE QStringList blockKeywords(QVariantList const& keywords);
     Q_INVOKABLE QStringList unblock(QVariantList const& senders);
     Q_INVOKABLE QStringList unblockKeywords(QVariantList const& keywords);
-    Q_INVOKABLE void optimize();
+    Q_INVOKABLE void optimize(QObject* caller);
     Q_SLOT bool checkDatabase(QString const& path=QString());
     bool ready() const;
     Q_INVOKABLE void setActive(bool active);

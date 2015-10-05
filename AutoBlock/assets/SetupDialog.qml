@@ -57,8 +57,8 @@ FullScreenDialog
             ]
         }
         
-        Label {
-            id: label
+        Label
+        {
             textStyle.textAlign: TextAlign.Center
             horizontalAlignment: HorizontalAlignment.Fill
             verticalAlignment: VerticalAlignment.Center
@@ -67,6 +67,27 @@ FullScreenDialog
             textStyle.color: Color.White
             opacity: 0.8
             text: qsTr("Setup in progress...") + Retranslate.onLanguageChanged
+        }
+        
+        Label
+        {
+            textStyle.textAlign: TextAlign.Center
+            horizontalAlignment: HorizontalAlignment.Fill
+            verticalAlignment: VerticalAlignment.Top
+            textStyle.base: SystemDefaults.TextStyles.BodyText
+            textStyle.color: Color.create("#F0F8FF")
+            multiline: true
+            opacity: 0.9
+            text: qsTr("If this screen remains indefinitely it means that you may have accidentally disabled the background service from running.\nClick here to fix it.") + Retranslate.onLanguageChanged
+            
+            gestureHandlers: [
+                TapHandler {
+                    onTapped: {
+                        console.log("UserEvent: LaunchPermissions");
+                        persist.launchAppPermissionSettings();
+                    }
+                }
+            ]
         }
     }
     

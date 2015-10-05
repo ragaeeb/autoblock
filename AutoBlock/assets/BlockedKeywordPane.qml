@@ -14,7 +14,7 @@ NavigationPane
     {
         if ( control.checked && !persist.contains("autoblock_constraints") )
         {
-            tutorialToast.init( qsTr("This is a purchasable feature that will also scan the sender's name and email address to try to match if any of the keywords here are found."), "images/tabs/ic_keywords.png" );
+            toaster.init( qsTr("This is a purchasable feature that will also scan the sender's name and email address to try to match if any of the keywords here are found."), "images/tabs/ic_keywords.png" );
             control.checked = false;
             payment.requestPurchase( "autoblock_constraints", qsTr("Additional Constraints") );
         }
@@ -89,7 +89,7 @@ NavigationPane
                             onCheckedChanged: {
                                 validatePurchase(scanAddress);
                                 
-                                if ( scanAddress.checked && tutorialToast.tutorial( "tutorialScanAddress", qsTr("Warning: Be very careful when turning on this feature as it can result in harmless messages being classified as spam. For example if you enter a keyword as 'gmail', then any email address that contains 'gmail' will be blocked! This is useful for blocking entire domain names but it can also be too aggressive if not used properly."), "images/ic_pim_warning.png" ) ) {}
+                                if ( scanAddress.checked && tutorial.exec( "tutorialScanAddress", qsTr("Warning: Be very careful when turning on this feature as it can result in harmless messages being classified as spam. For example if you enter a keyword as 'gmail', then any email address that contains 'gmail' will be blocked! This is useful for blocking entire domain names but it can also be too aggressive if not used properly."), "images/ic_pim_warning.png" ) ) {}
                             }
                         }
                     }
@@ -132,19 +132,19 @@ NavigationPane
                                 var inputValue = addPrompt.inputFieldTextEntry().trim().toLowerCase();
                                 
                                 if ( inputValue.indexOf(" ") >= 0 ) {
-                                    tutorialToast.init( qsTr("The keyword cannot contain any spaces!"), "images/ic_block.png" );
+                                    toaster.init( qsTr("The keyword cannot contain any spaces!"), "images/ic_block.png" );
                                     return;
                                 } else if (inputValue.length < 3 || inputValue.length > 20) {
-                                    tutorialToast.init( qsTr("The keyword must be between 3 to 20 characters in length (inclusive)!"), "images/ic_block.png" );
+                                    toaster.init( qsTr("The keyword must be between 3 to 20 characters in length (inclusive)!"), "images/ic_block.png" );
                                     return;
                                 }
                                 
                                 var keywordsList = helper.blockKeywords([inputValue]);
                                 
                                 if (keywordsList.length > 0) {
-                                    tutorialToast.init( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "images/tabs/ic_keywords.png" );
+                                    toaster.init( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "images/tabs/ic_keywords.png" );
                                 } else {
-                                    tutorialToast.init( qsTr("The keyword could not be blocked: %1").arg(inputValue), "images/ic_block.png" );
+                                    toaster.init( qsTr("The keyword could not be blocked: %1").arg(inputValue), "images/ic_block.png" );
                                 }
                             }
                         }
@@ -174,7 +174,7 @@ NavigationPane
                     
                     if (ok) {
                         helper.clearBlockedKeywords();
-                        tutorialToast.init( qsTr("Cleared all blocked keywords!"), "images/menu/ic_clear.png" );
+                        toaster.init( qsTr("Cleared all blocked keywords!"), "images/menu/ic_clear.png" );
                     }
                 }
             }
@@ -214,9 +214,9 @@ NavigationPane
                 	var keywordsList = helper.unblockKeywords(blocked);
                 	
                 	if (keywordsList.length > 0) {
-                        tutorialToast.init( qsTr("The following keywords were unblocked: %1").arg( keywordsList.join(", ") ), "images/menu/ic_unblock.png" );
+                        toaster.init( qsTr("The following keywords were unblocked: %1").arg( keywordsList.join(", ") ), "images/menu/ic_unblock.png" );
                 	} else {
-                        tutorialToast.init( qsTr("The following keywords could not be unblocked: %1").arg( blocked.join(", ") ), "images/tabs/ic_blocked.png" );
+                        toaster.init( qsTr("The following keywords could not be unblocked: %1").arg( blocked.join(", ") ), "images/tabs/ic_blocked.png" );
                 	}
                 }
                 
@@ -314,13 +314,13 @@ NavigationPane
                         listView.visible = data.length > 0;
                         emptyDelegate.delegateActive = data.length == 0;
                         
-                        if ( tutorialToast.tutorial("tutorialKeywords", qsTr("You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam."), "images/tabs/ic_keywords.png" ) ) {}
-                        else if ( tutorialToast.tutorial("tutorialScanSenderName", qsTr("Enable the 'Scan Sender Name' checkbox to match keywords on the sender's name as well as the subject line."), "images/toast/scan_sender.png" ) ) {}
-                        else if ( tutorialToast.tutorial("tutorialScanSenderAddress", qsTr("Enable the 'Scan Sender Address' checkbox to match keywords on the sender's address as well as the subject line. This is especially useful if you want to block domain names for example."), "images/toast/scan_address.png" ) ) {}
-                        else if ( adm.size() > 15 && tutorialToast.tutorial("tutorialSearchKeyword", qsTr("You can use the 'Search' action from the menu to search if a specific keyword is in your blocked list."), "images/menu/ic_search_keyword.png" ) ) {}
-                        else if ( tutorialToast.tutorial("tutorialAddKeyword", qsTr("Use the 'Add' action from the menu to add a specific keyword you want to block."), "images/menu/ic_add_spammer.png" ) ) {}
-                        else if ( tutorialToast.tutorial("tutorialClearBlockedKeywords", qsTr("You can clear this blocked list by selecting 'Clear All' from the menu."), "images/menu/ic_unblock_all.png" ) ) {}
-                        else if ( tutorialToast.tutorial("tutorialUnblockKeyword", qsTr("You can unblock a keyword you blocked by mistake by simply pressing-and-holding on the keyword and choosing 'Unblock' from the menu."), "images/menu/ic_unblock.png" ) ) {}
+                        if ( tutorial.exec("tutorialKeywords", qsTr("You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam."), "images/tabs/ic_keywords.png" ) ) {}
+                        else if ( tutorial.exec("tutorialScanSenderName", qsTr("Enable the 'Scan Sender Name' checkbox to match keywords on the sender's name as well as the subject line."), "images/toast/scan_sender.png" ) ) {}
+                        else if ( tutorial.exec("tutorialScanSenderAddress", qsTr("Enable the 'Scan Sender Address' checkbox to match keywords on the sender's address as well as the subject line. This is especially useful if you want to block domain names for example."), "images/toast/scan_address.png" ) ) {}
+                        else if ( adm.size() > 15 && tutorial.exec("tutorialSearchKeyword", qsTr("You can use the 'Search' action from the menu to search if a specific keyword is in your blocked list."), "images/menu/ic_search_keyword.png" ) ) {}
+                        else if ( tutorial.exec("tutorialAddKeyword", qsTr("Use the 'Add' action from the menu to add a specific keyword you want to block."), "images/menu/ic_add_spammer.png" ) ) {}
+                        else if ( tutorial.exec("tutorialClearBlockedKeywords", qsTr("You can clear this blocked list by selecting 'Clear All' from the menu."), "images/menu/ic_unblock_all.png" ) ) {}
+                        else if ( tutorial.exec("tutorialUnblockKeyword", qsTr("You can unblock a keyword you blocked by mistake by simply pressing-and-holding on the keyword and choosing 'Unblock' from the menu."), "images/menu/ic_unblock.png" ) ) {}
                     }
                 }
                 

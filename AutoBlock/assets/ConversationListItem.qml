@@ -3,7 +3,7 @@ import bb.cascades 1.0
 StandardListItem
 {
     enabled: ListItemData.senderAddress.length > 0
-    status: ListItem.view.localizer.renderStandardTime(ListItemData.time)
+    status: offloader.renderStandardTime(ListItemData.time)
     title: ListItemData.sender
     
     animations: [

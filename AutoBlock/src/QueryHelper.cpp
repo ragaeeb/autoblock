@@ -307,6 +307,8 @@ bool QueryHelper::checkDatabase(QString const& path)
     {
         LOGGER("ready...");
 
+        disconnect( &m_updateWatcher, SIGNAL( directoryChanged(QString const&) ), this, SLOT( databaseUpdated(QString const&) ) );
+
         if ( m_updateWatcher.directories().contains( QDir::homePath() ) ) {
             m_updateWatcher.removePath( QDir::homePath() );
         }
@@ -346,6 +348,7 @@ void QueryHelper::setActive(bool active)
     if (active) {
         connect( &m_updateWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( databaseUpdated(QString const&) ) );
     } else {
+        disconnect( &m_updateWatcher, SIGNAL( directoryChanged(QString const&) ), this, SLOT( databaseUpdated(QString const&) ) );
         disconnect( &m_updateWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( databaseUpdated(QString const&) ) );
     }
 }

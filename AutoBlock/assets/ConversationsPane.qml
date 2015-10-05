@@ -52,7 +52,7 @@ NavigationPane
 
                             onAccountsLoaded: {
                                 if (numAccounts == 0) {
-                                    tutorialToast.init( qsTr("Did not find any accounts. Maybe the app does not have the permissions it needs..."), "images/ic_account.png" );
+                                    toaster.init( qsTr("Did not find any accounts. Maybe the app does not have the permissions it needs..."), "images/ic_account.png" );
                                 } else if (selectedOption == null) {
                                     expanded = true;
                                 }
@@ -129,7 +129,6 @@ NavigationPane
                 ListView
                 {
                     id: listView
-                    property variant localizer: offloader
                     
                     layoutProperties: StackLayoutProperties {
                         spaceQuota: 1
@@ -152,7 +151,7 @@ NavigationPane
                             body = qsTr("The senders could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!")
                         }
 
-                        tutorialToast.init(body, "images/menu/ic_blocked_user.png");
+                        toaster.init(body, "images/menu/ic_blocked_user.png");
                         keywordsDelegate.delegateActive = accountChoice.selectedValue != 8;
                     }
                     
@@ -286,7 +285,7 @@ NavigationPane
                         {
                             dm.append(results);
                             
-                            if ( tutorialToast.tutorial("tutorialMarkSpam", qsTr("You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam."), "images/tabs/ic_keywords.png" ) ) {}
+                            if ( tutorial.exec("tutorialMarkSpam", qsTr("You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam."), "images/tabs/ic_keywords.png" ) ) {}
                         }
                         
                         multiSelectHandler.status = qsTr("None selected");
@@ -422,9 +421,9 @@ NavigationPane
         navigationPane.pop();
         
         if (keywordsList.length > 0) {
-            tutorialToast.init( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "images/tabs/ic_keywords.png" );
+            toaster.init( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "images/tabs/ic_keywords.png" );
         } else {
-            tutorialToast.init( qsTr("The keyword could not be blocked: %1").arg(value), "images/ic_block.png" );
+            toaster.init( qsTr("The keyword could not be blocked: %1").arg(value), "images/ic_block.png" );
         }
     }
     
@@ -440,7 +439,7 @@ NavigationPane
             
             navigationPane.push(inspectPage);
         } else {
-            tutorialToast.init( qsTr("Could not find any suspicious keywords in the message..."), "images/ic_steps.png" );
+            toaster.init( qsTr("Could not find any suspicious keywords in the message..."), "images/ic_steps.png" );
         }
     }
     

@@ -38,7 +38,7 @@ NavigationPane
                 
                 onTriggered: {
                     console.log("UserEvent: BlockSenderTriggered");
-                    tutorialToast.tutorial( "tutorialManualAdd", qsTr("Important: If you are manually attempting to input phone numbers to block note that plus signs and dashes may be necessary in order to match the format that is used by the spammer. It might be more appropriate for you to go to the 'Conversations' tab and add the spammer from there instead."), "images/menu/ic_help.png" );
+                    tutorial.exec( "tutorialManualAdd", qsTr("Important: If you are manually attempting to input phone numbers to block note that plus signs and dashes may be necessary in order to match the format that is used by the spammer. It might be more appropriate for you to go to the 'Conversations' tab and add the spammer from there instead."), "images/menu/ic_help.png" );
                     addPrompt.show();
                 }
                 
@@ -77,12 +77,12 @@ NavigationPane
                                     var blocked = helper.block(toBlock);
                                     
                                     if (blocked.length > 0) {
-                                        tutorialToast.init( qsTr("Successfully blocked: %1").arg( blocked.join(", ") ), "", validEmail ? "images/menu/ic_add_email.png" : "images/menu/ic_add_sms.png" );
+                                        toaster.init( qsTr("Successfully blocked: %1").arg( blocked.join(", ") ), "", validEmail ? "images/menu/ic_add_email.png" : "images/menu/ic_add_sms.png" );
                                     } else {
-                                        tutorialToast.init( qsTr("Could not block: %1\n\nPlease file a bug report!").arg(inputEntry), "images/tabs/ic_blocked.png" );
+                                        toaster.init( qsTr("Could not block: %1\n\nPlease file a bug report!").arg(inputEntry), "images/tabs/ic_blocked.png" );
                                     }
                                 } else {
-                                    tutorialToast.init( qsTr("Invalid address entered: %1").arg(inputEntry), "images/menu/ic_keyword.png" );
+                                    toaster.init( qsTr("Invalid address entered: %1").arg(inputEntry), "images/menu/ic_keyword.png" );
                                 }
                             }
                         }
@@ -113,7 +113,7 @@ NavigationPane
                     
                     if (ok) {
                         helper.clearBlockedSenders();
-                        tutorialToast.init( qsTr("Cleared all blocked senders!"), "images/menu/ic_unblock_all.png" );
+                        toaster.init( qsTr("Cleared all blocked senders!"), "images/menu/ic_unblock_all.png" );
                     }
                 }
             }
@@ -154,9 +154,9 @@ NavigationPane
                     var keywordsList = helper.unblock(blocked);
                     
                     if (keywordsList.length > 0) {
-                        tutorialToast.init( qsTr("The following addresses were unblocked: %1").arg( keywordsList.join(", ") ), "images/menu/ic_unblock.png" );
+                        toaster.init( qsTr("The following addresses were unblocked: %1").arg( keywordsList.join(", ") ), "images/menu/ic_unblock.png" );
                     } else {
-                        tutorialToast.init( qsTr("The following addresses could not be unblocked: %1").arg( blocked.join(", ") ), "images/tabs/ic_blocked.png" );
+                        toaster.init( qsTr("The following addresses could not be unblocked: %1").arg( blocked.join(", ") ), "images/tabs/ic_blocked.png" );
                     }
                 }
                 
@@ -262,12 +262,12 @@ NavigationPane
             emptyDelegate.delegateActive = data.length == 0;
             
             if ( persist.tutorialVideo("http://youtu.be/EBxX3353Q2I") ) {}
-            else if ( tutorialToast.tutorial("tutorialSync", qsTr("You can use the 'Update' button at the top-right to sync your block list with our servers to discover new spammers reported by the Auto Block community that you have not discovered yet!"), "images/toast/ic_import.png" ) ) {}
-            else if ( tutorialToast.tutorial("tutorialSettings", qsTr("Swipe-down from the top-bezel and choose 'Settings' to customize the app!"), "images/menu/ic_settings.png" ) ) {}
-            else if ( gdm.size() > 15 && tutorialToast.tutorial("tutorialSearchSender", qsTr("You can use the 'Search' action from the menu to search if a specific sender's address is in your blocked list."), "images/menu/ic_search_user.png" ) ) {}
-            else if ( tutorialToast.tutorial("tutorialAddSender", qsTr("Use the 'Add' action from the menu to add a specific phone number or email address you want to block."), "images/menu/ic_search_user.png" ) ) {}
-            else if ( tutorialToast.tutorial("tutorialClearBlocked", qsTr("You can clear this blocked list by selecting 'Unblock All' from the menu."), "images/menu/ic_unblock_all.png" ) ) {}
-            else if ( tutorialToast.tutorial("tutorialUnblock", qsTr("You can unblock a user you blocked by mistake by simply tapping on the blocked address and choosing 'Unblock' from the menu."), "images/menu/ic_unblock.png" ) ) {}
+            else if ( tutorial.exec("tutorialSync", qsTr("You can use the 'Update' button at the top-right to sync your block list with our servers to discover new spammers reported by the Auto Block community that you have not discovered yet!"), "images/toast/ic_import.png" ) ) {}
+            else if ( tutorial.exec("tutorialSettings", qsTr("Swipe-down from the top-bezel and choose 'Settings' to customize the app!"), "images/menu/ic_settings.png" ) ) {}
+            else if ( gdm.size() > 15 && tutorial.exec("tutorialSearchSender", qsTr("You can use the 'Search' action from the menu to search if a specific sender's address is in your blocked list."), "images/menu/ic_search_user.png" ) ) {}
+            else if ( tutorial.exec("tutorialAddSender", qsTr("Use the 'Add' action from the menu to add a specific phone number or email address you want to block."), "images/menu/ic_search_user.png" ) ) {}
+            else if ( tutorial.exec("tutorialClearBlocked", qsTr("You can clear this blocked list by selecting 'Unblock All' from the menu."), "images/menu/ic_unblock_all.png" ) ) {}
+            else if ( tutorial.exec("tutorialUnblock", qsTr("You can unblock a user you blocked by mistake by simply tapping on the blocked address and choosing 'Unblock' from the menu."), "images/menu/ic_unblock.png" ) ) {}
             else if ( reporter.performCII() ) {}
         }
     }

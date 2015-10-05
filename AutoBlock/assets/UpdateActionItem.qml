@@ -46,9 +46,9 @@ ActionItem
         
         if (blocked.length > 0)
         {
-            tutorialToast.init( blocked.length > 50 ? qsTr("Blocking addresses...") : qsTr("The following addresses were added: %1").arg( blocked.join(", ") ), "images/menu/ic_add_spammer.png" );
+            toaster.init( blocked.length > 50 ? qsTr("Blocking addresses...") : qsTr("The following addresses were added: %1").arg( blocked.join(", ") ), "images/menu/ic_add_spammer.png" );
         } else {
-            tutorialToast.init( qsTr("The addresses could not be added: %1\n\nPlease file a bug report!").arg( addresses.join(", ") ), "images/tabs/ic_blocked.png" );
+            toaster.init( qsTr("The addresses could not be added: %1\n\nPlease file a bug report!").arg( addresses.join(", ") ), "images/tabs/ic_blocked.png" );
         }
     }
     
@@ -69,7 +69,7 @@ ActionItem
             
             navigationPane.push(inspectPage);
         } else {
-            tutorialToast.init( qsTr("There are no new known spammers available yet.\nCheck back in a few days."), "images/toast/ic_import.png" );
+            toaster.init( qsTr("There are no new known spammers available yet.\nCheck back in a few days."), "images/toast/ic_import.png" );
         }
     }
     

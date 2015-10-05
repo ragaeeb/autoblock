@@ -51,10 +51,6 @@ TabbedPane
         delegate: Delegate {
             source: "LogPane.qml"
         }
-
-        onCreationCompleted: {
-            helper.dataReady.connect(onDataLoaded);
-        }
         
         onTriggered: {
             console.log("UserEvent: LogTabTriggered");

@@ -129,6 +129,7 @@ NavigationPane
                 ListView
                 {
                     id: listView
+                    scrollRole: ScrollRole.Main
                     
                     layoutProperties: StackLayoutProperties {
                         spaceQuota: 1

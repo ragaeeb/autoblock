@@ -109,6 +109,7 @@ Page
         ListView
         {
             id: listView
+            scrollRole: ScrollRole.Main
             property variant imageSource: listImage
             
             dataModel: GroupDataModel {

@@ -104,6 +104,7 @@ NavigationPane
             ListView
             {
                 id: listView
+                scrollRole: ScrollRole.Main
                 
                 listItemComponents: [
                     ListItemComponent

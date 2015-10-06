@@ -22,6 +22,7 @@ Page
     
     onCreationCompleted: {
         showSelectAllChanged();
+        deviceUtils.attachTopBottomKeys(root, listView);
     }
     
     onElementsChanged: {

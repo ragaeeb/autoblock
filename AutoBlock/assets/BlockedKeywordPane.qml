@@ -7,7 +7,7 @@ NavigationPane
     id: navigationPane
     
     onPopTransitionEnded: {
-        page.destroy();
+        deviceUtils.cleanUpAndDestroy(page);
     }
     
     function validatePurchase(control)
@@ -338,5 +338,9 @@ NavigationPane
                 }
             ]
         }
+    }
+    
+    onCreationCompleted: {
+        deviceUtils.attachTopBottomKeys(root, listView);
     }
 }

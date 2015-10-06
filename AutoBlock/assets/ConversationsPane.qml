@@ -472,12 +472,6 @@ NavigationPane
                     app.extractKeywords(toBlock);
                 }
             }
-            
-            onCreationCompleted: {
-                if (reporter.isAdmin) {
-                    listView.multiSelectHandler.addAction(testKeywords);
-                }
-            }
         },
         
         ActionItem
@@ -498,12 +492,16 @@ NavigationPane
 
                 dm.append(elements);
             }
-            
-            onCreationCompleted: {
-                if (reporter.isAdmin) {
-                    conversationsPage.addAction(insertRandom);
-                }
-            }
         }
     ]
+    
+    onCreationCompleted: {
+        if (reporter.isAdmin)
+        {
+            conversationsPage.addAction(insertRandom);
+            listView.multiSelectHandler.addAction(testKeywords);
+        }
+        
+        deviceUtils.attachTopBottomKeys(conversationsPage, listView);
+    }
 }

@@ -12,6 +12,8 @@ NavigationPane
     
     Page
     {
+        id: root
+        
         onActionMenuVisualStateChanged: {
             if (actionMenuVisualState == ActionMenuVisualState.VisibleFull)
             {
@@ -253,4 +255,8 @@ NavigationPane
             id: definition
         }
     ]
+    
+    onCreationCompleted: {
+        deviceUtils.attachTopBottomKeys(root, listView);
+    }
 }

@@ -44,9 +44,7 @@ void QueryHelper::onDataLoaded(QVariant idV, QVariant data)
 
     LOGGER(id/* << data*/);
 
-    if (id == QueryId::UnblockKeywords || id == QueryId::BlockKeywords) {
-        fetchAllBlockedKeywords();
-    } else if (id == QueryId::AttachReportedDatabase) {
+    if (id == QueryId::AttachReportedDatabase) {
         m_sql.executeQuery(this, "SELECT address AS value FROM reported_addresses", QueryId::FetchAllReported);
     } else if (id == QueryId::FetchAllReported) {
         m_sql.executeQuery(this, "DETACH DATABASE reported", QueryId::DetachReportedDatabase);
@@ -61,12 +59,12 @@ void QueryHelper::onDataLoaded(QVariant idV, QVariant data)
 }
 
 
-void QueryHelper::fetchAllBlockedKeywords(QString const& filter)
+void QueryHelper::fetchAllBlockedKeywords(QObject* caller, QString const& filter)
 {
     if ( filter.isNull() ) {
-        m_sql.executeQuery(this, "SELECT term,count FROM inbound_keywords ORDER BY term", QueryId::FetchBlockedKeywords);
+        m_sql.executeQuery(caller, "SELECT term,count FROM inbound_keywords ORDER BY term", QueryId::FetchBlockedKeywords);
     } else {
-        m_sql.executeQuery(this, "SELECT term,count FROM inbound_keywords WHERE term LIKE '%' || ? || '%' ORDER BY term", QueryId::FetchBlockedKeywords, QVariantList() << filter);
+        m_sql.executeQuery(caller, "SELECT term,count FROM inbound_keywords WHERE term LIKE '%' || ? || '%' ORDER BY term", QueryId::FetchBlockedKeywords, QVariantList() << filter);
     }
 }
 
@@ -96,8 +94,8 @@ void QueryHelper::clearBlockedSenders() {
 }
 
 
-void QueryHelper::clearBlockedKeywords() {
-    m_sql.executeClear(this, "inbound_keywords", QueryId::UnblockKeywords);
+void QueryHelper::clearBlockedKeywords(QObject* caller) {
+    m_sql.executeClear(caller, "inbound_keywords", QueryId::ClearKeywords);
 }
 
 

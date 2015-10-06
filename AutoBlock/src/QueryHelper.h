@@ -51,11 +51,11 @@ public:
 	QueryHelper(Persistance* persist);
 	virtual ~QueryHelper();
 
-    Q_INVOKABLE void clearBlockedKeywords();
+    Q_INVOKABLE void clearBlockedKeywords(QObject* caller);
     Q_INVOKABLE void clearBlockedSenders();
     Q_INVOKABLE void cleanInvalidEntries();
     Q_INVOKABLE void clearLogs();
-    Q_INVOKABLE void fetchAllBlockedKeywords(QString const& filter=QString());
+    Q_INVOKABLE void fetchAllBlockedKeywords(QObject* caller, QString const& filter=QString());
     Q_INVOKABLE void fetchAllBlockedSenders(QString const& filter=QString());
     Q_INVOKABLE void fetchAllLogs(QString const& filter=QString());
     Q_INVOKABLE void fetchExcludedWords(QString const& filter=QString());

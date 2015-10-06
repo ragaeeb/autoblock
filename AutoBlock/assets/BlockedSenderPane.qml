@@ -8,7 +8,7 @@ NavigationPane
     signal addClicked();
     
     onPopTransitionEnded: {
-        page.destroy();
+        deviceUtils.cleanUpAndDestroy(page);
     }
     
     Page
@@ -276,5 +276,7 @@ NavigationPane
     onCreationCompleted: {
         helper.dataReady.connect(onDataLoaded);
         helper.fetchAllBlockedSenders();
+        
+        deviceUtils.attachTopBottomKeys(root, listView);
     }
 }

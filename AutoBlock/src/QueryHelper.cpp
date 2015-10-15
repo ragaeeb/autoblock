@@ -69,12 +69,12 @@ void QueryHelper::fetchAllBlockedKeywords(QObject* caller, QString const& filter
 }
 
 
-void QueryHelper::fetchExcludedWords(QString const& filter)
+void QueryHelper::fetchExcludedWords(QObject* caller, QString const& filter)
 {
     if ( filter.isNull() ) {
-        m_sql.executeQuery(this, "SELECT word FROM skip_keywords ORDER BY word", QueryId::FetchExcludedWords);
+        m_sql.executeQuery(caller, "SELECT word FROM skip_keywords ORDER BY word", QueryId::FetchExcludedWords);
     } else {
-        m_sql.executeQuery(this, "SELECT word FROM skip_keywords WHERE word LIKE '%' || ? || '%' ORDER BY word", QueryId::FetchExcludedWords, QVariantList() << filter);
+        m_sql.executeQuery(caller, "SELECT word FROM skip_keywords WHERE word LIKE '%' || ? || '%' ORDER BY word", QueryId::FetchExcludedWords, QVariantList() << filter);
     }
 }
 
@@ -109,7 +109,7 @@ void QueryHelper::clearLogs() {
 }
 
 
-QStringList QueryHelper::blockKeywords(QVariantList const& keywords)
+QStringList QueryHelper::blockKeywords(QObject* caller, QVariantList const& keywords)
 {
     LOGGER("BlockKeywords" << keywords);
 
@@ -125,14 +125,14 @@ QStringList QueryHelper::blockKeywords(QVariantList const& keywords)
     }
 
     if ( !keywordsList.isEmpty() ) {
-        prepareTransaction("INSERT OR IGNORE INTO inbound_keywords (term) VALUES(%1)", keywords, QueryId::BlockKeywords, QueryId::BlockKeywordChunk);
+        prepareTransaction(caller, "INSERT OR IGNORE INTO inbound_keywords (term) VALUES(%1)", keywords, QueryId::BlockKeywords, QueryId::BlockKeywordChunk);
     }
 
     return keywordsList;
 }
 
 
-QStringList QueryHelper::block(QVariantList const& messages)
+QStringList QueryHelper::block(QObject* caller, QVariantList const& messages)
 {
     LOGGER( messages.size() );
 
@@ -182,7 +182,7 @@ QStringList QueryHelper::block(QVariantList const& messages)
     }
 
     if ( !numbers.isEmpty() ) {
-        prepareTransaction("INSERT OR IGNORE INTO inbound_blacklist (address) VALUES(%1)", numbers, QueryId::BlockSenders, QueryId::BlockSenderChunk);
+        prepareTransaction(caller, "INSERT OR IGNORE INTO inbound_blacklist (address) VALUES(%1)", numbers, QueryId::BlockSenders, QueryId::BlockSenderChunk);
     } else {
         LOGGER("[ERROR_001: No sender addresses found!]");
     }
@@ -191,11 +191,11 @@ QStringList QueryHelper::block(QVariantList const& messages)
 }
 
 
-void QueryHelper::prepareTransaction(QString const& query, QVariantList const& elements, QueryId::Type qid, QueryId::Type chunkId)
+void QueryHelper::prepareTransaction(QObject* caller, QString const& query, QVariantList const& elements, QueryId::Type qid, QueryId::Type chunkId)
 {
     QString maxPlaceHolders = DatabaseHelper::getPlaceHolders(MAX_TRANSACTION_SIZE);
 
-    m_sql.startTransaction(this, chunkId);
+    m_sql.startTransaction(caller, chunkId);
 
     QVariantList chunk;
 
@@ -205,7 +205,7 @@ void QueryHelper::prepareTransaction(QString const& query, QVariantList const& e
 
         if ( chunk.size() >= MAX_TRANSACTION_SIZE )
         {
-            m_sql.executeQuery( this, query.arg(maxPlaceHolders), chunkId, chunk );
+            m_sql.executeQuery( caller, query.arg(maxPlaceHolders), chunkId, chunk );
             chunk.clear();
         }
     }
@@ -213,14 +213,14 @@ void QueryHelper::prepareTransaction(QString const& query, QVariantList const& e
     int remaining = chunk.size();
 
     if (remaining > 0 && remaining < MAX_TRANSACTION_SIZE) {
-        m_sql.executeQuery( this, query.arg( DatabaseHelper::getPlaceHolders(remaining) ), chunkId, chunk );
+        m_sql.executeQuery( caller, query.arg( DatabaseHelper::getPlaceHolders(remaining) ), chunkId, chunk );
     }
 
-    m_sql.endTransaction(this, qid);
+    m_sql.endTransaction(caller, qid);
 }
 
 
-QStringList QueryHelper::unblockKeywords(QVariantList const& keywords)
+QStringList QueryHelper::unblockKeywords(QObject* caller, QVariantList const& keywords)
 {
     LOGGER("unblockKeywords" << keywords);
 
@@ -236,13 +236,13 @@ QStringList QueryHelper::unblockKeywords(QVariantList const& keywords)
         placeHolders << PLACEHOLDER;
     }
 
-    m_sql.executeQuery( this, QString("DELETE FROM inbound_keywords WHERE term IN (%1)").arg( placeHolders.join(",") ), QueryId::UnblockKeywords, keywordsVariants);
+    m_sql.executeQuery( caller, QString("DELETE FROM inbound_keywords WHERE term IN (%1)").arg( placeHolders.join(",") ), QueryId::UnblockKeywords, keywordsVariants);
 
     return keywordsList;
 }
 
 
-QStringList QueryHelper::unblock(QVariantList const& senders)
+QStringList QueryHelper::unblock(QObject* caller, QVariantList const& senders)
 {
     LOGGER(senders);
 
@@ -258,7 +258,7 @@ QStringList QueryHelper::unblock(QVariantList const& senders)
         placeHolders << PLACEHOLDER;
     }
 
-    m_sql.executeQuery(this, QString("DELETE FROM inbound_blacklist WHERE address IN (%1)").arg( placeHolders.join(",") ), QueryId::UnblockSenders, keywordsVariants);
+    m_sql.executeQuery( caller, QString("DELETE FROM inbound_blacklist WHERE address IN (%1)").arg( placeHolders.join(",") ), QueryId::UnblockSenders, keywordsVariants);
 
     return keywordsList;
 }

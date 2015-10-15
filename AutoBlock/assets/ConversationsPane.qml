@@ -1,4 +1,5 @@
 import bb.cascades 1.0
+import com.canadainc.data 1.0
 
 NavigationPane
 {
@@ -139,20 +140,24 @@ NavigationPane
                         imageSource: "images/menu/ic_select_more.png"
                     }
                     
+                    function onDataLoaded(id, data)
+                    {
+                        if (id == QueryId.BlockSenders) {
+                            persist.showToast( qsTr("Addresses successfully blocked!").arg( numbersList.join(", ") ), "images/menu/ic_blocked_user.png" );
+                        } else if (id == QueryId.BlockKeywords) {
+                            persist.showToast( qsTr("The keywords were successfully added!"), "images/tabs/ic_keywords.png" );
+                        }
+                    }
+                    
                     function doBlock(toBlock)
                     {
-                        var numbersList = helper.block(toBlock);
-                        keywordsDelegate.toBlock = toBlock;
+                        var numbersList = helper.block(listView, toBlock);
                         
-                        var body;
-                        
-                        if (numbersList.length > 0) {
-                            body = qsTr("The following addresses were blocked: %1").arg( numbersList.join(", ") );
-                        } else {
-                            body = qsTr("The senders could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!")
+                        if (numbersList.length == 0) {
+                            toaster.init( qsTr("The senders could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!"), "images/menu/ic_blocked_user.png" );
                         }
 
-                        toaster.init(body, "images/menu/ic_blocked_user.png");
+                        keywordsDelegate.toBlock = toBlock;
                         keywordsDelegate.delegateActive = accountChoice.selectedValue != 8;
                     }
                     
@@ -418,12 +423,10 @@ NavigationPane
     
     function onKeywordsSelected(keywords)
     {
-        var keywordsList = helper.blockKeywords(keywords);
+        var keywordsList = helper.blockKeywords(listView, keywords);
         navigationPane.pop();
         
-        if (keywordsList.length > 0) {
-            toaster.init( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "images/tabs/ic_keywords.png" );
-        } else {
+        if (keywordsList.length == 0) {
             toaster.init( qsTr("The keyword could not be blocked: %1").arg(value), "images/ic_block.png" );
         }
     }

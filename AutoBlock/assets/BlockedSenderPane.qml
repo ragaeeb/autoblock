@@ -64,33 +64,36 @@ NavigationPane
                             
                             if (value == SystemUiResult.ConfirmButtonSelection)
                             {
-                                var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                                var phoneRegex = /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i;
-                                
                                 var inputEntry = addPrompt.inputFieldTextEntry().trim();
-                                var validEmail = emailRegex.test(inputEntry);
-                                var validNumber = phoneRegex.test(inputEntry);
+                                var validEmail = ciu.isValidEmail(inputEntry);
+                                var validNumber = ciu.isValidEmail(inputEntry);
                                 
                                 if (validEmail || validNumber)
                                 {
-                                    var toBlock = [{'senderAddress': inputEntry}];
-                                    var blocked = helper.block(toBlock);
+                                    var toBlock = [{'senderAddress': inputEntry, 'count': 0}];
+                                    var blocked = helper.block(navigationPane, toBlock);
                                     
-                                    if (blocked.length > 0) {
-                                        toaster.init( qsTr("Successfully blocked: %1").arg( blocked.join(", ") ), "", validEmail ? "images/menu/ic_add_email.png" : "images/menu/ic_add_sms.png" );
-                                    } else {
+                                    if (blocked.length == 0) {
                                         toaster.init( qsTr("Could not block: %1\n\nPlease file a bug report!").arg(inputEntry), "images/tabs/ic_blocked.png" );
+                                    } else {
+                                        gdm.insertList(toBlock);
+                                        refresh();
                                     }
                                 } else {
                                     toaster.init( qsTr("Invalid address entered: %1").arg(inputEntry), "images/menu/ic_keyword.png" );
                                 }
                             }
                         }
+                    },
+                    
+                    CanadaIncUtils {
+                        id: ciu
                     }
                 ]
             },
             
-            SearchActionItem {
+            SearchActionItem
+            {
                 imageSource: "images/menu/ic_search_user.png"
                 
                 onQueryChanged: {
@@ -105,16 +108,18 @@ NavigationPane
                 title: qsTr("Unblock All") + Retranslate.onLanguageChanged
                 imageSource: "images/menu/ic_unblock_all.png"
                 
-                onTriggered: {
-                    console.log("UserEvent: UnblockAllSenders");
-                    
-                    var ok = persist.showBlockingDialog( qsTr("Confirmation"), qsTr("Are you sure you want to clear all blocked members?") );
+                function onFinished(ok)
+                {
                     console.log("UserEvent: UnblockAllSendersConfirm", ok);
                     
                     if (ok) {
                         helper.clearBlockedSenders();
-                        toaster.init( qsTr("Cleared all blocked senders!"), "images/menu/ic_unblock_all.png" );
                     }
+                }
+                
+                onTriggered: {
+                    console.log("UserEvent: UnblockAllSenders");
+                    persist.showDialog( unblockAllAction, qsTr("Confirmation"), qsTr("Are you sure you want to clear all blocked members?") );
                 }
             }
         ]
@@ -127,7 +132,8 @@ NavigationPane
             
             layout: DockLayout {}
             
-            EmptyDelegate {
+            EmptyDelegate
+            {
                 id: emptyDelegate
                 graphic: "images/empty/ic_empty_blocked.png"
                 labelText: qsTr("You have no blocked senders. Either manually add phone numbers and email addresses to block from the overflow menu, or tap here to choose spam messages from your existing conversations.")
@@ -152,12 +158,16 @@ NavigationPane
                 
                 function unblock(blocked)
                 {
-                    var keywordsList = helper.unblock(blocked);
+                    var keywordsList = helper.unblock(navigationPane, blocked);
                     
-                    if (keywordsList.length > 0) {
-                        toaster.init( qsTr("The following addresses were unblocked: %1").arg( keywordsList.join(", ") ), "images/menu/ic_unblock.png" );
-                    } else {
+                    if (keywordsList.length == 0) {
                         toaster.init( qsTr("The following addresses could not be unblocked: %1").arg( blocked.join(", ") ), "images/tabs/ic_blocked.png" );
+                    } else {
+                        for (var i = blocked.length-1; i >= 0; i--) {
+                            gdm.remove(blocked[i]);
+                        }
+                        
+                        refresh();
                     }
                 }
                 
@@ -252,6 +262,19 @@ NavigationPane
         }
     }
     
+    function refresh()
+    {
+        listView.visible = !gdm.isEmpty();
+        emptyDelegate.delegateActive = gdm.isEmpty();
+        
+        tutorial.exec("tutorialSync", qsTr("You can use the 'Update' button at the top-right to sync your block list with our servers to discover new spammers reported by the Auto Block community that you have not discovered yet!"), "images/toast/ic_import.png" );
+        tutorial.exec("tutorialSettings", qsTr("Swipe-down from the top-bezel and choose 'Settings' to customize the app!"), "images/menu/ic_settings.png" );
+        gdm.size() > 15 && tutorial.exec("tutorialSearchSender", qsTr("You can use the 'Search' action from the menu to search if a specific sender's address is in your blocked list."), "images/menu/ic_search_user.png" );
+        tutorial.exec("tutorialAddSender", qsTr("Use the 'Add' action from the menu to add a specific phone number or email address you want to block."), "images/menu/ic_search_user.png" );
+        tutorial.exec("tutorialClearBlocked", qsTr("You can clear this blocked list by selecting 'Unblock All' from the menu."), "images/menu/ic_unblock_all.png" );
+        tutorial.exec("tutorialUnblock", qsTr("You can unblock a user you blocked by mistake by simply tapping on the blocked address and choosing 'Unblock' from the menu."), "images/menu/ic_unblock.png" );
+    }
+    
     function onDataLoaded(id, data)
     {
         if (id == QueryId.FetchBlockedSenders)
@@ -259,17 +282,11 @@ NavigationPane
             gdm.clear();
             gdm.insertList(data);
             
-            listView.visible = data.length > 0;
-            emptyDelegate.delegateActive = data.length == 0;
-            
-            if ( persist.tutorialVideo("http://youtu.be/EBxX3353Q2I") ) {}
-            else if ( tutorial.exec("tutorialSync", qsTr("You can use the 'Update' button at the top-right to sync your block list with our servers to discover new spammers reported by the Auto Block community that you have not discovered yet!"), "images/toast/ic_import.png" ) ) {}
-            else if ( tutorial.exec("tutorialSettings", qsTr("Swipe-down from the top-bezel and choose 'Settings' to customize the app!"), "images/menu/ic_settings.png" ) ) {}
-            else if ( gdm.size() > 15 && tutorial.exec("tutorialSearchSender", qsTr("You can use the 'Search' action from the menu to search if a specific sender's address is in your blocked list."), "images/menu/ic_search_user.png" ) ) {}
-            else if ( tutorial.exec("tutorialAddSender", qsTr("Use the 'Add' action from the menu to add a specific phone number or email address you want to block."), "images/menu/ic_search_user.png" ) ) {}
-            else if ( tutorial.exec("tutorialClearBlocked", qsTr("You can clear this blocked list by selecting 'Unblock All' from the menu."), "images/menu/ic_unblock_all.png" ) ) {}
-            else if ( tutorial.exec("tutorialUnblock", qsTr("You can unblock a user you blocked by mistake by simply tapping on the blocked address and choosing 'Unblock' from the menu."), "images/menu/ic_unblock.png" ) ) {}
-            else if ( reporter.performCII() ) {}
+            refresh();
+        } else if (id == QueryId.BlockSenders) {
+            persist.showToast( qsTr("Successfully blocked address."), ciu.isValidEmail( addPrompt.inputFieldTextEntry().trim() ) ? "images/menu/ic_add_email.png" : "images/menu/ic_add_sms.png" );
+        } else if (id == QueryId.UnblockSenders) {
+            persist.showToast( qsTr("Addresses successfully unblocked!"), "images/menu/ic_unblock.png" );
         }
     }
     

@@ -87,9 +87,9 @@ void KeywordParserThread::run()
 }
 
 
-void KeywordParserThread::dataReady(int id, QVariant const& data)
+void KeywordParserThread::onDataLoaded(QVariant id, QVariant data)
 {
-    if (id == QueryId::FetchExcludedWords) {
+    if ( id.toInt() == QueryId::FetchExcludedWords ) {
         m_excluded = data.toList();
     }
 

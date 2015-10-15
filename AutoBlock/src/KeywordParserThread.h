@@ -21,7 +21,7 @@ signals:
 public:
 	KeywordParserThread(QVariantList const& messages, bool ignorePunctuation=false, QObject* parent=NULL);
 	virtual ~KeywordParserThread();
-    Q_SLOT void dataReady(int id, QVariant const& data);
+    Q_SLOT void onDataLoaded(QVariant id, QVariant data);
 
 	void run();
 };

@@ -37,7 +37,7 @@ class QueryHelper : public QObject
     bool m_logSearchMode;
     QMap<qint64, quint64> m_accountToTrash;
 
-    void prepareTransaction(QString const& query, QVariantList const& elements, QueryId::Type qid, QueryId::Type chunkId);
+    void prepareTransaction(QObject* caller, QString const& query, QVariantList const& elements, QueryId::Type qid, QueryId::Type chunkId);
 
 private slots:
     void databaseUpdated(QString const& path);
@@ -58,12 +58,12 @@ public:
     Q_INVOKABLE void fetchAllBlockedKeywords(QObject* caller, QString const& filter=QString());
     Q_INVOKABLE void fetchAllBlockedSenders(QString const& filter=QString());
     Q_INVOKABLE void fetchAllLogs(QString const& filter=QString());
-    Q_INVOKABLE void fetchExcludedWords(QString const& filter=QString());
+    Q_INVOKABLE void fetchExcludedWords(QObject* caller, QString const& filter=QString());
     Q_INVOKABLE void fetchLatestLogs();
-    Q_INVOKABLE QStringList block(QVariantList const& numbers);
-    Q_INVOKABLE QStringList blockKeywords(QVariantList const& keywords);
-    Q_INVOKABLE QStringList unblock(QVariantList const& senders);
-    Q_INVOKABLE QStringList unblockKeywords(QVariantList const& keywords);
+    Q_INVOKABLE QStringList block(QObject* caller, QVariantList const& numbers);
+    Q_INVOKABLE QStringList blockKeywords(QObject* caller, QVariantList const& keywords);
+    Q_INVOKABLE QStringList unblock(QObject* caller, QVariantList const& senders);
+    Q_INVOKABLE QStringList unblockKeywords(QObject* caller, QVariantList const& keywords);
     Q_INVOKABLE void optimize(QObject* caller);
     Q_SLOT bool checkDatabase(QString const& path=QString());
     bool ready() const;

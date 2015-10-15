@@ -92,6 +92,22 @@ NavigationPane
                                 if ( scanAddress.checked && tutorial.exec( "tutorialScanAddress", qsTr("Warning: Be very careful when turning on this feature as it can result in harmless messages being classified as spam. For example if you enter a keyword as 'gmail', then any email address that contains 'gmail' will be blocked! This is useful for blocking entire domain names but it can also be too aggressive if not used properly."), "images/ic_pim_warning.png" ) ) {}
                             }
                         }
+                        
+                        PersistCheckBox
+                        {
+                            id: ignorePunc
+                            topMargin: 10
+                            key: "ignorePunctuation"
+                            text: qsTr("Strip Punctuation from Keywords") + Retranslate.onLanguageChanged
+                            
+                            onCheckedChanged: {
+                                if (checked) {
+                                    infoText.text = qsTr("Punctuation will be removed from messages before they are tested.");
+                                } else {
+                                    infoText.text = qsTr("Punctuation will be left as-is when comparing with the blocked list of keywords.");
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -140,12 +156,13 @@ NavigationPane
                                     return;
                                 }
                                 
-                                var keywordsList = helper.blockKeywords([inputValue]);
+                                var keywordsList = helper.blockKeywords(navigationPane, [inputValue]);
                                 
-                                if (keywordsList.length > 0) {
-                                    toaster.init( qsTr("The following keywords were added: %1").arg( keywordsList.join(", ") ), "images/tabs/ic_keywords.png" );
-                                } else {
+                                if (keywordsList.length == 0) {
                                     toaster.init( qsTr("The keyword could not be blocked: %1").arg(inputValue), "images/ic_block.png" );
+                                } else {
+                                    adm.insert({'term': inputValue, 'count': 0});
+                                    refresh();
                                 }
                             }
                         }
@@ -224,6 +241,8 @@ NavigationPane
                 	    for (var i = blocked.length-1; i >= 0; i--) {
                 	        adm.remove(blocked[i]);
                 	    }
+                	    
+                	    refresh();
                 	}
                 }
                 
@@ -323,8 +342,8 @@ NavigationPane
     
     function refresh()
     {
-        listView.visible = data.length > 0;
-        emptyDelegate.delegateActive = data.length == 0;
+        listView.visible = !adm.isEmpty();
+        emptyDelegate.delegateActive = adm.isEmpty();
         
         tutorial.exec("keywords", qsTr("You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam."), "images/tabs/ic_keywords.png" );
         tutorial.exec("scanSenderName", qsTr("Enable the 'Scan Sender Name' checkbox to match keywords on the sender's name as well as the subject line."), "images/toast/scan_sender.png" );
@@ -345,13 +364,17 @@ NavigationPane
         {
             adm.clear();
             adm.insertList(data);
-            
+
             refresh();
         } else if (id == QueryId.ClearKeywords) {
-            adm.clear();
             persist.showToast( qsTr("Cleared all blocked keywords!"), "images/menu/ic_clear.png" );
+
+            adm.clear();
+            refresh();
         } else if (id == QueryId.UnblockKeywords) {
-            toaster.init( qsTr("Unblocked keywords!"), "images/menu/ic_unblock.png" );
+            persist.showToast( qsTr("Unblocked keywords!"), "images/menu/ic_unblock.png" );
+        } else if (id == QueryId.BlockKeywords) {
+            persist.showToast( qsTr("Keywords successfully added!"), "images/tabs/ic_keywords.png" );
         }
     }
     

@@ -139,11 +139,9 @@ void AutoBlock::completeInvoke()
 void AutoBlock::onKeywordsSelected(QVariant k)
 {
     QVariantList keywords = k.toList();
-    QStringList keywordsList = m_helper.blockKeywords(keywords);
+    QStringList keywordsList = m_helper.blockKeywords(this, keywords);
 
-    if ( !keywordsList.isEmpty() ) {
-        finishWithToast( tr("The following keywords were added: %1").arg( keywordsList.join(", ") ) );
-    } else {
+    if ( keywordsList.isEmpty() ) {
         finishWithToast( tr("The keyword(s) could not be added.") );
     }
 }
@@ -168,9 +166,8 @@ void AutoBlock::prepareKeywordExtraction(QVariantList const& toProcess, const ch
 {
     KeywordParserThread* ai = new KeywordParserThread( toProcess, m_persistance.getValueFor("ignorePunctuation") == 1 );
     connect( ai, SIGNAL( keywordsExtracted(QVariantList const&) ), this, slot );
-    connect( &m_helper, SIGNAL( dataReady(int, QVariant const&) ), ai, SLOT( dataReady(int, QVariant const&) ) );
 
-    m_helper.fetchExcludedWords();
+    m_helper.fetchExcludedWords(ai);
 }
 
 
@@ -183,11 +180,9 @@ void AutoBlock::messageFetched(QVariantMap const& result)
         QVariantList toProcess;
         toProcess << result;
 
-        QStringList added = m_helper.block(toProcess);
+        QStringList added = m_helper.block(this, toProcess);
 
-        if ( !added.isEmpty() ) {
-            m_persistance.showToast( tr("The following addresses were blocked: %1").arg( added.join(", ") ), "asset:///images/menu/ic_blocked_user.png" );
-        } else {
+        if ( added.isEmpty() ) {
             m_persistance.showToast( tr("The addresses could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!"), "asset:///images/tabs/ic_blocked.png" );
         }
 
@@ -195,6 +190,18 @@ void AutoBlock::messageFetched(QVariantMap const& result)
     } else {
         LOGGER("[FAILEDHUBBLOCK]");
         m_persistance.showToast( tr("Could not block the sender, this is due to a bug in BlackBerry OS 10.2.1. There are two ways around this problem:\n\n1) From the BlackBerry Hub, tap on the email to open it, tap on the menu icon (...) on the bottom-right, choose Share, and then choose Auto Block.\n\n2) Open the app and block the message from the Conversations tab."), "asset:///images/ic_pim_warning.png" );
+    }
+}
+
+
+void AutoBlock::onDataLoaded(int id, QVariant data)
+{
+    Q_UNUSED(data);
+
+    if (id == QueryId::BlockSenders) {
+        m_persistance.showToast( tr("Successfully blocked addresses!"), "images/menu/ic_blocked_user.png" );
+    } else if (id == QueryId::BlockKeywords) {
+        finishWithToast( tr("The keywords were successfully added!") );
     }
 }
 

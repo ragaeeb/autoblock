@@ -1,4 +1,5 @@
 import bb.cascades 1.2
+import com.canadainc.data 1.0
 
 ActionItem
 {
@@ -14,22 +15,32 @@ ActionItem
         progress.open();
     }
     
+    function onFinished(confirm)
+    {
+        if (confirm)
+        {
+            persist.setFlag("updateTutorial", 1);
+            confirmed();
+        } else {
+            enabled = true;
+        }
+    }
+    
     onTriggered: {
         console.log("UserEvent: SyncUpdate");
         enabled = false;
         
-        if ( !persist.contains("updateTutorial") )
-        {
-            var confirm = persist.showBlockingDialog( qsTr("Confirmation"), qsTr("The update may consume data. Make sure you are on an appropriate Wi-Fi connection or a good data plan. This action will sync your blocked list with our servers so that you can benefit from and benefit other users to report spammers. Would you like to proceed?") );
-            console.log("UserEvent: SyncUpdateConfirm", confirm);
-            
-            if (confirm) {
-                persist.saveValueFor("updateTutorial", 1, false);
-                updateAction.enabled = false;
-                confirmed();
-            }
+        if ( !persist.containsFlag("updateTutorial") ) {
+            persist.showDialog( updateAction, qsTr("Confirmation"), qsTr("The syncing may consume data. Make sure you are on an appropriate Wi-Fi connection or a good data plan. This action will sync your blocked list with our servers so that you can benefit from and benefit other users to report spammers. Would you like to proceed?") );
         } else {
             confirmed();
+        }
+    }
+    
+    function onDataLoaded(id, data)
+    {
+        if (id == QueryId.BlockSenders) {
+            toaster.init( qsTr("Addresses added to blocked list!"), "images/menu/ic_add_spammer.png" );
         }
     }
     
@@ -41,13 +52,12 @@ ActionItem
             transformed.push({'senderAddress': addresses[i]});
         }
         
-        var blocked = helper.block(transformed);
+        var blocked = helper.block(updateAction, transformed);
         navigationPane.pop();
         
-        if (blocked.length > 0)
-        {
-            toaster.init( blocked.length > 50 ? qsTr("Blocking addresses...") : qsTr("The following addresses were added: %1").arg( blocked.join(", ") ), "images/menu/ic_add_spammer.png" );
-        } else {
+        if (blocked.length > 50) {
+            persist.showToast( qsTr("Blocking addresses..."), "images/menu/ic_add_spammer.png" );
+        } else if (blocked.length == 0) {
             toaster.init( qsTr("The addresses could not be added: %1\n\nPlease file a bug report!").arg( addresses.join(", ") ), "images/tabs/ic_blocked.png" );
         }
     }

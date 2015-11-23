@@ -9,10 +9,6 @@ TabbedPane
     
     Menu.definition: CanadaIncMenu
     {
-        help.imageSource: "images/menu/ic_help.png"
-        help.title: qsTr("Help") + Retranslate.onLanguageChanged
-        settings.imageSource: "images/menu/ic_settings.png"
-        settings.title: qsTr("Settings") + Retranslate.onLanguageChanged
         projectName: "autoblock"
         bbWorldID: "25793872"
         
@@ -33,6 +29,7 @@ TabbedPane
     
     function setupComplete()
     {
+        helper.readyChanged.disconnect(setupComplete);
         logTab.delegateActivationPolicy = TabDelegateActivationPolicy.ActivateWhenSelected;
         
         if ( persist.getValueFor("startAtConversations") == 1 ) {

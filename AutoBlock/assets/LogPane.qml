@@ -17,9 +17,9 @@ NavigationPane
         onActionMenuVisualStateChanged: {
             if (actionMenuVisualState == ActionMenuVisualState.VisibleFull)
             {
-                tutorial.exec("searchLogs", qsTr("You can use the '%1' action from the menu to search the logs if a specific message that was blocked.").arg(search.title), HorizontalAlignment.Right, VerticalAlignment.Center, 0, ui.du(2), 0, 0, search.imageSource.toString() );
-                tutorial.exec("clearLogs", qsTr("If this list is getting too cluttered, you can always clear the logs by using the '%1' action from the menu.").arg(clearLogsAction.title), HorizontalAlignment.Right, VerticalAlignment.Center, 0, ui.du(2), 0, 0, clearLogsAction.imageSource.toString() );
-                tutorial.exec("testAction", qsTr("You can test out if your keywords and blocked list is properly set up by using the '%1' action from the menu.").arg(testAction.title), HorizontalAlignment.Right, VerticalAlignment.Center, 0, ui.du(2), 0, 0, testAction.imageSource.toString() );
+                tutorial.execOverFlow("searchLogs", qsTr("You can use the '%1' action from the menu to search the logs if a specific message that was blocked."), search );
+                tutorial.execOverFlow("clearLogs", qsTr("If this list is getting too cluttered, you can always clear the logs by using the '%1' action from the menu."), clearLogsAction );
+                tutorial.execOverFlow("testAction", qsTr("You can test out if your keywords and blocked list is properly set up by using the '%1' action from the menu."), testAction );
             }
             
             reporter.record("LogPageMenuOpened", actionMenuVisualState.toString());

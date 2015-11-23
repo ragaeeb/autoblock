@@ -19,7 +19,7 @@ Page
     
     onActionMenuVisualStateChanged: {
         if (actionMenuVisualState == ActionMenuVisualState.VisibleFull) {
-            tutorial.exec("recovery", qsTr("You can use the '%1' action from the menu to recreate the database if it became corrupt.").arg(recover.title), HorizontalAlignment.Right, VerticalAlignment.Center, 0, ui.du(2), 0, 0, recover.imageSource.toString() );
+            tutorial.execOverFlow("recovery", qsTr("You can use the '%1' action from the menu to recreate the database if it became corrupt."), recover );
         }
         
         reporter.record("SettingsPageMenuOpened", actionMenuVisualState.toString());
@@ -27,7 +27,7 @@ Page
     
     onCreationCompleted: {
         tutorial.execBelowTitleBar("sound", qsTr("Enable the '%1' checkbox if you want to hear a sound everytime a message is blocked (this will only sound if you have the device is an appropriate profile that allows notifications).").arg(sound.text), 0, "r", undefined, "images/toast/sound.png" );
-        //else if ( persist.tutorial("tutorialBlockStrangers", qsTr("Enable the Block Non-Contacts checkbox if you want to block messages from anyone who is not in your contact list."), "file:///usr/share/icons/ic_open_contacts.png" ) ) {}
+        //tutorial.execBelowTitleBar("tutorialBlockStrangers", qsTr("Enable the Block Non-Contacts checkbox if you want to block messages from anyone who is not in your contact list."), "file:///usr/share/icons/ic_open_contacts.png" );
         tutorial.execBelowTitleBar("whitelist", qsTr("Enable the '%1' checkbox if you want to prevent scanning of messages sent by anyone in your contact list.").arg(whitelist.text), ui.du(3), "r", undefined, "images/toast/whitelist.png" );
         tutorial.execBelowTitleBar("startConversations", qsTr("Enable the '%1' checkbox if you want the app to start at the Conversations tab instead of the default Logs tab.").arg(startConvo.text), ui.du(12), "r", undefined, "images/tabs/ic_conversations.png" );
         tutorial.execBelowTitleBar("stripKeywords", qsTr("Enable the '%1' checkbox if you want to remove all punctuation from keywords before processing it. This can be useful when spammers try to trick the app by using 'app.le' to get around a keyword like 'apple'.").arg(ignorePunc.text), ui.du(16), "r", undefined, "images/toast/strip_keywords.png" );

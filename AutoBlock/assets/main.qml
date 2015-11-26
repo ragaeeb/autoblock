@@ -6,6 +6,7 @@ TabbedPane
     id: root
     activeTab: logTab
     showTabsOnActionBar: true
+    property bool firstLaunch: false
     
     Menu.definition: CanadaIncMenu
     {
@@ -14,6 +15,7 @@ TabbedPane
         
         onFinished: {
             tutorial.execAppMenu();
+            firstLaunch = analyticResult == 3;
             
             if (helper.ready) {
                 setupComplete();
@@ -32,7 +34,7 @@ TabbedPane
         helper.readyChanged.disconnect(setupComplete);
         logTab.delegateActivationPolicy = TabDelegateActivationPolicy.ActivateWhenSelected;
         
-        if ( persist.getValueFor("startAtConversations") == 1 ) {
+        if ( firstLaunch || persist.getValueFor("startAtConversations") == 1 ) {
             activeTab = conversationsTab;
         }
     }

@@ -17,6 +17,7 @@ public:
         BlockKeywords,
         BlockSenderChunk,
     	BlockSenders,
+        ClearKeywords,
     	ClearLogs,
     	DetachReportedDatabase,
     	FetchBlockedKeywords,

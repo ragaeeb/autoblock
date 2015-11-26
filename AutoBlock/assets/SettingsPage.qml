@@ -1,4 +1,4 @@
-import bb.cascades 1.3
+import bb.cascades 1.0
 import bb.cascades.pickers 1.0
 import com.canadainc.data 1.0
 
@@ -28,10 +28,10 @@ Page
     onCreationCompleted: {
         tutorial.execBelowTitleBar("sound", qsTr("Enable the '%1' checkbox if you want to hear a sound everytime a message is blocked (this will only sound if you have the device is an appropriate profile that allows notifications).").arg(sound.text), 0, "r", undefined, "images/toast/sound.png" );
         //tutorial.execBelowTitleBar("tutorialBlockStrangers", qsTr("Enable the Block Non-Contacts checkbox if you want to block messages from anyone who is not in your contact list."), "file:///usr/share/icons/ic_open_contacts.png" );
-        tutorial.execBelowTitleBar("whitelist", qsTr("Enable the '%1' checkbox if you want to prevent scanning of messages sent by anyone in your contact list.").arg(whitelist.text), ui.du(3), "r", undefined, "images/toast/whitelist.png" );
-        tutorial.execBelowTitleBar("startConversations", qsTr("Enable the '%1' checkbox if you want the app to start at the Conversations tab instead of the default Logs tab.").arg(startConvo.text), ui.du(12), "r", undefined, "images/tabs/ic_conversations.png" );
-        tutorial.execBelowTitleBar("stripKeywords", qsTr("Enable the '%1' checkbox if you want to remove all punctuation from keywords before processing it. This can be useful when spammers try to trick the app by using 'app.le' to get around a keyword like 'apple'.").arg(ignorePunc.text), ui.du(16), "r", undefined, "images/toast/strip_keywords.png" );
-        tutorial.execBelowTitleBar("moveTrash", qsTr("Enable the '%1' checkbox if you want to move the spam messages to your web server's Trash folder instead of immediately permanently deleting it.").arg(moveTrash.text), ui.du(25), "r", undefined, "images/toast/move_trash.png" );
+        tutorial.execBelowTitleBar("whitelist", qsTr("Enable the '%1' checkbox if you want to prevent scanning of messages sent by anyone in your contact list.").arg(whitelist.text), deviceUtils.du(3), "r", undefined, "images/toast/whitelist.png" );
+        tutorial.execBelowTitleBar("startConversations", qsTr("Enable the '%1' checkbox if you want the app to start at the Conversations tab instead of the default Logs tab.").arg(startConvo.text), deviceUtils.du(12), "r", undefined, "images/tabs/ic_conversations.png" );
+        tutorial.execBelowTitleBar("stripKeywords", qsTr("Enable the '%1' checkbox if you want to remove all punctuation from keywords before processing it. This can be useful when spammers try to trick the app by using 'app.le' to get around a keyword like 'apple'.").arg(ignorePunc.text), deviceUtils.du(16), "r", undefined, "images/toast/strip_keywords.png" );
+        tutorial.execBelowTitleBar("moveTrash", qsTr("Enable the '%1' checkbox if you want to move the spam messages to your web server's Trash folder instead of immediately permanently deleting it.").arg(moveTrash.text), deviceUtils.du(25), "r", undefined, "images/toast/move_trash.png" );
 
         tutorial.execActionBar("optimize", qsTr("Use the '%1' option from the menu every once in a while if you want to speed up the performance of the app.").arg(optimize.title), "r" );
         tutorial.execActionBar("backup", qsTr("You can use the '%1' action at the bottom if you want to save your blocked senders, logs, and keywords.").arg(backup.title) );

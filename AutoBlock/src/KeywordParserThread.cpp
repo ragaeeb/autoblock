@@ -1,6 +1,7 @@
 #include "precompiled.h"
 
 #include "BlockUtils.h"
+#include "CommonConstants.h"
 #include "KeywordParserThread.h"
 #include "Logger.h"
 #include "IOUtils.h"
@@ -78,7 +79,8 @@ void KeywordParserThread::run()
     for (int i = 0; i < all.size(); i++)
     {
         QVariantMap qvm;
-        qvm["value"] = all[i];
+        qvm[FIELD_TYPE] = TYPE_KEYWORD;
+        qvm[FIELD_VALUE] = all[i];
         result << qvm;
     }
 

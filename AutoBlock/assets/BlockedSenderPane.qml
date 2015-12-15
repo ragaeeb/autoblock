@@ -111,7 +111,7 @@ NavigationPane
                 imageSource: "images/menu/ic_search_user.png"
                 
                 onQueryChanged: {
-                    helper.fetchAllBlockedSenders(query);
+                    helper.fetchAllBlockedSenders(navigationPane, query);
                 }
             },
             
@@ -291,7 +291,7 @@ NavigationPane
         tutorial.execActionBar( "moreBlockOptions", qsTr("Tap here for more actions you can take on this page."), "x" );
 
         if ( !gdm.isEmpty() ) {
-            tutorial.exec("tutorialUnblock", qsTr("You can unblock a user you blocked by mistake by simply tapping on the blocked address and choosing 'Unblock' from the menu."), "images/menu/ic_unblock.png" );
+            tutorial.execCentered("tutorialUnblock", qsTr("You can unblock a user you blocked by mistake by simply tapping on the blocked address and choosing 'Unblock' from the menu.") );
         }
     }
     
@@ -310,9 +310,16 @@ NavigationPane
         }
     }
     
+    function onRefreshNeeded(type)
+    {
+        if (type == QueryId.BlockSenders || type == QueryId.UnblockSenders) {
+            helper.fetchAllBlockedSenders(navigationPane);
+        }
+    }
+    
     onCreationCompleted: {
-        helper.dataReady.connect(onDataLoaded);
-        helper.fetchAllBlockedSenders();
+        helper.refreshNeeded.connect(onRefreshNeeded);
+        onRefreshNeeded(QueryId.BlockSenders);
         
         deviceUtils.attachTopBottomKeys(root, listView);
     }

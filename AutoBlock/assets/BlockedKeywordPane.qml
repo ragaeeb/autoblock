@@ -397,8 +397,15 @@ NavigationPane
         }
     }
     
+    function onRefreshNeeded(type)
+    {
+        if (type == QueryId.BlockKeywords || type == QueryId.UnblockKeywords) {
+            helper.fetchAllBlockedKeywords(navigationPane);
+        }
+    }
+    
     onCreationCompleted: {
         deviceUtils.attachTopBottomKeys(root, listView);
-        helper.fetchAllBlockedKeywords(navigationPane);
+        onRefreshNeeded(QueryId.UnblockKeywords);
     }
 }

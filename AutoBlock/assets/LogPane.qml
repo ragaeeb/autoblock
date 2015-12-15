@@ -32,11 +32,12 @@ NavigationPane
                 imageSource: "images/menu/ic_search_logs.png"
                 
                 onQueryChanged: {
-                    helper.fetchAllLogs(query);
+                    helper.fetchAllLogs(listView, query);
                 }
             },
             
-            ActionItem {
+            ActionItem
+            {
                 id: testAction
                 imageSource: "images/menu/ic_test.png"
                 title: qsTr("Test") + Retranslate.onLanguageChanged
@@ -173,7 +174,7 @@ NavigationPane
                 
                 onCreationCompleted: {
                     helper.dataReady.connect(onDataLoaded);
-                    helper.fetchAllLogs();
+                    helper.fetchAllLogs(listView);
                     
                     tutorial.execCentered("logPane", qsTr("In this tab you will be able to view all the messages that were blocked.") );
                 }
@@ -256,7 +257,15 @@ NavigationPane
         }
     ]
     
+    function onRefreshNeeded(type)
+    {
+        if (type == QueryId.FetchLatestLogs) {
+            helper.fetchLatestLogs(listView);
+        }
+    }
+    
     onCreationCompleted: {
         deviceUtils.attachTopBottomKeys(root, listView);
+        helper.refreshNeeded.connect(onRefreshNeeded);
     }
 }

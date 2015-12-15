@@ -46,16 +46,15 @@ private slots:
 Q_SIGNALS:
     void dataReady(int id, QVariant const& data);
     void readyChanged();
-    void refreshNeeded(QueryId::Type type);
+    void refreshNeeded(int type);
 
 public:
 	QueryHelper(Persistance* persist);
 	virtual ~QueryHelper();
 
     Q_INVOKABLE void clearBlockedKeywords(QObject* caller);
-    Q_INVOKABLE void clearBlockedSenders();
-    Q_INVOKABLE void cleanInvalidEntries();
-    Q_INVOKABLE void clearLogs();
+    Q_INVOKABLE void clearBlockedSenders(QObject* caller);
+    Q_INVOKABLE void clearLogs(QObject* caller);
     Q_INVOKABLE void fetchAllBlockedKeywords(QObject* caller, QString const& filter=QString());
     Q_INVOKABLE void fetchAllBlockedSenders(QObject* caller, QString const& filter=QString());
     Q_INVOKABLE void fetchAllLogs(QObject* caller, QString const& filter=QString());

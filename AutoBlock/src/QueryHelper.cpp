@@ -83,9 +83,9 @@ void QueryHelper::fetchAllBlockedSenders(QObject* caller, QString const& filter)
 }
 
 
-void QueryHelper::clearBlockedSenders()
+void QueryHelper::clearBlockedSenders(QObject* caller)
 {
-    m_sql.executeClear(this, "inbound_blacklist", QueryId::UnblockSenders);
+    m_sql.executeClear(caller, "inbound_blacklist", QueryId::UnblockSenders);
     emit refreshNeeded(QueryId::UnblockSenders);
 }
 
@@ -97,15 +97,10 @@ void QueryHelper::clearBlockedKeywords(QObject* caller)
 }
 
 
-void QueryHelper::cleanInvalidEntries() {
-    m_sql.executeQuery(this, "DELETE FROM inbound_blacklist WHERE address IS NULL OR trim(address) = ''", QueryId::UnblockKeywords);
-}
-
-
-void QueryHelper::clearLogs()
+void QueryHelper::clearLogs(QObject* caller)
 {
-    m_sql.executeClear(this, "logs", QueryId::ClearLogs);
-    emit refreshNeeded(QueryId::FetchAllLogs);
+    m_sql.executeClear(caller, "logs", QueryId::ClearLogs);
+    emit refreshNeeded(QueryId::ClearLogs);
 }
 
 
@@ -341,7 +336,7 @@ void QueryHelper::databaseUpdated(QString const& path)
     Q_UNUSED(path);
 
     LOGGER("DatabaseUpdated!");
-    emit refreshNeeded(QueryId::FetchLatestLogs);
+    //emit refreshNeeded(QueryId::FetchLatestLogs);
 }
 
 

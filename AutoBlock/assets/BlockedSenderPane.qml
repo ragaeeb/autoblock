@@ -83,7 +83,7 @@ NavigationPane
                                 
                                 if (validEmail || validNumber)
                                 {
-                                    var toBlock = [{'senderAddress': inputEntry, 'count': 0}];
+                                    var toBlock = [{'senderAddress': inputEntry, 'address': inputEntry, 'count': 0}];
                                     var blocked = helper.block(navigationPane, toBlock);
                                     
                                     if (blocked.length == 0) {
@@ -127,7 +127,7 @@ NavigationPane
                     console.log("UserEvent: UnblockAllSendersConfirm", ok);
                     
                     if (ok) {
-                        helper.clearBlockedSenders();
+                        helper.clearBlockedSenders(navigationPane);
                     }
                 }
                 

@@ -1,7 +1,9 @@
 import bb.cascades 1.0
 import com.canadainc.data 1.0
 
-Container {
+Container
+{
+    id: cover
     background: back.imagePaint
     topPadding: 10
     leftPadding: 10
@@ -42,18 +44,27 @@ Container {
         
         function onDataLoaded(id, data)
         {
-            if (id == QueryId.FetchAllLogs || id == QueryId.ClearLogs) {
+            if (id == QueryId.FetchAllLogs) {
                 text = data.length == 0 ? qsTr("No spam messages detected yet...") : qsTr("%n messages blocked.", "", data.length);
             } else if (id == QueryId.FetchLatestLogs && data.length > 0) {
                 text = qsTr("Last Message Blocked from:\n%1").arg( data[data.length-1].address );
             }
         }
         
+        function onRefreshNeeded(type)
+        {
+            if (type == QueryId.FetchLatestLogs) {
+                helper.fetchLatestLogs(cover);
+            } else if (type == QueryId.ClearLogs) {
+                text = qsTr("No spam messages detected yet...");
+            }
+        }
+        
         onCreationCompleted: {
-            helper.dataReady.connect(onDataLoaded);
+            helper.refreshNeeded.connect(onRefreshNeeded);
             
             if (helper.ready) {
-                helper.fetchAllLogs();
+                helper.fetchAllLogs(cover);
             } // else, it'll automatically do it
         }
     }

@@ -75,9 +75,12 @@ NavigationPane
                     console.log("UserEvent: ClearLogsConfirm", ok);
                     
                     if (ok) {
-                        helper.clearLogs();
+                        helper.clearLogs(listView);
                         toaster.init( qsTr("Cleared all blocked senders!"), "images/menu/ic_clear_logs.png" );
+                        adm.clear();
                     }
+                    
+                    reporter.record( "ClearLogs", ok.toString() );
                 }
                 
                 onTriggered: {
@@ -158,7 +161,7 @@ NavigationPane
                         
                         navigationPane.parent.unreadContentCount = data.length;
                         
-                        if ( id == QueryId.FetchAllLogs && adm.size() > 300 && !persist.contains("dontAskToClear") ) {
+                        if ( id == QueryId.FetchAllLogs && adm.size() > 300 && !persist.containsFlag("dontAskToClear") ) {
                             clearDialog.showing = true;
                         }
                     } else if (id == QueryId.FetchLatestLogs) {
@@ -244,10 +247,11 @@ NavigationPane
                 console.log("UserEvent: ClearNoticePrompt", value);
                 
                 if (value == SystemUiResult.ConfirmButtonSelection) {
-                    helper.clearLogs();
+                    helper.clearLogs(listView);
+                    adm.clear();
                     toaster.init( qsTr("Cleared all blocked senders!"), "images/menu/ic_clear_logs.png" );
                 } else if ( rememberMeSelection() ) {
-                    persist.saveValueFor("dontAskToClear", 1, false);
+                    persist.setFlag("dontAskToClear", 1);
                 }
             }
         },
@@ -261,6 +265,8 @@ NavigationPane
     {
         if (type == QueryId.FetchLatestLogs) {
             helper.fetchLatestLogs(listView);
+        } else if (type == QueryId.FetchAllLogs || type == QueryId.ClearLogs) {
+            helper.fetchAllLogs(listView);
         }
     }
     

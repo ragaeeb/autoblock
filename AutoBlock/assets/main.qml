@@ -12,6 +12,7 @@ TabbedPane
     {
         projectName: "autoblock"
         bbWorldID: "25793872"
+        helpPageQml: "AutoBlockHelp.qml"
         
         onFinished: {
             tutorial.execAppMenu();

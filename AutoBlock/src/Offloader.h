@@ -3,6 +3,8 @@
 
 #include <bb/system/LocaleHandler>
 
+#include <bb/utility/i18n/CustomDateFormatter>
+
 namespace canadainc {
     class MessageImporter;
     class Persistance;
@@ -10,6 +12,7 @@ namespace canadainc {
 
 namespace autoblock {
 
+using namespace bb::utility::i18n;
 using namespace canadainc;
 
 class Offloader : public QObject
@@ -19,6 +22,7 @@ class Offloader : public QObject
     bb::system::LocaleHandler m_timeRender;
     MessageImporter* m_importer;
     Persistance* m_persist;
+    CustomDateFormatter m_dateFormatter;
 
 private slots:
     void onMessagesImported(QVariantList const& qvl);

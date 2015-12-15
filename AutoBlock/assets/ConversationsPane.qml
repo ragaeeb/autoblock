@@ -137,7 +137,7 @@ NavigationPane
                             ConversationListItem
                             {
                                 description: ListItemData.text.replace(/\n/g, " ").substr(0, 60) + "..."
-                                imageSource: "images/dropdown/ic_sms.png"
+                                imageSource: "images/list/ic_sms.png"
                             }
                         }
                     ]

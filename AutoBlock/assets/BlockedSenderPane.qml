@@ -27,18 +27,31 @@ NavigationPane
             }
         }
         
+        onActionMenuVisualStateChanged: {
+            if (actionMenuVisualState == ActionMenuVisualState.VisibleFull)
+            {
+                tutorial.execOverFlow("tutorialAddSender", qsTr("Use the '%1' action from the menu to add a specific phone number or email address you want to block."), addAction );
+                tutorial.execCentered("tutorialSearchSender", qsTr("You can use the '%1' action from the menu to search if a specific sender's address is in your blocked list.").arg(searchAction.title), "images/menu/ic_search_user.png" );
+                
+                if ( gdm.size() > 15 ) {
+                    tutorial.exec("tutorialClearBlocked", qsTr("You can clear this blocked list by selecting 'Unblock All' from the menu."), "images/menu/ic_unblock_all.png" );
+                }
+            }
+        }
+        
         actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
         
         actions: [
             ActionItem
             {
+                id: addAction
                 title: qsTr("Add") + Retranslate.onLanguageChanged
                 imageSource: "images/menu/ic_add_email.png"
                 ActionBar.placement: ActionBarPlacement.OnBar
                 
                 onTriggered: {
                     console.log("UserEvent: BlockSenderTriggered");
-                    tutorial.exec( "tutorialManualAdd", qsTr("Important: If you are manually attempting to input phone numbers to block note that plus signs and dashes may be necessary in order to match the format that is used by the spammer. It might be more appropriate for you to go to the 'Conversations' tab and add the spammer from there instead."), "images/menu/ic_help.png" );
+                    tutorial.execCentered( "tutorialManualAdd", qsTr("Important: If you are manually attempting to input phone numbers to block note that plus signs and dashes may be necessary in order to match the format that is used by the spammer. It might be more appropriate for you to go to the 'Conversations' tab and add the spammer from there instead."), "images/menu/ic_help.png" );
                     addPrompt.show();
                 }
                 
@@ -94,6 +107,7 @@ NavigationPane
             
             SearchActionItem
             {
+                id: searchAction
                 imageSource: "images/menu/ic_search_user.png"
                 
                 onQueryChanged: {
@@ -221,6 +235,12 @@ NavigationPane
                 
                 multiSelectHandler
                 {
+                    onActiveChanged: {
+                        if (active) {
+                            tutorial.execActionBar( "unblockSenders", qsTr("Tap here to remove these senders from the list."), "x" );
+                        }
+                    }
+                    
                     actions: [
                         DeleteActionItem 
                         {
@@ -266,13 +286,13 @@ NavigationPane
     {
         listView.visible = !gdm.isEmpty();
         emptyDelegate.delegateActive = gdm.isEmpty();
-        
-        tutorial.exec("tutorialSync", qsTr("You can use the 'Update' button at the top-right to sync your block list with our servers to discover new spammers reported by the Auto Block community that you have not discovered yet!"), "images/toast/ic_import.png" );
-        tutorial.exec("tutorialSettings", qsTr("Swipe-down from the top-bezel and choose 'Settings' to customize the app!"), "images/menu/ic_settings.png" );
-        gdm.size() > 15 && tutorial.exec("tutorialSearchSender", qsTr("You can use the 'Search' action from the menu to search if a specific sender's address is in your blocked list."), "images/menu/ic_search_user.png" );
-        tutorial.exec("tutorialAddSender", qsTr("Use the 'Add' action from the menu to add a specific phone number or email address you want to block."), "images/menu/ic_search_user.png" );
-        tutorial.exec("tutorialClearBlocked", qsTr("You can clear this blocked list by selecting 'Unblock All' from the menu."), "images/menu/ic_unblock_all.png" );
-        tutorial.exec("tutorialUnblock", qsTr("You can unblock a user you blocked by mistake by simply tapping on the blocked address and choosing 'Unblock' from the menu."), "images/menu/ic_unblock.png" );
+
+        tutorial.execTitle("tutorialSync", qsTr("You can use the 'Update' button at the top-right to sync your block list with our servers to discover new spammers reported by the Auto Block community that you have not discovered yet!"), "r" );
+        tutorial.execActionBar( "moreBlockOptions", qsTr("Tap here for more actions you can take on this page."), "x" );
+
+        if ( !gdm.isEmpty() ) {
+            tutorial.exec("tutorialUnblock", qsTr("You can unblock a user you blocked by mistake by simply tapping on the blocked address and choosing 'Unblock' from the menu."), "images/menu/ic_unblock.png" );
+        }
     }
     
     function onDataLoaded(id, data)

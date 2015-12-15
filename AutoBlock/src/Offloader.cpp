@@ -15,7 +15,9 @@ using namespace bb::cascades;
 using namespace canadainc;
 
 Offloader::Offloader(Persistance* persist) :
-        m_timeRender(bb::system::LocaleType::Region), m_importer(NULL), m_persist(persist)
+        m_timeRender(bb::system::LocaleType::Region),
+        m_importer(NULL), m_persist(persist),
+        m_dateFormatter("MMMd")
 {
 }
 
@@ -52,8 +54,13 @@ void Offloader::onMessagesImported(QVariantList const& qvl)
 
 QString Offloader::renderStandardTime(QDateTime const& theTime)
 {
-    static QString format = bb::utility::i18n::timeFormat(bb::utility::i18n::DateFormat::Short);
-    return m_timeRender.locale().toString(theTime, format);
+    if ( theTime.daysTo( QDateTime::currentDateTime() ) == 0 )
+    {
+        static QString format = bb::utility::i18n::timeFormat(bb::utility::i18n::DateFormat::Short);
+        return m_timeRender.locale().toString(theTime, format);
+    } else {
+        return m_dateFormatter.format(theTime);
+    }
 }
 
 

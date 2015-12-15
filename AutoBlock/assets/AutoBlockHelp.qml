@@ -1,18 +1,9 @@
 import bb.cascades 1.0
 
-Page
+HelpPage
 {
     actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
-    
-    titleBar: AboutTitleBar
-    {
-        id: atb
-        videoTutorialUri: "http://youtu.be/EBxX3353Q2I"
-    }
-    
-    function cleanUp()
-    {
-    }
+    videoTutorialUri: "http://youtu.be/EBxX3353Q2I"
 
     Container
     {

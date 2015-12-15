@@ -25,6 +25,18 @@ NavigationPane
         id: root
         actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
         
+        onActionMenuVisualStateChanged: {
+            if (actionMenuVisualState == ActionMenuVisualState.VisibleFull)
+            {
+                if ( adm.size() > 15 ) {
+                    tutorial.execOverFlow( "searchKeyword", qsTr("You can use the '%1' action from the menu to search if a specific keyword is in your blocked list."), searchAction );
+                }
+                
+                tutorial.execOverFlow("addKeyword", qsTr("Use the '%1' action from the menu to add a specific keyword you want to block."), addAction );
+                tutorial.execOverFlow("clearBlockedKeywords", qsTr("You can clear this blocked list by selecting '%1' from the menu."), unblockAllAction );
+            }
+        }
+        
         titleBar: TitleBar
         {
             id: titleControl
@@ -89,7 +101,9 @@ NavigationPane
                             onCheckedChanged: {
                                 validatePurchase(scanAddress);
                                 
-                                if ( scanAddress.checked && tutorial.exec( "tutorialScanAddress", qsTr("Warning: Be very careful when turning on this feature as it can result in harmless messages being classified as spam. For example if you enter a keyword as 'gmail', then any email address that contains 'gmail' will be blocked! This is useful for blocking entire domain names but it can also be too aggressive if not used properly."), "images/ic_pim_warning.png" ) ) {}
+                                if (checked) {
+                                    tutorial.execCentered( "tutorialScanAddress", qsTr("Warning: Be very careful when turning on this feature as it can result in harmless messages being classified as spam. For example if you enter a keyword as 'gmail', then any email address that contains 'gmail' will be blocked! This is useful for blocking entire domain names but it can also be too aggressive if not used properly."), "images/ic_pim_warning.png" );
+                                }
                             }
                         }
                         
@@ -172,6 +186,7 @@ NavigationPane
             
             SearchActionItem
             {
+                id: searchAction
                 imageSource: "images/menu/ic_search_keyword.png"
                 
                 onQueryChanged: {
@@ -299,6 +314,12 @@ NavigationPane
                 
                 multiSelectHandler
                 {
+                    onActiveChanged: {
+                        if (active) {
+                            tutorial.execActionBar( "unblockKeywords", qsTr("Tap here to remove these keywords from the list."), "x" );
+                        }
+                    }
+                    
                     actions: [
                         DeleteActionItem 
                         {
@@ -345,17 +366,15 @@ NavigationPane
         listView.visible = !adm.isEmpty();
         emptyDelegate.delegateActive = adm.isEmpty();
         
-        tutorial.exec("keywords", qsTr("You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam."), "images/tabs/ic_keywords.png" );
-        tutorial.exec("scanSenderName", qsTr("Enable the 'Scan Sender Name' checkbox to match keywords on the sender's name as well as the subject line."), "images/toast/scan_sender.png" );
-        tutorial.exec("scanSenderAddress", qsTr("Enable the 'Scan Sender Address' checkbox to match keywords on the sender's address as well as the subject line. This is especially useful if you want to block domain names for example."), "images/toast/scan_address.png" );
+        tutorial.execCentered("keywords", qsTr("You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam."), "images/tabs/ic_keywords.png" );
+        tutorial.execBelowTitleBar("threshold", qsTr("This threshold slider controls the minimum number of keyword hits that must be matched on a message subject before it is blocked.\n\nTo implement more aggressive blocking, decrease this threshold, to be more lenient and only block when multiple keywords are matched, increase the threshold"), 0, "l", "r");
+        tutorial.execBelowTitleBar("scanSenderName", qsTr("Enable the '%1' checkbox to match keywords on the sender's name as well as the subject line.").arg(scanName.text), tutorial.du(5), "r", "images/toast/scan_sender.png" );
+        tutorial.execBelowTitleBar("scanSenderAddress", qsTr("Enable the '%1' checkbox to match keywords on the sender's address as well as the subject line. This is especially useful if you want to block domain names for example.").arg(scanAddress.text), tutorial.du(12), "r", "images/toast/scan_address.png" );
+        tutorial.execBelowTitleBar("stripPunctuation", qsTr("Enable the '%1' checkbox to match keywords on the sender's address as well as the subject line. This is especially useful if you want to block domain names for example.").arg(ignorePunc.text), tutorial.du(20), "r", "images/toast/scan_address.png" );
         
-        if ( adm.size() > 15 ) {
-            tutorial.exec("searchKeyword", qsTr("You can use the 'Search' action from the menu to search if a specific keyword is in your blocked list."), "images/menu/ic_search_keyword.png" );
+        if ( !adm.isEmpty() ) {
+            tutorial.execCentered("unblockKeyword", qsTr("You can unblock a keyword you blocked by mistake by simply pressing-and-holding on the keyword and choosing 'Unblock' from the menu."), "images/menu/ic_unblock.png" );
         }
-        
-        tutorial.exec("addKeyword", qsTr("Use the 'Add' action from the menu to add a specific keyword you want to block."), "images/menu/ic_add_spammer.png" );
-        tutorial.exec("clearBlockedKeywords", qsTr("You can clear this blocked list by selecting 'Clear All' from the menu."), "images/menu/ic_unblock_all.png" );
-        tutorial.exec("unblockKeyword", qsTr("You can unblock a keyword you blocked by mistake by simply pressing-and-holding on the keyword and choosing 'Unblock' from the menu."), "images/menu/ic_unblock.png" );
     }
     
     function onDataLoaded(id, data)

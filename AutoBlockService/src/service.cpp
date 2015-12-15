@@ -120,7 +120,7 @@ void Service::processKeywords(QVariantList result)
 void Service::processCalls(QVariantList result)
 {
     LOGGER( result.size() << m_queue.callQueue.size() );
-
+#if BBNDK_VERSION_AT_LEAST(10,3,0)
     if ( !m_queue.callQueue.isEmpty() )
     {
         Call c = m_queue.callQueue.dequeue();
@@ -135,6 +135,7 @@ void Service::processCalls(QVariantList result)
             updateCount(result, "address", "inbound_blacklist", QueryId::BlockSenders);
         }
     }
+#endif
 }
 
 
@@ -314,6 +315,7 @@ void Service::handleInvoke(bb::system::InvokeRequest const& request)
 
 void Service::callUpdated(bb::system::phone::Call const& call)
 {
+#if BBNDK_VERSION_AT_LEAST(10,3,0)
     int callId = call.callId();
     QString phoneNumber = call.phoneNumber();
     CallType::Type t = call.callType();
@@ -333,6 +335,9 @@ void Service::callUpdated(bb::system::phone::Call const& call)
             m_sql.load(QueryId::LookupCaller);
         }
     }
+#else
+    Q_UNUSED(call);
+#endif
 }
 
 

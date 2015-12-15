@@ -28,6 +28,8 @@ Page
     onElementsChanged: {
         adm.clear();
         adm.insertList(elements);
+        
+        
     }
     
     titleBar: TitleBar
@@ -55,7 +57,8 @@ Page
     }
     
     actions: [
-        ActionItem {
+        ActionItem
+        {
             id: clearAction
             title: qsTr("Clear All") + Retranslate.onLanguageChanged
             imageSource: "images/menu/ic_clear.png"
@@ -67,21 +70,25 @@ Page
             }
         },
         
-        ActionItem {
+        ActionItem
+        {
             id: selectAllAction
             title: qsTr("Select All") + Retranslate.onLanguageChanged
             imageSource: "images/menu/ic_select_all.png"
-            ActionBar.placement: ActionBarPlacement.OnBar
+            ActionBar.placement: 'Signature' in ActionBarPlacement ? ActionBarPlacement["Signature"] : ActionBarPlacement.OnBar
             
-            onTriggered: {
-                console.log("UserEvent: SelectAllElements");
-                
-                var confirmed = persist.showBlockingDialog( qsTr("Confirmation"), qsTr("You should review the elements in this list. You may be selecting false positives! Are you sure you want to select all?") );
+            function onFinished(confirmed)
+            {
                 console.log("UserEvent: SelectAllConfirmed", confirmed);
                 
                 if (confirmed) {
                     listView.selectAll();
                 }
+            }
+            
+            onTriggered: {
+                console.log("UserEvent: SelectAllElements");
+                persist.showDialog( selectAllAction, qsTr("Confirmation"), qsTr("You should review the elements in this list. You may be selecting false positives! Are you sure you want to select all?") );
             }
         }
     ]
@@ -96,7 +103,8 @@ Page
             topPadding: 10; rightPadding: 10; leftPadding: 10
             horizontalAlignment: HorizontalAlignment.Fill
             
-            Label {
+            Label
+            {
                 id: instructions
                 text: instructionText
                 multiline: true
@@ -113,10 +121,11 @@ Page
             scrollRole: ScrollRole.Main
             property variant imageSource: listImage
             
-            dataModel: GroupDataModel {
+            dataModel: GroupDataModel
+            {
                 id: adm
-                grouping: ItemGrouping.ByFirstChar
-                sortingKeys: ["value"]
+                grouping: ItemGrouping.ByFullValue
+                sortingKeys: ["type"]
             }
             
             onTriggered: {
@@ -132,7 +141,8 @@ Page
             }
             
             listItemComponents: [
-                ListItemComponent {
+                ListItemComponent
+                {
                     type: "header"
                     
                     Header {
@@ -153,13 +163,14 @@ Page
                         opacity: 0
                         
                         animations: [
-                            FadeTransition {
+                            FadeTransition
+                            {
                                 id: slider
                                 fromOpacity: 0
                                 toOpacity: 1
                                 easingCurve: StockCurve.SineOut
                                 duration: 750
-                                delay: Math.min(sli.ListItem.indexInSection * 100, 750)
+                                delay: Math.min(sli.ListItem.indexInSection*100, 750)
                             }
                         ]
                         

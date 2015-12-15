@@ -67,7 +67,7 @@ NavigationPane
                     function onDataLoaded(id, data)
                     {
                         if (id == QueryId.BlockSenders) {
-                            persist.showToast( qsTr("Addresses successfully blocked!").arg( numbersList.join(", ") ), "images/menu/ic_blocked_user.png" );
+                            persist.showToast( qsTr("Addresses successfully blocked!"), "images/menu/ic_blocked_user.png" );
                         } else if (id == QueryId.BlockKeywords) {
                             persist.showToast( qsTr("The keywords were successfully added!"), "images/tabs/ic_keywords.png" );
                         }
@@ -95,13 +95,13 @@ NavigationPane
                     function doBlock(toBlock)
                     {
                         var numbersList = helper.block(listView, toBlock);
-                        
+
                         if (numbersList.length == 0) {
                             toaster.init( qsTr("The senders could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!"), "images/menu/ic_blocked_user.png" );
                         } else if (ctb.accounts.selectedValue != 8) {
                             var flag = persist.getFlag("parseKeywords");
-                            
-                            if (flag == 1) { // auto {
+
+                            if (flag == 1) { // auto
                                 extractKeywords(toBlock);
                             } else if (flag == -1) {
                                 // don't parse keywords

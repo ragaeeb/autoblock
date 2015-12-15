@@ -58,10 +58,13 @@ Page
                 filePicker.allowOverwrite = true;
                 
                 filePicker.open();
+                reporter.record("Backup");
             }
             
-            function onSaved(result) {
+            function onSaved(result)
+            {
                 toaster.init( qsTr("Successfully backed up to %1").arg( result.substring(15) ), "images/menu/ic_backup.png" );
+                reporter.record("BackupComplete");
             }
         },
         
@@ -78,13 +81,16 @@ Page
                 filePicker.mode = FilePickerMode.Picker
                 
                 filePicker.open();
+                reporter.record("Restore");
             }
             
             function onRestored(result)
             {
                 if (result) {
+                    reporter.record("SuccessfulRestore");
                     app.exitAfterRestore();
                 } else {
+                    reporter.record("FailedRestore");
                     helper.setActive(true);
                     toaster.init( qsTr("The database could not be restored. Please re-check the backup file to ensure it is valid, and if the problem persists please file a bug report. Make sure to attach the backup file with your report!"), "images/menu/ic_restore_error.png" );
                 }
@@ -102,6 +108,7 @@ Page
                 console.log("UserEvent: Optimize");
                 busy.running = true;
                 helper.optimize(optimize);
+                reporter.record("Optimize");
             }
             
             function onDataLoaded(id, data)
@@ -125,6 +132,7 @@ Page
                 app.forceSetup();
                 
                 toaster.init( qsTr("Error Recovery triggered!"), "images/menu/ic_error_recovery.png" );
+                reporter.record("ErrorRecovery");
             }
         }
     ]
@@ -148,6 +156,10 @@ Page
                 } else {
                     updater.backup(selectedFiles[0]);
                 }
+            }
+            
+            onCanceled: {
+                reporter.record("CancelFilePicker");
             }
         }
     ]
@@ -184,6 +196,10 @@ Page
                         infoText.text = qsTr("No sound will be played every time a spam message is blocked.");
                     }
                 }
+                
+                onValueChanged: {
+                    reporter.record( "Sound", checked.toString() );
+                }
             }
             
             PersistCheckBox
@@ -218,6 +234,10 @@ Page
                         infoText.text = qsTr("Messages from your contacts should still be tested for spam keywords/senders.");
                     }
                 }
+                
+                onValueChanged: {
+                    reporter.record( "Whitelist", checked.toString() );
+                }
             }
             
             PersistCheckBox
@@ -233,6 +253,10 @@ Page
                     } else {
                         infoText.text = qsTr("The app will start at the Logs tab when it is loaded.");
                     }
+                }
+                
+                onValueChanged: {
+                    reporter.record( "StartAtConversations", checked.toString() );
                 }
             }
             
@@ -255,6 +279,10 @@ Page
                             infoText.text = qsTr("The app will permanently delete all spam messages. Warning: There is no way to recover these deleted messages with this setting.");
                         }
                     }
+                }
+                
+                onValueChanged: {
+                    reporter.record( "MoveToTrash", checked.toString() );
                 }
             }
             

@@ -24,6 +24,8 @@ ActionItem
         } else {
             enabled = true;
         }
+        
+        reporter.record( "SyncUpdate", confirm.toString() );
     }
     
     onTriggered: {
@@ -61,6 +63,9 @@ ActionItem
                 keywords.push(current.value);
             }
         }
+        
+        reporter.record( "AddressSelection", addresses.length );
+        reporter.record( "KeywordSelection", keywords.length );
         
         if (addresses.length > 0) {
             helper.block(updateAction, addresses);

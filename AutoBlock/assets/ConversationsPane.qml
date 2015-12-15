@@ -14,7 +14,9 @@ NavigationPane
         id: conversationsPage
         actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
         
-        titleBar: ConversationTitleBar {}
+        titleBar: ConversationTitleBar {
+            id: ctb
+        }
         
         Container
         {
@@ -32,6 +34,7 @@ NavigationPane
                 onImageTapped: {
                     console.log("UserEvent: ConversationsEmptyTapped");
                     accountChoice.expanded = true;
+                    reporter.record("ConversationsEmptyTapped");
                 }
             }
             
@@ -70,16 +73,42 @@ NavigationPane
                         }
                     }
                     
+                    function extractKeywords(cookie)
+                    {
+                        app.keywordsExtracted.connect(onKeywordsExtracted);
+                        app.extractKeywords(cookie);
+                    }
+                    
+                    function onFinished(result, rememberMe, cookie)
+                    {
+                        if (rememberMe) {
+                            persist.setFlag("parseKeywords", result ? 1 : -1);
+                        }
+                        
+                        if (result) {
+                            extractKeywords(cookie);
+                        }
+                        
+                        reporter.record( "ParseKeywords", result.toString()+"_"+rememberMe.toString() );
+                    }
+                    
                     function doBlock(toBlock)
                     {
                         var numbersList = helper.block(listView, toBlock);
                         
                         if (numbersList.length == 0) {
                             toaster.init( qsTr("The senders could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!"), "images/menu/ic_blocked_user.png" );
+                        } else if (ctb.accounts.selectedValue != 8) {
+                            var flag = persist.getFlag("parseKeywords");
+                            
+                            if (flag == 1) { // auto {
+                                extractKeywords(toBlock);
+                            } else if (flag == -1) {
+                                // don't parse keywords
+                            } else {
+                                persist.showDialog( listView, toBlock, qsTr("Keyword Parsing"), qsTr("Would you like to add the keywords found in the message to block by keyword?"), qsTr("Yes"), qsTr("No"), true, qsTr("Don't ask again"), false );
+                            }
                         }
-
-                        keywordsDelegate.toBlock = toBlock;
-                        keywordsDelegate.delegateActive = accountChoice.selectedValue != 8;
                     }
                     
                     function itemType(data, indexPath)
@@ -144,7 +173,7 @@ NavigationPane
                     
                     onTriggered: {
                         console.log("UserEvent: ConversationPane ListItem Tapped", indexPath);
-
+                        
                         if ( dataModel.data(indexPath).senderAddress.length > 0 )
                         {
                             multiSelectHandler.active = true;
@@ -183,6 +212,7 @@ NavigationPane
                                     
                                     mainContainer.visible = !dm.isEmpty();
                                     emptyDelegate.delegateActive = !mainContainer.visible;
+                                    reporter.record("Block", toBlock.length);
                                 }
                             }
                         ]
@@ -194,7 +224,7 @@ NavigationPane
                         if ( dataModel.data(indexPath).senderAddress.length == 0 && selected ) {
                             select(indexPath, false);
                         }
-
+                        
                         var n = selectionList().length;
                         blockAction.enabled = n > 0;
                         multiSelectHandler.status = qsTr("%1 conversations to mark as spam").arg(n);
@@ -207,128 +237,15 @@ NavigationPane
                     function onMessagesImported(results)
                     {
                         dm.clear();
-                        
-                        if (results.length > 0)
-                        {
-                            dm.append(results);
-                            
-                            if ( tutorial.exec("tutorialMarkSpam", qsTr("You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam."), "images/tabs/ic_keywords.png" ) ) {}
-                        }
+                        dm.append(results);
                         
                         multiSelectHandler.status = qsTr("None selected");
                         blockAction.enabled = false;
                         mainContainer.visible = results.length > 0;
                         emptyDelegate.delegateActive = results.length == 0;
                         listView.multiSelectHandler.active = false;
-                    }
-                }
-            }
-            
-            ControlDelegate
-            {
-                id: keywordsDelegate
-                delegateActive: false
-                horizontalAlignment: HorizontalAlignment.Right
-                verticalAlignment: VerticalAlignment.Center
-                property variant toBlock
-                
-                sourceComponent: ComponentDefinition
-                {
-                    Container
-                    {
-                        horizontalAlignment: HorizontalAlignment.Right
-                        verticalAlignment: VerticalAlignment.Center
-                        layout: DockLayout {}
-                        translationX: 300
                         
-                        onCreationCompleted: {
-                            tt.play();
-                        }
-                        
-                        animations: [
-                            TranslateTransition {
-                                id: tt
-                                fromX: 300
-                                toX: 0
-                                duration: 800
-                                easingCurve: StockCurve.BounceOut
-                                
-                                onEnded: {
-                                    ttOut.play();
-                                }
-                            },
-                            
-                            TranslateTransition
-                            {
-                                id: ttOut
-                                fromX: 0
-                                toX: 300
-                                easingCurve: StockCurve.QuadraticIn
-                                duration: 800
-                                delay: 2500
-                                
-                                onEnded: {
-                                    keywordsDelegate.delegateActive = false;
-                                }
-                            }
-                        ]
-                        
-                        ImageView
-                        {
-                            horizontalAlignment: HorizontalAlignment.Fill
-                            verticalAlignment: VerticalAlignment.Fill
-                            imageSource: "images/add_keyword_strip.amd"
-                        }
-                        
-                        Container
-                        {
-                            leftPadding: 35
-                            verticalAlignment: VerticalAlignment.Center
-                            
-                            ImageView {
-                                imageSource: "images/menu/ic_add_spammer.png"
-                                verticalAlignment: VerticalAlignment.Center
-                            }
-                        }
-                        
-                        Container
-                        {
-                            leftPadding: 140; topPadding: 36
-                            opacity: 0.9
-                            
-                            Label {
-                                text: qsTr("Add") + Retranslate.onLanguageChanged
-                                textStyle.fontWeight: FontWeight.Bold
-                                textStyle.color: Color.White
-                                textStyle.fontSize: FontSize.PointValue
-                                textStyle.fontSizeValue: 4
-                            }
-                            
-                            Label {
-                                text: qsTr("Keywords") + Retranslate.onLanguageChanged
-                                textStyle.fontWeight: FontWeight.Bold
-                                textStyle.color: Color.White
-                                textStyle.fontSize: FontSize.PointValue
-                                textStyle.fontSizeValue: 4
-                            }
-                        }
-                        
-                        gestureHandlers: [
-                            TapHandler {
-                                id: tapHandler
-                                property bool launched: false
-                                
-                                onTapped: {
-                                    console.log("UserEvent: AddKeywordsToast");
-                                    
-                                    if (!launched) {
-                                        launched = true;
-                                        app.keywordsExtracted.connect(onKeywordsExtracted);
-                                        app.extractKeywords(keywordsDelegate.toBlock);
-                                    }
-                                }
-                            }
-                        ]
+                        reporter.record("MessagesFound", results.length);
                     }
                 }
             }
@@ -372,60 +289,10 @@ NavigationPane
         ComponentDefinition {
             id: definition
             source: "ElementPickerPage.qml"
-        },
-        
-        ActionItem {
-            id: testKeywords
-            imageSource: "images/menu/ic_help.png"
-            title: qsTr("Test Keywords") + Retranslate.onLanguageChanged
-            ActionBar.placement: ActionBarPlacement.OnBar
-            
-            onTriggered: {
-                console.log("UserEvent: TestKeywordsTriggered");
-                
-                if (accountChoice.selectedValue != 8)
-                {
-                    var selected = listView.selectionList();
-                    var toBlock = [];
-                    
-                    for (var i = selected.length-1; i >= 0; i--) {
-                        toBlock.push( dm.data(selected[i]) );
-                    }
-                    
-                    app.keywordsExtracted.connect(onKeywordsExtracted);
-                    app.extractKeywords(toBlock);
-                }
-            }
-        },
-        
-        ActionItem
-        {
-            id: insertRandom
-            title: qsTr("Insert Random") + Retranslate.onLanguageChanged
-            ActionBar.placement: 'Signature' in ActionBarPlacement ? ActionBarPlacement["Signature"] : ActionBarPlacement.OnBar
-            
-            onTriggered: {
-                console.log("UserEvent: InsertRandom");
-                
-                dm.clear();
-                var elements = [];
-                
-                for (var i = 0; i < 35; i++) {
-                    elements.push( {'sender': Math.random().toString(36).substring(7), 'senderAddress': Math.random().toString(36).substring(5)+"@gmail.com", 'subject': Math.random().toString(36).substring(7), 'time': new Date() } );
-                }
-
-                dm.append(elements);
-            }
         }
     ]
     
     onCreationCompleted: {
-        if (reporter.isAdmin)
-        {
-            conversationsPage.addAction(insertRandom);
-            listView.multiSelectHandler.addAction(testKeywords);
-        }
-        
         deviceUtils.attachTopBottomKeys(conversationsPage, listView);
     }
 }

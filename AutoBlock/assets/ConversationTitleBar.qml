@@ -3,6 +3,7 @@ import bb.cascades 1.0
 TitleBar
 {
     id: titleControl
+    property alias accounts: accountChoice
     kind: TitleBarKind.FreeForm
     scrollBehavior: TitleBarScrollBehavior.NonSticky
     kindProperties: FreeFormTitleBarKindProperties
@@ -54,6 +55,7 @@ TitleBar
                         }
                         
                         offloader.loadMessages(value, selectedOption.isCellular);
+                        reporter.record("AccountSelected", value);
                     }
                 }
                 
@@ -68,11 +70,10 @@ TitleBar
                         var changed = persist.saveValueFor("days", actualValue, false);
                         daysLabel.text = qsTr("Days to Fetch: %1").arg(actualValue);
                         
-                        if (accountChoice.selectedOption != null)
+                        if (accountChoice.selectedOption != null && changed)
                         {
-                            if (changed) {
-                                accountChoice.selectedOptionChanged(accountChoice.selectedOption);
-                            }
+                            accountChoice.selectedOptionChanged(accountChoice.selectedOption);
+                            reporter.record("DaysToFetch", value);
                         }
                     }
                 }

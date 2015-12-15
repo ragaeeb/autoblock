@@ -6,23 +6,13 @@ Page
     property variant elements
     property string titleText: qsTr("Keywords") + Retranslate.onLanguageChanged
     property string instructionText: qsTr("Do you want to automatically filter future messages that contain the following elements?") + Retranslate.onLanguageChanged
-    property bool showSelectAll: false
     signal elementsSelected(variant elements)
     
     function cleanUp() {}
     
     actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
     
-    onShowSelectAllChanged: {
-        if (showSelectAll) {
-            root.addAction(selectAllAction);
-        } else {
-            root.removeAction(selectAllAction);
-        }
-    }
-    
     onCreationCompleted: {
-        showSelectAllChanged();
         deviceUtils.attachTopBottomKeys(root, listView);
     }
     
@@ -34,46 +24,6 @@ Page
     titleBar: TitleBar {
         title: titleText
     }
-    
-    actions: [
-        ActionItem
-        {
-            id: clearAction
-            title: qsTr("Clear All") + Retranslate.onLanguageChanged
-            imageSource: "images/menu/ic_clear.png"
-            ActionBar.placement: ActionBarPlacement.OnBar
-            
-            onTriggered: {
-                console.log("UserEvent: ClearAllSelection");
-                listView.clearSelection();
-                reporter.record("ClearAll");
-            }
-        },
-        
-        ActionItem
-        {
-            id: selectAllAction
-            title: qsTr("Select All") + Retranslate.onLanguageChanged
-            imageSource: "images/menu/ic_select_all.png"
-            ActionBar.placement: 'Signature' in ActionBarPlacement ? ActionBarPlacement["Signature"] : ActionBarPlacement.OnBar
-            
-            function onFinished(confirmed)
-            {
-                console.log("UserEvent: SelectAllConfirmed", confirmed);
-                
-                if (confirmed) {
-                    listView.selectAll();
-                }
-                
-                reporter.record("SelectAll", confirmed);
-            }
-            
-            onTriggered: {
-                console.log("UserEvent: SelectAllElements");
-                persist.showDialog( selectAllAction, qsTr("Confirmation"), qsTr("You should review the elements in this list. You may be selecting false positives! Are you sure you want to select all?") );
-            }
-        }
-    ]
     
     Container
     {
@@ -104,12 +54,6 @@ Page
             
             multiSelectHandler
             {
-                onActiveChanged: {
-                    if (active) {
-                        //tutorial.execActionBar( "selectAll", qsTr("Tap here to select all the elements in the list. Be sure to review the items before doing so because you may add items that are not necessarily spam.") );
-                    }
-                }
-                
                 actions: [
                     ActionItem
                     {
@@ -149,6 +93,8 @@ Page
                 {
                     multiSelectHandler.active = true;
                     toggleSelection(indexPath);
+                } else {
+                    reporter.record("HeaderTapped");
                 }
             }
             
@@ -156,10 +102,6 @@ Page
                 var n = selectionList().length;
                 saveAction.enabled = n > 0;
                 multiSelectHandler.status = qsTr("%n entries selected", "", n);
-                
-                if (selected) {
-                    //tutorial.execActionBar( "clearAll", qsTr("Tap here to deselect all the elements in the list."), "r" );
-                }
             }
             
             listItemComponents: [

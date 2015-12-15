@@ -34,6 +34,10 @@ NavigationPane
                 onQueryChanged: {
                     helper.fetchAllLogs(listView, query);
                 }
+                
+                onTriggered: {
+                    console.log("UserEvent: SearchLogs");
+                }
             },
             
             ActionItem
@@ -46,6 +50,8 @@ NavigationPane
                     shortcut.active = true;
                     shortcut.object.testPrompt.reset();
                     shortcut.object.testPrompt.show();
+                    
+                    console.log("UserEvent: TestAction");
                 }
                 
                 attachedObjects: [
@@ -135,8 +141,10 @@ NavigationPane
                                 }
                             ]
                             
-                            onCreationCompleted: {
-                                slider.play();
+                            ListItem.onInitializedChanged: {
+                                if (initialized) {
+                                    slider.play();
+                                }
                             }
                         }
                     }
@@ -146,6 +154,8 @@ NavigationPane
                     console.log("UserEvent: LogTapped", indexPath);
                     var data = dataModel.data(indexPath);
                     toaster.init( data.message.trim(), "asset:///images/tabs/ic_blocked.png" );
+                    
+                    reporter.record("LogTapped");
                 }
                 
                 dataModel: ArrayDataModel {
@@ -169,17 +179,12 @@ NavigationPane
                         listView.scrollToPosition(ScrollPosition.Beginning, ScrollAnimation.Smooth);
                         
                         navigationPane.parent.unreadContentCount = navigationPane.parent.unreadContentCount+data.length;
+                    } else if (id == QueryId.ClearLogs) {
+                        toaster.init( qsTr("Cleared all blocked senders!"), clearLogsAction.imageSource.toString() );
                     }
 
                     listView.visible = !adm.isEmpty();
                     emptyDelegate.delegateActive = adm.isEmpty();
-                }
-                
-                onCreationCompleted: {
-                    helper.dataReady.connect(onDataLoaded);
-                    helper.fetchAllLogs(listView);
-                    
-                    tutorial.execCentered("logPane", qsTr("In this tab you will be able to view all the messages that were blocked.") );
                 }
             }
             
@@ -220,12 +225,14 @@ NavigationPane
     }
     
     attachedObjects: [
-        ImagePaintDefinition {
+        ImagePaintDefinition
+        {
             id: ipd
             imageSource: "images/background.png"
         },
         
-        SystemDialog {
+        SystemDialog
+        {
             id: clearDialog
             property bool showing: false
             body: qsTr("You seem to have a lot of entries here, would you like to clear this list to improve app startup time?") + Retranslate.onLanguageChanged
@@ -246,12 +253,16 @@ NavigationPane
                 showing = false;
                 console.log("UserEvent: ClearNoticePrompt", value);
                 
-                if (value == SystemUiResult.ConfirmButtonSelection) {
+                if (value == SystemUiResult.ConfirmButtonSelection)
+                {
                     helper.clearLogs(listView);
                     adm.clear();
-                    toaster.init( qsTr("Cleared all blocked senders!"), "images/menu/ic_clear_logs.png" );
+                    reporter.record("ClearSuggestion", "Yes");
                 } else if ( rememberMeSelection() ) {
                     persist.setFlag("dontAskToClear", 1);
+                    reporter.record("ClearSuggestion", "NoDontAskAgain");
+                } else {
+                    reporter.record("ClearSuggestion", "No");
                 }
             }
         },
@@ -273,5 +284,8 @@ NavigationPane
     onCreationCompleted: {
         deviceUtils.attachTopBottomKeys(root, listView);
         helper.refreshNeeded.connect(onRefreshNeeded);
+        tutorial.execCentered("logPane", qsTr("In this tab you will be able to view all the messages that were blocked.") );
+
+        helper.fetchAllLogs(listView);
     }
 }

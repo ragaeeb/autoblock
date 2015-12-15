@@ -85,6 +85,7 @@ FullScreenDialog
                     onTapped: {
                         console.log("UserEvent: LaunchPermissions");
                         persist.launchAppPermissionSettings();
+                        reporter.record("LaunchPermissions");
                     }
                 }
             ]

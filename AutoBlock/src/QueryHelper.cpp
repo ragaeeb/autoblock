@@ -45,7 +45,7 @@ void QueryHelper::onDataLoaded(QVariant idV, QVariant data)
     LOGGER(id/* << data*/);
 
     if (id == QueryId::AttachReportedDatabase) {
-        m_sql.executeQuery(this, "SELECT address AS value FROM reported_addresses", QueryId::FetchAllReported);
+        m_sql.executeQuery(this, "SELECT address AS value,'blocked' AS type FROM reported_addresses UNION SELECT term AS value,'keyword' AS type FROM reported_keywords", QueryId::FetchAllReported);
     } else if (id == QueryId::FetchAllReported) {
         m_sql.executeQuery(this, "DETACH DATABASE reported", QueryId::DetachReportedDatabase);
         emit dataReady(id, data);

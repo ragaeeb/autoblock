@@ -41,25 +41,36 @@ ActionItem
     {
         if (id == QueryId.BlockSenders) {
             toaster.init( qsTr("Addresses added to blocked list!"), "images/menu/ic_add_spammer.png" );
+        } else if (id == QueryId.BlockKeywords) {
+            toaster.init( qsTr("Keywords added to blocked list!"), "images/list/list_keyword.png" );
         }
     }
     
-    function onSpammersSelected(addresses)
+    function onSpammersSelected(toBlock)
     {
-        var transformed = [];
+        var addresses = [];
+        var keywords = [];
         
-        for (var i = addresses.length-1; i >= 0; i--) {
-            transformed.push({'senderAddress': addresses[i]});
+        for (var i = toBlock.length-1; i >= 0; i--)
+        {
+            var current = toBlock[i];
+            
+            if (current.type == "address") {
+                addresses.push({'senderAddress': current.value});
+            } else if (current.type == "keyword") {
+                keywords.push(current.value);
+            }
         }
         
-        var blocked = helper.block(updateAction, transformed);
+        if (addresses.length > 0) {
+            helper.block(updateAction, addresses);
+        }
+        
+        if (keywords.length > 0) {
+            helper.blockKeywords(updateAction, keywords);
+        }
+
         navigationPane.pop();
-        
-        if (blocked.length > 50) {
-            persist.showToast( qsTr("Blocking addresses..."), "images/menu/ic_add_spammer.png" );
-        } else if (blocked.length == 0) {
-            toaster.init( qsTr("The addresses could not be added: %1\n\nPlease file a bug report!").arg( addresses.join(", ") ), "images/tabs/ic_blocked.png" );
-        }
     }
     
     function onUpdatesAvailable(addresses)
@@ -94,8 +105,7 @@ ActionItem
             
             ElementPickerPage {
                 titleText: qsTr("Reported Spammers") + Retranslate.onLanguageChanged
-                instructionText: qsTr("Which of the following reported spammers do you want to add to your blocked list?") + Retranslate.onLanguageChanged
-                listImage: "images/menu/ic_blocked_user.png"
+                instructionText: qsTr("Which of the following reported spammers and keywords do you want to add to your blocked list?") + Retranslate.onLanguageChanged
             }
         },
         

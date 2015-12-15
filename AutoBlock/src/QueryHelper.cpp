@@ -3,7 +3,7 @@
 #include "QueryHelper.h"
 #include "AppLogFetcher.h"
 #include "BlockUtils.h"
-#include "customsqldatasource.h"
+#include "CommonConstants.h"
 #include "Logger.h"
 #include "Persistance.h"
 #include "TextUtils.h"
@@ -45,15 +45,9 @@ void QueryHelper::onDataLoaded(QVariant idV, QVariant data)
     LOGGER(id/* << data*/);
 
     if (id == QueryId::AttachReportedDatabase) {
-        m_sql.executeQuery(this, "SELECT address AS value,'blocked' AS type FROM reported_addresses UNION SELECT term AS value,'keyword' AS type FROM reported_keywords", QueryId::FetchAllReported);
+        m_sql.executeQuery(this, QString("SELECT address AS %1,'%2' AS %3 FROM reported_addresses UNION SELECT term AS %1,'%4' AS %3 FROM reported_keywords").arg(FIELD_VALUE).arg(TYPE_ADDRESS).arg(FIELD_TYPE).arg(TYPE_KEYWORD), QueryId::FetchAllReported);
     } else if (id == QueryId::FetchAllReported) {
         m_sql.executeQuery(this, "DETACH DATABASE reported", QueryId::DetachReportedDatabase);
-        emit dataReady(id, data);
-    } else {
-        if (id == QueryId::UnblockSenders || id == QueryId::BlockSenders) {
-            fetchAllBlockedSenders();
-        }
-
         emit dataReady(id, data);
     }
 }
@@ -79,23 +73,27 @@ void QueryHelper::fetchExcludedWords(QObject* caller, QString const& filter)
 }
 
 
-void QueryHelper::fetchAllBlockedSenders(QString const& filter)
+void QueryHelper::fetchAllBlockedSenders(QObject* caller, QString const& filter)
 {
     if ( filter.isNull() ) {
-        m_sql.executeQuery(this, "SELECT address,count FROM inbound_blacklist ORDER BY address", QueryId::FetchBlockedSenders);
+        m_sql.executeQuery(caller, "SELECT address,count FROM inbound_blacklist ORDER BY address", QueryId::FetchBlockedSenders);
     } else {
-        m_sql.executeQuery(this, "SELECT address,count FROM inbound_blacklist WHERE address LIKE '%' || ? || '%' ORDER BY address", QueryId::FetchBlockedSenders, QVariantList() << filter);
+        m_sql.executeQuery(caller, "SELECT address,count FROM inbound_blacklist WHERE address LIKE '%' || ? || '%' ORDER BY address", QueryId::FetchBlockedSenders, QVariantList() << filter);
     }
 }
 
 
-void QueryHelper::clearBlockedSenders() {
+void QueryHelper::clearBlockedSenders()
+{
     m_sql.executeClear(this, "inbound_blacklist", QueryId::UnblockSenders);
+    emit refreshNeeded(QueryId::UnblockSenders);
 }
 
 
-void QueryHelper::clearBlockedKeywords(QObject* caller) {
+void QueryHelper::clearBlockedKeywords(QObject* caller)
+{
     m_sql.executeClear(caller, "inbound_keywords", QueryId::ClearKeywords);
+    emit refreshNeeded(QueryId::FetchBlockedKeywords);
 }
 
 
@@ -104,8 +102,10 @@ void QueryHelper::cleanInvalidEntries() {
 }
 
 
-void QueryHelper::clearLogs() {
+void QueryHelper::clearLogs()
+{
     m_sql.executeClear(this, "logs", QueryId::ClearLogs);
+    emit refreshNeeded(QueryId::FetchAllLogs);
 }
 
 
@@ -217,6 +217,8 @@ void QueryHelper::prepareTransaction(QObject* caller, QString const& query, QVar
     }
 
     m_sql.endTransaction(caller, qid);
+
+    emit refreshNeeded(qid);
 }
 
 
@@ -237,6 +239,7 @@ QStringList QueryHelper::unblockKeywords(QObject* caller, QVariantList const& ke
     }
 
     m_sql.executeQuery( caller, QString("DELETE FROM inbound_keywords WHERE term IN (%1)").arg( placeHolders.join(",") ), QueryId::UnblockKeywords, keywordsVariants);
+    emit refreshNeeded(QueryId::UnblockKeywords);
 
     return keywordsList;
 }
@@ -259,12 +262,13 @@ QStringList QueryHelper::unblock(QObject* caller, QVariantList const& senders)
     }
 
     m_sql.executeQuery( caller, QString("DELETE FROM inbound_blacklist WHERE address IN (%1)").arg( placeHolders.join(",") ), QueryId::UnblockSenders, keywordsVariants);
+    emit refreshNeeded(QueryId::UnblockSenders);
 
     return keywordsList;
 }
 
 
-void QueryHelper::fetchAllLogs(QString const& filter)
+void QueryHelper::fetchAllLogs(QObject* caller, QString const& filter)
 {
     LOGGER(filter);
     m_logSearchMode = !filter.isNull();
@@ -273,9 +277,9 @@ void QueryHelper::fetchAllLogs(QString const& filter)
     {
         m_lastUpdate = QDateTime::currentMSecsSinceEpoch();
 
-        m_sql.executeQuery(this, "SELECT address,message,timestamp FROM logs ORDER BY timestamp DESC", QueryId::FetchAllLogs);
+        m_sql.executeQuery(caller, "SELECT address,message,timestamp FROM logs ORDER BY timestamp DESC", QueryId::FetchAllLogs);
     } else {
-        m_sql.executeQuery( this, "SELECT address,message,timestamp FROM logs WHERE address LIKE '%' || ? || '%' ORDER BY timestamp DESC", QueryId::FetchAllLogs, QVariantList() << filter );
+        m_sql.executeQuery( caller, "SELECT address,message,timestamp FROM logs WHERE address LIKE '%' || ? || '%' ORDER BY timestamp DESC", QueryId::FetchAllLogs, QVariantList() << filter );
     }
 }
 
@@ -285,11 +289,11 @@ void QueryHelper::attachReportedDatabase(QString const& tempDatabase) {
 }
 
 
-void QueryHelper::fetchLatestLogs()
+void QueryHelper::fetchLatestLogs(QObject* caller)
 {
     if (!m_logSearchMode)
     {
-        m_sql.executeQuery( this, QString("SELECT address,message,timestamp FROM logs WHERE timestamp > %1 ORDER BY timestamp").arg(m_lastUpdate), QueryId::FetchLatestLogs );
+        m_sql.executeQuery( caller, QString("SELECT address,message,timestamp FROM logs WHERE timestamp > %1 ORDER BY timestamp").arg(m_lastUpdate), QueryId::FetchLatestLogs );
         m_lastUpdate = QDateTime::currentMSecsSinceEpoch();
     }
 }
@@ -337,7 +341,7 @@ void QueryHelper::databaseUpdated(QString const& path)
     Q_UNUSED(path);
 
     LOGGER("DatabaseUpdated!");
-    fetchLatestLogs();
+    emit refreshNeeded(QueryId::FetchLatestLogs);
 }
 
 

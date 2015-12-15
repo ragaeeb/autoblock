@@ -6,9 +6,10 @@ Page
     property variant elements
     property string titleText: qsTr("Keywords") + Retranslate.onLanguageChanged
     property string instructionText: qsTr("Do you want to automatically filter future messages that contain the following elements?") + Retranslate.onLanguageChanged
-    property variant listImage: "images/menu/ic_keyword.png"
     property bool showSelectAll: false
     signal elementsSelected(variant elements)
+    
+    function cleanUp() {}
     
     actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
     
@@ -28,32 +29,10 @@ Page
     onElementsChanged: {
         adm.clear();
         adm.insertList(elements);
-        
-        
     }
     
-    titleBar: TitleBar
-    {
+    titleBar: TitleBar {
         title: titleText
-        
-        acceptAction: ActionItem
-        {
-            id: saveAction
-            enabled: false
-            title: qsTr("Save") + Retranslate.onLanguageChanged
-            
-            onTriggered: {
-                console.log("UserEvent: SaveTriggered");
-                var selected = listView.selectionList();
-                var toBlock = [];
-                
-                for (var i = selected.length-1; i >= 0; i--) {
-                    toBlock.push( adm.data(selected[i]).value );
-                }
-                
-                elementsSelected(toBlock);
-            }
-        }
     }
     
     actions: [
@@ -67,6 +46,7 @@ Page
             onTriggered: {
                 console.log("UserEvent: ClearAllSelection");
                 listView.clearSelection();
+                reporter.record("ClearAll");
             }
         },
         
@@ -84,6 +64,8 @@ Page
                 if (confirmed) {
                     listView.selectAll();
                 }
+                
+                reporter.record("SelectAll", confirmed);
             }
             
             onTriggered: {
@@ -119,25 +101,65 @@ Page
         {
             id: listView
             scrollRole: ScrollRole.Main
-            property variant imageSource: listImage
+            
+            multiSelectHandler
+            {
+                onActiveChanged: {
+                    if (active) {
+                        //tutorial.execActionBar( "selectAll", qsTr("Tap here to select all the elements in the list. Be sure to review the items before doing so because you may add items that are not necessarily spam.") );
+                    }
+                }
+                
+                actions: [
+                    ActionItem
+                    {
+                        id: saveAction
+                        enabled: false
+                        imageSource: "images/menu/ic_accept_entries.png"
+                        title: qsTr("Save") + Retranslate.onLanguageChanged
+                        
+                        onTriggered: {
+                            console.log("UserEvent: SaveTriggered");
+                            var selected = listView.selectionList();
+                            var toBlock = [];
+                            
+                            for (var i = selected.length-1; i >= 0; i--) {
+                                toBlock.push( adm.data(selected[i]) );
+                            }
+                            
+                            elementsSelected(toBlock);
+                        }
+                    }
+                ]
+                
+                status: qsTr("None selected") + Retranslate.onLanguageChanged
+            }
             
             dataModel: GroupDataModel
             {
                 id: adm
                 grouping: ItemGrouping.ByFullValue
-                sortingKeys: ["type"]
+                sortingKeys: ["type", "value"]
             }
             
             onTriggered: {
                 console.log("UserEvent: ElementTriggered", indexPath);
                 
-                if (indexPath.length > 1) {
+                if (indexPath.length > 1)
+                {
+                    multiSelectHandler.active = true;
                     toggleSelection(indexPath);
                 }
             }
             
             onSelectionChanged: {
-                saveAction.enabled = selectionList().length > 0;
+                var n = selectionList().length;
+                saveAction.enabled = n > 0;
+                multiSelectHandler.status = qsTr("%n entries selected", "", n);
+                
+                if (selected) {
+                    //tutorial.execActionBar( "clearAll", qsTr("Tap here to deselect all the elements in the list."), "r" );
+                }
             }
             
             listItemComponents: [
@@ -146,7 +168,7 @@ Page
                     type: "header"
                     
                     Header {
-                        title: ListItemData
+                        title: ListItemData == "address" ? qsTr("Addresses") + Retranslate.onLanguageChanged : qsTr("Keywords") + Retranslate.onLanguageChanged
                         subtitle: ListItem.view.dataModel.childCount(ListItem.indexPath)
                     }
                 },
@@ -159,7 +181,7 @@ Page
                     {
                         id: sli
                         description: ListItemData.value
-                        imageSource: ListItem.view.imageSource
+                        imageSource: ListItemData.type == "address" ? "images/list/list_address.png" : "images/list/list_keyword.png"
                         opacity: 0
                         
                         animations: [

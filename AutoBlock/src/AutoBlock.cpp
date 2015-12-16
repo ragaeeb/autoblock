@@ -110,7 +110,8 @@ void AutoBlock::lazyInit()
         connect( &m_helper, SIGNAL( readyChanged() ), this, SLOT( completeInvoke() ) );
     }
 
-    emit lazyInitComplete();
+    //emit lazyInitComplete();
+    testX();
 }
 
 

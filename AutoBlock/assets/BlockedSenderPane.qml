@@ -21,6 +21,8 @@ NavigationPane
             
             acceptAction: UpdateActionItem
             {
+                id: uai
+                
                 onConfirmed: {
                     updater.submit();
                 }
@@ -30,11 +32,11 @@ NavigationPane
         onActionMenuVisualStateChanged: {
             if (actionMenuVisualState == ActionMenuVisualState.VisibleFull)
             {
-                tutorial.execOverFlow("tutorialAddSender", qsTr("Use the '%1' action from the menu to add a specific phone number or email address you want to block."), addAction );
-                tutorial.execCentered("tutorialSearchSender", qsTr("You can use the '%1' action from the menu to search if a specific sender's address is in your blocked list.").arg(searchAction.title), "images/menu/ic_search_user.png" );
+                tutorial.execOverFlow("addSender", qsTr("Use the '%1' action from the menu to add a specific phone number or email address you want to block."), addAction );
+                tutorial.execOverFlow("searchSender", qsTr("You can use the '%1' action from the menu to search if a specific sender's address is in your blocked list."), searchAction );
                 
                 if ( gdm.size() > 15 ) {
-                    tutorial.exec("tutorialClearBlocked", qsTr("You can clear this blocked list by selecting 'Unblock All' from the menu."), "images/menu/ic_unblock_all.png" );
+                    tutorial.execOverFlow("clearBlocked", qsTr("You can clear this blocked list by selecting '%1' from the menu."), unblockAllAction );
                 }
             }
         }
@@ -51,7 +53,6 @@ NavigationPane
                 
                 onTriggered: {
                     console.log("UserEvent: BlockSenderTriggered");
-                    tutorial.execCentered( "tutorialManualAdd", qsTr("Important: If you are manually attempting to input phone numbers to block note that plus signs and dashes may be necessary in order to match the format that is used by the spammer. It might be more appropriate for you to go to the 'Conversations' tab and add the spammer from there instead."), "images/menu/ic_help.png" );
                     addPrompt.show();
                 }
                 
@@ -96,6 +97,8 @@ NavigationPane
                                     toaster.init( qsTr("Invalid address entered: %1").arg(inputEntry), "images/menu/ic_keyword.png" );
                                 }
                             }
+                            
+                            tutorial.execCentered( "manualAdd", qsTr("Important: If you are manually attempting to input phone numbers to block note that plus signs and dashes may be necessary in order to match the format that is used by the spammer. It might be more appropriate for you to go to the 'Conversations' tab and add the spammer from there instead."), "images/menu/ic_help.png" );
                         }
                     },
                     
@@ -287,11 +290,11 @@ NavigationPane
         listView.visible = !gdm.isEmpty();
         emptyDelegate.delegateActive = gdm.isEmpty();
 
-        tutorial.execTitle("tutorialSync", qsTr("You can use the 'Update' button at the top-right to sync your block list with our servers to discover new spammers reported by the Auto Block community that you have not discovered yet!"), "r" );
+        tutorial.execTitle("tutorialSync", qsTr("You can use the '%1' button at the top-right to sync your block list with our servers to discover new spammers reported by the Auto Block community that you have not discovered yet!").arg(uai.title), "r" );
         tutorial.execActionBar( "moreBlockOptions", qsTr("Tap here for more actions you can take on this page."), "x" );
 
         if ( !gdm.isEmpty() ) {
-            tutorial.execCentered("tutorialUnblock", qsTr("You can unblock a user you blocked by mistake by simply tapping on the blocked address and choosing 'Unblock' from the menu.") );
+            tutorial.execCentered("unblockSenders", qsTr("You can unblock a user you blocked by mistake by simply tapping on the blocked address and choosing '%1' from the menu.").arg(unBlockAction.title) );
         }
     }
     

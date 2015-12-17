@@ -336,7 +336,7 @@ void QueryHelper::databaseUpdated(QString const& path)
     Q_UNUSED(path);
 
     LOGGER("DatabaseUpdated!");
-    //emit refreshNeeded(QueryId::FetchLatestLogs);
+    emit refreshNeeded(QueryId::FetchLatestLogs);
 }
 
 

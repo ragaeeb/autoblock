@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ar_SA">
+<TS version="2.0" language="de_DE">
 <context>
     <name>AutoBlockHelp</name>
     <message>
@@ -89,12 +89,12 @@ And to make it even easier for our users to discover more and more spammers, Aut
     <message>
         <location filename="../assets/BlockedKeywordPane.qml" line="144"/>
         <source>OK</source>
-        <translation>موافق</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../assets/BlockedKeywordPane.qml" line="145"/>
         <source>Cancel</source>
-        <translation>الغاء</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <location filename="../assets/BlockedKeywordPane.qml" line="156"/>
@@ -114,12 +114,12 @@ And to make it even easier for our users to discover more and more spammers, Aut
     <message>
         <location filename="../assets/BlockedKeywordPane.qml" line="191"/>
         <source>Clear All</source>
-        <translation type="unfinished"></translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <location filename="../assets/BlockedKeywordPane.qml" line="203"/>
         <source>Confirmation</source>
-        <translation>تأكيد</translation>
+        <translation>Bestätigen</translation>
     </message>
     <message>
         <location filename="../assets/BlockedKeywordPane.qml" line="203"/>
@@ -149,16 +149,12 @@ And to make it even easier for our users to discover more and more spammers, Aut
     <message>
         <location filename="../assets/BlockedKeywordPane.qml" line="335"/>
         <source>None selected</source>
-        <translation>لم يتم تحديد أي شيء</translation>
+        <translation>Nichts ausgewählt</translation>
     </message>
     <message numerus="yes">
         <location filename="../assets/BlockedKeywordPane.qml" line="341"/>
         <source>%n keywords to unblock</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
@@ -242,12 +238,12 @@ To implement more aggressive blocking, decrease this threshold, to be more lenie
     <message>
         <location filename="../assets/BlockedSenderPane.qml" line="66"/>
         <source>OK</source>
-        <translation>موافق</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../assets/BlockedSenderPane.qml" line="67"/>
         <source>Cancel</source>
-        <translation>الغاء</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <location filename="../assets/BlockedSenderPane.qml" line="69"/>
@@ -284,7 +280,7 @@ Please file a bug report!</source>
     <message>
         <location filename="../assets/BlockedSenderPane.qml" line="136"/>
         <source>Confirmation</source>
-        <translation>تأكيد</translation>
+        <translation>Bestätigen</translation>
     </message>
     <message>
         <location filename="../assets/BlockedSenderPane.qml" line="136"/>
@@ -319,16 +315,12 @@ Please file a bug report!</source>
     <message>
         <location filename="../assets/BlockedSenderPane.qml" line="266"/>
         <source>None selected</source>
-        <translation>لم يتم تحديد أي شيء</translation>
+        <translation>Nichts ausgewählt</translation>
     </message>
     <message numerus="yes">
         <location filename="../assets/BlockedSenderPane.qml" line="272"/>
         <source>%n senders to unblock</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
@@ -351,12 +343,12 @@ Please file a bug report!</source>
     <message>
         <location filename="../assets/BlockedSenderPane.qml" line="307"/>
         <source>Successfully blocked address.</source>
-        <translation>نجاح</translation>
+        <translation>Erfolg</translation>
     </message>
     <message>
         <location filename="../assets/BlockedSenderPane.qml" line="309"/>
         <source>Addresses successfully unblocked!</source>
-        <translation>نجاح</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -422,26 +414,22 @@ Please file a bug report!</source>
     <message>
         <location filename="../assets/ConversationsPane.qml" line="109"/>
         <source>Yes</source>
-        <translation>نعم</translation>
+        <translation>Ja</translation>
     </message>
     <message>
         <location filename="../assets/ConversationsPane.qml" line="109"/>
         <source>No</source>
-        <translation>ل</translation>
+        <translation>Nein</translation>
     </message>
     <message>
         <location filename="../assets/ConversationsPane.qml" line="109"/>
         <source>Don&apos;t ask again</source>
-        <translation>عدم الإظهار مرة أخرى</translation>
+        <translation>Nicht mehr anzeigen</translation>
     </message>
     <message numerus="yes">
         <location filename="../assets/ConversationsPane.qml" line="134"/>
         <source>%n seconds</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
@@ -470,7 +458,7 @@ Please file a bug report!</source>
         <location filename="../assets/ConversationsPane.qml" line="230"/>
         <location filename="../assets/ConversationsPane.qml" line="252"/>
         <source>None selected</source>
-        <translation>لم يتم تحديد أي شيء</translation>
+        <translation>Nichts ausgewählt</translation>
     </message>
     <message>
         <location filename="../assets/ConversationsPane.qml" line="240"/>
@@ -530,10 +518,6 @@ Please ensure you review the keywords you are selecting because otherwise you ma
         <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -569,16 +553,12 @@ Please ensure you review the keywords you are selecting because otherwise you ma
     <message>
         <location filename="../assets/ElementPickerPage.qml" line="85"/>
         <source>None selected</source>
-        <translation>لم يتم تحديد أي شيء</translation>
+        <translation>Nichts ausgewählt</translation>
     </message>
     <message numerus="yes">
         <location filename="../assets/ElementPickerPage.qml" line="110"/>
         <source>%n entries selected</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
@@ -625,7 +605,7 @@ Using this you can enter a sender&apos;s address (or phone number), their name, 
         <location filename="../assets/LogPane.qml" line="76"/>
         <location filename="../assets/LogPane.qml" line="238"/>
         <source>Clear Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <location filename="../assets/LogPane.qml" line="85"/>
@@ -636,7 +616,7 @@ Using this you can enter a sender&apos;s address (or phone number), their name, 
     <message>
         <location filename="../assets/LogPane.qml" line="94"/>
         <source>Confirmation</source>
-        <translation>تأكيد</translation>
+        <translation>Bestätigen</translation>
     </message>
     <message>
         <location filename="../assets/LogPane.qml" line="94"/>
@@ -661,17 +641,17 @@ Using this you can enter a sender&apos;s address (or phone number), their name, 
     <message>
         <location filename="../assets/LogPane.qml" line="239"/>
         <source>No</source>
-        <translation>ل</translation>
+        <translation>Nein</translation>
     </message>
     <message>
         <location filename="../assets/LogPane.qml" line="240"/>
         <source>Yes</source>
-        <translation>نعم</translation>
+        <translation>Ja</translation>
     </message>
     <message>
         <location filename="../assets/LogPane.qml" line="243"/>
         <source>Don&apos;t Ask Again</source>
-        <translation>عدم الإظهار مرة أخرى</translation>
+        <translation>Nicht mehr anzeigen</translation>
     </message>
     <message>
         <location filename="../assets/LogPane.qml" line="286"/>
@@ -700,7 +680,7 @@ Using this you can enter a sender&apos;s address (or phone number), their name, 
     <message>
         <location filename="../assets/SearchActionItem.qml" line="6"/>
         <source>Search</source>
-        <translation>بحث</translation>
+        <translation>Suchen</translation>
     </message>
     <message>
         <location filename="../assets/SearchActionItem.qml" line="31"/>
@@ -718,7 +698,7 @@ Using this you can enter a sender&apos;s address (or phone number), their name, 
     <message>
         <location filename="../assets/SettingsPage.qml" line="11"/>
         <source>Settings</source>
-        <translation>الإعدادات</translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <location filename="../assets/SettingsPage.qml" line="22"/>
@@ -768,32 +748,32 @@ Using this you can enter a sender&apos;s address (or phone number), their name, 
     <message>
         <location filename="../assets/SettingsPage.qml" line="49"/>
         <source>Backup</source>
-        <translation>نسخ احتياطي الآن</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../assets/SettingsPage.qml" line="55"/>
         <source>Select Destination</source>
-        <translation>اختر الوجهة</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../assets/SettingsPage.qml" line="66"/>
         <source>Successfully backed up to %1</source>
-        <translation>نجاح %1</translation>
+        <translation>Erfolg %1</translation>
     </message>
     <message>
         <location filename="../assets/SettingsPage.qml" line="74"/>
         <source>Restore</source>
-        <translation>استرداد</translation>
+        <translation>Wiederherstellen</translation>
     </message>
     <message>
         <location filename="../assets/SettingsPage.qml" line="80"/>
         <source>Select File</source>
-        <translation>تحديد ملف</translation>
+        <translation>Datei auswählen</translation>
     </message>
     <message>
         <location filename="../assets/SettingsPage.qml" line="95"/>
         <source>The database could not be restored. Please re-check the backup file to ensure it is valid, and if the problem persists please file a bug report. Make sure to attach the backup file with your report!</source>
-        <translation>لا يمكن استعادة قاعدة البيانات. يرجى إعادة التحقق من ملف النسخ الاحتياطي لضمان أنها صحيحة، وإذا استمرت المشكلة يرجى تقديم تقرير علة. التأكد من إرفاق ملف النسخ الاحتياطي مع التقرير الخاص بك!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../assets/SettingsPage.qml" line="104"/>
@@ -915,12 +895,12 @@ Click here to fix it.</source>
     <message>
         <location filename="../assets/TestHelper.qml" line="17"/>
         <source>Cancel</source>
-        <translation>الغاء</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <location filename="../assets/TestHelper.qml" line="18"/>
         <source>OK</source>
-        <translation>موافق</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../assets/TestHelper.qml" line="22"/>
@@ -965,12 +945,12 @@ Click here to fix it.</source>
     <message>
         <location filename="../assets/TestHelper.qml" line="50"/>
         <source>Enter name</source>
-        <translation>إدخال اسم</translation>
+        <translation>Namen eingeben</translation>
     </message>
     <message>
         <location filename="../assets/TestHelper.qml" line="54"/>
         <source>Enter Name</source>
-        <translation>إدخال اسم</translation>
+        <translation>Namen eingeben</translation>
     </message>
     <message>
         <location filename="../assets/TestHelper.qml" line="61"/>
@@ -991,7 +971,7 @@ subject: %3</source>
     <message>
         <location filename="../assets/UpdateActionItem.qml" line="39"/>
         <source>Confirmation</source>
-        <translation>تأكيد</translation>
+        <translation>Bestätigen</translation>
     </message>
     <message>
         <location filename="../assets/UpdateActionItem.qml" line="39"/>
@@ -1017,7 +997,7 @@ subject: %3</source>
         <location filename="../assets/UpdateActionItem.qml" line="51"/>
         <location filename="../assets/UpdateActionItem.qml" line="53"/>
         <source>Success</source>
-        <translation>نجاح</translation>
+        <translation>Erfolg</translation>
     </message>
     <message>
         <location filename="../assets/UpdateActionItem.qml" line="53"/>
@@ -1071,7 +1051,7 @@ Simply tap on the addresses and keywords you would like to use. Make sure you re
         <location filename="../src/AutoBlock.cpp" line="153"/>
         <location filename="../src/AutoBlock.cpp" line="249"/>
         <source>OK</source>
-        <translation>موافق</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/AutoBlock.cpp" line="187"/>
@@ -1090,7 +1070,7 @@ Simply tap on the addresses and keywords you would like to use. Make sure you re
     <message>
         <location filename="../src/AutoBlock.cpp" line="203"/>
         <source>Successfully blocked addresses!</source>
-        <translation>نجاح</translation>
+        <translation>Erfolg</translation>
     </message>
     <message>
         <location filename="../src/AutoBlock.cpp" line="205"/>
@@ -1123,7 +1103,7 @@ Simply tap on the addresses and keywords you would like to use. Make sure you re
     <message>
         <location filename="../src/UpdateManager.cpp" line="119"/>
         <source>Uncompressing data...</source>
-        <translation>جاري تجهيز الملفات</translation>
+        <translation>Entzippen...</translation>
     </message>
     <message>
         <location filename="../src/UpdateManager.cpp" line="138"/>

@@ -30,12 +30,18 @@ ActionItem
     
     onTriggered: {
         console.log("UserEvent: SyncUpdate");
-        enabled = false;
         
-        if ( !persist.containsFlag("updateTutorial") ) {
-            persist.showDialog( updateAction, qsTr("Confirmation"), qsTr("The syncing may consume data. Make sure you are on an appropriate Wi-Fi connection or a good data plan. This action will sync your blocked list with our servers so that you can benefit from and benefit other users to report spammers. Would you like to proceed?") );
+        if (reporter.online)
+        {
+            enabled = false;
+            
+            if ( !persist.containsFlag("updateTutorial") ) {
+                persist.showDialog( updateAction, qsTr("Confirmation"), qsTr("The syncing may consume data. Make sure you are on an appropriate Wi-Fi connection or a good data plan. This action will sync your blocked list with our servers so that you can benefit from and benefit other users to report spammers. Would you like to proceed?") );
+            } else {
+                confirmed();
+            }
         } else {
-            confirmed();
+            toaster.init( qsTr("You seem to be offline. Please connect to a network and try again."), "images/common/ic_offline.png", qsTr("No Network Connection") );
         }
     }
     

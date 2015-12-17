@@ -91,7 +91,6 @@ NavigationPane
                 
                 onTriggered: {
                     console.log("UserEvent: ClearLogs");
-                    
                     persist.showDialog( clearLogsAction, qsTr("Confirmation"), qsTr("Are you sure you want to clear all the logs?") );
                 }
             }

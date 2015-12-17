@@ -58,7 +58,7 @@ QtObject
                     
                     reporter.record( "TestingSender", address+", "+senderName, subject );
                     app.invokeService(address, senderName, subject);
-                    persist.showToast( qsTr("Testing...\naddress: %1\nsenderName: %2\nsubject: %3").arg(address).arg(senderName).arg(subject), "", "asset:///images/menu/ic_test.png" );
+                    persist.showToast( qsTr("Testing...\naddress: %1\nsenderName: %2\nsubject: %3").arg(address).arg(senderName).arg(subject), "images/menu/ic_test.png" );
                     reset();
                 }
             }

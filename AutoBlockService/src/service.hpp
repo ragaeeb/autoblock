@@ -5,8 +5,6 @@
 
 #include <bb/system/InvokeManager>
 #include <bb/system/phone/Phone>
-
-#include <bb/pim/account/AccountService>
 #include <bb/pim/message/MessageService>
 
 #include "customsqldatasource.h"
@@ -23,7 +21,6 @@ namespace bb {
 
 namespace autoblock {
 
-using namespace bb::pim::account;
 using namespace bb::pim::message;
 using namespace bb::system;
 using namespace bb::system::phone;
@@ -43,8 +40,6 @@ class Service: public QObject
 	Q_OBJECT
 
 	OptionSettings m_options;
-
-	AccountService m_accounts;
     MessageService m_manager;
     Phone m_phone;
 	QFileSystemWatcher m_settingsWatcher;
@@ -53,7 +48,6 @@ class Service: public QObject
 	PendingQueue m_queue;
 	QMap<qint64, quint64> m_accountToTrash;
 	QSettings m_settings;
-	QFutureWatcher< QList<Message> > m_future;
 
     void forceDelete(Message const& m);
 	void processSenders(QVariantList result);
@@ -71,9 +65,7 @@ private slots:
 	void handleInvoke(const bb::system::InvokeRequest &);
 	void init();
 	void messageAdded(bb::pim::account::AccountKey, bb::pim::message::ConversationKey, bb::pim::message::MessageKey);
-	void onUnreadFound();
 	void settingChanged(QString const& path=QString());
-	void ready();
 
 Q_SIGNALS:
 	void initialize();

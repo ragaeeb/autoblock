@@ -74,7 +74,7 @@ And to make it even easier for our users to discover more and more spammers, Aut
     <message>
         <location filename="../assets/BlockedKeywordPane.qml" line="123"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>إضافة</translation>
     </message>
     <message>
         <location filename="../assets/BlockedKeywordPane.qml" line="142"/>
@@ -232,7 +232,7 @@ To implement more aggressive blocking, decrease this threshold, to be more lenie
     <message>
         <location filename="../assets/BlockedSenderPane.qml" line="47"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>إضافة</translation>
     </message>
     <message>
         <location filename="../assets/BlockedSenderPane.qml" line="65"/>

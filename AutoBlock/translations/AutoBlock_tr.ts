@@ -693,7 +693,7 @@ Using this you can enter a sender&apos;s address (or phone number), their name, 
     <message>
         <location filename="../assets/SettingsPage.qml" line="11"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ayarlar</translation>
     </message>
     <message>
         <location filename="../assets/SettingsPage.qml" line="22"/>
@@ -945,7 +945,7 @@ Click here to fix it.</source>
     <message>
         <location filename="../assets/TestHelper.qml" line="54"/>
         <source>Enter Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Ad girin</translation>
     </message>
     <message>
         <location filename="../assets/TestHelper.qml" line="61"/>

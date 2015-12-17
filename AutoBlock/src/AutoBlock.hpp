@@ -6,6 +6,7 @@
 
 #include "DeviceUtils.h"
 #include "LazySceneCover.h"
+#include "LocaleUtil.h"
 #include "Offloader.h"
 #include "PaymentHelper.h"
 #include "Persistance.h"
@@ -28,6 +29,7 @@ class AutoBlock : public QObject
 {
     Q_OBJECT
 
+    LocaleUtil m_locale;
     LazySceneCover m_cover;
     Persistance m_persistance;
     QueryHelper m_helper;

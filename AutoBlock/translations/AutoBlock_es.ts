@@ -950,7 +950,7 @@ Click here to fix it.</source>
     <message>
         <location filename="../assets/TestHelper.qml" line="54"/>
         <source>Enter Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Escriba el nombre</translation>
     </message>
     <message>
         <location filename="../assets/TestHelper.qml" line="61"/>

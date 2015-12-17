@@ -106,7 +106,7 @@ NavigationPane
                             } else if (flag == -1) {
                                 // don't parse keywords
                             } else {
-                                persist.showDialog( listView, toBlock, qsTr("Keyword Parsing"), qsTr("Would you like to add the keywords found in the message to block by keyword?"), qsTr("Yes"), qsTr("No"), true, qsTr("Don't ask again"), false );
+                                persist.showDialog( listView, toBlock, qsTr("Keyword Parsing"), qsTr("Would you like to add the keywords found in the message? This is useful if the spammer keeps changing their email address but uses the same words to send you the spam."), qsTr("Yes"), qsTr("No"), true, qsTr("Don't ask again"), false );
                             }
                         }
                     }
@@ -187,6 +187,16 @@ NavigationPane
                     
                     multiSelectHandler
                     {
+                        onActiveChanged: {
+                            if (active) {
+                                if (ctb.accounts.selectedValue == 8) {
+                                    tutorial.execActionBar( "tapToBlockCalls", qsTr("Tap on the '%1' action to block future calls from this number.").arg(blockAction.title) );
+                                } else {
+                                    tutorial.execActionBar( "tapToBlockMessages", qsTr("Tap on the '%1' action to block future messages from this sender.").arg(blockAction.title) );
+                                }
+                            }
+                        }
+                        
                         actions: [
                             ActionItem
                             {
@@ -246,6 +256,17 @@ NavigationPane
                         listView.multiSelectHandler.active = false;
                         
                         reporter.record("MessagesFound", results.length);
+                        
+                        if ( !dm.isEmpty() )
+                        {
+                            var daysValue = persist.getValueFor("days");
+                            
+                            if (ctb.accounts.selectedValue == 8) {
+                                tutorial.execCentered( "tapSelectCalls", qsTr("These are all the incoming calls from the past %1 days.\n\nPlease select the phone numbers that you wish to block.").arg(daysValue) );
+                            } else {
+                                tutorial.execCentered( "tapSelectMessages", qsTr("These are all the incoming messages for this account from the past %1 days.\n\nPlease select the senders that you wish to block.").arg(daysValue) );
+                            }
+                        }
                     }
                 }
             }
@@ -265,7 +286,7 @@ NavigationPane
         navigationPane.pop();
         
         if (keywordsList.length == 0) {
-            toaster.init( qsTr("The keyword could not be blocked: %1").arg(value), "images/ic_block.png" );
+            toaster.init( qsTr("The keyword could not be blocked."), "images/ic_block.png" );
         }
     }
     
@@ -280,6 +301,9 @@ NavigationPane
             inspectPage.elements = keywords;
             
             navigationPane.push(inspectPage);
+            
+            tutorial.execCentered( "tapSelectKeywords", qsTr("These are the keywords found in the subject and body of the message you just blocked.\n\nSelect the keywords you would like to block. In the future, if these selected keywords show up in the message subject, they will be blocked.\n\nPlease ensure you review the keywords you are selecting because otherwise you may be blocking legitimate messages that happen to have these keywords in them!") );
+            tutorial.execActionBar("keywordPickerBack", qsTr("To close this page, either swipe to the right or tap on this back button!"), "b" );
         } else {
             toaster.init( qsTr("Could not find any suspicious keywords in the message..."), "images/ic_steps.png" );
         }

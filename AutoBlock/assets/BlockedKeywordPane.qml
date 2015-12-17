@@ -28,10 +28,7 @@ NavigationPane
         onActionMenuVisualStateChanged: {
             if (actionMenuVisualState == ActionMenuVisualState.VisibleFull)
             {
-                if ( adm.size() > 15 ) {
-                    tutorial.execOverFlow( "searchKeyword", qsTr("You can use the '%1' action from the menu to search if a specific keyword is in your blocked list."), searchAction );
-                }
-                
+                tutorial.execOverFlow( "searchKeyword", qsTr("You can use the '%1' action from the menu to search if a specific keyword is in your blocked list."), searchAction );                
                 tutorial.execOverFlow("addKeyword", qsTr("Use the '%1' action from the menu to add a specific keyword you want to block."), addAction );
                 tutorial.execOverFlow("clearBlockedKeywords", qsTr("You can clear this blocked list by selecting '%1' from the menu."), unblockAllAction );
             }
@@ -113,14 +110,6 @@ NavigationPane
                             topMargin: 10
                             key: "ignorePunctuation"
                             text: qsTr("Strip Punctuation from Keywords") + Retranslate.onLanguageChanged
-                            
-                            onCheckedChanged: {
-                                if (checked) {
-                                    infoText.text = qsTr("Punctuation will be removed from messages before they are tested.");
-                                } else {
-                                    infoText.text = qsTr("Punctuation will be left as-is when comparing with the blocked list of keywords.");
-                                }
-                            }
                         }
                     }
                 }

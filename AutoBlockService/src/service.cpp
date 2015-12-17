@@ -61,7 +61,7 @@ void Service::init()
 
     if ( !QFile::exists( m_settings.fileName() ) )
     {
-        m_settings.setValue("days", 7);
+        m_settings.setValue("days", 3);
         m_settings.sync();
     }
 

@@ -19,7 +19,7 @@ NavigationPane
             {
                 tutorial.execOverFlow("searchLogs", qsTr("You can use the '%1' action from the menu to search the logs if a specific message that was blocked."), search );
                 tutorial.execOverFlow("clearLogs", qsTr("If this list is getting too cluttered, you can always clear the logs by using the '%1' action from the menu."), clearLogsAction );
-                tutorial.execOverFlow("testAction", qsTr("You can test out if your keywords and blocked list is properly set up by using the '%1' action from the menu."), testAction );
+                tutorial.execOverFlow("testAction", qsTr("You can test out if your keywords and blocked list is properly set up by using the '%1' action from the menu.\n\nUsing this you can enter a sender's address (or phone number), their name, and a message subject or body to test out how well the app would be able to block such a message given the keywords and addresses you have set up in your database."), testAction );
             }
             
             reporter.record("LogPageMenuOpened", actionMenuVisualState.toString());
@@ -152,7 +152,7 @@ NavigationPane
                 onTriggered: {
                     console.log("UserEvent: LogTapped", indexPath);
                     var data = dataModel.data(indexPath);
-                    toaster.init( data.message.trim(), "asset:///images/tabs/ic_blocked.png" );
+                    toaster.init( data.message.trim(), "images/tabs/ic_blocked.png", qsTr("The following message was blocked:") );
                     
                     reporter.record("LogTapped");
                 }

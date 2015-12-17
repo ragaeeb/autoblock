@@ -42,8 +42,6 @@ void QueryHelper::onDataLoaded(QVariant idV, QVariant data)
 {
     int id = idV.toInt();
 
-    LOGGER(id/* << data*/);
-
     if (id == QueryId::AttachReportedDatabase) {
         m_sql.executeQuery(this, QString("SELECT address AS %1,'%2' AS %3 FROM reported_addresses UNION SELECT term AS %1,'%4' AS %3 FROM reported_keywords").arg(FIELD_VALUE).arg(TYPE_ADDRESS).arg(FIELD_TYPE).arg(TYPE_KEYWORD), QueryId::FetchAllReported);
     } else if (id == QueryId::FetchAllReported) {
@@ -55,7 +53,7 @@ void QueryHelper::onDataLoaded(QVariant idV, QVariant data)
 
 void QueryHelper::fetchAllBlockedKeywords(QObject* caller, QString const& filter)
 {
-    if ( filter.isNull() ) {
+    if ( filter.isEmpty() ) {
         m_sql.executeQuery(caller, "SELECT term,count FROM inbound_keywords ORDER BY term", QueryId::FetchBlockedKeywords);
     } else {
         m_sql.executeQuery(caller, "SELECT term,count FROM inbound_keywords WHERE term LIKE '%' || ? || '%' ORDER BY term", QueryId::FetchBlockedKeywords, QVariantList() << filter);
@@ -65,7 +63,7 @@ void QueryHelper::fetchAllBlockedKeywords(QObject* caller, QString const& filter
 
 void QueryHelper::fetchExcludedWords(QObject* caller, QString const& filter)
 {
-    if ( filter.isNull() ) {
+    if ( filter.isEmpty() ) {
         m_sql.executeQuery(caller, "SELECT word FROM skip_keywords ORDER BY word", QueryId::FetchExcludedWords);
     } else {
         m_sql.executeQuery(caller, "SELECT word FROM skip_keywords WHERE word LIKE '%' || ? || '%' ORDER BY word", QueryId::FetchExcludedWords, QVariantList() << filter);
@@ -75,7 +73,7 @@ void QueryHelper::fetchExcludedWords(QObject* caller, QString const& filter)
 
 void QueryHelper::fetchAllBlockedSenders(QObject* caller, QString const& filter)
 {
-    if ( filter.isNull() ) {
+    if ( filter.isEmpty() ) {
         m_sql.executeQuery(caller, "SELECT address,count FROM inbound_blacklist ORDER BY address", QueryId::FetchBlockedSenders);
     } else {
         m_sql.executeQuery(caller, "SELECT address,count FROM inbound_blacklist WHERE address LIKE '%' || ? || '%' ORDER BY address", QueryId::FetchBlockedSenders, QVariantList() << filter);
@@ -266,7 +264,7 @@ QStringList QueryHelper::unblock(QObject* caller, QVariantList const& senders)
 void QueryHelper::fetchAllLogs(QObject* caller, QString const& filter)
 {
     LOGGER(filter);
-    m_logSearchMode = !filter.isNull();
+    m_logSearchMode = !filter.isEmpty();
 
     if (!m_logSearchMode)
     {
@@ -274,7 +272,7 @@ void QueryHelper::fetchAllLogs(QObject* caller, QString const& filter)
 
         m_sql.executeQuery(caller, "SELECT address,message,timestamp FROM logs ORDER BY timestamp DESC", QueryId::FetchAllLogs);
     } else {
-        m_sql.executeQuery( caller, "SELECT address,message,timestamp FROM logs WHERE address LIKE '%' || ? || '%' ORDER BY timestamp DESC", QueryId::FetchAllLogs, QVariantList() << filter );
+        m_sql.executeQuery( caller, "SELECT address,message,timestamp FROM logs WHERE (address LIKE '%' || ? || '%') OR (message LIKE '%' || ? || '%')  ORDER BY timestamp DESC", QueryId::FetchAllLogs, QVariantList() << filter << filter );
     }
 }
 

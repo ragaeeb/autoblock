@@ -45,6 +45,7 @@
 	<!-- Fourth digit segment of the package version. First three segments are
 		taken from the <versionNumber> element. Must be an integer from 0 to 2^16-1 -->
 	<buildId>0</buildId>
+ <packageLocale>ar,de,fr,id,ru,es,th,tr</packageLocale>
 
 	<!-- A string value (such as "v1", "2.5", or "Alpha 1") that represents
 		the version of the application, as it should be shown to users. Optional. -->
@@ -187,6 +188,10 @@
 	<asset path="translations" dest="qm">
 		<include name="*.qm" />
 	</asset>
+    <asset path="../canadainc/translations" dest="qm">
+        <include name="*.qm"/>
+    </asset>
+	
 	<asset path="splash_n.png">splash_n.png</asset>
 
 	<!-- Request permission to run a backend headless process and post notification. -->

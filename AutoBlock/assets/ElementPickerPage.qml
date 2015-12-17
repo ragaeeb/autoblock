@@ -54,6 +54,12 @@ Page
             
             multiSelectHandler
             {
+                onActiveChanged: {
+                    if (active) {
+                        tutorial.execActionBar( "tapAddReportedEntries", qsTr("Tap on the '%1' action to add the selected entries to your database.").arg(saveAction.title) );
+                    }
+                }
+                
                 actions: [
                     ActionItem
                     {

@@ -5,7 +5,7 @@ ActionItem
 {
     id: updateAction
     imageSource: "images/dropdown/ic_sync.png"
-    title: qsTr("Update") + Retranslate.onLanguageChanged
+    title: qsTr("Sync") + Retranslate.onLanguageChanged
     property variant progress
     signal confirmed()
     
@@ -42,9 +42,9 @@ ActionItem
     function onDataLoaded(id, data)
     {
         if (id == QueryId.BlockSenders) {
-            toaster.init( qsTr("Addresses added to blocked list!"), "images/menu/ic_add_spammer.png" );
+            toaster.init( qsTr("Addresses added to blocked list!"), "images/menu/ic_add_spammer.png", qsTr("Success") );
         } else if (id == QueryId.BlockKeywords) {
-            toaster.init( qsTr("Keywords added to blocked list!"), "images/list/list_keyword.png" );
+            toaster.init( qsTr("Keywords added to blocked list!"), "images/list/list_keyword.png", qsTr("Success") );
         }
     }
     
@@ -111,6 +111,11 @@ ActionItem
             ElementPickerPage {
                 titleText: qsTr("Reported Spammers") + Retranslate.onLanguageChanged
                 instructionText: qsTr("Which of the following reported spammers and keywords do you want to add to your blocked list?") + Retranslate.onLanguageChanged
+                
+                onCreationCompleted: {
+                    tutorial.execCentered( "tapSelectReported", qsTr("These are the most popular spammers and keywords reported by our users.\n\nYou can scroll down to see the reported keywords.\n\nSimply tap on the addresses and keywords you would like to use. Make sure you review these entries because otherwise you may end up blocking unwanted messages.") );
+                    tutorial.execActionBar("reportedBack", qsTr("To close this page, either swipe to the right or tap on this back button!"), "b" );
+                }
             }
         },
         

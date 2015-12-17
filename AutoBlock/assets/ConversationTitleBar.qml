@@ -43,6 +43,14 @@ TitleBar
                             toaster.init( qsTr("Did not find any accounts. Maybe the app does not have the permissions it needs..."), "images/ic_account.png" );
                         } else if (selectedOption == null) {
                             expanded = true;
+                            tutorial.execBelowTitleBar("chooseAccount", qsTr("Choose the account where you are getting the spam messages in. If it is telemarketing calls you are getting choose your phone number.") );
+                        }
+                    }
+                    
+                    onExpandedChanged: {
+                        if (!expanded) {
+                            tutorial.execBelowTitleBar("changeAccount", qsTr("Tap here to switch to another account where you may also be receiving spam messages or unwanted calls.") );
+                            tutorial.execBelowTitleBar("daysToFetch", qsTr("This slider determines how many days of calls/messages to fetch. Increase this value to fetch older messages (which might take longer to complete), or decrease this value to fetch more recent messages and calls (which should be faster)."), tutorial.du(8), "l", "r");
                         }
                     }
                     

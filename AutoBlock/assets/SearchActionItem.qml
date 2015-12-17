@@ -27,6 +27,8 @@ ActionItem
         search.animator.easingCurve = StockCurve.QuinticOut;
         search.animator.delay = 0;
         search.animator.play();
+
+        tutorial.execCentered( "searchExit", qsTr("Start typing your query to find matches. To dismiss this search bar, simply tap the RETURN key on the keyboard.") );
     }
     
     attachedObjects: [
@@ -45,8 +47,8 @@ ActionItem
                 opacity: 0.9
                 
                 onTextChanging: {
-                    if (text.length == 0 || text.length > 3) {
-                        queryChanged(text);
+                    if (text.length == 0 || text.length > 2) {
+                        queryChanged( text.trim() );
                     }
                 }
                 
@@ -81,6 +83,8 @@ ActionItem
                         onEnded: {
                             if (toY == 0) {
                                 textField.requestFocus();
+                            } else if (textField.text.trim().length == 0) {
+                                queryChanged("");
                             }
                         }
                     }

@@ -34,10 +34,7 @@ NavigationPane
             {
                 tutorial.execOverFlow("addSender", qsTr("Use the '%1' action from the menu to add a specific phone number or email address you want to block."), addAction );
                 tutorial.execOverFlow("searchSender", qsTr("You can use the '%1' action from the menu to search if a specific sender's address is in your blocked list."), searchAction );
-                
-                if ( gdm.size() > 15 ) {
-                    tutorial.execOverFlow("clearBlocked", qsTr("You can clear this blocked list by selecting '%1' from the menu."), unblockAllAction );
-                }
+                tutorial.execOverFlow("clearBlocked", qsTr("You can clear all the elements in this blocked list by selecting '%1' from the menu."), unblockAllAction );
             }
         }
         
@@ -80,7 +77,7 @@ NavigationPane
                             {
                                 var inputEntry = addPrompt.inputFieldTextEntry().trim();
                                 var validEmail = ciu.isValidEmail(inputEntry);
-                                var validNumber = ciu.isValidEmail(inputEntry);
+                                var validNumber = ciu.isValidPhoneNumber(inputEntry);
                                 
                                 if (validEmail || validNumber)
                                 {
@@ -98,7 +95,7 @@ NavigationPane
                                 }
                             }
                             
-                            tutorial.execCentered( "manualAdd", qsTr("Important: If you are manually attempting to input phone numbers to block note that plus signs and dashes may be necessary in order to match the format that is used by the spammer. It might be more appropriate for you to go to the 'Conversations' tab and add the spammer from there instead."), "images/menu/ic_help.png" );
+                            tutorial.execCentered( "manualAdd", qsTr("Important: If you are manually attempting to input phone numbers to block note that plus signs and dashes may be necessary in order to match the format that is used by the spammer. It might be more appropriate for you to go to the 'Conversations' tab and add the spammer from there instead."), "images/common/ic_help.png" );
                         }
                     },
                     
@@ -240,7 +237,7 @@ NavigationPane
                 {
                     onActiveChanged: {
                         if (active) {
-                            tutorial.execActionBar( "unblockSenders", qsTr("Tap here to remove these senders from the list."), "x" );
+                            tutorial.execActionBar( "unblockSendersMulti", qsTr("Tap here to remove these senders from the list."), "x" );
                         }
                     }
                     

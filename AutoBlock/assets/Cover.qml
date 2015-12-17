@@ -3,7 +3,6 @@ import com.canadainc.data 1.0
 
 Container
 {
-    id: cover
     background: back.imagePaint
     topPadding: 10
     leftPadding: 10
@@ -34,7 +33,9 @@ Container
         verticalAlignment: VerticalAlignment.Fill
     }
 
-    Label {
+    Label
+    {
+        id: cover
         horizontalAlignment: HorizontalAlignment.Fill
         verticalAlignment: VerticalAlignment.Center
         textStyle.base: SystemDefaults.TextStyles.SubtitleText

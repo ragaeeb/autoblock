@@ -260,11 +260,10 @@ Page
                 }
             }
             
-            PersistCheckBox
+            CheckBox
             {
                 id: moveTrash
                 topMargin: 10
-                key: "moveToTrash"
                 text: qsTr("Move Spam to Trash") + Retranslate.onLanguageChanged
                 
                 onCheckedChanged: {
@@ -279,10 +278,6 @@ Page
                             infoText.text = qsTr("The app will permanently delete all spam messages. Warning: There is no way to recover these deleted messages with this setting.");
                         }
                     }
-                }
-                
-                onValueChanged: {
-                    reporter.record( "MoveToTrash", checked.toString() );
                 }
             }
             

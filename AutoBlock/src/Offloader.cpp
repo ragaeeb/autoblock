@@ -24,6 +24,7 @@ Offloader::Offloader(Persistance* persist) :
 
 void Offloader::loadAccounts()
 {
+    LOGGER("ImportAccounts");
     AccountImporter* ai = new AccountImporter(Service::Messages, true);
     connect( ai, SIGNAL( importCompleted(QVariantList const&) ), this, SIGNAL( accountsImported(QVariantList const&) ) );
     IOUtils::startThread(ai);

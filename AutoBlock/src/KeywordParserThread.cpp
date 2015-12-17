@@ -35,6 +35,8 @@ KeywordParserThread::KeywordParserThread(QVariantList const& messages, bool igno
 
 void KeywordParserThread::run()
 {
+    LOGGER("KeywordParser");
+
     QMap<QString,bool> map;
     QRegExp reg("\\s+");
 
@@ -83,6 +85,8 @@ void KeywordParserThread::run()
         qvm[FIELD_VALUE] = all[i];
         result << qvm;
     }
+
+    LOGGER("Found" << result.size());
 
     emit keywordsExtracted(result);
     running = false;

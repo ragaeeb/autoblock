@@ -36,14 +36,18 @@ simulator {
 
 config_pri_assets {
     OTHER_FILES += \
+        $$quote($$BASEDIR/assets/720x1280/paddings.js) \
+        $$quote($$BASEDIR/assets/720x720/paddings.js) \
+        $$quote($$BASEDIR/assets/768x1280/paddings.js) \
+        $$quote($$BASEDIR/assets/AutoBlockHelp.qml) \
         $$quote($$BASEDIR/assets/AutoBlockTitleBar.qml) \
         $$quote($$BASEDIR/assets/BlockedKeywordPane.qml) \
         $$quote($$BASEDIR/assets/BlockedSenderPane.qml) \
         $$quote($$BASEDIR/assets/ConversationListItem.qml) \
+        $$quote($$BASEDIR/assets/ConversationTitleBar.qml) \
         $$quote($$BASEDIR/assets/ConversationsPane.qml) \
         $$quote($$BASEDIR/assets/Cover.qml) \
         $$quote($$BASEDIR/assets/ElementPickerPage.qml) \
-        $$quote($$BASEDIR/assets/HelpPage.qml) \
         $$quote($$BASEDIR/assets/LargeTransactionDialog.qml) \
         $$quote($$BASEDIR/assets/LogPane.qml) \
         $$quote($$BASEDIR/assets/NotificationToast.qml) \
@@ -53,30 +57,50 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/SetupDialog.qml) \
         $$quote($$BASEDIR/assets/TestHelper.qml) \
         $$quote($$BASEDIR/assets/UpdateActionItem.qml) \
-        $$quote($$BASEDIR/assets/images/add_keyword_strip.amd) \
-        $$quote($$BASEDIR/assets/images/add_keyword_strip.png) \
         $$quote($$BASEDIR/assets/images/background.png) \
+        $$quote($$BASEDIR/assets/images/common/bugs/ic_attach.png) \
+        $$quote($$BASEDIR/assets/images/common/bugs/ic_bugs.png) \
+        $$quote($$BASEDIR/assets/images/common/bugs/ic_bugs_cancel.png) \
+        $$quote($$BASEDIR/assets/images/common/bugs/ic_bugs_info.png) \
+        $$quote($$BASEDIR/assets/images/common/bugs/ic_bugs_submit.png) \
+        $$quote($$BASEDIR/assets/images/common/bugs/ic_open_browser.png) \
+        $$quote($$BASEDIR/assets/images/common/bugs/ic_remove_attachment.png) \
+        $$quote($$BASEDIR/assets/images/common/dropdown/ic_account.png) \
+        $$quote($$BASEDIR/assets/images/common/dropdown/ic_phone.png) \
+        $$quote($$BASEDIR/assets/images/common/dropdown/ic_pin.png) \
+        $$quote($$BASEDIR/assets/images/common/dropdown/ic_sms.png) \
+        $$quote($$BASEDIR/assets/images/common/ic_bottom.png) \
+        $$quote($$BASEDIR/assets/images/common/ic_channel.png) \
+        $$quote($$BASEDIR/assets/images/common/ic_help.png) \
+        $$quote($$BASEDIR/assets/images/common/ic_next.png) \
+        $$quote($$BASEDIR/assets/images/common/ic_offline.png) \
+        $$quote($$BASEDIR/assets/images/common/ic_prev.png) \
+        $$quote($$BASEDIR/assets/images/common/ic_review.png) \
+        $$quote($$BASEDIR/assets/images/common/ic_settings.png) \
+        $$quote($$BASEDIR/assets/images/common/ic_top.png) \
+        $$quote($$BASEDIR/assets/images/common/ic_video_tutorial.png) \
+        $$quote($$BASEDIR/assets/images/common/permission_toast_bg.amd) \
+        $$quote($$BASEDIR/assets/images/common/permission_toast_bg.png) \
+        $$quote($$BASEDIR/assets/images/common/pinch.png) \
+        $$quote($$BASEDIR/assets/images/common/pointer.png) \
         $$quote($$BASEDIR/assets/images/cover_bg.png) \
         $$quote($$BASEDIR/assets/images/divider.png) \
-        $$quote($$BASEDIR/assets/images/dropdown/ic_account.png) \
-        $$quote($$BASEDIR/assets/images/dropdown/ic_phone.png) \
-        $$quote($$BASEDIR/assets/images/dropdown/ic_pin.png) \
-        $$quote($$BASEDIR/assets/images/dropdown/ic_sms.png) \
         $$quote($$BASEDIR/assets/images/dropdown/ic_sync.png) \
-        $$quote($$BASEDIR/assets/images/dropdown/ic_test.png) \
         $$quote($$BASEDIR/assets/images/empty/ic_empty_blocked.png) \
         $$quote($$BASEDIR/assets/images/empty/ic_empty_keywords.png) \
         $$quote($$BASEDIR/assets/images/empty/ic_empty_logs.png) \
         $$quote($$BASEDIR/assets/images/empty/ic_empty_messages.png) \
         $$quote($$BASEDIR/assets/images/ic_block.png) \
-        $$quote($$BASEDIR/assets/images/ic_bugs.png) \
-        $$quote($$BASEDIR/assets/images/ic_call.png) \
-        $$quote($$BASEDIR/assets/images/ic_email.png) \
+        $$quote($$BASEDIR/assets/images/ic_bugs_divider.png) \
         $$quote($$BASEDIR/assets/images/ic_pim_warning.png) \
-        $$quote($$BASEDIR/assets/images/ic_review.png) \
-        $$quote($$BASEDIR/assets/images/ic_steps.png) \
-        $$quote($$BASEDIR/assets/images/ic_user.png) \
+        $$quote($$BASEDIR/assets/images/list/ic_call.png) \
+        $$quote($$BASEDIR/assets/images/list/ic_email.png) \
+        $$quote($$BASEDIR/assets/images/list/ic_sms.png) \
+        $$quote($$BASEDIR/assets/images/list/ic_user.png) \
+        $$quote($$BASEDIR/assets/images/list/list_address.png) \
+        $$quote($$BASEDIR/assets/images/list/list_keyword.png) \
         $$quote($$BASEDIR/assets/images/logo.png) \
+        $$quote($$BASEDIR/assets/images/menu/ic_accept_entries.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_add_email.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_add_sms.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_add_spammer.png) \
@@ -85,7 +109,6 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/images/menu/ic_clear.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_clear_logs.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_error_recovery.png) \
-        $$quote($$BASEDIR/assets/images/menu/ic_help.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_keyword.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_log.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_optimize.png) \
@@ -96,12 +119,15 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/images/menu/ic_search_user.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_select_all.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_select_more.png) \
-        $$quote($$BASEDIR/assets/images/menu/ic_settings.png) \
+        $$quote($$BASEDIR/assets/images/menu/ic_test.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_unblock.png) \
         $$quote($$BASEDIR/assets/images/menu/ic_unblock_all.png) \
-        $$quote($$BASEDIR/assets/images/processing.png) \
-        $$quote($$BASEDIR/assets/images/setup.png) \
-        $$quote($$BASEDIR/assets/images/spinner.png) \
+        $$quote($$BASEDIR/assets/images/progress/loading_blocked.png) \
+        $$quote($$BASEDIR/assets/images/progress/loading_keywords.png) \
+        $$quote($$BASEDIR/assets/images/progress/loading_logs.png) \
+        $$quote($$BASEDIR/assets/images/progress/processing.png) \
+        $$quote($$BASEDIR/assets/images/progress/setup.png) \
+        $$quote($$BASEDIR/assets/images/progress/spinner.png) \
         $$quote($$BASEDIR/assets/images/tabs/ic_blocked.png) \
         $$quote($$BASEDIR/assets/images/tabs/ic_conversations.png) \
         $$quote($$BASEDIR/assets/images/tabs/ic_keywords.png) \
@@ -117,35 +143,38 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/images/toast/no_email_access.png) \
         $$quote($$BASEDIR/assets/images/toast/no_phone_control.png) \
         $$quote($$BASEDIR/assets/images/toast/no_shared_folder.png) \
-        $$quote($$BASEDIR/assets/images/toast/permission_toast_bg.amd) \
-        $$quote($$BASEDIR/assets/images/toast/permission_toast_bg.png) \
         $$quote($$BASEDIR/assets/images/toast/scan_address.png) \
         $$quote($$BASEDIR/assets/images/toast/scan_sender.png) \
         $$quote($$BASEDIR/assets/images/toast/sound.png) \
+        $$quote($$BASEDIR/assets/images/toast/strip_keywords.png) \
         $$quote($$BASEDIR/assets/images/toast/toast_bg.amd) \
         $$quote($$BASEDIR/assets/images/toast/toast_bg.png) \
         $$quote($$BASEDIR/assets/images/toast/toast_close.png) \
         $$quote($$BASEDIR/assets/images/toast/tutorial_info.png) \
         $$quote($$BASEDIR/assets/images/toast/whitelist.png) \
-        $$quote($$BASEDIR/assets/main.qml)
+        $$quote($$BASEDIR/assets/main.qml) \
+        $$quote($$BASEDIR/assets/paddings.js)
 }
 
 config_pri_source_group1 {
     SOURCES += \
         $$quote($$BASEDIR/src/AutoBlock.cpp) \
-        $$quote($$BASEDIR/src/AutoBlockCollector.cpp) \
         $$quote($$BASEDIR/src/KeywordParserThread.cpp) \
         $$quote($$BASEDIR/src/MessageFetcherThread.cpp) \
+        $$quote($$BASEDIR/src/Offloader.cpp) \
         $$quote($$BASEDIR/src/QueryHelper.cpp) \
+        $$quote($$BASEDIR/src/ThreadUtils.cpp) \
         $$quote($$BASEDIR/src/UpdateManager.cpp) \
         $$quote($$BASEDIR/src/main.cpp)
 
     HEADERS += \
         $$quote($$BASEDIR/src/AutoBlock.hpp) \
-        $$quote($$BASEDIR/src/AutoBlockCollector.h) \
+        $$quote($$BASEDIR/src/CommonConstants.h) \
         $$quote($$BASEDIR/src/KeywordParserThread.h) \
         $$quote($$BASEDIR/src/MessageFetcherThread.h) \
+        $$quote($$BASEDIR/src/Offloader.h) \
         $$quote($$BASEDIR/src/QueryHelper.h) \
+        $$quote($$BASEDIR/src/ThreadUtils.h) \
         $$quote($$BASEDIR/src/UpdateManager.h)
 }
 
@@ -165,18 +194,42 @@ lupdate_inclusion {
         $$quote($$BASEDIR/../assets/*.qml) \
         $$quote($$BASEDIR/../assets/*.js) \
         $$quote($$BASEDIR/../assets/*.qs) \
+        $$quote($$BASEDIR/../assets/720x1280/*.qml) \
+        $$quote($$BASEDIR/../assets/720x1280/*.js) \
+        $$quote($$BASEDIR/../assets/720x1280/*.qs) \
+        $$quote($$BASEDIR/../assets/720x720/*.qml) \
+        $$quote($$BASEDIR/../assets/720x720/*.js) \
+        $$quote($$BASEDIR/../assets/720x720/*.qs) \
+        $$quote($$BASEDIR/../assets/768x1280/*.qml) \
+        $$quote($$BASEDIR/../assets/768x1280/*.js) \
+        $$quote($$BASEDIR/../assets/768x1280/*.qs) \
         $$quote($$BASEDIR/../assets/images/*.qml) \
         $$quote($$BASEDIR/../assets/images/*.js) \
         $$quote($$BASEDIR/../assets/images/*.qs) \
+        $$quote($$BASEDIR/../assets/images/common/*.qml) \
+        $$quote($$BASEDIR/../assets/images/common/*.js) \
+        $$quote($$BASEDIR/../assets/images/common/*.qs) \
+        $$quote($$BASEDIR/../assets/images/common/bugs/*.qml) \
+        $$quote($$BASEDIR/../assets/images/common/bugs/*.js) \
+        $$quote($$BASEDIR/../assets/images/common/bugs/*.qs) \
+        $$quote($$BASEDIR/../assets/images/common/dropdown/*.qml) \
+        $$quote($$BASEDIR/../assets/images/common/dropdown/*.js) \
+        $$quote($$BASEDIR/../assets/images/common/dropdown/*.qs) \
         $$quote($$BASEDIR/../assets/images/dropdown/*.qml) \
         $$quote($$BASEDIR/../assets/images/dropdown/*.js) \
         $$quote($$BASEDIR/../assets/images/dropdown/*.qs) \
         $$quote($$BASEDIR/../assets/images/empty/*.qml) \
         $$quote($$BASEDIR/../assets/images/empty/*.js) \
         $$quote($$BASEDIR/../assets/images/empty/*.qs) \
+        $$quote($$BASEDIR/../assets/images/list/*.qml) \
+        $$quote($$BASEDIR/../assets/images/list/*.js) \
+        $$quote($$BASEDIR/../assets/images/list/*.qs) \
         $$quote($$BASEDIR/../assets/images/menu/*.qml) \
         $$quote($$BASEDIR/../assets/images/menu/*.js) \
         $$quote($$BASEDIR/../assets/images/menu/*.qs) \
+        $$quote($$BASEDIR/../assets/images/progress/*.qml) \
+        $$quote($$BASEDIR/../assets/images/progress/*.js) \
+        $$quote($$BASEDIR/../assets/images/progress/*.qs) \
         $$quote($$BASEDIR/../assets/images/tabs/*.qml) \
         $$quote($$BASEDIR/../assets/images/tabs/*.js) \
         $$quote($$BASEDIR/../assets/images/tabs/*.qs) \
@@ -195,4 +248,12 @@ lupdate_inclusion {
         $$quote($$BASEDIR/../src/*.hxx)
 }
 
-TRANSLATIONS = $$quote($${TARGET}.ts)
+TRANSLATIONS = $$quote($${TARGET}_ar.ts) \
+    $$quote($${TARGET}_de.ts) \
+    $$quote($${TARGET}_es.ts) \
+    $$quote($${TARGET}_fr.ts) \
+    $$quote($${TARGET}_id.ts) \
+    $$quote($${TARGET}_ru.ts) \
+    $$quote($${TARGET}_th.ts) \
+    $$quote($${TARGET}_tr.ts) \
+    $$quote($${TARGET}.ts)

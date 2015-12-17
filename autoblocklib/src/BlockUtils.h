@@ -2,7 +2,6 @@
 #define BLOCKUTILS_H_
 
 #include <QMap>
-#include <bb/pim/message/Message>
 
 #define DATABASE_PATH QString("%1/database.db").arg( QDir::homePath() )
 #define SERVICE_KEY "logService"
@@ -13,6 +12,7 @@
 namespace bb {
     namespace pim {
         namespace message {
+            class Message;
             class MessageService;
         }
     }
@@ -27,7 +27,6 @@ class BlockUtils
 public:
 	static QString isValidKeyword(QString const& keyword);
 	static bool moveToTrash(qint64 accountId, qint64 messageId, MessageService* ms, QMap<qint64, quint64>& accountToTrash);
-	static QList<Message> fetchRecentUnread(MessageService* ms, int max);
 };
 
 } /* namespace autoblock */

@@ -10,46 +10,6 @@
 
 #define MAX_BODY_LENGTH 160
 
-namespace {
-using namespace bb::pim::account;
-using namespace bb::pim::message;
-
-QList<Message> fetchRecentUnread(AccountService* as, MessageService* ms, int maxVal)
-{
-    QList<Account> accounts = as->accounts(Service::Messages);
-    QList<Message> result;
-
-    for (int i = accounts.size()-1; i >= 0; i--)
-    {
-        qint64 accountId = accounts[i].id();
-        QList<Message> messages = ms->messages( accountId, MessageFilter() );
-        LOGGER("LDSKFJ22zzzzz" << messages.size() << accountId);
-
-        bool readFound = false;
-        int n = qMin( maxVal, messages.size() );
-
-        for (int j = 0; (j < n) && !readFound; j++)
-        {
-            Message m = messages[j];
-
-            if ( !m.isDraft() && m.isValid() && m.isInbound() )
-            {
-                if ( m.status().testFlag(MessageStatus::Read) ) {
-                    readFound = true;
-                } else {
-                    result << m;
-                }
-            }
-        }
-    }
-
-    LOGGER("TOTAL" << result.size());
-
-    return result;
-}
-
-}
-
 namespace autoblock {
 
 using namespace bb::pim::account;
@@ -112,40 +72,12 @@ void Service::init()
     connect( &m_settingsWatcher, SIGNAL( fileChanged(QString const&) ), this, SLOT( settingChanged(QString const&) ), Qt::QueuedConnection );
     connect( &m_manager, SIGNAL( messageAdded(bb::pim::account::AccountKey, bb::pim::message::ConversationKey, bb::pim::message::MessageKey) ), this, SLOT( messageAdded(bb::pim::account::AccountKey, bb::pim::message::ConversationKey, bb::pim::message::MessageKey) ) );
     connect( &m_phone, SIGNAL( callUpdated(const bb::system::phone::Call&) ), this, SLOT( callUpdated(const bb::system::phone::Call&) ) );
-    connect( &m_future, SIGNAL( finished() ), this, SLOT( onUnreadFound() ) );
 
     setup();
 	settingChanged();
 
     Notification::clearEffectsForAll();
     Notification::deleteAllFromInbox();
-
-    QTimer::singleShot( 2000, this, SLOT( ready() ) );
-
-#ifdef DEBUG_RELEASE
-    m_sql.setVerbose();
-#endif
-}
-
-
-void Service::ready()
-{
-    LOGGER("*** READY");
-
-    QFuture< QList<Message> > future = QtConcurrent::run(&fetchRecentUnread, &m_accounts, &m_manager, 10);
-    m_future.setFuture(future);
-}
-
-
-void Service::onUnreadFound()
-{
-    LOGGER("*** UNREAD");
-    QList<Message> messages = m_future.result();
-    LOGGER( "TotalUnread" << messages.size() );
-
-    foreach (Message const& m, messages) {
-        process(m);
-    }
 }
 
 
@@ -367,7 +299,7 @@ void Service::handleInvoke(bb::system::InvokeRequest const& request)
             QDateTime now = QDateTime::currentDateTime();
             QString body = data["body"].toString();
 
-            MessageBuilder* mb = MessageBuilder::create( m_accounts.defaultAccount(bb::pim::account::Service::Messages).id() );
+            MessageBuilder* mb = MessageBuilder::create( AccountService().defaultAccount(bb::pim::account::Service::Messages).id() );
             mb->inbound(true);
             mb->deviceTimestamp(now);
             mb->serverTimestamp(now);

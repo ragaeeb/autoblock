@@ -22,137 +22,137 @@ And to make it even easier for our users to discover more and more spammers, Aut
 <context>
     <name>BlockedKeywordPane</name>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="19"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="17"/>
         <source>This is a purchasable feature that will also scan the sender&apos;s name and email address to try to match if any of the keywords here are found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="21"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="19"/>
         <source>Additional Constraints</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="33"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="31"/>
         <source>You can use the &apos;%1&apos; action from the menu to search if a specific keyword is in your blocked list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="34"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="32"/>
         <source>Use the &apos;%1&apos; action from the menu to add a specific keyword you want to block.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="35"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="33"/>
         <source>You can clear this blocked list by selecting &apos;%1&apos; from the menu.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="79"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="77"/>
         <source>Threshold: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="86"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="84"/>
         <source>Scan Sender Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="97"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="94"/>
         <source>Scan Sender Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="103"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="100"/>
         <source>Warning: Be very careful when turning on this feature as it can result in harmless messages being classified as spam. For example if you enter a keyword as &apos;gmail&apos;, then any email address that contains &apos;gmail&apos; will be blocked! This is useful for blocking entire domain names but it can also be too aggressive if not used properly.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="113"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="110"/>
         <source>Strip Punctuation from Keywords</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="123"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="120"/>
         <source>Add</source>
         <translation>Добавить</translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="142"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="139"/>
         <source>Add Keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="143"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="140"/>
         <source>Enter the keyword you wish to add (no spaces):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="144"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="141"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="145"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="142"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="156"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="153"/>
         <source>The keyword cannot contain any spaces!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="159"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="156"/>
         <source>The keyword must be between 3 to 20 characters in length (inclusive)!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="166"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="163"/>
         <source>The keyword could not be blocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="191"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="188"/>
         <source>Clear All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="203"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="200"/>
         <source>Confirmation</source>
         <translation>Подтвердить</translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="203"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="200"/>
         <source>Are you sure you want to clear all the keywords?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="219"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="216"/>
         <source>You have no blocked keywords. Either input them after blocking existing messages, or tap here to add one.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="244"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="241"/>
         <source>The following keywords could not be unblocked: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="309"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="306"/>
         <source>Tap here to remove these keywords from the list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="317"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="314"/>
         <source>Unblock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="335"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="332"/>
         <source>None selected</source>
         <translation>Не выбрано</translation>
     </message>
     <message numerus="yes">
-        <location filename="../assets/BlockedKeywordPane.qml" line="341"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="338"/>
         <source>%n keywords to unblock</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -161,45 +161,45 @@ And to make it even easier for our users to discover more and more spammers, Aut
         </translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="359"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="356"/>
         <source>You can add keywords here that can be used to detect whether an unlisted message is spam. The words from message bodies and subjects will be inspected and if they are above the threshold then the message will automatically be treated as spam. For example, a threshold value of 3 means that if more than 3 keywords get detected in a subject or body, it will be considered spam.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="360"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="357"/>
         <source>This threshold slider controls the minimum number of keyword hits that must be matched on a message subject before it is blocked.
 
 To implement more aggressive blocking, decrease this threshold, to be more lenient and only block when multiple keywords are matched, increase the threshold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="361"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="358"/>
         <source>Enable the &apos;%1&apos; checkbox to match keywords on the sender&apos;s name as well as the subject line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="362"/>
-        <location filename="../assets/BlockedKeywordPane.qml" line="363"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="359"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="360"/>
         <source>Enable the &apos;%1&apos; checkbox to match keywords on the sender&apos;s address as well as the subject line. This is especially useful if you want to block domain names for example.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="366"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="363"/>
         <source>You can unblock a keyword you blocked by mistake by simply pressing-and-holding on the keyword and choosing &apos;Unblock&apos; from the menu.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="379"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="376"/>
         <source>Cleared all blocked keywords!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="384"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="381"/>
         <source>Unblocked keywords!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/BlockedKeywordPane.qml" line="386"/>
+        <location filename="../assets/BlockedKeywordPane.qml" line="383"/>
         <source>Keywords successfully added!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1043,28 +1043,28 @@ Simply tap on the addresses and keywords you would like to use. Make sure you re
 <context>
     <name>autoblock::AutoBlock</name>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="146"/>
+        <location filename="../src/AutoBlock.cpp" line="147"/>
         <source>The keyword(s) could not be added.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="153"/>
+        <location filename="../src/AutoBlock.cpp" line="154"/>
         <source>Auto Block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="153"/>
-        <location filename="../src/AutoBlock.cpp" line="249"/>
+        <location filename="../src/AutoBlock.cpp" line="154"/>
+        <location filename="../src/AutoBlock.cpp" line="250"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="187"/>
+        <location filename="../src/AutoBlock.cpp" line="188"/>
         <source>The addresses could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="193"/>
+        <location filename="../src/AutoBlock.cpp" line="194"/>
         <source>Could not block the sender, this is due to a bug in BlackBerry OS 10.2.1. There are two ways around this problem:
 
 1) From the BlackBerry Hub, tap on the email to open it, tap on the menu icon (...) on the bottom-right, choose Share, and then choose Auto Block.
@@ -1073,27 +1073,27 @@ Simply tap on the addresses and keywords you would like to use. Make sure you re
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="203"/>
+        <location filename="../src/AutoBlock.cpp" line="204"/>
         <source>Successfully blocked addresses!</source>
         <translation>Успешно</translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="205"/>
+        <location filename="../src/AutoBlock.cpp" line="206"/>
         <source>The keywords were successfully added!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="219"/>
+        <location filename="../src/AutoBlock.cpp" line="220"/>
         <source>Could not find any suspicious keywords in the message...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="249"/>
+        <location filename="../src/AutoBlock.cpp" line="250"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../src/AutoBlock.cpp" line="249"/>
+        <location filename="../src/AutoBlock.cpp" line="250"/>
         <source>Successfully restored! The app will now close itself so when you re-open it the restored database can take effect!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1129,42 +1129,42 @@ Simply tap on the addresses and keywords you would like to use. Make sure you re
 <context>
     <name>main</name>
     <message>
-        <location filename="../assets/main.qml" line="46"/>
+        <location filename="../assets/main.qml" line="51"/>
         <source>Logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="47"/>
+        <location filename="../assets/main.qml" line="52"/>
         <source>Blocked Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="62"/>
+        <location filename="../assets/main.qml" line="67"/>
         <source>Blocked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="63"/>
+        <location filename="../assets/main.qml" line="68"/>
         <source>Blocked List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="90"/>
+        <location filename="../assets/main.qml" line="95"/>
         <source>Conversations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="91"/>
+        <location filename="../assets/main.qml" line="96"/>
         <source>Potential Spam Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="106"/>
+        <location filename="../assets/main.qml" line="111"/>
         <source>Keywords</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="107"/>
+        <location filename="../assets/main.qml" line="112"/>
         <source>Blacklisted Keywords</source>
         <translation type="unfinished"></translation>
     </message>

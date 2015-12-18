@@ -83,7 +83,7 @@ ActionItem
                         onEnded: {
                             if (toY == 0) {
                                 textField.requestFocus();
-                            } else if (textField.text.trim().length == 0) {
+                            } else {
                                 queryChanged("");
                             }
                         }

@@ -12,10 +12,8 @@ NavigationPane
     
     function validatePurchase(control)
     {
-        console.log("*** validatePurchase");
         if ( control.checked && !persist.contains("autoblock_constraints") )
         {
-            console.log("*** inside");
             toaster.init( qsTr("This is a purchasable feature that will also scan the sender's name and email address to try to match if any of the keywords here are found."), "images/tabs/ic_keywords.png" );
             control.checked = false;
             payment.requestPurchase( "autoblock_constraints", qsTr("Additional Constraints") );
@@ -86,7 +84,6 @@ NavigationPane
                             text: qsTr("Scan Sender Name") + Retranslate.onLanguageChanged
                             
                             onCheckedChanged: {
-                                console.log("*** checkChanged", checked);
                                 validatePurchase(scanName);
                             }
                         }

@@ -18,8 +18,13 @@ TabbedPane
             tutorial.execAppMenu();
             firstLaunch = analyticResult == 3;
             
-            if (helper.ready) {
+            if (helper.ready)
+            {
                 setupComplete();
+                
+                if (clean) {
+                    tutorial.promptVideo("http://youtu.be/EBxX3353Q2I");
+                }
             } else {
                 helper.readyChanged.connect(setupComplete);
                 

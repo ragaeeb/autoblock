@@ -188,7 +188,7 @@
 	<asset path="translations" dest="qm">
 		<include name="*.qm" />
 	</asset>
-    <asset path="../canadainc/translations" dest="qm">
+    <asset path="../../canadainc/translations" dest="qm">
         <include name="*.qm"/>
     </asset>
 	

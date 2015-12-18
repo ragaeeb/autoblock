@@ -29,6 +29,8 @@ Service::Service(bb::Application* app) : QObject(app)
 
 void Service::setup(bool replace)
 {
+    Q_UNUSED(replace);
+
     QStringList qsl;
     qsl << "CREATE TABLE IF NOT EXISTS logs (id INTEGER PRIMARY KEY AUTOINCREMENT, address TEXT NOT NULL, message TEXT, timestamp INTEGER NOT NULL)";
     qsl << "CREATE TABLE IF NOT EXISTS inbound_blacklist ( address TEXT PRIMARY KEY, count INTEGER DEFAULT 0, CHECK(address <> '') )";
@@ -59,9 +61,7 @@ void Service::init()
 {
     m_sql.setSource(DATABASE_PATH);
 
-    if ( !QFile::exists( m_settings.fileName() ) )
-    {
-        m_settings.setValue("days", 3);
+    if ( !QFile::exists( m_settings.fileName() ) ) {
         m_settings.sync();
     }
 

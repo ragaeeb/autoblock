@@ -434,7 +434,7 @@ Please file a bug report!</source>
     <message>
         <location filename="../assets/ConversationsPane.qml" line="136"/>
         <source>Unknown Number</source>
-        <translation type="unfinished"></translation>
+        <translation>หมายเลขที่ไม่รู้จัก</translation>
     </message>
     <message>
         <location filename="../assets/ConversationsPane.qml" line="193"/>
@@ -449,7 +449,7 @@ Please file a bug report!</source>
     <message>
         <location filename="../assets/ConversationsPane.qml" line="204"/>
         <source>Block</source>
-        <translation type="unfinished"></translation>
+        <translation>บล็อค</translation>
     </message>
     <message>
         <location filename="../assets/ConversationsPane.qml" line="230"/>
@@ -544,7 +544,7 @@ Please ensure you review the keywords you are selecting because otherwise you ma
     <message>
         <location filename="../assets/ElementPickerPage.qml" line="69"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>บันทึก</translation>
     </message>
     <message>
         <location filename="../assets/ElementPickerPage.qml" line="85"/>
@@ -569,7 +569,7 @@ Please ensure you review the keywords you are selecting because otherwise you ma
     <message>
         <location filename="../assets/LargeTransactionDialog.qml" line="54"/>
         <source>Processing...</source>
-        <translation type="unfinished"></translation>
+        <translation>กำลังประมวลผล...</translation>
     </message>
 </context>
 <context>
@@ -667,7 +667,7 @@ Using this you can enter a sender&apos;s address (or phone number), their name, 
     <message>
         <location filename="../assets/ProgressDialog.qml" line="57"/>
         <source>Downloading...</source>
-        <translation type="unfinished"></translation>
+        <translation>กำลังดาวน์โหลด</translation>
     </message>
 </context>
 <context>
@@ -976,12 +976,12 @@ subject: %3</source>
     <message>
         <location filename="../assets/UpdateActionItem.qml" line="44"/>
         <source>You seem to be offline. Please connect to a network and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>เพื่อดำเนินการต่อ ให้เชื่อมต่อกับเครือข่าย Wi-Fi หรือโทรศัพท์เคลื่อนที่ในการตั้งค่า</translation>
     </message>
     <message>
         <location filename="../assets/UpdateActionItem.qml" line="44"/>
         <source>No Network Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>ไม่มีการเชื่อมต่อเครือข่าย</translation>
     </message>
     <message>
         <location filename="../assets/UpdateActionItem.qml" line="51"/>
@@ -1080,7 +1080,7 @@ Simply tap on the addresses and keywords you would like to use. Make sure you re
     <message>
         <location filename="../src/AutoBlock.cpp" line="249"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>ออก</translation>
     </message>
     <message>
         <location filename="../src/AutoBlock.cpp" line="249"/>
@@ -1103,12 +1103,12 @@ Simply tap on the addresses and keywords you would like to use. Make sure you re
     <message>
         <location filename="../src/UpdateManager.cpp" line="138"/>
         <source>Request failed. Please try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>คำขอล้มเหลว โปรดลองอีกครั้ง</translation>
     </message>
     <message>
         <location filename="../src/UpdateManager.cpp" line="150"/>
         <source>Processing results...</source>
-        <translation type="unfinished"></translation>
+        <translation>กำลังประมวลผล...</translation>
     </message>
     <message>
         <location filename="../src/UpdateManager.cpp" line="179"/>

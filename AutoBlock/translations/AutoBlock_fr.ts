@@ -437,7 +437,7 @@ Please file a bug report!</source>
     <message>
         <location filename="../assets/ConversationsPane.qml" line="136"/>
         <source>Unknown Number</source>
-        <translation type="unfinished"></translation>
+        <translation>Numéro inconnu</translation>
     </message>
     <message>
         <location filename="../assets/ConversationsPane.qml" line="193"/>
@@ -452,7 +452,7 @@ Please file a bug report!</source>
     <message>
         <location filename="../assets/ConversationsPane.qml" line="204"/>
         <source>Block</source>
-        <translation type="unfinished"></translation>
+        <translation>Bloquer</translation>
     </message>
     <message>
         <location filename="../assets/ConversationsPane.qml" line="230"/>
@@ -548,7 +548,7 @@ Please ensure you review the keywords you are selecting because otherwise you ma
     <message>
         <location filename="../assets/ElementPickerPage.qml" line="69"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer</translation>
     </message>
     <message>
         <location filename="../assets/ElementPickerPage.qml" line="85"/>
@@ -574,7 +574,7 @@ Please ensure you review the keywords you are selecting because otherwise you ma
     <message>
         <location filename="../assets/LargeTransactionDialog.qml" line="54"/>
         <source>Processing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Traitement...</translation>
     </message>
 </context>
 <context>
@@ -672,7 +672,7 @@ Using this you can enter a sender&apos;s address (or phone number), their name, 
     <message>
         <location filename="../assets/ProgressDialog.qml" line="57"/>
         <source>Downloading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléchargement...</translation>
     </message>
 </context>
 <context>
@@ -966,7 +966,7 @@ subject: %3</source>
     <message>
         <location filename="../assets/UpdateActionItem.qml" line="8"/>
         <source>Sync</source>
-        <translation type="unfinished"></translation>
+        <translation>Synchroniser</translation>
     </message>
     <message>
         <location filename="../assets/UpdateActionItem.qml" line="39"/>
@@ -981,12 +981,12 @@ subject: %3</source>
     <message>
         <location filename="../assets/UpdateActionItem.qml" line="44"/>
         <source>You seem to be offline. Please connect to a network and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Connectez-vous à un réseau Wi-Fi ou mobile dans Paramètres pour continuer.</translation>
     </message>
     <message>
         <location filename="../assets/UpdateActionItem.qml" line="44"/>
         <source>No Network Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucune connexion réseau</translation>
     </message>
     <message>
         <location filename="../assets/UpdateActionItem.qml" line="51"/>
@@ -1085,7 +1085,7 @@ Simply tap on the addresses and keywords you would like to use. Make sure you re
     <message>
         <location filename="../src/AutoBlock.cpp" line="249"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Quitter</translation>
     </message>
     <message>
         <location filename="../src/AutoBlock.cpp" line="249"/>
@@ -1108,12 +1108,12 @@ Simply tap on the addresses and keywords you would like to use. Make sure you re
     <message>
         <location filename="../src/UpdateManager.cpp" line="138"/>
         <source>Request failed. Please try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la demande, veuillez réessayer.</translation>
     </message>
     <message>
         <location filename="../src/UpdateManager.cpp" line="150"/>
         <source>Processing results...</source>
-        <translation type="unfinished"></translation>
+        <translation>Traitement...</translation>
     </message>
     <message>
         <location filename="../src/UpdateManager.cpp" line="179"/>

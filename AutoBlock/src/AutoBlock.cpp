@@ -88,9 +88,10 @@ void AutoBlock::lazyInit()
 {
     disconnect( this, SIGNAL( initialize() ), this, SLOT( lazyInit() ) ); // in case we get invoked again
 
+    INIT_SETTING("days", 3);
     INIT_SETTING("keywordThreshold", 2);
-    INIT_SETTING("whitelistContacts", 1);
     INIT_SETTING("ignorePunctuation", 1);
+    INIT_SETTING("whitelistContacts", 1);
 
     AppLogFetcher::create( &m_persistance, &ThreadUtils::compressFiles, this );
     m_offloader.lazyInit();

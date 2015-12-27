@@ -394,5 +394,7 @@ NavigationPane
     onCreationCompleted: {
         deviceUtils.attachTopBottomKeys(root, listView);
         onRefreshNeeded(QueryId.UnblockKeywords);
+        
+        helper.refreshNeeded.connect(onRefreshNeeded);
     }
 }

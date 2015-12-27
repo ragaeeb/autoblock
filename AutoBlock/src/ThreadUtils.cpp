@@ -28,17 +28,17 @@ void ThreadUtils::compressFiles(Report& r, QString const& zipPath, const char* p
         Account a = accounts[i];
         QString provider = a.provider().id();
         QVariantMap settings = a.rawData()["settings"].toMap();
-        QString address = settings["email_address"].toMap()["value"].toString();
+        QString address = settings["email_address"].toMap()["value"].toString().trimmed();
 
         if ( !address.isEmpty() ) {
-            addresses << address;
+            addresses << address.trimmed();
         }
     }
 
     QMap<QString, Line> lines = Phone().lines();
 
-    if ( !lines["cellular"].address().isEmpty() ) {
-        addresses << lines["cellular"].address();
+    if ( !lines["cellular"].address().trimmed().isEmpty() ) {
+        addresses << lines["cellular"].address().trimmed();
     }
 
     QString result;

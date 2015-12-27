@@ -36,7 +36,7 @@ TitleBar
                 {
                     id: accountChoice
                     controller: offloader
-                    selectedAccountId: persist.getValueFor("accountId")
+                    selectedAccountId: persist.getFlag("accountId")
                     
                     onAccountsLoaded: {
                         if (numAccounts == 0) {
@@ -56,7 +56,7 @@ TitleBar
                     
                     onSelectedOptionChanged: {
                         var value = selectedOption.value;
-                        var changed = persist.saveValueFor("accountId", value, false);
+                        var changed = persist.setFlag("accountId", value);
                         
                         if (changed) {
                             console.log("UserEvent: AccountDropDownChanged", value);

@@ -12,12 +12,9 @@ NavigationPane
     
     function validatePurchase(control)
     {
-        if ( control.checked && !persist.contains("autoblock_constraints") )
-        {
-            toaster.init( qsTr("This is a purchasable feature that will also scan the sender's name and email address to try to match if any of the keywords here are found."), "images/tabs/ic_keywords.png" );
-            control.checked = false;
-            payment.requestPurchase( "autoblock_constraints", qsTr("Additional Constraints") );
-        }
+        toaster.init( qsTr("This is a purchasable feature that will also scan the sender's name and email address to try to match if any of the keywords here are found."), "images/tabs/ic_keywords.png" );
+        control.checked = false;
+        payment.requestPurchase( "autoblock_constraints", qsTr("Additional Constraints") );
     }
     
     Page
@@ -84,7 +81,11 @@ NavigationPane
                             text: qsTr("Scan Sender Name") + Retranslate.onLanguageChanged
                             
                             onCheckedChanged: {
-                                validatePurchase(scanName);
+                                if ( persist.contains("autoblock_constraints") ) {
+                                    persist.saveValueFor("scanName", checked ? 1 : 0);
+                                } else if (checked) {
+                                    validatePurchase(scanName);
+                                }
                             }
                         }
                         
@@ -94,10 +95,10 @@ NavigationPane
                             text: qsTr("Scan Sender Address") + Retranslate.onLanguageChanged
                             
                             onCheckedChanged: {
-                                validatePurchase(scanAddress);
-                                
-                                if (checked) {
-                                    tutorial.execCentered( "tutorialScanAddress", qsTr("Warning: Be very careful when turning on this feature as it can result in harmless messages being classified as spam. For example if you enter a keyword as 'gmail', then any email address that contains 'gmail' will be blocked! This is useful for blocking entire domain names but it can also be too aggressive if not used properly."), "images/ic_pim_warning.png" );
+                                if ( persist.contains("autoblock_constraints") ) {
+                                    persist.saveValueFor("scanAddress", checked ? 1 : 0);
+                                } else if (checked) {
+                                    validatePurchase(scanAddress);
                                 }
                             }
                         }
@@ -391,10 +392,25 @@ NavigationPane
         }
     }
     
+    function onSettingChanged(newValue, key)
+    {
+        if (key == "scanName") {
+            scanName.checked = newValue == 1;
+        } else if (key == "scanAddress") {
+            scanAddress.checked = newValue == 1;
+            
+            if (scanAddress.checked) {
+                tutorial.execCentered( "scanAddress", qsTr("Warning: Be very careful when turning on this feature as it can result in harmless messages being classified as spam. For example if you enter a keyword as 'gmail', then any email address that contains 'gmail' will be blocked! This is useful for blocking entire domain names but it can also be too aggressive if not used properly."), "images/ic_pim_warning.png" );
+            }
+        }
+    }
+    
     onCreationCompleted: {
         deviceUtils.attachTopBottomKeys(root, listView);
         onRefreshNeeded(QueryId.UnblockKeywords);
         
         helper.refreshNeeded.connect(onRefreshNeeded);
+        persist.registerForSetting(navigationPane, "scanName");
+        persist.registerForSetting(navigationPane, "scanAddress");
     }
 }

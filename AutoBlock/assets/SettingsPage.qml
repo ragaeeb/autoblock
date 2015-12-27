@@ -130,6 +130,7 @@ Page
             onTriggered: {
                 console.log("UserEvent: ErrorRecovery");
                 app.forceSetup();
+                payment.refreshPurchases();
                 
                 toaster.init( qsTr("Error Recovery triggered!"), "images/menu/ic_error_recovery.png" );
                 reporter.record("ErrorRecovery");
@@ -267,17 +268,30 @@ Page
                 text: qsTr("Move Spam to Trash") + Retranslate.onLanguageChanged
                 
                 onCheckedChanged: {
-                    if ( checked && !persist.contains("autoblock_junk") ) {
-                        toaster.init( qsTr("This is a purchasable feature that will allow spam messages to be moved to the trash folder instead of directly deleting them. Press OK to launch the payment screen."), "images/toast/move_trash.png" );
+                    if ( persist.contains("autoblock_junk") ) {
+                        persist.saveValueFor("moveToTrash", checked ? 1 : 0);
+                    } else if (checked) {
+                        toaster.init( qsTr("This is a purchasable feature that will allow spam messages to be moved to the trash folder instead of directly deleting them."), "images/toast/move_trash.png" );
                         moveTrash.checked = false;
                         payment.requestPurchase("autoblock_junk", "Junk Folder (Move to Trash)");
-                    } else {
-                        if (checked) {
-                            infoText.text = qsTr("The app will move the spam messages to the trash folder instead of directly deleting them. This way if a message is accidentally blocked, you can still go recover it.");
-                        } else {
-                            infoText.text = qsTr("The app will permanently delete all spam messages. Warning: There is no way to recover these deleted messages with this setting.");
-                        }
                     }
+                    
+                    if (checked) {
+                        infoText.text = qsTr("The app will move the spam messages to the trash folder instead of directly deleting them. This way if a message is accidentally blocked, you can still go recover it.");
+                    } else {
+                        infoText.text = qsTr("The app will permanently delete all spam messages. Warning: There is no way to recover these deleted messages with this setting.");
+                    }
+                }
+                
+                function onSettingChanged(newValue, key)
+                {
+                    if (key == "moveToTrash") {
+                        checked = newValue == 1;
+                    }
+                }
+                
+                onCreationCompleted: {
+                    persist.registerForSetting(moveTrash, "moveToTrash");
                 }
             }
             

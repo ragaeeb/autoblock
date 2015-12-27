@@ -287,7 +287,7 @@ NavigationPane
         listView.visible = !gdm.isEmpty();
         emptyDelegate.delegateActive = gdm.isEmpty();
 
-        tutorial.execTitle("tutorialSync", qsTr("You can use the '%1' button at the top-right to sync your block list with our servers to discover new spammers reported by the Auto Block community that you have not discovered yet!").arg(uai.title), "r" );
+        tutorial.execTitle("sync", qsTr("You can use the '%1' button at the top-right to sync your block list with our servers to discover new spammers reported by the Auto Block community that you have not discovered yet!").arg(uai.title), "r" );
         tutorial.execActionBar( "moreBlockOptions", qsTr("Tap here for more actions you can take on this page."), "x" );
 
         if ( !gdm.isEmpty() ) {

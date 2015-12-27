@@ -30,11 +30,7 @@ void QueryHelper::lazyInit()
     connect( &m_updateWatcher, SIGNAL( directoryChanged(QString const&) ), this, SLOT( checkDatabase(QString const&) ) );
     setActive(true);
 
-#ifdef DEBUG_RELEASE
-    connect( &m_sql, SIGNAL( error(QString const&) ), AppLogFetcher::getInstance(), SLOT( onError(QString const&) ) );
-#else
     connect( &m_sql, SIGNAL( error(QString const&) ), m_persist, SLOT( onError(QString const&) ) );
-#endif
 }
 
 

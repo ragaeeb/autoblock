@@ -97,7 +97,7 @@ NavigationPane
                         var numbersList = helper.block(listView, toBlock);
 
                         if (numbersList.length == 0) {
-                            toaster.init( qsTr("The senders could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!"), "images/menu/ic_blocked_user.png" );
+                            toaster.init( qsTr("The sender(s) could not be blocked. This most likely means the spammers sent the message anonimously. In this case you will have to block by keywords instead. If this is not the case, we suggest filing a bug-report!"), "images/menu/ic_blocked_user.png" );
                         } else if (ctb.accounts.selectedValue != 8) {
                             var flag = persist.getFlag("parseKeywords");
 
@@ -282,12 +282,28 @@ NavigationPane
     
     function onKeywordsSelected(keywords)
     {
-        var keywordsList = helper.blockKeywords(listView, keywords);
-        navigationPane.pop();
+        var safe = [];
         
-        if (keywordsList.length == 0) {
-            toaster.init( qsTr("The keyword could not be blocked."), "images/ic_block.png" );
+        for (var i = keywords.length-1; i >= 0; i--)
+        {
+            var current = keywords[i];
+            
+            if (current.type == "keyword") {
+                safe.push(current.value);
+            }
         }
+        
+        reporter.record( "KWSelection", safe.length );
+        
+        if (safe.length > 0) {
+            helper.blockKeywords(listView, safe);
+        }
+        
+        if (safe.length == 0) {
+            toaster.init( qsTr("The keyword(s) could not be blocked."), "images/ic_block.png" );
+        }
+        
+        navigationPane.pop();
     }
     
     function onKeywordsExtracted(keywords)

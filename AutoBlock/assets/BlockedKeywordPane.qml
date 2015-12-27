@@ -160,7 +160,7 @@ NavigationPane
                                 var keywordsList = helper.blockKeywords(navigationPane, [inputValue]);
                                 
                                 if (keywordsList.length == 0) {
-                                    toaster.init( qsTr("The keyword could not be blocked: %1").arg(inputValue), "images/ic_block.png" );
+                                    toaster.init( qsTr("The keyword(s) could not be blocked: %1").arg(inputValue), "images/ic_block.png" );
                                 } else {
                                     adm.insert({'term': inputValue, 'count': 0});
                                     refresh();

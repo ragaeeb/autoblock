@@ -4,7 +4,6 @@ import com.canadainc.data 1.0
 TabbedPane
 {
     id: root
-    activeTab: logTab
     showTabsOnActionBar: true
     property bool firstLaunch: false
     
@@ -38,11 +37,12 @@ TabbedPane
     function setupComplete()
     {
         helper.readyChanged.disconnect(setupComplete);
-        logTab.delegateActivationPolicy = TabDelegateActivationPolicy.ActivateWhenSelected;
         
         if ( firstLaunch || persist.getValueFor("startAtConversations") == 1 ) {
             activeTab = conversationsTab;
         }
+        
+        logTab.delegateActivationPolicy = TabDelegateActivationPolicy.ActivateWhenSelected;
     }
     
     Tab

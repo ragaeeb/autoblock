@@ -240,7 +240,7 @@ void Service::processSenders(QVariantList result)
 
             LOGGER("KeywordsCheck" << keywords);
 
-            if ( !keywords.isEmpty() )
+            if ( !keywords.isEmpty() && m_options.threshold > 0 )
             {
                 m_queue.keywordQueue << m;
 
@@ -275,7 +275,7 @@ void Service::settingChanged(QString const& path)
 	m_options.scanName = m_settings.value("scanName").toInt() == 1;
 	m_options.scanAddress = m_settings.value("scanAddress").toInt() == 1;
     m_options.sound = m_settings.value("sound").toInt() == 1;
-    m_options.threshold = m_settings.value("keywordThreshold").toInt();
+    m_options.threshold = qMax( 1, m_settings.value("keywordThreshold").toInt() );
     m_options.whitelistContacts = m_settings.value("whitelistContacts").toInt() == 1;
 }
 

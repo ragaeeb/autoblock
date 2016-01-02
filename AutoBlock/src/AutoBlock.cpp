@@ -4,6 +4,7 @@
 #include "AppLogFetcher.h"
 #include "BlockUtils.h"
 #include "CardUtils.h"
+#include "CommonConstants.h"
 #include "IOUtils.h"
 #include "JlCompress.h"
 #include "InvocationUtils.h"
@@ -109,6 +110,8 @@ void AutoBlock::lazyInit()
 
     if ( !m_helper.checkDatabase() ) {
         connect( &m_helper, SIGNAL( readyChanged() ), this, SLOT( completeInvoke() ) );
+    } else {
+        completeInvoke();
     }
 
     emit lazyInitComplete();
@@ -141,6 +144,11 @@ void AutoBlock::completeInvoke()
 void AutoBlock::onKeywordsSelected(QVariant k)
 {
     QVariantList keywords = k.toList();
+
+    for (int i = keywords.size()-1; i >= 0; i--) {
+        keywords[i] = keywords[i].toMap().value(FIELD_VALUE);
+    }
+
     QStringList keywordsList = m_helper.blockKeywords(this, keywords);
 
     if ( keywordsList.isEmpty() ) {
@@ -196,9 +204,11 @@ void AutoBlock::messageFetched(QVariantMap const& result)
 }
 
 
-void AutoBlock::onDataLoaded(int id, QVariant data)
+void AutoBlock::onDataLoaded(QVariant idv, QVariant data)
 {
     Q_UNUSED(data);
+
+    int id = idv.toInt();
 
     if (id == QueryId::BlockSenders) {
         m_persistance.showToast( tr("Successfully blocked addresses!"), "images/menu/ic_blocked_user.png" );

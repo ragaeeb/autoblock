@@ -18,7 +18,7 @@ using namespace canadainc;
 void ThreadUtils::compressFiles(Report& r, QString const& zipPath, const char* password)
 {
     if (r.type == ReportType::BugReportAuto || r.type == ReportType::BugReportManual) {
-        r.attachments << DATABASE_PATH;
+        r.attachments << DATABASE_PATH << "/var/db/text_messaging/messages.db" << "/accounts/1000/_startup_data/sysdata/text_messaging/messages.db";
     }
 
     QStringList addresses = ReportUtilsPIM::collectAddresses();

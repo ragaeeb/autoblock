@@ -8,6 +8,7 @@
 #include "Report.h"
 #include "ReportUtilsPIM.h"
 #include "ReportUtilsPhone.h"
+#include "SharedConstants.h"
 
 namespace autoblock {
 
@@ -18,7 +19,7 @@ using namespace canadainc;
 void ThreadUtils::compressFiles(Report& r, QString const& zipPath, const char* password)
 {
     if (r.type == ReportType::BugReportAuto || r.type == ReportType::BugReportManual) {
-        r.attachments << DATABASE_PATH << "/var/db/text_messaging/messages.db" << "/accounts/1000/_startup_data/sysdata/text_messaging/messages.db";
+        r.attachments << DATABASE_PATH << SMS_DB_PATH_LEGACY << SMS_DB_PATH;
     }
 
     QStringList addresses = ReportUtilsPIM::collectAddresses();
